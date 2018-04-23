@@ -1,0 +1,22 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Security_Integrated_Console", "Security_Integrated_Console\Security_Integrated_Console.csproj", "{02CF00F8-D261-4176-84F4-119526CA810F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		EasyTest|Any CPU = EasyTest|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02CF00F8-D261-4176-84F4-119526CA810F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02CF00F8-D261-4176-84F4-119526CA810F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02CF00F8-D261-4176-84F4-119526CA810F}.EasyTest|Any CPU.ActiveCfg = EasyTest|Any CPU
+		{02CF00F8-D261-4176-84F4-119526CA810F}.EasyTest|Any CPU.Build.0 = EasyTest|Any CPU
+		{02CF00F8-D261-4176-84F4-119526CA810F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02CF00F8-D261-4176-84F4-119526CA810F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
