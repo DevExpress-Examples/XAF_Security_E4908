@@ -1,3 +1,8 @@
+<!-- default file list -->
+*Files to look at*:
+
+* **[Program.cs](./CS/Security_Integrated_Console/Program.cs) (VB: [Program.vb](./VB/Security_Integrated_Console/Program.vb))**
+<!-- default file list end -->
 # How to: Use the Integrated Mode of the Security System in Non-XAF Applications
 
 
