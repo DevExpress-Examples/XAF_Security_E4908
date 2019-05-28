@@ -1,0 +1,7 @@
+﻿<Application Logo="ExpressAppLogo">
+	<Options UIType="TabbedMDI" FormStyle="Ribbon" />
+	<NavigationItems NavigationStyle="Accordion" ShowImages="False" DefaultChildItemsDisplayStyle="List"/>
+	<Options ShowTabImage="False">
+		<LayoutManagerOptions EnableLayoutGroupImages="False" />
+	</Options>
+</Application>

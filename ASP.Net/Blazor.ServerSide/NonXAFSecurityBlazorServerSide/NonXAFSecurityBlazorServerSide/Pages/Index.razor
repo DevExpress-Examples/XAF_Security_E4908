@@ -1,0 +1,47 @@
+﻿@page "/"
+
+@using NonXAFSecurityBlazorServerSide
+@using XafSolution.Module.BusinessObjects
+@using DevExpress.ExpressApp
+@using DevExpress.Persistent.BaseImpl
+@using DevExpress.ExpressApp.Security
+@using Task = System.Threading.Tasks.Task
+
+@inject EmployeeService EmployeeService
+@inject IObjectSpace securedObjectSpace
+@inject SecurityStrategyComplex security
+
+<h1>Employees</h1>
+
+@if(employees == null) {
+	<p><em>Loading...</em></p>
+}
+else {
+<DxDataGrid Data=@employees KeyFieldName="Oid"
+			AllowRowSelection=false PageSize="10" ShowFilterRow=true>
+
+	<DxDataGridCommandColumn Width="100px"></DxDataGridCommandColumn>
+	<DxDataGridColumn Field=@nameof(Person.FullName) Caption="Employee"></DxDataGridColumn>
+	<DxDataGridColumn Field=@nameof(Employee.Department) Caption="Department">
+		<DisplayTemplate>
+			@{
+				Employee employee = (Employee)context;
+				if(security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, employee, nameof(Employee.Department)))) {
+					<span>@employee.Department.Title</span>
+				}
+				else {
+					<span>Protected content</span>
+				}
+			}
+		</DisplayTemplate>
+	</DxDataGridColumn>
+</DxDataGrid>
+}
+
+@functions {
+	private IList<Employee> employees;
+
+	protected override async Task OnInitAsync() {
+		employees = await EmployeeService.Get();
+	}
+}
