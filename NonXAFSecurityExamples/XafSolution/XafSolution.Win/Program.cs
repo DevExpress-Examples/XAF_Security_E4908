@@ -32,7 +32,7 @@ namespace XafSolution.Win {
             // Refer to the https://docs.devexpress.com/eXpressAppFramework/112680 help article for more details on how to provide a custom splash form.
             //winApplication.SplashScreen = new DevExpress.ExpressApp.Win.Utils.DXSplashScreen("YourSplashImage.png");
 			SecurityStrategy security = (SecurityStrategy)winApplication.Security;
-            security.RegisterXPOAdapterProviders();
+			SecurityAdapterHelper.Enable();
             if(ConfigurationManager.ConnectionStrings["ConnectionString"] != null) {
                 winApplication.ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             }

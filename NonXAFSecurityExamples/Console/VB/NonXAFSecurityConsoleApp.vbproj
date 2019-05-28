@@ -100,7 +100,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\XafSolution\XafSolution.Module\XafSolution.Module.csproj">
+    <ProjectReference Include="..\..\XafSolution\XafSolution.Module\XafSolution.Module.csproj">
       <Project>{5f15837d-d1e5-44dc-92f0-4f2ebe9c3f8d}</Project>
       <Name>XafSolution.Module</Name>
     </ProjectReference>
