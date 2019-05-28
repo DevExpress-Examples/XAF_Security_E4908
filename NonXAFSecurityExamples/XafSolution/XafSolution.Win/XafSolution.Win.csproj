@@ -197,8 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ExpressApp.ico" />
-    <None Include="ReadMe.txt" />
-    <None Include="Images\ReadMe.txt" />
     <None Include="App.config" />
     <Content Include="Model.xafml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
