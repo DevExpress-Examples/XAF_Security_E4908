@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XafSolution.Module", "..\XafSolution\XafSolution.Module\XafSolution.Module.csproj", "{5F15837D-D1E5-44DC-92F0-4F2EBE9C3F8D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XafSolution.Module", "XafSolution\XafSolution.Module\XafSolution.Module.csproj", "{5F15837D-D1E5-44DC-92F0-4F2EBE9C3F8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XafSolution.Module.Win", "..\XafSolution\XafSolution.Module.Win\XafSolution.Module.Win.csproj", "{7964F87D-BC5D-4C4E-8B2F-71E89739AA97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XafSolution.Module.Win", "XafSolution\XafSolution.Module.Win\XafSolution.Module.Win.csproj", "{7964F87D-BC5D-4C4E-8B2F-71E89739AA97}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XAFSolution", "XAFSolution", "{B4262F0E-5C98-47BB-8952-6932E26C16BF}"
 EndProject
@@ -15,17 +15,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CS", "CS", "{E12C6BCC-5244-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VB", "VB", "{C5F1305C-2C1F-4CA2-B90D-9CFCEDF0839D}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NonXAFSecurityConsoleApp", "..\Console\VB\NonXAFSecurityConsoleApp\NonXAFSecurityConsoleApp.vbproj", "{677357E0-2425-4014-A1B3-AC3FA5BEE0D4}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NonXAFSecurityConsoleApp", "Console\VB\NonXAFSecurityConsoleApp.vbproj", "{677357E0-2425-4014-A1B3-AC3FA5BEE0D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonXAFSecurityConsoleApp", "..\Console\CS\NonXAFSecurityConsoleApp\NonXAFSecurityConsoleApp.csproj", "{A713C15B-D676-4B4D-AB60-1AF5DFEC9F63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonXAFSecurityConsoleApp", "Console\CS\NonXAFSecurityConsoleApp.csproj", "{A713C15B-D676-4B4D-AB60-1AF5DFEC9F63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XafSolution.Win", "..\XafSolution\XafSolution.Win\XafSolution.Win.csproj", "{D05D93DF-312D-4D4E-B980-726871EC7833}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XafSolution.Win", "XafSolution\XafSolution.Win\XafSolution.Win.csproj", "{D05D93DF-312D-4D4E-B980-726871EC7833}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASP.NET", "ASP.NET", "{4FE91A09-A0D0-4944-9C57-E215CC629CEC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor.ServerSide", "Blazor.ServerSide", "{FB0A7475-FF1B-491E-9D88-9FC7AB7680D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NonXAFSecurityBlazorServerSide", "..\ASP.Net\Blazor.ServerSide\NonXAFSecurityBlazorServerSide\NonXAFSecurityBlazorServerSide\NonXAFSecurityBlazorServerSide.csproj", "{DF8154E7-4DB7-48B6-947A-9A589F0B4814}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NonXAFSecurityBlazorServerSide", "ASP.Net\Blazor.ServerSide\NonXAFSecurityBlazorServerSide.csproj", "{DF8154E7-4DB7-48B6-947A-9A589F0B4814}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
