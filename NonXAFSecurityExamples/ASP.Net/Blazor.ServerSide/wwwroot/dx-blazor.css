@@ -2092,7 +2092,7 @@ input:-webkit-autofill + .dxbs-null-text {
 }
     /*#region Hide First Column */
 
-    .dxbs-gridview > .card .dxbs-table > tbody > tr.active > td.dxbs-indent-cell {
+    .dxbs-gridview .dxbs-table .dxbs-filter-row .dxbs-nrb {
         background: none;
     }
 
