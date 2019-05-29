@@ -2093,7 +2093,7 @@ input:-webkit-autofill + .dxbs-null-text {
     /*#region Hide First Column */
 
     .dxbs-gridview .dxbs-table .dxbs-filter-row .dxbs-nrb {
-        background: none;
+        display: none;
     }
 
     .dxbs-gridview .dxbs-table .dxbs-cmd-cell {
