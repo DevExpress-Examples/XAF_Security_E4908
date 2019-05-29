@@ -2,12 +2,7 @@
 
 # How to: Use the Integrated Mode of the Security System in Non-XAF Applications
 ## Console
-
-<p>The complete description for console applications is available in the <a href="http://documentation.devexpress.com/#Xaf/CustomDocument3558"><u>How to: Use the Integrated Mode of the Security System in Non-XAF Applications</u></a> topic.</p><br />
-
-
-<br/>
-
+The complete description for console applications is available in the  [How to: Use the Integrated Mode of the Security System in Non-XAF Applications](http://documentation.devexpress.com/#Xaf/CustomDocument3558") topic.
 ## Blazor (server-side)
 ### Prerequisites
 
