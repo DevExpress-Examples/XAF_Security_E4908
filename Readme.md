@@ -14,7 +14,7 @@ The complete tutorial for console applications is available in the  [How to: Use
 
 This example uses the [Server-side hosting model](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.0#server-side).
 
-### Folow this steps to run Blazor project
+### Follow this steps to run Blazor project
 1. Run the XafSolution.Win project and log in as "Admin" with empty password to create database
 2. Register the DevExpress Early Access feed in Visual Studio's NuGet Package Manager
   * Open the "Package Manager Settings"
