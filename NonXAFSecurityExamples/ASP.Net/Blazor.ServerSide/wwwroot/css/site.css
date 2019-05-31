@@ -133,3 +133,67 @@ app {
         display: block;
     }
 }
+
+
+.login-container {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 40px;
+    /* background-color: #f5f5f5; */
+    /* height:100%; */
+    width: 100%;
+    align-content: center;
+}
+
+.login-title {
+    align-self: center;
+    padding-bottom: 20px;
+}
+
+.login-subtitle {
+    align-self: center;
+    padding-bottom: 114px;
+}
+
+.login-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+    .form-signin .checkbox {
+        font-weight: 400;
+    }
+
+    .form-signin .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+
+    .form-signin input {
+        margin-bottom: 5px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+        .form-signin input[type="password"] {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }

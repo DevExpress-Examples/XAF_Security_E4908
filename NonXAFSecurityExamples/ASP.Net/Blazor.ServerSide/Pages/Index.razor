@@ -5,11 +5,13 @@
 @using DevExpress.ExpressApp
 @using DevExpress.Persistent.BaseImpl
 @using DevExpress.ExpressApp.Security
+@using Microsoft.AspNetCore.Components
 @using Task = System.Threading.Tasks.Task
 
 @inject EmployeeService EmployeeService
 @inject IObjectSpace securedObjectSpace
 @inject SecurityStrategyComplex security
+@inject IUriHelper UriHelper
 
 <h1>Employees</h1>
 
@@ -17,31 +19,51 @@
 	<p><em>Loading...</em></p>
 }
 else {
-<DxDataGrid Data=@employees KeyFieldName="Oid"
-			AllowRowSelection=false PageSize="20" ShowFilterRow=true>
+	<div class="top-row px-4">
+		<button type="button" class="btn btn-link ml-md-auto" onclick="@Logoff">Logoff</button>
+	</div>
+	<DxDataGrid Data=@employees KeyFieldName="Oid"
+				AllowRowSelection=false PageSize="20" ShowFilterRow=true>
 
-	<DxDataGridCommandColumn Width="100px"></DxDataGridCommandColumn>
-	<DxDataGridColumn Field=@nameof(Person.FullName) Caption="Employee"></DxDataGridColumn>
-	<DxDataGridColumn Field=@nameof(Employee.Department) Caption="Department">
-		<DisplayTemplate>
-			@{
-				Employee employee = (Employee)context;
-				if(security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, employee, nameof(Employee.Department)))) {
-					<span>@employee.Department.Title</span>
+		<DxDataGridCommandColumn Width="100px"></DxDataGridCommandColumn>
+		<DxDataGridColumn Field=@nameof(Person.FullName) Caption="Employee"></DxDataGridColumn>
+		<DxDataGridColumn Field=@nameof(Employee.Department) Caption="Department">
+			<DisplayTemplate>
+				@{
+					Employee employee = (Employee)context;
+					if(security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, employee, nameof(Employee.Department)))) {
+						<span>@employee.Department.Title</span>
+					}
+					else {
+						<span>Protected content</span>
+					}
 				}
-				else {
-					<span>Protected content</span>
-				}
-			}
-		</DisplayTemplate>
-	</DxDataGridColumn>
-</DxDataGrid>
+			</DisplayTemplate>
+		</DxDataGridColumn>
+	</DxDataGrid>
 }
 
 @functions {
 	private IList<Employee> employees;
+	private bool needRerender = true;
 
-	protected override async Task OnInitAsync() {
-		employees = await EmployeeService.Get();
+	protected override async Task OnAfterRenderAsync() {
+		if(needRerender) {
+			if(security.IsAuthenticated) {
+				employees = await EmployeeService.Get();
+				needRerender = false;
+				StateHasChanged();
+			}
+			else {
+				UriHelper.NavigateTo("authorization");
+			}
+		}
+	}
+
+	public void Logoff() {
+		needRerender = true;
+		security.Logoff();
+		UriHelper.NavigateTo("authorization");
+
 	}
 }

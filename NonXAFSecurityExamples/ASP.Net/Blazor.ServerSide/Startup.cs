@@ -40,11 +40,14 @@ namespace BlazorServerSide
 			string connectionString = Configuration.GetConnectionString("XafApplication");
 			SecuredObjectSpaceProvider osProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 			SecurityAdapterHelper.Enable();
-			Logon(auth, security, osProvider);
+			//Logon(auth, security, osProvider);
 			IObjectSpace securedObjectSpace = osProvider.CreateObjectSpace();
 
-			services.AddSingleton(typeof(IObjectSpace), securedObjectSpace);
+			services.AddSingleton(typeof(AuthenticationStandard), auth);
 			services.AddSingleton(typeof(SecurityStrategyComplex), security);
+			services.AddSingleton(typeof(SecuredObjectSpaceProvider), osProvider);
+			services.AddSingleton(typeof(IObjectSpace), securedObjectSpace);
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,13 +71,6 @@ namespace BlazorServerSide
 				endpoints.MapBlazorHub();
 				endpoints.MapFallbackToPage("/_Host");
 			});
-		}
-		private static void Logon(AuthenticationStandard auth, SecurityStrategyComplex security, SecuredObjectSpaceProvider osProvider) {
-			IObjectSpace nonSecuredObjectSpace = osProvider.CreateNonsecuredObjectSpace();
-			string userName = "User";
-			string password = "";
-			auth.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
-			security.Logon(nonSecuredObjectSpace);
 		}
 		private static void RegisterEntities() {
 			XpoTypesInfoHelper.GetXpoTypeInfoSource();
