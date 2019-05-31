@@ -18,10 +18,10 @@
 
 <form class="form-signin">
 	<label for="inputUsername" class="sr-only">User Name</label>
-	<input id="inputUsername" class="form-control" placeholder="Username" required autofocus bind="@userName" />
+	<input id="inputUsername" class="form-control" placeholder="Username" autofocus bind="@userName" />
 
 	<label for="inputPassword" class="sr-only">Password</label>
-	<input type="password" id="inputPassword" class="form-control" placeholder="Password" required bind="@password" />
+	<input type="password" id="inputPassword" class="form-control" placeholder="Password" bind="@password" />
 	<label id="errorLabel" class="alert-danger" hidden=@(!isError)>@errorString</label>
 	<button class="btn btn-lg btn-primary btn-block" onclick="@Login">Login</button>
 </form>
