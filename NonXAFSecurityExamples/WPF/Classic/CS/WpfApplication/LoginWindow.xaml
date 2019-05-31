@@ -14,7 +14,7 @@
             <ColumnDefinition Width="182*"/>
         </Grid.ColumnDefinitions>
         <Button Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="95,164,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click" Grid.Column="1"/>
-        <TextBox Name="LoginBox" HorizontalAlignment="Left" Height="23" Margin="79,59,0,0" TextWrapping="Wrap" Text="User" VerticalAlignment="Top" Width="120" Grid.Column="1" AutomationProperties.Name="LoginBox"/>
+        <TextBox Name="LoginBox" HorizontalAlignment="Left" Height="23" Margin="79,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" AutomationProperties.Name="LoginBox"/>
         <Label Content="Login" HorizontalAlignment="Left" Margin="110,28,0,0" VerticalAlignment="Top" Grid.Column="1"/>
         <TextBox Name="PasswordBox" HorizontalAlignment="Left" Height="23" Margin="79,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
         <Label Content="Password" HorizontalAlignment="Left" Margin="110,87,0,0" VerticalAlignment="Top" Grid.Column="1"/>
