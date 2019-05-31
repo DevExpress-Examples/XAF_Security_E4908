@@ -5,11 +5,11 @@ Imports System.Runtime.InteropServices
 ' General Information about an assembly is controlled through the following
 ' set of attributes. Change these attribute values to modify the information
 ' associated with an assembly.
-<Assembly: AssemblyTitle("NonXAFSecurityConsoleApp")>
+<Assembly: AssemblyTitle("ConsoleApplication")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyConfiguration("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("NonXAFSecurityConsoleApp")>
+<Assembly: AssemblyProduct("ConsoleApplication")>
 <Assembly: AssemblyCopyright("Copyright ©  2019")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCulture("")>

@@ -1,4 +1,4 @@
-﻿namespace NonXAFSecurityWindowsFormsApp {
+﻿namespace WindowsFormsApplication {
 	partial class EmployeeForm {
 		/// <summary>
 		/// Required designer variable.
@@ -26,20 +26,22 @@
 			this.employeeGrid = new System.Windows.Forms.DataGridView();
 			this.Employee = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Department = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.logoff_button = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.employeeGrid)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// employeeGrid
 			// 
+			this.employeeGrid.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
+			this.employeeGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.employeeGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.employeeGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Employee,
             this.Department});
-			this.employeeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.employeeGrid.Location = new System.Drawing.Point(0, 0);
 			this.employeeGrid.Name = "employeeGrid";
 			this.employeeGrid.RowHeadersVisible = false;
-			this.employeeGrid.Size = new System.Drawing.Size(598, 417);
+			this.employeeGrid.Size = new System.Drawing.Size(507, 476);
 			this.employeeGrid.TabIndex = 0;
 			// 
 			// Employee
@@ -56,11 +58,23 @@
 			this.Department.Name = "Department";
 			this.Department.ReadOnly = true;
 			// 
+			// logoff_button
+			// 
+			this.logoff_button.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.logoff_button.Location = new System.Drawing.Point(175, 493);
+			this.logoff_button.Name = "logoff_button";
+			this.logoff_button.Size = new System.Drawing.Size(108, 37);
+			this.logoff_button.TabIndex = 1;
+			this.logoff_button.Text = "Logoff";
+			this.logoff_button.UseVisualStyleBackColor = true;
+			this.logoff_button.Click += new System.EventHandler(this.Logoff_button_Click);
+			// 
 			// EmployeeForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(598, 417);
+			this.ClientSize = new System.Drawing.Size(507, 542);
+			this.Controls.Add(this.logoff_button);
 			this.Controls.Add(this.employeeGrid);
 			this.Name = "EmployeeForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -75,5 +89,6 @@
 		private System.Windows.Forms.DataGridView employeeGrid;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Employee;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Department;
+		private System.Windows.Forms.Button logoff_button;
 	}
 }

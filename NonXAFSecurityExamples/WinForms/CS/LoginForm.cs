@@ -16,28 +16,23 @@ using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using System.Configuration;
 
-namespace NonXAFSecurityWindowsFormsApp {
+
+namespace WindowsFormsApplication {
 	public partial class LoginForm : Form {
-		AuthenticationStandard auth;
-		SecuredObjectSpaceProvider osProvider;
-		SecurityStrategyComplex security;
-		public LoginForm() {
+		WinApplication winApplication;
+
+		public LoginForm(WinApplication winApplication) {
 			InitializeComponent();
-			RegisterEntities();
-			auth = new AuthenticationStandard();
-			security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), auth);
-			string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-			osProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
-			SecurityAdapterHelper.Enable();
+			this.winApplication = winApplication;
 		}
 		private void Login_button_Click(object sender, EventArgs e) {
-			IObjectSpace nonSecuredObjectSpace = osProvider.CreateNonsecuredObjectSpace();
+			IObjectSpace nonSecuredObjectSpace = winApplication.osProvider.CreateNonsecuredObjectSpace();
 			string userName = loginBox.Text;
 			string password = passwordBox.Text;
-			auth.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
+			winApplication.auth.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
 			try {
-				security.Logon(nonSecuredObjectSpace);
-				EmployeeForm employeeForm = new EmployeeForm(security, osProvider);
+				winApplication.security.Logon(nonSecuredObjectSpace);
+				EmployeeForm employeeForm = new EmployeeForm(winApplication);
 				employeeForm.Show();
 				Hide();
 			}

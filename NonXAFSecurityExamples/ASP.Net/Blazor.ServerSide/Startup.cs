@@ -17,7 +17,7 @@ using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 
-namespace NonXAFSecurityBlazorServerSide
+namespace BlazorServerSide
 {
 	public class Startup
 	{

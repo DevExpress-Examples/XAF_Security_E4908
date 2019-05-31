@@ -1,0 +1,23 @@
+﻿<Window x:Class="WpfApplication.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApplication"
+        mc:Ignorable="d"
+        Title="Authorization" Height="276" Width="485"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="0,0,2,-5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="84*"/>
+            <ColumnDefinition Width="209*"/>
+            <ColumnDefinition Width="182*"/>
+        </Grid.ColumnDefinitions>
+        <Button Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="95,164,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click" Grid.Column="1"/>
+        <TextBox Name="LoginBox" HorizontalAlignment="Left" Height="23" Margin="79,59,0,0" TextWrapping="Wrap" Text="User" VerticalAlignment="Top" Width="120" Grid.Column="1" AutomationProperties.Name="LoginBox"/>
+        <Label Content="Login" HorizontalAlignment="Left" Margin="110,28,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox Name="PasswordBox" HorizontalAlignment="Left" Height="23" Margin="79,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="110,87,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+
+    </Grid>
+</Window>

@@ -11,7 +11,7 @@ Imports System.Linq
 Imports System.Text
 Imports XafSolution.Module.BusinessObjects
 
-Namespace NonXAFSecurityConsoleApp
+Namespace ConsoleApplication
 	Friend Class Program
 		Shared Sub Main()
 			RegisterEntities()

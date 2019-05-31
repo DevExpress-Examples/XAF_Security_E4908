@@ -12,23 +12,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using XafSolution.Module.BusinessObjects;
 
-namespace NonXAFSecurityWindowsFormsApp {
+namespace WindowsFormsApplication {
 	public partial class EmployeeForm : Form {
-		SecurityStrategyComplex security;
-		SecuredObjectSpaceProvider osProvider;
-		public EmployeeForm(SecurityStrategyComplex security, SecuredObjectSpaceProvider osProvider) {
+		WinApplication winApplication;
+		public EmployeeForm(WinApplication winApplication) {
 			InitializeComponent();
-			this.security = security;
-			this.osProvider = osProvider;
+			this.winApplication = winApplication;
 			GetData();
 		}
 		void GetData() {
-			IObjectSpace securedObjectSpace = osProvider.CreateObjectSpace();
+			IObjectSpace securedObjectSpace = winApplication.osProvider.CreateObjectSpace();
 			int counter = 0;
 			foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
 				employeeGrid.Rows.Add();
 				employeeGrid.Rows[counter].Cells["Employee"].Value = employee.FullName;
-				if(security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, employee, "Department"))) {
+				if(winApplication.security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, employee, "Department"))) {
 					employeeGrid.Rows[counter].Cells["Department"].Value = employee.Department.Title;
 				}
 				else {
@@ -36,6 +34,12 @@ namespace NonXAFSecurityWindowsFormsApp {
 				}
 				counter++;
 			}
+		}
+
+		private void Logoff_button_Click(object sender, EventArgs e) {
+			winApplication.security.Logoff();
+			winApplication.loginForm.Show();
+			Dispose();
 		}
 	}
 }

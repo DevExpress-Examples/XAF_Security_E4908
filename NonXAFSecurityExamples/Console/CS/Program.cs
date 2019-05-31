@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using XafSolution.Module.BusinessObjects;
 
-namespace NonXAFSecurityConsoleApp {
+namespace ConsoleApplication {
     class Program {
         static void Main() {
             RegisterEntities();

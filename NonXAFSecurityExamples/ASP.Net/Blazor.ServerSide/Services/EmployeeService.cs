@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using XafSolution.Module.BusinessObjects;
 using Task = System.Threading.Tasks.Task;
 
-namespace NonXAFSecurityBlazorServerSide {
+namespace BlazorServerSide {
 	public class EmployeeService {
 		IObjectSpace securedObjectSpace;
 		SecurityStrategyComplex security;
