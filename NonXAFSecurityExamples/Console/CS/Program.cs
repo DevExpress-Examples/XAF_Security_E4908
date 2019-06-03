@@ -22,7 +22,10 @@ namespace ConsoleApplication {
             SecuredObjectSpaceProvider osProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
             IObjectSpace nonSecuredObjectSpace = osProvider.CreateNonsecuredObjectSpace();
 
-            string userName = "User";
+			DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = true;
+			DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = false;
+
+			string userName = "User";
             string password = "";
             auth.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
             security.Logon(nonSecuredObjectSpace);

@@ -24,6 +24,9 @@ namespace WindowsFormsApplication {
 		public LoginForm(WinApplication winApplication) {
 			InitializeComponent();
 			this.winApplication = winApplication;
+
+			DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = true;
+			DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = false;
 		}
 		private void Login_button_Click(object sender, EventArgs e) {
 			IObjectSpace nonSecuredObjectSpace = winApplication.osProvider.CreateNonsecuredObjectSpace();

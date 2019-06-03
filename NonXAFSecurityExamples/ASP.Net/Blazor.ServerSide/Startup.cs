@@ -40,7 +40,10 @@ namespace BlazorServerSide
 			string connectionString = Configuration.GetConnectionString("XafApplication");
 			SecuredObjectSpaceProvider osProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 			SecurityAdapterHelper.Enable();
-			//Logon(auth, security, osProvider);
+
+			DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = true;
+			DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = false;
+
 			IObjectSpace securedObjectSpace = osProvider.CreateObjectSpace();
 
 			services.AddSingleton(typeof(AuthenticationStandard), auth);

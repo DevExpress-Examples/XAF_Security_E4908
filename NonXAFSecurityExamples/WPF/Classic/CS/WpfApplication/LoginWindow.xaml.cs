@@ -38,6 +38,9 @@ namespace WpfApplication {
 			string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 			osProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 			SecurityAdapterHelper.Enable();
+
+			DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = true;
+			DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = false;
 		}
 
 		private void LoginButton_Click(object sender, RoutedEventArgs e) {

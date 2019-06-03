@@ -22,6 +22,9 @@ Namespace ConsoleApplication
 			Dim osProvider As New SecuredObjectSpaceProvider(security, connectionString, Nothing)
 			Dim nonSecuredObjectSpace As IObjectSpace = osProvider.CreateNonsecuredObjectSpace()
 
+			DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = True
+			DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = False
+
 			Dim userName As String = "User"
 			Dim password As String = ""
 			auth.SetLogonParameters(New AuthenticationStandardLogonParameters(userName, password))
