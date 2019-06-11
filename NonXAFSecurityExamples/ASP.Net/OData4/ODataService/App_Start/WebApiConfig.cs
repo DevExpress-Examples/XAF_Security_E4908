@@ -1,39 +1,37 @@
-﻿using DevExpress.Persistent.BaseImpl;
-using Microsoft.AspNet.OData.Batch;
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Web.Http;
+using Microsoft.AspNet.OData.Batch;
+using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNet.OData.Builder;
+using DevExpress.Persistent.BaseImpl;
 using XafSolution.Module.BusinessObjects;
 
 namespace ODataService {
-    public static class WebApiConfig {
-        public static void Register(HttpConfiguration config) {
-            ODataModelBuilder modelBuilder = CreateODataModelBuilder();
+	public static class WebApiConfig {
+		public static void Register(HttpConfiguration config) {
+			config.Count().Filter().OrderBy().Expand().Select().MaxTop(null);
+			ODataModelBuilder modelBuilder = CreateODataModelBuilder();
 
-            ODataBatchHandler batchHandler =
-                new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer);
+			ODataBatchHandler batchHandler =
+				new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer);
 
-            config.MapODataServiceRoute(
-                routeName: "ODataRoute",
-                routePrefix: null,
-                model: modelBuilder.GetEdmModel(),
-                batchHandler: batchHandler);
-        }
-        private static ODataModelBuilder CreateODataModelBuilder() {
-            ODataModelBuilder builder = new ODataConventionModelBuilder();
-            var parties = builder.EntitySet<Party>("Parties");
-            var employees = builder.EntitySet<Employee>("Employees");
-            var departments = builder.EntitySet<Department>("Departments");
+			config.MapODataServiceRoute(
+				routeName: "ODataRoute",
+				routePrefix: null,
+				model: modelBuilder.GetEdmModel(),
+				batchHandler: batchHandler);
+		}
 
-            parties.EntityType.HasKey(t => t.Oid);
-            employees.EntityType.HasKey(t => t.Oid);
-            departments.EntityType.HasKey(t => t.Oid);
+		static ODataModelBuilder CreateODataModelBuilder() {
+			ODataModelBuilder builder = new ODataConventionModelBuilder();
+			var parties = builder.EntitySet<Party>("Parties");
+			var employees = builder.EntitySet<Employee>("Employees");
 
-            builder.Action("InitializeDatabase");
-            return builder;
-        }
-    }
+			parties.EntityType.HasKey(t => t.Oid);
+			employees.EntityType.HasKey(t => t.Oid);
+			employees.EntityType.ComplexProperty(t => t.Department);
+			return builder;
+		}
+	}
 }
