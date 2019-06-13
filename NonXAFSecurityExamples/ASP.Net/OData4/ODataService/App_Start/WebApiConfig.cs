@@ -24,13 +24,23 @@ namespace ODataService {
 		}
 
 		static ODataModelBuilder CreateODataModelBuilder() {
-			ODataModelBuilder builder = new ODataConventionModelBuilder();
-			var parties = builder.EntitySet<Party>("Parties");
-			var employees = builder.EntitySet<Employee>("Employees");
+			//ODataModelBuilder builder = new ODataConventionModelBuilder();
+			//var parties = builder.EntitySet<Party>("Parties");
+			//var employees = builder.EntitySet<Employee>("Employees");
+			////var departments = builder.EntitySet<Department>("Departments");
+			//var employeeTypeConfiguration = builder.StructuralTypes.First(t => t.ClrType == typeof(Employee));
+			//employeeTypeConfiguration.AddProperty(typeof(Employee).GetProperty("FullName"));
 
-			parties.EntityType.HasKey(t => t.Oid);
-			employees.EntityType.HasKey(t => t.Oid);
-			employees.EntityType.ComplexProperty(t => t.Department);
+			//parties.EntityType.HasKey(t => t.Oid);
+			//employees.EntityType.HasKey(t => t.Oid);
+
+			//employees.EntityType.ComplexProperty(t => t.Department);
+			//return builder;
+
+			ODataModelBuilder builder = new ODataConventionModelBuilder();
+			var employees = builder.EntitySet<PrintingData>("Employees");
+			employees.EntityType.HasKey(t => t.FullName);
+
 			return builder;
 		}
 	}
