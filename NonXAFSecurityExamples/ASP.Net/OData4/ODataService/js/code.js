@@ -10,6 +10,57 @@
 //	});
 //});
 
+$(function () {
+	$("#userName").dxTextBox({
+		name: "userName",
+		placeholder: "User name"
+	}).dxValidator({
+		validationRules: [
+			{ type: "required" }
+		]
+	});
+
+	$("#password").dxTextBox({
+		name: "Password",
+		placeholder: "Password",
+		mode: "password"
+	});
+
+	$("#validateAndSubmit").dxButton({
+		text: "Submit",
+		type: "success",
+		useSubmitBehavior: true
+	});
+});
+
+
+//$(function () {
+//	$("#buttonContainer").dxButton({
+//		type: "default", // or "normal" | "back" | "danger" | "success"
+//		text: "Login",
+//		onClick: function (e) {
+//			DevExpress.ui.notify("The " + " button was clicked");
+//			var x = $("usernameBox").value;
+//		}
+//	});
+//});
+
+
+//$(function () {
+//	$("#usernameBox").dxTextBox({
+//		placeholder: "User name"
+//	});
+//});
+
+//$(function () {
+//	$("#passwordBox").dxTextBox({
+//		placeholder: "Password"
+//	});
+//});
+
+
+
+
 
 $(function () {
 	$("#grid").dxDataGrid({
@@ -95,6 +146,10 @@ $(function () {
 			//"ShipCity",
 			//"ShipCountry"
 		]
+	});
+
+	$("#textBoxContainer").dxTextBox({
+		placeholder: "Type a text here..."
 	});
 
 	function masterDetailTemplate(container, options) {

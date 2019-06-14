@@ -39,7 +39,10 @@ namespace ODataService {
 
 			ODataModelBuilder builder = new ODataConventionModelBuilder();
 			var employees = builder.EntitySet<PrintingData>("Employees");
+			var authorizationData = builder.EntitySet<AuthorizationData>("Authorization");
+
 			employees.EntityType.HasKey(t => t.FullName);
+			authorizationData.EntityType.HasKey(t => t.UserName);
 
 			return builder;
 		}
