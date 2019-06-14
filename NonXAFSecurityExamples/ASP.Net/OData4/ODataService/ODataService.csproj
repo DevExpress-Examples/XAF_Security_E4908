@@ -236,6 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bower.json" />
+    <Content Include=".bowerrc" />
     <None Include="packages.config" />
     <Content Include="Views\web.config" />
     <None Include="Web.Debug.config">
