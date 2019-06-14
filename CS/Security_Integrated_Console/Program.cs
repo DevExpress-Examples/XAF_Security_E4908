@@ -55,25 +55,27 @@ namespace Security_Integrated_Console.Win {
             SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), auth);
             SecuritySystem.SetInstance(security);
             SecuredObjectSpaceProvider osProvider = new SecuredObjectSpaceProvider(security, new MemoryDataStoreProvider(dataSet));
-            IObjectSpace securedObjectSpace = osProvider.CreateObjectSpace();
 
             auth.SetLogonParameters(new AuthenticationStandardLogonParameters("User", ""));
             Console.WriteLine("Logging 'User' user...");
             security.Logon(directObjectSpace);
             Console.WriteLine("'User' is logged on.");   
             Console.WriteLine("List of the 'Person' objects:");
-            foreach (Person person in securedObjectSpace.GetObjects<Person>()) {
-                Console.WriteLine(person.FirstName);
+            using(IObjectSpace securedObjectSpace = osProvider.CreateObjectSpace()) {
+                foreach(Person person in securedObjectSpace.GetObjects<Person>()) {
+                    Console.WriteLine(person.FirstName);
+                } 
             }
 
             auth.SetLogonParameters(new AuthenticationStandardLogonParameters("Admin", ""));
             Console.WriteLine("Logging 'Admin' user...");
             security.Logon(directObjectSpace);
             Console.WriteLine("Admin is logged on.");
-            securedObjectSpace = osProvider.CreateObjectSpace();
             Console.WriteLine("List of the 'Person' objects:");
-            foreach (Person person in securedObjectSpace.GetObjects<Person>()) {
-                Console.WriteLine(person.FirstName);
+            using(IObjectSpace securedObjectSpace = osProvider.CreateObjectSpace()) {
+                foreach(Person person in securedObjectSpace.GetObjects<Person>()) {
+                    Console.WriteLine(person.FirstName);
+                } 
             }
 
             Console.WriteLine("Press enter to exit...");
