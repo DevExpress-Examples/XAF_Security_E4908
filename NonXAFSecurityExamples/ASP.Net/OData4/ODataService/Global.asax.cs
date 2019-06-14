@@ -24,6 +24,7 @@ namespace ODataService {
 			IObjectSpace nonSecuredObjectSpace = osProvider.CreateNonsecuredObjectSpace();
 			auth.SetLogonParameters(new AuthenticationStandardLogonParameters("User", ""));
 			security.Logon(nonSecuredObjectSpace);
+			ConnectionHelper.security = security;
 			ConnectionHelper.ObjectSpace = osProvider.CreateObjectSpace();
 
 			GlobalConfiguration.Configuration.Services.Replace(typeof(IBodyModelValidator), new CustomBodyModelValidator());
