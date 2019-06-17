@@ -103,7 +103,7 @@ $(function () {
 			},
 			{
 				caption: "Department",
-				calculateDisplayValue: "Department",
+				calculateDisplayValue: "Department.Title",
 				dataField: "Department"
 			}
 			//{

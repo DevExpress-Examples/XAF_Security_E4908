@@ -224,7 +224,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
@@ -239,9 +238,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bower.json" />
-	<Content Include=".bowerrc" />
+    <Content Include=".bowerrc" />
     <None Include="packages.config" />
-    <Content Include="Views\web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -251,7 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\XafSolution\XafSolution.Module\XafSolution.Module.csproj">
