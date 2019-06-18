@@ -1,0 +1,17 @@
+﻿.form-signin {
+    padding: 50px;
+    position: fixed;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0%);
+}
+
+.form-control {
+    margin-bottom: 5px;
+    width: 300px;
+}
+
+.btn {
+    position: fixed;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0%);
+}

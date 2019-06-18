@@ -218,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Authorization.html" />
+    <Content Include="css.css" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
     <Content Include="js\code.js" />
@@ -228,12 +229,16 @@
     <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\RequestsController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AuthorizationData.cs" />
     <Compile Include="Helpers\ConnectionHelper.cs" />
     <Compile Include="Helpers\PrintingData.cs" />
+    <Compile Include="Helpers\Request.cs" />
+    <Compile Include="Helpers\Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

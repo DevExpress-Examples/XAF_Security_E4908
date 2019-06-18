@@ -6,14 +6,14 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using Microsoft.AspNet.OData;
 using ODataService.Helpers;
-
+using System;
 using System.Web.Mvc;
 using XafSolution.Module.BusinessObjects;
 
 namespace ODataService.Controllers {
 	public class AuthorizationController : ODataController {
 		[HttpPost]
-		public ActionResult Post(AuthorizationData data) {
+		public System.Web.Http.Results.RedirectResult Post(AuthorizationData data) {
 			RegisterEntities();
 			string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 			AuthenticationStandard auth = new AuthenticationStandard();
@@ -24,7 +24,8 @@ namespace ODataService.Controllers {
 			security.Logon(nonSecuredObjectSpace);
 			ConnectionHelper.security = security;
 			ConnectionHelper.ObjectSpace = osProvider.CreateObjectSpace();
-			return new EmptyResult();
+			//return new EmptyResult();
+			return Redirect("https://localhost:44355/Index.html");
 		}
 
 		private static void RegisterEntities() {
