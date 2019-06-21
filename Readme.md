@@ -23,7 +23,7 @@ We have plans to add examples for the following platforms:
   * Android
   * IOS
   * UWP
-  * UI
+  * [DevExpress Xamarin.Forms UI Controls](https://www.devexpress.com/xamarin/)
 * Windows Forms
 * WPF
 
