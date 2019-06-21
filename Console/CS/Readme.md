@@ -1,6 +1,6 @@
 <!-- default file list -->
 
-This example demonstrates the code that you can use in any non-XAF console application to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview).
+This example demonstrates how you can access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from your Non-XAF application.
 
 ### Prerequisites
 * Run the XafSolution.Win project and log in with the 'User' or 'Admin' username and empty password to generate a database with business objects from the XafSolution.Module project.
