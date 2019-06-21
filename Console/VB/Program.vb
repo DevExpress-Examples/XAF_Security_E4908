@@ -15,8 +15,8 @@ Namespace ConsoleApplication
     Friend Class Program
         Shared Sub Main()
             RegisterEntities()
-            Dim auth As New AuthenticationStandard()
-            Dim security As New SecurityStrategyComplex(GetType(PermissionPolicyUser), GetType(PermissionPolicyRole), auth)
+            Dim authentication As New AuthenticationStandard()
+            Dim security As New SecurityStrategyComplex(GetType(PermissionPolicyUser), GetType(PermissionPolicyRole), authentication)
             security.RegisterXPOAdapterProviders()
 
             Dim connectionString As String = ConfigurationManager.ConnectionStrings("ConnectionString").ConnectionString
@@ -27,7 +27,7 @@ Namespace ConsoleApplication
 
             Dim userName As String = "User"
             Dim password As String = String.Empty
-            auth.SetLogonParameters(New AuthenticationStandardLogonParameters(userName, password))
+            authentication.SetLogonParameters(New AuthenticationStandardLogonParameters(userName, password))
             Dim loginObjectSpace As IObjectSpace = objectSpacesProvider.CreateObjectSpace()
             security.Logon(loginObjectSpace)
 

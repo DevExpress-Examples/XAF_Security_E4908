@@ -16,8 +16,8 @@ namespace ConsoleApplication {
     class Program {
         static void Main() {
             RegisterEntities();
-            AuthenticationStandard auth = new AuthenticationStandard();
-            SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), auth);
+            AuthenticationStandard authentication = new AuthenticationStandard();
+            SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
             security.RegisterXPOAdapterProviders();
 
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
@@ -28,7 +28,7 @@ namespace ConsoleApplication {
 
             string userName = "User";
             string password = string.Empty;
-            auth.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
+            authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
             IObjectSpace loginObjectSpace = objectSpaceProvider.CreateObjectSpace();
             security.Logon(loginObjectSpace);
             
