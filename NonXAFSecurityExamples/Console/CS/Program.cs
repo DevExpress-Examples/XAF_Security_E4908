@@ -2,6 +2,7 @@
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.ExpressApp.Xpo;
+using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using System;
@@ -15,36 +16,39 @@ namespace ConsoleApplication {
     class Program {
         static void Main() {
             RegisterEntities();
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             AuthenticationStandard auth = new AuthenticationStandard();
             SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), auth);
-			SecurityAdapterHelper.Enable();
-            SecuredObjectSpaceProvider osProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
-            IObjectSpace nonSecuredObjectSpace = osProvider.CreateNonsecuredObjectSpace();
+            security.RegisterXPOAdapterProviders();
 
-			DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = true;
-			DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = false;
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 
-			string userName = "User";
-            string password = "";
+            PasswordCryptographer.EnableRfc2898 = true;
+            PasswordCryptographer.SupportLegacySha512 = false;
+
+            string userName = "User";
+            string password = string.Empty;
             auth.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
-            security.Logon(nonSecuredObjectSpace);
+            IObjectSpace loginObjectSpace = objectSpaceProvider.CreateObjectSpace();
+            security.Logon(loginObjectSpace);
+            
             using(StreamWriter file = new StreamWriter("result.txt", false)) {
-                StringBuilder stringBuilderb = new StringBuilder();
-                stringBuilderb.Append(string.Format("{0} is logged on.\n", userName));
-                IObjectSpace securedObjectSpace = osProvider.CreateObjectSpace();
-                stringBuilderb.Append("List of the 'Employee' objects:\n");
-                foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
-                    stringBuilderb.Append("=========================================\n");
-                    stringBuilderb.Append(string.Format("Full name: {0}\n", employee.FullName));
-                    if(security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, employee, "Department"))) {
-                        stringBuilderb.Append(string.Format("Department: {0}\n", employee.Department.Title));
-                    }
-                    else {
-                        stringBuilderb.Append("Department: [Protected content]\n");
-                    }
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append($"{userName} is logged on.\n");
+                stringBuilder.Append("List of the 'Employee' objects:\n");
+                using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
+                    foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
+                        stringBuilder.Append("=========================================\n");
+                        stringBuilder.Append($"Full name: {employee.FullName}\n");
+                        if(security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, employee, nameof(Department)))) {
+                            stringBuilder.Append($"Department: {employee.Department.Title}\n");
+                        }
+                        else {
+                            stringBuilder.Append("Department: [Protected content]\n");
+                        }
+                    } 
                 }
-                file.Write(stringBuilderb);
+                file.Write(stringBuilder);
             }
         }
         private static void RegisterEntities() {
