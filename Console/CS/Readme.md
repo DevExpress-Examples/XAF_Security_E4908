@@ -3,8 +3,10 @@
 This example demonstrates the code that you can use in any non-XAF console application to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview).
 
 ### Prerequisites
-Run the XafSolution.Win project and log in with the 'User' or 'Admin' username and empty password to generate a database with business objects from the XafSolution.Module project.
-Add the XafSolution.Module reference to use these classes in your application.
+* Run the XafSolution.Win project and log in with the 'User' or 'Admin' username and empty password to generate a database with business objects from the XafSolution.Module project.
+* Add the XafSolution.Module reference to use these classes in your application.
+
+***
 
 1. Initialize the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system and register the business objects that you will access from your code.
 	
