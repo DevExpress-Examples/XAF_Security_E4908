@@ -19,6 +19,7 @@ We have plans to add examples for the following platforms:
   * ASP.NET MVC5
   * ASP.NET MVC.Core
   * ASP.NET MVC.RazorPages
+  * ASP.NET Web API with ODATA4
 * Xamarin.Forms
   * Android
   * IOS
