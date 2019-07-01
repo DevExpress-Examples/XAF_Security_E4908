@@ -47,8 +47,8 @@ The main XAF security system features commonly used in line-of-business applicat
 
 **3. Authorization**.
 
-   3.1. Just two code lines to read secure data filtered out by the currently logged user, roles and their permissions. Once everything is set up [SecuredObjectSpaceProvider](https://documentation.devexpress.com/eXpressAppFramework/113437/Task-Based-Help/Security/How-to-Change-the-Client-Side-Security-Mode-from-UI-Level-to-Integrated-in-XPO-applications), you can create unlimited secure data contexts - your data query and modification APIs will be unchanged.
-   
+   3.1. Just two code lines to read secure data filtered out by the currently logged user, roles and their permissions. When you set up [SecuredObjectSpaceProvider](https://documentation.devexpress.com/eXpressAppFramework/113437/Task-Based-Help/Security/How-to-Change-the-Client-Side-Security-Mode-from-UI-Level-to-Integrated-in-XPO-applications), you can create an unlimited number of secure data contexts - your data query and modification APIs will be unchanged.
+      
    Straightforward APIs to [check CRUD](https://docs.devexpress.com/eXpressAppFramework/112769/getting-started/comprehensive-tutorial/security-system/access-the-security-system-in-code) or other security operations for custom UI element customizations.
 
    3.2. Security permission caching for the best performance and two built-in [Permission Policies](https://docs.devexpress.com/eXpressAppFramework/116172/concepts/security-system/permission-policies) determine Security System's behavior when there are no explicitly specified permissions for a specific type, object, or member.
