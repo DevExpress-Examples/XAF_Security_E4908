@@ -43,14 +43,16 @@ The main XAF security system features commonly used in line-of-business applicat
 
    2.2. A modern and secure algorithm for [password generation](https://docs.devexpress.com/eXpressAppFramework/112649/concepts/security-system/passwords-in-the-security-system) and validation.
 
-   2.3. Support for extension or replacement with fully [custom strategies](https://docs.devexpress.com/eXpressAppFramework/119064/concepts/security-system/authentication#custom-authentication).
+   2.3. Support for extension or replacement with fully [custom authentication strategies and logon parameters](https://docs.devexpress.com/eXpressAppFramework/119064/concepts/security-system/authentication#custom-authentication).
 
 **3. Authorization**.
 
-   3.1. Just two code lines to read secure data filtered out by the currently logged user, roles and their permissions. When you set up [SecuredObjectSpaceProvider](https://documentation.devexpress.com/eXpressAppFramework/113437/Task-Based-Help/Security/How-to-Change-the-Client-Side-Security-Mode-from-UI-Level-to-Integrated-in-XPO-applications), you can create an unlimited number of secure data contexts - your data query and modification APIs will be unchanged.
-      
-   Straightforward APIs to [check CRUD](https://docs.devexpress.com/eXpressAppFramework/112769/getting-started/comprehensive-tutorial/security-system/access-the-security-system-in-code) or other security operations for custom UI element customizations.
-
-   3.2. Security permission caching for the best performance and two built-in [Permission Policies](https://docs.devexpress.com/eXpressAppFramework/116172/concepts/security-system/permission-policies) determine Security System's behavior when there are no explicitly specified permissions for a specific type, object, or member.
+   3.1. Just two code lines to read secure records filtered out by the currently logged user, roles and their permissions. When you set up [SecuredObjectSpaceProvider](https://documentation.devexpress.com/eXpressAppFramework/113437/Task-Based-Help/Security/How-to-Change-the-Client-Side-Security-Mode-from-UI-Level-to-Integrated-in-XPO-applications), you can create an unlimited number of secure data contexts - your data query and modification APIs will be unchanged.
   
-   3.3. A [diagnostic tool](https://www.devexpress.com/Support/Center/Question/Details/T589182) to troubleshoot a complex security permission setup.
+   3.2. Fine-grained access control for base and inherited objects, one to many and many to many object [relationships](https://docs.devexpress.com/eXpressAppFramework/116170/concepts/security-system/permissions-for-associated-objects), individual columns with or without criteria (example: can read the Full Name field, but cannot see and modify Salary) and specific object instances only.
+   
+   3.3. Straightforward APIs to [check CRUD](https://docs.devexpress.com/eXpressAppFramework/112769/getting-started/comprehensive-tutorial/security-system/access-the-security-system-in-code) or custom access rights for UI element customizations. With that, you can hide or mask protected grid columns, editors in detail forms as well as disable menu toolbar commands like New, Delete, Edit, etc.
+
+   3.4. Security permission caching for the best performance and two built-in [Permission Policies](https://docs.devexpress.com/eXpressAppFramework/116172/concepts/security-system/permission-policies) determine Security System's behavior when there are no explicitly specified permissions for a specific type, object, or member.
+  
+   3.5. Proven by production with thousands of complex customer applications in the last decade. DevExpress Support and a [diagnostic tool](https://www.devexpress.com/Support/Center/Question/Details/T589182) are always at your service to troubleshoot complex security permission configurations in case of any issues.
