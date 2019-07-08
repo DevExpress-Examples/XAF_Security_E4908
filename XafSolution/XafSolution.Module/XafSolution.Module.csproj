@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -39,37 +39,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Data.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.Data.19.1.4\lib\net452\DevExpress.Data.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.ExpressApp.Objects.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.ExpressApp.Objects.19.1.4\lib\net452\DevExpress.ExpressApp.Objects.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.ExpressApp.Security.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.ExpressApp.Security.19.1.4\lib\net452\DevExpress.ExpressApp.Security.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.ExpressApp.Security.Xpo.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.ExpressApp.Security.Xpo.19.1.4\lib\net452\DevExpress.ExpressApp.Security.Xpo.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.ExpressApp.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.ExpressApp.19.1.4\lib\net452\DevExpress.ExpressApp.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.ExpressApp.Validation.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.ExpressApp.Validation.19.1.4\lib\net452\DevExpress.ExpressApp.Validation.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.ExpressApp.Xpo.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.ExpressApp.Xpo.19.1.4\lib\net452\DevExpress.ExpressApp.Xpo.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Images.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.Images.19.1.4\lib\net452\DevExpress.Images.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Persistent.Base.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.Persistent.Base.19.1.4\lib\net452\DevExpress.Persistent.Base.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Persistent.BaseImpl.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.Persistent.BaseImpl.19.1.4\lib\net452\DevExpress.Persistent.BaseImpl.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Xpo.v19.1, Version=19.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DevExpress.Xpo.19.1.4\lib\net452\DevExpress.Xpo.v19.1.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <SpecificVersion>False</SpecificVersion>
