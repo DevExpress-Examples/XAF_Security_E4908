@@ -2,6 +2,8 @@
 
 # How to: Use the Integrated Mode of the Security System in Non-XAF Applications
 
+![image](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/blob/19.1.4%2B/Security-System-1x2-FB.png)
+
 ## Scenario
 You have an XAF desktop or web application with custom business objects, users, roles and their security permission settings stored in an existing database (see [XafSolution](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/19.1.4%2B/XafSolution)).
 You want to develop an alternative UI client, which is technically a non-XAF .NET application. Also, you need to reuse your existing business objects and access your existing XAF data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview). You want to save your time and do not want to re-implement all the data access, complex security authentication, and authorization functions from scratch.
