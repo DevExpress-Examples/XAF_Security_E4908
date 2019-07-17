@@ -16,11 +16,11 @@
 
 Developers often face the following difficulties when creating security systems:
 
-1\. Getting security right: safe, fast, up-to-date, flexible, and database agnostic. Ready-to-use middleware libraries like ASP.NET Core Identity or Identity Server can be difficult to configure or offer unnecessary functionality.
+**1\.** Getting security right: safe, fast, up-to-date, flexible, and database agnostic. Ready-to-use middleware libraries like ASP.NET Core Identity or Identity Server can be difficult to configure or offer unnecessary functionality.
 
-2\. LOB app developers want to save time and do not want to implement complex security memberships and authentication/authorization algorithms from scratch. For instance, filtering protected data against the current user’s access rights or checking if the current user is allowed to delete records.
+**2\.** LOB app developers want to save time and do not want to implement complex security memberships and authentication/authorization algorithms from scratch. For instance, filtering protected data against the current user’s access rights or checking if the current user is allowed to delete records.
 
-3\. Access right customization (runtime). While certain technologies like ASP.NET simplify authentication and basic authorization with built-in design time APIs, it is difficult to build a flexible and customizable security system (allowing users to customize the system once the app is deployed).
+**3\.** Access right customization (runtime). While certain technologies like ASP.NET simplify authentication and basic authorization with built-in design time APIs, it is difficult to build a flexible and customizable security system (allowing users to customize the system once the app is deployed).
 
 ## The XAF Security System
 
