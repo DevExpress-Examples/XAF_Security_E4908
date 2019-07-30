@@ -52,7 +52,6 @@ Namespace ConsoleApplication
         Private Shared Sub RegisterEntities()
             XpoTypesInfoHelper.GetXpoTypeInfoSource()
             XafTypesInfo.Instance.RegisterEntity(GetType(Employee))
-            XafTypesInfo.Instance.RegisterEntity(GetType(Person))
             XafTypesInfo.Instance.RegisterEntity(GetType(PermissionPolicyUser))
             XafTypesInfo.Instance.RegisterEntity(GetType(PermissionPolicyRole))
         End Sub

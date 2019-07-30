@@ -54,7 +54,6 @@ namespace ConsoleApplication {
         private static void RegisterEntities() {
             XpoTypesInfoHelper.GetXpoTypeInfoSource();
             XafTypesInfo.Instance.RegisterEntity(typeof(Employee));
-            XafTypesInfo.Instance.RegisterEntity(typeof(Person));
             XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
             XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
         }
