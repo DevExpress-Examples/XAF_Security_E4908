@@ -2,14 +2,17 @@
 	$("#grid").dxDataGrid({
 		height: 900,
 		remoteOperations: { paging: true, filtering: true, sorting: true },
-		dataSource: new DevExpress.data.ODataStore({
-			url: "Employees?$expand=Department",
-			version: 4,
-			key: ["Oid"],
-			keyType: {
-				Oid: "Guid"
-			},
-			onLoaded: onLoaded
+		dataSource: new DevExpress.data.DataSource({
+			store: new DevExpress.data.ODataStore({
+				url: "Employees",
+				version: 4,
+				key: "Oid",
+				keyType: {
+					Oid: "Guid"
+				},
+				onLoaded: onLoaded,
+			}),
+			expand: "Department"
 		}),
 		columnAutoWidth: true,
 		cacheEnabled: false,
@@ -40,19 +43,24 @@
 			},
 			{
 				caption: "Department",
-                dataField: "Department.Oid",
-                allowFiltering: false,
+				dataField: "Department.Oid",
 				lookup: {
 					dataSource: new DevExpress.data.ODataStore({
 						url: "Departments",
 						version: 4,
-						key: ["Oid"],
+						key: "Oid",
 						keyType: {
 							Oid: "Guid"
 						}
 					}),
 					displayExpr: "Title",
 					valueExpr: "Oid"
+				},
+				calculateFilterExpression: function (filterValue) {
+					var filterExpression = [
+						[this.dataField.replace('.', '/'), "=", filterValue]
+					];
+					return filterExpression;
 				}
 			}
 		]
@@ -74,11 +82,11 @@
 
 	function onCellPrepared(e) {
 		if (e.rowType === "data") {
-			var key = e.key.Oid._value;
-			var permission = getPermission(key);
+			var key = e.key._value;
+			var objectPermission = getPermission(key);
 			if (e.column.command != 'edit') {	
 				var dataField = e.column.dataField.split('.')[0];
-				if (!permission[dataField]) {
+				if (!objectPermission[dataField]) {
 					e.cellElement.text("Protected Content");
 				}
 			}
@@ -86,9 +94,8 @@
 	}
 
 	function onLoaded(data) {
-		var oids = [];
-		$.each(data, function (i, element) {
-			oids[i] = element.Oid._value;
+		var oids = $.map(data, function (val) {
+			return val.Oid._value;
 		});
 		var data = {
 			keys: oids,
@@ -108,10 +115,8 @@
 	}
 
 	function getPermission(key) {
-		var permission = $.map(permissions, function (val) {
-			if (val.Key === key) {
-				return val;
-			}
+		var permission = permissions.filter(function (entry) {
+			return entry.Key === key;
 		});
 		return permission[0];
 	}
