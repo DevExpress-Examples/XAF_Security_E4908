@@ -6,14 +6,14 @@ using XafSolution.Module.BusinessObjects;
 
 namespace ASPNETCoreODataService.Controllers {
 	public class EmployeesController : BaseController {
-		public EmployeesController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config): base(xpoDataStoreProviderService, config) {}
+		public EmployeesController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config) : base(xpoDataStoreProviderService, config) { }
 
-        [HttpGet]
-        [EnableQuery]
-        public ActionResult Get() {
+		[HttpGet]
+		[EnableQuery]
+		public ActionResult Get() {
 			Init();
-			IQueryable<Employee> employees = ObjectSpace.GetObjects<Employee>().AsQueryable(); 
-            return Ok(employees);
-        }
+			IQueryable<Employee> employees = ObjectSpace.GetObjects<Employee>().AsQueryable();
+			return Ok(employees);
+		}
 	}
 }

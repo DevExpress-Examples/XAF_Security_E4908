@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace ASPNETCoreODataService.Controllers {
 	public class ActionsController : BaseController {
-		public ActionsController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config) : base(xpoDataStoreProviderService, config) {}
+		public ActionsController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config) : base(xpoDataStoreProviderService, config) { }
 		[HttpPost]
 		[ODataRoute("GetPermissions")]
 		public ActionResult GetPermissions(ODataActionParameters parameters) {
@@ -27,22 +27,22 @@ namespace ASPNETCoreODataService.Controllers {
 					Type type = typeInfo.Type;
 					IList entityList = ObjectSpace.GetObjects(type, new InOperator(typeInfo.KeyMember.Name, keys));
 					foreach(var entity in entityList) {
-                        PermissionContainer permissionContainer = new PermissionContainer();
-                        permissionContainer.Key = typeInfo.KeyMember.GetValue(entity).ToString();
-                        IEnumerable<IMemberInfo> memberList = GetPersistentMembers(typeInfo);
-                        foreach(IMemberInfo member in memberList) {
-                            bool permission = Security.IsGranted(new PermissionRequest(ObjectSpace, type, SecurityOperations.Read, entity, member.Name));
-                            permissionContainer.Data.Add(member.Name, permission);
-                        }
-                        permissionContainerList.Add(permissionContainer);
-                    }
-                    result = Ok(permissionContainerList.AsQueryable());
+						PermissionContainer permissionContainer = new PermissionContainer();
+						permissionContainer.Key = typeInfo.KeyMember.GetValue(entity).ToString();
+						IEnumerable<IMemberInfo> memberList = GetPersistentMembers(typeInfo);
+						foreach(IMemberInfo member in memberList) {
+							bool permission = Security.IsGranted(new PermissionRequest(ObjectSpace, type, SecurityOperations.Read, entity, member.Name));
+							permissionContainer.Data.Add(member.Name, permission);
+						}
+						permissionContainerList.Add(permissionContainer);
+					}
+					result = Ok(permissionContainerList.AsQueryable());
 				}
 			}
 			return result;
 		}
-        private static IEnumerable<IMemberInfo> GetPersistentMembers(ITypeInfo typeInfo) {
-            return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
-        }
-    }
+		private static IEnumerable<IMemberInfo> GetPersistentMembers(ITypeInfo typeInfo) {
+			return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
+		}
+	}
 }

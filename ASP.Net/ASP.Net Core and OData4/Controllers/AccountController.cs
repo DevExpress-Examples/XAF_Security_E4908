@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace ASPNETCoreODataService.Controllers {
-    public class AccountController : BaseController {
+	public class AccountController : BaseController {
 		public AccountController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config) : base(xpoDataStoreProviderService, config) { }
 		[HttpGet]
 		[ODataRoute("Login(userName={userName}, password={password})")]

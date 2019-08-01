@@ -13,9 +13,9 @@ using XafSolution.Module.BusinessObjects;
 
 namespace ASPNETCoreODataService {
 	public static class ConnectionHelper {
-        public static bool InitConnection(string userName, string password, HttpContext httpContext, 
+		public static bool InitConnection(string userName, string password, HttpContext httpContext,
 			XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
-            AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
+			AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
 			SecurityStrategyComplex security = GetSecurity(typeof(AuthenticationStandardProvider).Name, parameters);
 			IObjectSpaceProvider objectSpaceProvider = GetObjectSpaceProvider(security, xpoDataStoreProviderService, connectionString);
 			try {
@@ -26,8 +26,8 @@ namespace ASPNETCoreODataService {
 			catch {
 				return false;
 			}
-        }
-        private static void SignIn(HttpContext httpContext, string userName) {
+		}
+		private static void SignIn(HttpContext httpContext, string userName) {
 			List<Claim> claims = new List<Claim>{
 				new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
 			};

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace ASPNETCoreODataService.Controllers {
-    [Route("api/[controller]")]
+	[Route("api/[controller]")]
 	public class BaseController : ODataController {
 		protected SecurityStrategyComplex Security { get; set; }
 		protected IObjectSpace ObjectSpace { get; set; }

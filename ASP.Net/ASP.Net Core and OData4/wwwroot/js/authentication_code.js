@@ -2,18 +2,18 @@
 	$("#userName").dxTextBox({
 		name: "userName",
 		placeholder: "User name",
-        onEnterKey: pressEnter
+		onEnterKey: pressEnter
 	}).dxValidator({
 		validationRules: [
 			{ type: "required" }
 		]
-    });
+	});
 
 	$("#password").dxTextBox({
 		name: "Password",
 		placeholder: "Password",
-        mode: "password",
-        onEnterKey: pressEnter
+		mode: "password",
+		onEnterKey: pressEnter
 	});
 
 	$("#validateAndSubmit").dxButton({
@@ -22,7 +22,7 @@
 		onClick: function () {
 			var userName = $("#userName").dxTextBox("instance").option("value");
 			var password = $("#password").dxTextBox("instance").option("value");
-			var url = 'Login(userName = \'' + userName + '\', password = \'' + password + '\')'; 
+			var url = 'Login(userName = \'' + userName + '\', password = \'' + password + '\')';
 			$.ajax({
 				method: 'GET',
 				url: url,
@@ -36,9 +36,9 @@
 				}
 			});
 		}
-    });
+	});
 
-    function pressEnter(data) {
-        $('#validateAndSubmit').click();
-    }
+	function pressEnter(data) {
+		$('#validateAndSubmit').click();
+	}
 });

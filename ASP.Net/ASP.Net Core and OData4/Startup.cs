@@ -1,4 +1,4 @@
-﻿using DevExpress.Persistent.BaseImpl;
+using DevExpress.Persistent.BaseImpl;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -12,12 +12,12 @@ using System.Linq;
 using XafSolution.Module.BusinessObjects;
 
 namespace ASPNETCoreODataService {
-    public class Startup {
-        public IConfiguration Configuration { get; }
+	public class Startup {
+		public IConfiguration Configuration { get; }
 		public Startup(IConfiguration configuration) {
-            Configuration = configuration;
-        }
-        public void ConfigureServices(IServiceCollection services) {
+			Configuration = configuration;
+		}
+		public void ConfigureServices(IServiceCollection services) {
 			services.AddOData();
 			services.AddMvc(options => {
 				options.EnableEndpointRouting = false;
@@ -28,25 +28,25 @@ namespace ASPNETCoreODataService {
 			services.AddSingleton(Configuration);
 		}
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-            if(env.IsDevelopment()) {
-                app.UseDeveloperExceptionPage();
-            }
-            else {
-                app.UseHsts();
-            }
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+			if(env.IsDevelopment()) {
+				app.UseDeveloperExceptionPage();
+			}
+			else {
+				app.UseHsts();
+			}
 			app.UseAuthentication();
-            app.UseMiddleware<UnauthorizedRedirectMiddleware>();
+			app.UseMiddleware<UnauthorizedRedirectMiddleware>();
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
 			app.UseHttpsRedirection();
 			app.UseCookiePolicy();
 			app.UseMvc(routeBuilder => {
-                routeBuilder.EnableDependencyInjection();
-                routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
-                routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel());
+				routeBuilder.EnableDependencyInjection();
+				routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
+				routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel());
 			});
-        }
+		}
 		private IEdmModel GetEdmModel() {
 			ODataModelBuilder builder = new ODataConventionModelBuilder();
 			EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
@@ -69,6 +69,6 @@ namespace ASPNETCoreODataService {
 			getPermissions.Parameter<string>("typeName");
 			getPermissions.CollectionParameter<string>("keys");
 			return builder.GetEdmModel();
-        }
-    }
+		}
+	}
 }

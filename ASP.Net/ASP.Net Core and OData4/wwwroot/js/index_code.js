@@ -84,7 +84,7 @@
 		if (e.rowType === "data") {
 			var key = e.key._value;
 			var objectPermission = getPermission(key);
-			if (e.column.command != 'edit') {	
+			if (e.column.command != 'edit') {
 				var dataField = e.column.dataField.split('.')[0];
 				if (!objectPermission[dataField]) {
 					e.cellElement.text("Protected Content");

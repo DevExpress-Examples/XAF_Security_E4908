@@ -2,7 +2,7 @@
 using System.Data;
 
 namespace ASPNETCoreODataService {
-    public class XpoDataStoreProviderService {
+	public class XpoDataStoreProviderService {
 		private IXpoDataStoreProvider dataStoreProvider;
 		public IXpoDataStoreProvider GetDataStoreProvider(string connectionString, IDbConnection connection, bool enablePoolingInConnectionString) {
 			if(dataStoreProvider == null) {
