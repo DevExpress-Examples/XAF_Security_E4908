@@ -20,7 +20,6 @@ This example demonstrates how to access data protected by the [Security System](
 	//...
 	XpoTypesInfoHelper.GetXpoTypeInfoSource();
     XafTypesInfo.Instance.RegisterEntity(typeof(Employee));
-    XafTypesInfo.Instance.RegisterEntity(typeof(Person));
     XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
     XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
 	```
