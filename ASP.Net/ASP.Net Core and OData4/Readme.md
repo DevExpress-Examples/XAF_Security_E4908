@@ -9,7 +9,6 @@ Display data on DevExtreme Data Grid. The protected data is displayed as 'Protec
 ## Prerequisites
 
 - Restore Nuget packages. To obtain your DevExpress feed url, see the [DevExpress NuGet Gallery](https://nuget.devexpress.com/)
-- Install packages from the bower.json file, follow the instructions provided on its official site: [bower.io](https://bower.io/)
 - Run the XafSolution.Win project and log in with the 'User' or 'Admin' username and empty password to generate a database with business objects from the XafSolution.Module project
 
 ## Main implementation steps
