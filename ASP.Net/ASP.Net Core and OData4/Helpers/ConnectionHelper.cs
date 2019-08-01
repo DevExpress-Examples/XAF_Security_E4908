@@ -1,7 +1,6 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
-using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -29,8 +28,7 @@ namespace ASPNETCoreODataService {
 			}
         }
         private static void SignIn(HttpContext httpContext, string userName) {
-			var claims = new List<Claim>
-			{
+			List<Claim> claims = new List<Claim>{
 				new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
 			};
 			ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

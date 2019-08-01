@@ -13,7 +13,7 @@ namespace ASPNETCoreODataService {
             _next = next;
         }
         public async Task InvokeAsync(HttpContext context) {
-            if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated 
+            if(context.User!= null && context.User.Identity != null && context.User.Identity.IsAuthenticated 
                 || IsAllowAnonymous(context)) {
                 await _next(context);
             }

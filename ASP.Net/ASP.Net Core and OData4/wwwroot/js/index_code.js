@@ -12,7 +12,7 @@
 				},
 				onLoaded: onLoaded,
 			}),
-			expand: "Department"
+			expand: ["Department"]
 		}),
 		columnAutoWidth: true,
 		cacheEnabled: false,
