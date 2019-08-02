@@ -20,7 +20,7 @@ This example demonstrates how to protect your data with the [XAF's Security Syst
 3. Press the Logoff button and log in under 'Admin' to see all records.
 
 ## Implementation Overview
-The current description provides an overview of required steps at this stage. We will create detailed step-by-step instructions in the future. If you have any difficulties, [submit a ticket](https://www.devexpress.com/ask) in the DevExpress Support Center to receive quick and guaranteed help from DevExpress.
+>The current description provides an overview of required steps at this stage. We will create detailed step-by-step instructions in the future. If you have any difficulties, [submit a ticket](https://www.devexpress.com/ask) in the DevExpress Support Center to receive quick and guaranteed help from DevExpress.
 
 1. Configure the backend service in the [Startup.cs](Startup.cs) file. Notice the [UnauthorizedRedirectMiddleware.cs](UnauthorizedRedirectMiddleware.cs) file that contains a [middleware pipeline](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-2.2) that redirects anonymous requests.
 2. Access the XAF's Security System with the [ConnectionHelper](Helpers/ConnectionHelper.cs) class.
