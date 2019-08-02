@@ -252,7 +252,6 @@
     <Compile Include="XafDemoSplashScreen.Designer.cs">
       <DependentUpon>XafDemoSplashScreen.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="XafDemoSplashScreen.resx">
       <DependentUpon>XafDemoSplashScreen.cs</DependentUpon>
     </EmbeddedResource>
