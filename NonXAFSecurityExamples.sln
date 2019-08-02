@@ -21,11 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication", "Conso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XafSolution.Win", "XafSolution\XafSolution.Win\XafSolution.Win.csproj", "{D05D93DF-312D-4D4E-B980-726871EC7833}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASP.Net", "ASP.Net", "{89AF21CD-19D0-4111-95A3-E9EBB43D608D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASP.NET", "ASP.NET", "{89AF21CD-19D0-4111-95A3-E9EBB43D608D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASP.Net Core and OData4", "ASP.Net Core and OData4", "{A3AF2357-BBF9-481D-9D88-F64F4DC8AAA4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevExtreme.OData", "DevExtreme.OData", "{A3AF2357-BBF9-481D-9D88-F64F4DC8AAA4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETCoreODataService", "ASP.Net\ASP.Net Core and OData4\ASPNETCoreODataService.csproj", "{E04688AB-8C9A-4142-B637-415062BE0F90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETCoreODataService", "ASP.NET\DevExtreme.OData\ASPNETCoreODataService.csproj", "{E04688AB-8C9A-4142-B637-415062BE0F90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
