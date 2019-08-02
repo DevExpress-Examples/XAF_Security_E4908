@@ -2,7 +2,7 @@
 
 # How to: Use the Integrated Mode of the Security System in Non-XAF Applications
 
-![image](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/blob/19.1.4%2B/Security-System-1x2-FB.png)
+![image](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/blob/19.1.5%2B/Security-System-1x2-FB.png)
 
 ## Target Audience & Scenarios
 
