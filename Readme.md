@@ -2,25 +2,25 @@
 
 # How to: Use the Integrated Mode of the Security System in Non-XAF Applications
 
-![image](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/blob/19.1.5%2B/Security-System-1x2-FB.png)
+![image](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/blob/19.1.4%2B/Security-System-1x2-FB.png)
 
 ## Target Audience & Scenarios
 
-* XAF developers who create non-XAF .NET apps and want to reuse existing data models and [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) settings (users, roles and permissions) stored in an XAF application database. Based on experience, XAF customers create custom Web and mobile UI clients with ASP.NET MVC, DevExtreme; backend servers with ASP.NET Web API/OData or [Console](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx), Windows Service, WCF apps for various administrative tasks (data modifications, report generation, scheduled workflows).
+- XAF developers who create non-XAF .NET apps and want to reuse existing data models and [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) settings (users, roles and permissions) stored in an XAF application database. Based on experience, XAF customers create custom Web and mobile UI clients with ASP.NET MVC, DevExtreme; backend servers with ASP.NET Web API/OData or [Console](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx), Windows Service, WCF apps for various administrative tasks (data modifications, report generation, scheduled workflows).
 
-* Non-XAF developers who create standard line-of-business (LOB) apps with login, logout forms and security related functionality for any .NET UI technologies like WinForms, WPF, ASP.NET (WebForms, MVC 5, MVC Core, Razor Pages) and .NET server technologies like ASP.NET Web API/OData, WCF, etc. Yet more use-cases with Blazor & Xamarin.Forms (Android, iOS, UWP) UI technologies may come when XAF v19.2 supports .NET Standard 2.0.
+- Non-XAF developers who create standard line-of-business (LOB) apps with login, logout forms and security related functionality for any .NET UI technologies like WinForms, WPF, ASP.NET (WebForms, MVC 5, MVC Core, Razor Pages) and .NET server technologies like ASP.NET Web API/OData, WCF, etc. Yet more use-cases with Blazor & Xamarin.Forms (Android, iOS, UWP) UI technologies may come when XAF v19.2 supports .NET Standard 2.0.
 
->To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using the [Support Center](https://www.devexpress.com/ask) or this [Survey](https://community.devexpress.com/blogs/xaf/archive/2019/07/01/xaf-how-non-xaf-net-apps-using-xpo-for-data-access-can-benefit-from-xaf-security-system-apis.aspx).
+> To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using the [Support Center](https://www.devexpress.com/ask) or this [Survey](https://community.devexpress.com/blogs/xaf/archive/2019/07/01/xaf-how-non-xaf-net-apps-using-xpo-for-data-access-can-benefit-from-xaf-security-system-apis.aspx).
 
 ## Pain Points
 
 Developers often face the following difficulties when creating security systems:
 
-* Getting security right: safe, fast, up-to-date, flexible, and database agnostic. Ready-to-use middleware libraries like ASP.NET Core Identity or Identity Server can be difficult to configure or offer unnecessary functionality.
+- Getting security right: safe, fast, up-to-date, flexible, and database agnostic. Ready-to-use middleware libraries like ASP.NET Core Identity or Identity Server can be difficult to configure or offer unnecessary functionality.
 
-* LOB app developers want to save time and do not want to implement complex security memberships and authentication/authorization algorithms from scratch. For instance, filtering protected data against the current user’s access rights or checking if the current user is allowed to delete records.
+- LOB app developers want to save time and do not want to implement complex security memberships and authentication/authorization algorithms from scratch. For instance, filtering protected data against the current user’s access rights or checking if the current user is allowed to delete records.
 
-* Access right customization (runtime). While certain technologies like ASP.NET simplify authentication and basic authorization with built-in design time APIs, it is difficult to build a flexible and customizable security system (allowing users to customize the system once the app is deployed).
+- Access right customization (runtime). While certain technologies like ASP.NET simplify authentication and basic authorization with built-in design time APIs, it is difficult to build a flexible and customizable security system (allowing users to customize the system once the app is deployed).
 
 ## The XAF Security System
 
@@ -30,9 +30,9 @@ The primary XAF security system features used in line-of-business applications a
 
 **1.1.** Access control permissions linked to roles and users that can be stored in more than a dozen popular data stores powered by the XPO ORM (including popular RDBMS like SQL Server, Oracle, PostgreSQL, MySql, Firebird, XML and "in-memory" stores).
 
-*   [Type permissions](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview#type-permissions) grant Read, Write, Create, and Delete access to all objects that belong to a particular type.
-*   [Object Permissions](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview#object-permissions) work in conjunction with Type Permissions and grant access to object instances that fit a specified criterion.
-*   [Member Permissions](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview#member-permissions) grant access to specific members unconditionally or based on a criterion.
+- [Type permissions](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview#type-permissions) grant Read, Write, Create, and Delete access to all objects that belong to a particular type.
+- [Object Permissions](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview#object-permissions) work in conjunction with Type Permissions and grant access to object instances that fit a specified criterion.
+- [Member Permissions](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview#member-permissions) grant access to specific members unconditionally or based on a criterion.
 
 **1.2.** Powerful and [easy-to-use APIs](https://docs.devexpress.com/eXpressAppFramework/119065/concepts/security-system/predefined-users,-roles-and-permissions#set-permissions-for-non-administrative-roles) to configure users, roles and permissions in code or visually in XAF apps.
 
