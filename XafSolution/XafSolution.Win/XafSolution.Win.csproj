@@ -56,7 +56,6 @@
     </Reference>
     <Reference Include="DevExpress.ExpressApp.Images.v19.1, Version=19.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DevExpress.ExpressApp.Images.19.1.5\lib\net452\DevExpress.ExpressApp.Images.v19.1.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.ExpressApp.Objects.v19.1, Version=19.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DevExpress.ExpressApp.Objects.19.1.5\lib\net452\DevExpress.ExpressApp.Objects.v19.1.dll</HintPath>
@@ -181,11 +180,9 @@
     </Reference>
     <Reference Include="DevExpress.XtraVerticalGrid.v19.1, Version=19.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DevExpress.Win.VerticalGrid.19.1.5\lib\net452\DevExpress.XtraVerticalGrid.v19.1.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="DevExpress.XtraWizard.v19.1, Version=19.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DevExpress.Win.19.1.5\lib\net452\DevExpress.XtraWizard.v19.1.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib">
       <SpecificVersion>False</SpecificVersion>
@@ -234,6 +231,7 @@
   <ItemGroup>
     <Content Include="ExpressApp.ico" />
     <None Include="App.config" />
+    <EmbeddedResource Include="Images\SplashScreenImage.svg" />
     <Content Include="Model.xafml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -248,15 +246,15 @@
     <Compile Include="WinApplication.Designer.cs">
       <DependentUpon>WinApplication.cs</DependentUpon>
     </Compile>
-    <Compile Include="XafSplashScreen.cs">
+    <Compile Include="XafDemoSplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="XafSplashScreen.Designer.cs">
-      <DependentUpon>XafSplashScreen.cs</DependentUpon>
+    <Compile Include="XafDemoSplashScreen.Designer.cs">
+      <DependentUpon>XafDemoSplashScreen.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="XafSplashScreen.resx">
-      <DependentUpon>XafSplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="XafDemoSplashScreen.resx">
+      <DependentUpon>XafDemoSplashScreen.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -22,7 +22,7 @@ namespace XafSolution.Win {
             LinkNewObjectToParentImmediately = false;
             OptimizedControllersCreation = true;
             UseLightStyle = true;
-			SplashScreen = new DXSplashScreen(typeof(XafSplashScreen), new DefaultOverlayFormOptions());
+			SplashScreen = new DXSplashScreen(typeof(XafDemoSplashScreen), new DefaultOverlayFormOptions());
 			ExecuteStartupLogicBeforeClosingLogonWindow = true;
         }
         #endregion
