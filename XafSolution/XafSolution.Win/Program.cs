@@ -29,6 +29,7 @@ namespace XafSolution.Win {
             }
             Tracing.Initialize();
             XafSolutionWindowsFormsApplication winApplication = new XafSolutionWindowsFormsApplication();
+            winApplication.LastLogonParametersReading += winApplication_LastLogonParametersReading;
             // Refer to the https://docs.devexpress.com/eXpressAppFramework/112680 help article for more details on how to provide a custom splash form.
             //winApplication.SplashScreen = new DevExpress.ExpressApp.Win.Utils.DXSplashScreen("YourSplashImage.png");
 			SecurityStrategy security = (SecurityStrategy)winApplication.Security;
@@ -52,6 +53,12 @@ namespace XafSolution.Win {
             }
             catch(Exception e) {
                 winApplication.HandleException(e);
+            }
+        }
+        static void winApplication_LastLogonParametersReading(object sender, LastLogonParametersReadingEventArgs e) {
+            if(string.IsNullOrEmpty(e.SettingsStorage.LoadOption("", nameof(AuthenticationStandardLogonParameters.UserName)))) {
+                // This user is created in the XafSolution.Module\DatabaseUpdate\Updater.cs file.
+                e.SettingsStorage.SaveOption("", nameof(AuthenticationStandardLogonParameters.UserName), "Admin");
             }
         }
     }

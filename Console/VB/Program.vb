@@ -48,6 +48,7 @@ Namespace ConsoleApplication
                 End Using
                 file.Write(stringBuilder)
             End Using
+            Console.ReadLine()
         End Sub
         Private Shared Sub RegisterEntities()
             XpoTypesInfoHelper.GetXpoTypeInfoSource()
