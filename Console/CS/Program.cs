@@ -50,6 +50,7 @@ namespace ConsoleApplication {
                 }
                 file.Write(stringBuilder);
             }
+            Console.ReadLine();
         }
         private static void RegisterEntities() {
             XpoTypesInfoHelper.GetXpoTypeInfoSource();
