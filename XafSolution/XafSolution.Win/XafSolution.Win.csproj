@@ -129,11 +129,10 @@
     <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.1.*" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="MSBuild -t:restore" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+      <Output PropertyName="RestoreResult" TaskParameter="ConsoleOutput" />
+    </Exec>
+    <Error Condition="$(RestoreResult.Contains('DevExpress'))" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

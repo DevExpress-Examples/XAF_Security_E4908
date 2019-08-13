@@ -61,4 +61,10 @@
     <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.1.*" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="MSBuild -t:restore" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+      <Output PropertyName="RestoreResult" TaskParameter="ConsoleOutput" />
+    </Exec>
+    <Error Condition="$(RestoreResult.Contains('DevExpress'))" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
+  </Target>
 </Project>
