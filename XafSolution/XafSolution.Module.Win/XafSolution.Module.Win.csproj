@@ -102,6 +102,14 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Validation.Win">
+      <Version>19.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="DevExpress.Persistent.BaseImpl">
+      <Version>19.1.5</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

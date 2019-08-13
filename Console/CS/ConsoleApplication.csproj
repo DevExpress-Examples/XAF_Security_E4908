@@ -56,5 +56,13 @@
       <Name>XafSolution.Module</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo">
+      <Version>19.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="DevExpress.Persistent.BaseImpl">
+      <Version>19.1.5</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
