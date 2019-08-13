@@ -72,12 +72,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo">
-      <Version>19.1.5</Version>
-    </PackageReference>
-    <PackageReference Include="DevExpress.Persistent.BaseImpl">
-      <Version>19.1.5</Version>
-    </PackageReference>
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.1.*" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.1.*" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
