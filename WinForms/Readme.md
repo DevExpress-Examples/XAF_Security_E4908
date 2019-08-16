@@ -49,14 +49,14 @@ This example demonstrates how to access data protected by the [Security System](
 	SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 	```
 
-5. Create [MainForm](MainForm.cs) and run application
+5. Create [MainForm](CS/MainForm.cs) and run application
 	```csharp
 	Application.EnableVisualStyles();
 	Application.SetCompatibleTextRenderingDefault(false);
 	MainForm mainForm = new MainForm(security, objectSpaceProvider);
 	Application.Run(mainForm);
 	```
-	The `MainForm` is the MDI parent form for the [EmployeeListForm](EmployeeListForm.cs) and the [EmployeeDetailForm](EmployeeDetailForm.cs). The `MainForm` shows the [LoginForm](LoginForm.cs) on the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event as a dialog and if the dialog returned [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), the `EmployeeListForm` will be created and shown.
+	The `MainForm` is the MDI parent form for the [EmployeeListForm](CS/EmployeeListForm.cs) and the [EmployeeDetailForm](CS/EmployeeDetailForm.cs). The `MainForm` shows the [LoginForm](CS/LoginForm.cs) on the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event as a dialog and if the dialog returned [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), the `EmployeeListForm` will be created and shown.
 	```csharp
 	private void MainForm_Load(object sender, EventArgs e) {
 		ShowLoginForm();
@@ -91,7 +91,7 @@ This example demonstrates how to access data protected by the [Security System](
 	}
 	```
 	
-6. The [LoginForm](LoginForm.cs) contains two TextBox controls so the user can enter the username and the password, and the Login button that performs login into the security and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if the user logs in successfully.
+6. The [LoginForm](CS/LoginForm.cs) contains two TextBox controls so the user can enter the username and the password, and the Login button that performs login into the security and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if the user logs in successfully.
 	```csharp
 	private void Login_button_Click(object sender, EventArgs e) {
 		IObjectSpace logonObjectSpace = objectSpaceProvider.CreateObjectSpace();
@@ -109,7 +109,7 @@ This example demonstrates how to access data protected by the [Security System](
 	}
 	```
 
-7. The [EmployeeListForm](EmployeeListForm.cs) contains the [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) which displays a list of all Employees. 
+7. The [EmployeeListForm](CS/EmployeeListForm.cs) contains the [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) which displays a list of all Employees. 
 	
 	7.1. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
 	- Create the `SecuredObjectSpace` instance to access the protected data
@@ -186,7 +186,7 @@ This example demonstrates how to access data protected by the [Security System](
 			```			
 	Pass the current row handle as a parameter to the `CreateDetailForm` method
 	
-8. [EmployeeDetailForm](EmployeeDetailForm.cs) contains detailed representation of the Employee object
+8. [EmployeeDetailForm](CS/EmployeeDetailForm.cs) contains detailed representation of the Employee object
 	
 	8.1. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
 		
