@@ -19,9 +19,9 @@ namespace WindowsFormsApplication {
 			RegisterEntities();
 			AuthenticationStandard authentication = new AuthenticationStandard();
 			SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+			security.RegisterXPOAdapterProviders();
 			string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 			IObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
-			security.RegisterXPOAdapterProviders();
 
 			DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = true;
 			DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = false;

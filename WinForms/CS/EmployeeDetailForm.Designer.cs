@@ -27,8 +27,7 @@
             this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.saveBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.closeBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
-            this.newButtonItem = new DevExpress.XtraBars.BarButtonItem();
-            this.deleteButtonItem = new DevExpress.XtraBars.BarButtonItem();
+            this.deleteBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.employeeBindingSource = new DevExpress.Xpo.XPBindingSource(this.components);
@@ -48,8 +47,7 @@
             this.ribbonControl1.SearchEditItem,
             this.saveBarButtonItem,
             this.closeBarButtonItem,
-            this.newButtonItem,
-            this.deleteButtonItem});
+            this.deleteBarButtonItem});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
             this.ribbonControl1.MaxItemId = 5;
             this.ribbonControl1.Name = "ribbonControl1";
@@ -72,20 +70,13 @@
             this.closeBarButtonItem.Name = "closeBarButtonItem";
             this.closeBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.CloseBarButtonItem_ItemClick);
             // 
-            // newButtonItem
-            // 
-            this.newButtonItem.Caption = "New";
-            this.newButtonItem.Enabled = false;
-            this.newButtonItem.Id = 3;
-            this.newButtonItem.Name = "newButtonItem";
-            // 
             // deleteButtonItem
             // 
-            this.deleteButtonItem.Caption = "Delete";
-            this.deleteButtonItem.Enabled = false;
-            this.deleteButtonItem.Id = 4;
-            this.deleteButtonItem.Name = "deleteButtonItem";
-			this.deleteButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.DeleteBarButtonItem_ItemClick);
+            this.deleteBarButtonItem.Caption = "Delete";
+            this.deleteBarButtonItem.Enabled = false;
+            this.deleteBarButtonItem.Id = 4;
+            this.deleteBarButtonItem.Name = "deleteButtonItem";
+			this.deleteBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.DeleteBarButtonItem_ItemClick);
 			// 
 			// ribbonPage1
 			// 
@@ -98,7 +89,7 @@
             // 
             this.ribbonPageGroup1.ItemLinks.Add(this.saveBarButtonItem);
             this.ribbonPageGroup1.ItemLinks.Add(this.closeBarButtonItem);
-            this.ribbonPageGroup1.ItemLinks.Add(this.deleteButtonItem);
+            this.ribbonPageGroup1.ItemLinks.Add(this.deleteBarButtonItem);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.Text = "Edit";
             // 
@@ -149,12 +140,11 @@
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
         private DevExpress.XtraBars.BarButtonItem saveBarButtonItem;
         private DevExpress.XtraBars.BarButtonItem closeBarButtonItem;
+        private DevExpress.XtraBars.BarButtonItem deleteBarButtonItem;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.Xpo.XPBindingSource employeeBindingSource;
         private DevExpress.XtraDataLayout.DataLayoutControl dataLayoutControl1;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
-        private DevExpress.XtraBars.BarButtonItem newButtonItem;
-        private DevExpress.XtraBars.BarButtonItem deleteButtonItem;
     }
 }

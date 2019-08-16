@@ -35,7 +35,7 @@ namespace WindowsFormsApplication {
 			}
 			else {
 				employee = securedObjectSpace.GetObject(employee);
-				deleteButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Delete, employee));
+				deleteBarButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Delete, employee));
 			}
 			employeeBindingSource.DataSource = employee;
 			CreateControls();
