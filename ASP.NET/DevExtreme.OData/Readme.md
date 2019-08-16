@@ -24,7 +24,7 @@ This example demonstrates how to protect your data with the [XAF's Security Syst
 1. Configure the application</br>
    You can find more information about configuring the ASP.Net Core application in the [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-2.2&tabs=windows).
    	1. ODATA and MVC</br>
-Add ODATA and MVC to the application with following code in the `ConfigureServices` method in the [Startup.cs](Startup.cs):</br>
+Add ODATA and MVC to the application with the following code in the `ConfigureServices` method in [Startup.cs](Startup.cs):</br>
 		```csharp
 		public void ConfigureServices(IServiceCollection services) {
 		  services.AddOData();
@@ -33,7 +33,7 @@ Add ODATA and MVC to the application with following code in the `ConfigureServic
 		  }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 		}
 		```
-		Add MVC to the request pipeline in the `Configure` method in the [Startup.cs](Startup.cs):</br>
+		Add MVC to the request pipeline in the `Configure` method in [Startup.cs](Startup.cs):</br>
 		```csharp
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
 		  if(env.IsDevelopment()) {
@@ -49,7 +49,7 @@ Add ODATA and MVC to the application with following code in the `ConfigureServic
 		  });
 		}
 		```
-		The `routeBuilder.MapODataServiceRoute` adds the ODATA routing to MVC.</br></br>
+		`routeBuilder.MapODataServiceRoute` adds the ODATA routing to MVC.</br></br>
 	2. EDM model</br>	
 	The EDM model contains data description for all used entities:
 		```csharp
@@ -77,8 +77,8 @@ Add ODATA and MVC to the application with following code in the `ConfigureServic
 		  }
 		}
 		```	
-		The `Key` property contains the object key to identificate which business object this permission container is related with.</br></br>
-		The `Data` property is the dictionary which contains the member permissions and where the member name is a key and the permission is the bool value.</br></br>
+		The `Key` property contains the object key to identify which business object this permission container is related to.</br></br>
+		The `Data` property is the dictionary which contains member permissions and where the member name is a key and the permission is the bool value.</br></br>
 	3. Configure the authentication</br>	
 	Add the authentication service in the `ConfigureServices` method:
 		```csharp
@@ -104,7 +104,7 @@ Add ODATA and MVC to the application with following code in the `ConfigureServic
 		  });
 		}
 		```	
-	4. The [UnauthorizedRedirectMiddleware](/UnauthorizedRedirectMiddleware.cs) redirects unauthorized requests to the authentication page
+	4. [UnauthorizedRedirectMiddleware](/UnauthorizedRedirectMiddleware.cs) redirects unauthorized requests to the authentication page
 		```csharp
 		public class UnauthorizedRedirectMiddleware {
 		  // ...
@@ -119,9 +119,9 @@ Add ODATA and MVC to the application with following code in the `ConfigureServic
 		  // ...
 		}
 		```
-		In the `InvokeAsync` method checks if the ASP.Net Core Identity is authenticated and, if not, redirect the user to the authentication page.
+		In the `InvokeAsync` method checks if the ASP.Net Core Identity is authenticated and if not, redirects a user to the authentication page.
 	
-		Add the `UnauthorizedRedirectMiddleware` to the request pipeline after the `UseAuthentication` method call:
+		Add `UnauthorizedRedirectMiddleware` to the request pipeline after the `UseAuthentication` method call:
 		```csharp
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
 		  // ...
@@ -146,7 +146,7 @@ The [ConnectionHelper](/Helpers/ConnectionHelper.cs) class contains some helper 
 		  return security;
 		}
 		```
-		The `AuthenticationMixed` class allows to register several authentication providers, so you can use both the [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and the ASP.Net Core Identity authentication.</br>
+		The `AuthenticationMixed` class allows registering several authentication providers, so you can use both the [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.Net Core Identity authentication.</br>
 	2. The `GetObjectSpaceProvider` method provides access to the Object Space Provider
 		```csharp
 		public static IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
@@ -212,7 +212,7 @@ The [ConnectionHelper](/Helpers/ConnectionHelper.cs) class contains some helper 
 		}
 		```
 	
-3. Controllers provide the access to business data and handle the actions such as log in/log off and get permissions</br>
+3. Controllers provide access to business data and handle the actions such as log in/log off and get permissions</br>
 	1. The [BaseController](/Controllers/BaseController.cs) contains common for all controllers logic which initializes the Security System and the Object Space Provider.
 		```csharp
 		[Route("api/[controller]")]
@@ -299,7 +299,7 @@ The [ConnectionHelper](/Helpers/ConnectionHelper.cs) class contains some helper 
 		```
 		
 	4. The [ActionsController](/Controllers/ActionsController.cs) contains an additional methods to process permissions</br>	
-	The `GetPermissions` method gathers permissions for all objects on the DevExtreme Data Grid current page and send them to the client side as part of the response:
+	The `GetPermissions` method gathers permissions for all objects on the DevExtreme Data Grid current page and sends them to the client side as part of the response:
 		```csharp
 		[HttpPost]
 		[ODataRoute("GetPermissions")]
