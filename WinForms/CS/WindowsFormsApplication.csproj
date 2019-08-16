@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3736F01D-0C58-43CA-8877-87A353C7040E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>WindowsFormsApplication</RootNamespace>
+    <AssemblyName>WindowsFormsApp</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+	<PackageReference Include="DevExpress.Charts" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Charts.Core" Version="19.1.*" />
+	<PackageReference Include="DevExpress.CodeParser" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Data" Version="19.1.*" />
+	<PackageReference Include="DevExpress.DataAccess" Version="19.1.*" />
+	<PackageReference Include="DevExpress.ExpressApp" Version="19.1.*" />
+	<PackageReference Include="DevExpress.ExpressApp.Objects" Version="19.1.*" />
+	<PackageReference Include="DevExpress.ExpressApp.Security" Version="19.1.*" />
+	<PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.1.*" />
+	<PackageReference Include="DevExpress.ExpressApp.Win" Version="19.1.*" />
+	<PackageReference Include="DevExpress.ExpressApp.Xpo" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Gauges.Core" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Images" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Office.Core" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Pdf.Core" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Persistent.Base" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.1.*" />
+	<PackageReference Include="DevExpress.PivotGrid.Core" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Printing.Core" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Reporting.Core" Version="19.1.*" />
+	<PackageReference Include="DevExpress.RichEdit.Core" Version="19.1.*" />
+	<PackageReference Include="DevExpress.RichEdit.Export" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Scheduler.Core" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Sparkline.Core" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Utils" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Win" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Win.BonusSkins" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Win.Grid" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Win.Navigation" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Win.PivotGrid" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Win.Printing" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Win.RichEdit" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Win.TreeList" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Win.VerticalGrid" Version="19.1.*" />
+	<PackageReference Include="DevExpress.Xpo" Version="19.1.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EmployeeDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmployeeDetailForm.Designer.cs">
+      <DependentUpon>EmployeeDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmployeeListForm.Designer.cs">
+      <DependentUpon>EmployeeListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="EmployeeDetailForm.resx">
+      <DependentUpon>EmployeeDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmployeeListForm.resx">
+      <DependentUpon>EmployeeListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\XafSolution\XafSolution.Module\XafSolution.Module.csproj">
+      <Project>{5f15837d-d1e5-44dc-92f0-4f2ebe9c3f8d}</Project>
+      <Name>XafSolution.Module</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
