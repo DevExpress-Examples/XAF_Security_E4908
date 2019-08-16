@@ -127,63 +127,64 @@ This example demonstrates how to access data protected by the [Security System](
 		```	
 	7.2. Handle the [GridView.CustomRowCellEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView.CustomRowCellEdit) and perform IsGranted request to check the read operation. In case it returns false, replace default value of protected cells to "Protected content".
 		
-		```csharp
-		private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
-			string fieldName = e.Column.FieldName;
-			object targetObject = employeeGridView.GetRow(e.RowHandle);
-			if(!security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, targetObject, fieldName))) {
-				e.RepositoryItem = new RepositoryItemProtectedContentTextEdit();
-			}
+	```csharp
+	private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
+		string fieldName = e.Column.FieldName;
+		object targetObject = employeeGridView.GetRow(e.RowHandle);
+		if(!security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, targetObject, fieldName))) {
+			e.RepositoryItem = new RepositoryItemProtectedContentTextEdit();
 		}
-		```
+	}
+	```
+		
 	7.3. Handle the [FocusedRowObjectChanged](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Base.ColumnView.FocusedRowObjectChanged) event and perform the IsGranted request to check the delete operation and define if the Delete button will be enabled or not.
 		
-		```csharp
-		private void EmployeeGridView_FocusedRowObjectChanged(object sender, FocusedRowObjectChangedEventArgs e) {
-			deleteBarButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Delete, e.Row));
-		}
-		```
+	```csharp
+	private void EmployeeGridView_FocusedRowObjectChanged(object sender, FocusedRowObjectChangedEventArgs e) {
+		deleteBarButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Delete, e.Row));
+	}
+	```
 	Delete the current object on the [deleteBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler.
 	
-		```csharp
-		private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-			object cellObject = employeeGridView.GetRow(employeeGridView.FocusedRowHandle);
-			securedObjectSpace.Delete(cellObject);
-			securedObjectSpace.CommitChanges();
-		}
-		```
+	```csharp
+	private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+		object cellObject = employeeGridView.GetRow(employeeGridView.FocusedRowHandle);
+		securedObjectSpace.Delete(cellObject);
+		securedObjectSpace.CommitChanges();
+	}
+	```
 		
 	7.4. Create and show `EmployeeDetailForm`
 		
-		```csharp
-		private void CreateDetailForm(Employee employee = null) {
-			EmployeeDetailForm detailForm = new EmployeeDetailForm(employee);
-			detailForm.MdiParent = MdiParent;
-			detailForm.WindowState = FormWindowState.Maximized;
-			detailForm.Show();
-			detailForm.FormClosing += DetailForm_FormClosing;
-		}
-		```
+	```csharp
+	private void CreateDetailForm(Employee employee = null) {
+		EmployeeDetailForm detailForm = new EmployeeDetailForm(employee);
+		detailForm.MdiParent = MdiParent;
+		detailForm.WindowState = FormWindowState.Maximized;
+		detailForm.Show();
+		detailForm.FormClosing += DetailForm_FormClosing;
+	}
+	```
 		
 	We need to create `EmployeeDetailForm` in two cases: 
 	- When the user clicks on the New button
 			
-			```csharp
-			private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-				CreateDetailForm();
-			}	
-			```
+		```csharp
+		private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+			CreateDetailForm();
+		}	
+		```
 			
 	- When the user performs a row double-click
 		
-			```csharp
-			private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
-				if(e.Clicks == 2) {
-					Employee employee = employeeGridView.GetRow(employeeGridView.FocusedRowHandle) as Employee;
-					CreateDetailForm(employee);
-				}
+		```csharp
+		private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
+			if(e.Clicks == 2) {
+				Employee employee = employeeGridView.GetRow(employeeGridView.FocusedRowHandle) as Employee;
+				CreateDetailForm(employee);
 			}
-			```			
+		}
+		```			
 	Pass the current row handle as a parameter to the `CreateDetailForm` method
 	
 8. [EmployeeDetailForm](CS/EmployeeDetailForm.cs) contains detailed representation of the Employee object
@@ -212,19 +213,19 @@ This example demonstrates how to access data protected by the [Security System](
 		```	
 	8.2. The `CreateControls` method creates controls for all members which is declared in the `visibleMembers` collection
 		
-		```csharp
-		private List<string> visibleMembers = new List<string>() {
-				nameof(Employee.FirstName),
-				nameof(Employee.LastName),
-				nameof(Employee.Department)
-			};
-		// ...
-		private void CreateControls() {
-			foreach(string memberName in visibleMembers) {
-				CreateControl(dataLayoutControl1.AddItem(), employee, memberName);
-			}
+	```csharp
+	private List<string> visibleMembers = new List<string>() {
+			nameof(Employee.FirstName),
+			nameof(Employee.LastName),
+			nameof(Employee.Department)
+		};
+	// ...
+	private void CreateControls() {
+		foreach(string memberName in visibleMembers) {
+			CreateControl(dataLayoutControl1.AddItem(), employee, memberName);
 		}
-		```
+	}
+	```
 		
 	8.3. The `CreateControl` method creates a control for the specific member
 		
@@ -273,16 +274,16 @@ This example demonstrates how to access data protected by the [Security System](
 		
 	8.4. Use `SecuredObjectSpace` to commit all changes to database on the [saveBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler and delete the current object on the [deleteBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler
 		
-		```csharp
-		private void SaveBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-			securedObjectSpace.CommitChanges();
-			Close();
-		}
-		private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-			securedObjectSpace.Delete(employee);
-			securedObjectSpace.CommitChanges();
-			Close();
-		}
-		```
+	```csharp
+	private void SaveBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+		securedObjectSpace.CommitChanges();
+		Close();
+	}
+	private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+		securedObjectSpace.Delete(employee);
+		securedObjectSpace.CommitChanges();
+		Close();
+	}
+	```
 
 > Make sure that the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System) in your non-XAF application have same values as in the XAF application where passwords were set. Otherwise you won't be able to login.
