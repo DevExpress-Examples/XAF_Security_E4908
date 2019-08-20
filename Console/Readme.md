@@ -5,8 +5,8 @@ This example demonstrates how to access data protected by the [Security System](
 >For simplicity, the instructions include only C# code snippets. For the complete C# and VB code, see the [CS](/CS) and [VB](/VB) sub-directories.
  
 ### Prerequisites
-* Run the XafSolution.Win project and log in with the 'User' or 'Admin' username and empty password to generate a database with business objects from the XafSolution.Module project.
-* Add the XafSolution.Module reference to use these classes in your application.
+- Build the solution and run the *XafSolution.Win* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module* project. 
+- Add the *XafSolution.Module* assembly reference to your application.
 
 ***
 
