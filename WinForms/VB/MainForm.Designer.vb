@@ -61,18 +61,21 @@
             Me.ribbonPageGroup1.ItemLinks.Add(Me.logoffButtonItem)
             Me.ribbonPageGroup1.Name = "ribbonPageGroup1"
             Me.ribbonPageGroup1.Text = "Security"
-            ' 
-            ' MainForm
-            ' 
-            Me.AutoScaleDimensions = New System.Drawing.SizeF(6F, 13F)
+			Me.ribbonPageGroup1.AllowTextClipping = False
+			' 
+			' MainForm
+			' 
+			Me.AutoScaleDimensions = New System.Drawing.SizeF(6F, 13F)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.ClientSize = New System.Drawing.Size(897, 600)
             Me.Controls.Add(Me.ribbonControl1)
             Me.IsMdiContainer = True
             Me.Name = "MainForm"
             Me.Ribbon = Me.ribbonControl1
-            Me.Text = "MainForm"
-            CType(Me.ribbonControl1, System.ComponentModel.ISupportInitialize).EndInit()
+			Me.Text = "MainForm"
+			Me.Icon = My.Resources.ExpressApp
+
+			CType(Me.ribbonControl1, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
             Me.PerformLayout()
 

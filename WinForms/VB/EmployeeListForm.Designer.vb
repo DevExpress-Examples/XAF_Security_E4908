@@ -119,11 +119,12 @@ Namespace WindowsFormsApplication
             Me.ribbonPageGroup1.ItemLinks.Add(Me.newBarButtonItem)
             Me.ribbonPageGroup1.ItemLinks.Add(Me.deleteBarButtonItem)
             Me.ribbonPageGroup1.Name = "ribbonPageGroup1"
-            Me.ribbonPageGroup1.Text = "Edit"
-            ' 
-            ' EmployeeListForm
-            ' 
-            Me.AutoScaleDimensions = New System.Drawing.SizeF(6F, 13F)
+			Me.ribbonPageGroup1.Text = "Edit"
+			Me.ribbonPageGroup1.AllowTextClipping = False
+			' 
+			' EmployeeListForm
+			' 
+			Me.AutoScaleDimensions = New System.Drawing.SizeF(6F, 13F)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.ClientSize = New System.Drawing.Size(897, 590)
             Me.ControlBox = False

@@ -89,11 +89,12 @@
             Me.ribbonPageGroup1.ItemLinks.Add(Me.closeBarButtonItem)
             Me.ribbonPageGroup1.ItemLinks.Add(Me.deleteButtonItem)
             Me.ribbonPageGroup1.Name = "ribbonPageGroup1"
-            Me.ribbonPageGroup1.Text = "Edit"
-            ' 
-            ' EmployeeBindingSource
-            ' 
-            Me.employeeBindingSource.DisplayableProperties = "FirstName;LastName;Department;Department.Title"
+			Me.ribbonPageGroup1.Text = "Edit"
+			Me.ribbonPageGroup1.AllowTextClipping = False
+			' 
+			' EmployeeBindingSource
+			' 
+			Me.employeeBindingSource.DisplayableProperties = "FirstName;LastName;Department;Department.Title"
             ' 
             ' dataLayoutControl1
             ' 

@@ -92,10 +92,11 @@
             this.ribbonPageGroup1.ItemLinks.Add(this.deleteBarButtonItem);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.Text = "Edit";
-            // 
-            // EmployeeBindingSource
-            // 
-            this.employeeBindingSource.DisplayableProperties = "FirstName;LastName;Department;Department.Title";
+			this.ribbonPageGroup1.AllowTextClipping = false;
+			// 
+			// EmployeeBindingSource
+			// 
+			this.employeeBindingSource.DisplayableProperties = "FirstName;LastName;Department;Department.Title";
             // 
             // dataLayoutControl1
             // 

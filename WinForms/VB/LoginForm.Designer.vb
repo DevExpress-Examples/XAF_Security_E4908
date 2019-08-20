@@ -153,8 +153,9 @@
             Me.Controls.Add(Me.labelControl1)
             Me.Controls.Add(Me.layoutControl1)
             Me.Controls.Add(Me.login_button)
-            Me.Name = "LoginForm"
-            Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+			Me.Name = "LoginForm"
+			Me.Icon = My.Resources.ExpressApp
+			Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             Me.Text = "Authentication"
             CType(Me.layoutControl1, System.ComponentModel.ISupportInitialize).EndInit()
             Me.layoutControl1.ResumeLayout(False)

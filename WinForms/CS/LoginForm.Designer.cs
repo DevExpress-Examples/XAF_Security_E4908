@@ -160,6 +160,7 @@
 			this.Name = "LoginForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Authentication";
+			this.Icon = WindowsFormsApplication.Properties.Resources.ExpressApp;
 			((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
 			this.layoutControl1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.passwordEdit.Properties)).EndInit();

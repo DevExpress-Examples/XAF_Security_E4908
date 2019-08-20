@@ -67,6 +67,7 @@
 			this.ribbonPageGroup1.ItemLinks.Add(this.logoffButtonItem);
 			this.ribbonPageGroup1.Name = "ribbonPageGroup1";
 			this.ribbonPageGroup1.Text = "Security";
+			this.ribbonPageGroup1.AllowTextClipping = false;
 			// 
 			// MainForm
 			// 
@@ -76,6 +77,7 @@
 			this.Controls.Add(this.ribbonControl1);
 			this.IsMdiContainer = true;
 			this.Name = "MainForm";
+			this.Icon = WindowsFormsApplication.Properties.Resources.ExpressApp;
 			this.Ribbon = this.ribbonControl1;
 			this.Text = "MainForm";
 			this.Load += new System.EventHandler(this.MainForm_Load);

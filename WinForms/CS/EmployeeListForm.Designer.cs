@@ -134,10 +134,11 @@ namespace WindowsFormsApplication {
             this.ribbonPageGroup1.ItemLinks.Add(this.deleteBarButtonItem);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.Text = "Edit";
-            // 
-            // EmployeeListForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.ribbonPageGroup1.AllowTextClipping = false;
+			// 
+			// EmployeeListForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(897, 590);
             this.ControlBox = false;
