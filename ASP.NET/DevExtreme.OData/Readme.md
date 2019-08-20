@@ -234,7 +234,7 @@ public void ConfigureServices(IServiceCollection services) {
     services.AddSingleton(Configuration);
 }
 ```	
-- In the  appsettings.json file, replace 'DBSERVER' with your data source name to set connection to your database.
+- In appsettings.json, replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
 
 ``` json
 "ConnectionStrings": {
