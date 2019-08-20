@@ -9,7 +9,8 @@ This example demonstrates how to protect your data with the [XAF Security System
 * [.NET Core SDK 2.2 or later](https://www.microsoft.com/net/download/all)
 * [DevExpress Unified Installer for .NET and HTML5 Developers](https://www.devexpress.com/Products/Try/)
   * We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
-- Build the solution and run the *XafSolution.Win* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module* project.
+- Build the solution and run the *XafSolution.Win* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module* project. 
+- Add the *XafSolution.Module* assembly reference to your application.
 
 
 ## Step 1: Configure the ASP.NET Core Server App
