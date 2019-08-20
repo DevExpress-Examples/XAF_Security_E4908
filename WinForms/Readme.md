@@ -1,10 +1,11 @@
-This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from your Non-XAF Windows Forms application. Also, with this example you can see how to perform create, write and delete operations with data taking into account security permissions.
+This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Windows Forms application. You will also learn how to execute Create, Write and Delete data operations taking into account security permissions.
+
 >For simplicity, the instructions include only C# code snippets. For the complete C# and VB code, see the [CS](CS) and [VB](VB) sub-directories.
 
 
 ### Prerequisites
-* Run the XafSolution.Win project and log in with the 'User' or 'Admin' username and empty password to generate a database with business objects from the XafSolution.Module project.
-* Add the XafSolution.Module reference to use these classes in your application.
+* Run the XafSolution.Win project and log in with the 'User' or 'Admin' username and an empty password to generate a database with business objects from the XafSolution.Module project.
+* Add a XafSolution.Module reference to your application.
 
 ***
 ### Main implementation steps
@@ -22,7 +23,7 @@ This example demonstrates how to access data protected by the [Security System](
 	XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
 	XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
 	```
-2. Open the application configuration file. It is an XML file located in the application folder. The Windows Forms application configuration file is _App.config_. Add the following line in this file.
+2. Open _App.config_ located in the application folder. Add the following line:
 	
 	[](#tab/tabid-xml)
 	
@@ -41,7 +42,7 @@ This example demonstrates how to access data protected by the [Security System](
     SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
     security.RegisterXPOAdapterProviders();
 	```
-4. Create a `SecuredObjectSpaceProvider` object. It allows you to create a `SecuredObjectSpace` instances to ensure a secured data access.
+4. Create a `SecuredObjectSpaceProvider` object. It allows you to create `SecuredObjectSpace` instances to ensure secured data access.
 	[](#tab/tabid-csharp)
 	
 	```csharp
@@ -49,14 +50,15 @@ This example demonstrates how to access data protected by the [Security System](
 	SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 	```
 
-5. Create [MainForm](CS/MainForm.cs) and run application
+5. Create [MainForm](CS/MainForm.cs) and run the application.
+
 	```csharp
 	Application.EnableVisualStyles();
 	Application.SetCompatibleTextRenderingDefault(false);
 	MainForm mainForm = new MainForm(security, objectSpaceProvider);
 	Application.Run(mainForm);
 	```
-	The `MainForm` is the MDI parent form for the [EmployeeListForm](CS/EmployeeListForm.cs) and the [EmployeeDetailForm](CS/EmployeeDetailForm.cs). The `MainForm` shows the [LoginForm](CS/LoginForm.cs) on the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event as a dialog and if the dialog returned [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), the `EmployeeListForm` will be created and shown.
+	`MainForm` is the MDI parent form for [EmployeeListForm](CS/EmployeeListForm.cs) and [EmployeeDetailForm](CS/EmployeeDetailForm.cs). It displays the [LoginForm](CS/LoginForm.cs) on the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event. If the dialog returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), `EmployeeListForm` is created and shown.
 	```csharp
 	private void MainForm_Load(object sender, EventArgs e) {
 		ShowLoginForm();
@@ -79,7 +81,7 @@ This example demonstrates how to access data protected by the [Security System](
 		employeeForm.Show();
 	}
 	```
-	Also, it contains the main RibbonControl with the Logoff ribbon item.
+	Also, note the following hanlder for the RibbonControl's Logoff item.
 	```csharp
 	private void LogoffButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
 		foreach(Form form in MdiChildren) {
@@ -91,7 +93,7 @@ This example demonstrates how to access data protected by the [Security System](
 	}
 	```
 	
-6. The [LoginForm](CS/LoginForm.cs) contains two TextBox controls so the user can enter the username and the password, and the Login button that performs login into the security and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if the user logs in successfully.
+6. [LoginForm](CS/LoginForm.cs) contains two TextBox controls for username and password, and the Login button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if logon was successful.
 	```csharp
 	private void Login_button_Click(object sender, EventArgs e) {
 		IObjectSpace logonObjectSpace = objectSpaceProvider.CreateObjectSpace();
@@ -109,12 +111,12 @@ This example demonstrates how to access data protected by the [Security System](
 	}
 	```
 
-7. The [EmployeeListForm](CS/EmployeeListForm.cs) contains the [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) which displays a list of all Employees. 
+7. [EmployeeListForm](CS/EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. 
 	
 	7.1. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
-	- Create the `SecuredObjectSpace` instance to access the protected data
-	- Set [XPBindingSource.DataSource](https://docs.devexpress.com/XPO/DevExpress.Xpo.XPBindingSource.DataSource) with the Employees collection obtained from the secured object space
-	- Perform the [IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) request to check the create operation and define if the New button will be enabled or not.
+	- Create a `SecuredObjectSpace` instance to access protected data.
+	- Set [XPBindingSource.DataSource](https://docs.devexpress.com/XPO/DevExpress.Xpo.XPBindingSource.DataSource) to the Employees collection obtained from the secured object space.
+	- Perform the [IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) request to check Create operation availability and thus determine whether the New button can be enabled.
 		
 		```csharp
 		private void EmployeeListForm_Load(object sender, EventArgs e) {
@@ -125,7 +127,7 @@ This example demonstrates how to access data protected by the [Security System](
 			newBarButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Create));
 		}
 		```	
-	7.2. Handle the [GridView.CustomRowCellEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView.CustomRowCellEdit) and perform IsGranted request to check the read operation. In case it returns false, replace default value of protected cells to "Protected content".
+	7.2. Handle the [GridView.CustomRowCellEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView.CustomRowCellEdit) event and use the IsGranted request to check Read operation availability. If it returns false, replace default values of protected cells with "Protected content".
 		
 	```csharp
 	private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
@@ -137,14 +139,14 @@ This example demonstrates how to access data protected by the [Security System](
 	}
 	```
 		
-	7.3. Handle the [FocusedRowObjectChanged](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Base.ColumnView.FocusedRowObjectChanged) event and perform the IsGranted request to check the delete operation and define if the Delete button will be enabled or not.
+	7.3. Handle the [FocusedRowObjectChanged](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Base.ColumnView.FocusedRowObjectChanged) event and use the IsGranted request to check Delete operation availability and thus determine if the Delete button can be enabled.
 		
 	```csharp
 	private void EmployeeGridView_FocusedRowObjectChanged(object sender, FocusedRowObjectChangedEventArgs e) {
 		deleteBarButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Delete, e.Row));
 	}
 	```
-	Delete the current object on the [deleteBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler.
+	Delete the current object in the [deleteBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler.
 	
 	```csharp
 	private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
@@ -154,7 +156,7 @@ This example demonstrates how to access data protected by the [Security System](
 	}
 	```
 		
-	7.4. Create and show `EmployeeDetailForm`
+	7.4. Create and show `EmployeeDetailForm`.
 		
 	```csharp
 	private void CreateDetailForm(Employee employee = null) {
@@ -167,7 +169,7 @@ This example demonstrates how to access data protected by the [Security System](
 	```
 		
 	We need to create `EmployeeDetailForm` in two cases: 
-	- When the user clicks on the New button
+	- When the user clicks the New button
 			
 		```csharp
 		private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
@@ -175,7 +177,7 @@ This example demonstrates how to access data protected by the [Security System](
 		}	
 		```
 			
-	- When the user performs a row double-click
+	- When the user double-clicks a row
 		
 		```csharp
 		private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
@@ -185,15 +187,15 @@ This example demonstrates how to access data protected by the [Security System](
 			}
 		}
 		```			
-	Pass the current row handle as a parameter to the `CreateDetailForm` method
+	Pass the current row handle as a parameter to the `CreateDetailForm` method.
 	
-8. [EmployeeDetailForm](CS/EmployeeDetailForm.cs) contains detailed representation of the Employee object
+8. [EmployeeDetailForm](CS/EmployeeDetailForm.cs) contains detailed information on the Employee object.
 	
-	8.1. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
+	8.1. Perform the following operation in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler: 
 		
-	- Create the `SecuredObjectSpace` instance to get the current Employee object or create the new one
-	- Perform the [IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) request to check the delete operation and define if the Delete button will be enabled or not. The Delete button is always disabled when you create new object.
-	- Set [XPBindingSource.DataSource](https://docs.devexpress.com/XPO/DevExpress.Xpo.XPBindingSource.DataSource) with the Employee object
+	- Create a `SecuredObjectSpace` instance to get the current or create new Employee object.
+	- Use the [IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) request to check Delete operation availability and thus determine if the Delete button can be enabled. The Delete button is always disabled if you create new object.
+	- Set [XPBindingSource.DataSource](https://docs.devexpress.com/XPO/DevExpress.Xpo.XPBindingSource.DataSource) to the Employee object.
 		
 		```csharp
 		private void EmployeeDetailForm_Load(object sender, EventArgs e) {
@@ -211,7 +213,7 @@ This example demonstrates how to access data protected by the [Security System](
 			CreateControls();
 		}
 		```	
-	8.2. The `CreateControls` method creates controls for all members which is declared in the `visibleMembers` collection
+	8.2. The `CreateControls` method creates controls for all members declared in the `visibleMembers` collection.
 		
 	```csharp
 	private List<string> visibleMembers = new List<string>() {
@@ -227,14 +229,13 @@ This example demonstrates how to access data protected by the [Security System](
 	}
 	```
 		
-	8.3. The `CreateControl` method creates a control for the specific member
+	8.3. The `CreateControl` method creates a control for a specific member.
 		
-	Perform the IsGranted request to check the read operation. If it is denied, create and disable the `ProtectedContentEdit` control which displayed the "Protected Content" placeholder, 
-		otherwise: 
+	Use the IsGranted request to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the "Protected Content" placeholder. Otherwise: 
 		
-	- Call the `GetControl` method to create the appropriate control depending of the member type. We use the [ComboBoxEdit](https://docs.devexpress.com/WindowsForms/614/controls-and-libraries/editors-and-simple-controls/simple-editors/concepts/dropdown-editors/combo-box-editors#comboboxedit-control) control for the Department associated property.
+	- Call the `GetControl` method to create an appropriate control depending of the member type. We use the [ComboBoxEdit](https://docs.devexpress.com/WindowsForms/614/controls-and-libraries/editors-and-simple-controls/simple-editors/concepts/dropdown-editors/combo-box-editors#comboboxedit-control) control for the Department associated property.
 	- Add a binding to the [Control.DataBindings](https://docs.microsoft.com/ru-ru/dotnet/api/system.windows.forms.control.databindings?view=netframework-4.8) collection.
-	- Perform the IsGranted request to check the write operation and define if the control will be enabled or not.
+	- Use the IsGranted request to check Write operation availability and thus determine whether the control should be enabled.
 		
 		```csharp
 		private void CreateControl(LayoutControlItem layout, object targetObject, string memberName) {
@@ -272,7 +273,7 @@ This example demonstrates how to access data protected by the [Security System](
 		}
 		```
 		
-	8.4. Use `SecuredObjectSpace` to commit all changes to database on the [saveBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler and delete the current object on the [deleteBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler
+	8.4. Use `SecuredObjectSpace` to commit all changes to database in the [saveBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler and delete the current object in the [deleteBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler.
 		
 	```csharp
 	private void SaveBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
