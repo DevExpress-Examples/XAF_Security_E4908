@@ -12,6 +12,7 @@ This example demonstrates how to protect your data with the [XAF Security System
 - Build the solution and run the *XafSolution.Win* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module* project. 
 - Add the *XafSolution.Module* assembly reference to your application.
 
+***
 
 ## Step 1: Configure the ASP.NET Core Server App
 For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-2.2&tabs=windows).
