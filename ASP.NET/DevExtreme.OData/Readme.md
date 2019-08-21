@@ -393,6 +393,7 @@ function onCellPrepared(e) {
   }
 }
 ```	
+Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the [SecurityStrategy.IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) method to determine when to mask default values with the "Protected Content" placeholder in the UI.
 
 - The `getPermission` function returns the permission object for a business object. The business object is identified by the key passed in function parameters:
 
