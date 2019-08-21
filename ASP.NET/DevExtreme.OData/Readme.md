@@ -387,7 +387,7 @@ function onCellPrepared(e) {
     if (e.column.command != 'edit') {	
       var dataField = e.column.dataField.split('.')[0];
       if (!objectPermission[dataField]) {
-  e.cellElement.text("Protected Content");
+        e.cellElement.text("Protected Content");
       }
     }
   }
