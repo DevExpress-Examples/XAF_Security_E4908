@@ -145,7 +145,7 @@ private void EmployeeListForm_Load(object sender, EventArgs e) {
     );
 }
 ```	
-- Handle the [GridView.CustomRowCellEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView.CustomRowCellEdit) event and use the IsGranted request to check Read operation availability. If it returns false, replace default values of protected cells with "Protected content".
+- Handle the [GridView.CustomRowCellEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView.CustomRowCellEdit) event and check Read operation availability.
 		
 ``` csharp
 private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
@@ -160,6 +160,7 @@ private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArg
     }
 }
 ```
+Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.IsGranted method to determine when to mask default values with the "Protected Content" placeholder in the UI.
 		
 - Handle the [FocusedRowObjectChanged](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Base.ColumnView.FocusedRowObjectChanged) event and use the IsGranted request to check Delete operation availability and thus determine if the Delete button can be enabled.
 		
