@@ -7,6 +7,10 @@ This example demonstrates how to access data protected by the [Security System](
 - Build the solution and run the *XafSolution.Win* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module* project. 
 - Add the *XafSolution.Module* assembly reference to your application.
 
+> **!NOTE:** We use NuGet packages in this example project and we recommend you [Obtain Your NuGet Feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) and [Setup Visual Studio's NuGet Package Manager](https://docs.devexpress.com/GeneralInformation/116698/installation/install-devexpress-controls-using-nuget-packages/setup-visual-studios-nuget-package-manager) to get access to up-to-date NuGet packages. You can do this only once but this will help you avoid any difficulties with NuGet packages in the future. 
+
+> If you cannot setup [DevExpress NuGet Gallery](https://nuget.devexpress.com/) for any reason, you should not face difficulties with NuGet packages restoring. DevExpress components install a local package source with name 'DevExpress {version} Local', and packages will be automatically restored from this local package source when the project is built. If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [include pre-release](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
+
 ***
 
 # Step 1: Initialize Data Store and XAF's Security System
