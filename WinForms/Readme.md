@@ -242,10 +242,10 @@ private void EmployeeDetailForm_Load(object sender, EventArgs e) {
         );
     }
     employeeBindingSource.DataSource = employee;
-    CreateControls();
+    AddControls();
 }
 ```	
-- The `CreateControls` method creates controls for all members declared in the `visibleMembers` collection.
+- The `AddControls` method creates controls for all members declared in the `visibleMembers` collection.
 		
 ``` csharp
 private List<string> visibleMembers = new List<string>() {
@@ -254,20 +254,20 @@ private List<string> visibleMembers = new List<string>() {
     nameof(Employee.Department)
 };
 // ...
-private void CreateControls() {
+private void AddControls() {
     foreach(string memberName in visibleMembers) {
-        CreateControl(dataLayoutControl1.AddItem(), employee, memberName);
+        AddControl(dataLayoutControl1.AddItem(), employee, memberName);
     }
 }
 ```
-- The `CreateControl` method creates a control for a specific member. Use the IsGranted request to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the "Protected Content" placeholder. Otherwise: 
+- The `AddControl` method creates a control for a specific member. Use the IsGranted request to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the "Protected Content" placeholder. Otherwise: 
 		
 	- Call the `GetControl` method to create an appropriate control depending of the member type. We use the [ComboBoxEdit](https://docs.devexpress.com/WindowsForms/614/controls-and-libraries/editors-and-simple-controls/simple-editors/concepts/dropdown-editors/combo-box-editors#comboboxedit-control) control for the Department associated property.
 	- Add a binding to the [Control.DataBindings](https://docs.microsoft.com/ru-ru/dotnet/api/system.windows.forms.control.databindings?view=netframework-4.8) collection.
 	- Use the IsGranted request to check Write operation availability and thus determine whether the control should be enabled.
 		
 ``` csharp
-private void CreateControl(LayoutControlItem layout, object targetObject, string memberName) {
+private void AddControl(LayoutControlItem layout, object targetObject, string memberName) {
     layout.Text = memberName;
     Type type = targetObject.GetType();
     BaseEdit control;
