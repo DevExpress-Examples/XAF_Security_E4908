@@ -38,14 +38,14 @@ namespace WindowsFormsApplication {
 				deleteBarButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Delete, employee));
 			}
 			employeeBindingSource.DataSource = employee;
-			CreateControls();
+			AddControls();
 		}
-		private void CreateControls() {
+		private void AddControls() {
 			foreach(string memberName in visibleMembers) {
-				CreateControl(dataLayoutControl1.AddItem(), employee, memberName);
+				AddControl(dataLayoutControl1.AddItem(), employee, memberName);
 			}
 		}
-		private void CreateControl(LayoutControlItem layout, object targetObject, string memberName) {
+		private void AddControl(LayoutControlItem layout, object targetObject, string memberName) {
 			layout.Text = memberName;
 			Type type = targetObject.GetType();
 			BaseEdit control;

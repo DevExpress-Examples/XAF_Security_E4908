@@ -35,31 +35,31 @@ Namespace WindowsFormsApplication
                 deleteButtonItem.Enabled = security.IsGranted(New PermissionRequest(securedObjectSpace, GetType(Employee), SecurityOperations.Delete, employee))
             End If
             employeeBindingSource.DataSource = employee
-            CreateControls()
-        End Sub
-        Private Sub CreateControls()
-            For Each memberName As String In visibleMembers
-                CreateControl(dataLayoutControl1.AddItem(), employee, memberName)
-            Next memberName
-        End Sub
-        Private Sub CreateControl(ByVal layout As LayoutControlItem, ByVal targetObject As Object, ByVal memberName As String)
-            layout.Text = memberName
-            Dim type As Type = targetObject.GetType()
-            Dim control As BaseEdit
-            If security.IsGranted(New PermissionRequest(securedObjectSpace, type, SecurityOperations.Read, targetObject, memberName)) Then
-                control = GetControl(type, memberName)
-                If control IsNot Nothing Then
-                    control.DataBindings.Add(New Binding("EditValue", employeeBindingSource, memberName, True, DataSourceUpdateMode.OnPropertyChanged))
-                    control.Enabled = security.IsGranted(New PermissionRequest(securedObjectSpace, type, SecurityOperations.Write, targetObject, memberName))
-                End If
-            Else
-                control = New ProtectedContentEdit()
-                control.Enabled = False
-            End If
-            dataLayoutControl1.Controls.Add(control)
-            layout.Control = control
-        End Sub
-        Private Function GetControl(ByVal type As Type, ByVal memberName As String) As BaseEdit
+			AddControls()
+		End Sub
+		Private Sub AddControls()
+			For Each memberName As String In visibleMembers
+				AddControl(dataLayoutControl1.AddItem(), employee, memberName)
+			Next memberName
+		End Sub
+		Private Sub AddControl(ByVal layout As LayoutControlItem, ByVal targetObject As Object, ByVal memberName As String)
+			layout.Text = memberName
+			Dim type As Type = targetObject.GetType()
+			Dim control As BaseEdit
+			If security.IsGranted(New PermissionRequest(securedObjectSpace, type, SecurityOperations.Read, targetObject, memberName)) Then
+				control = GetControl(type, memberName)
+				If control IsNot Nothing Then
+					control.DataBindings.Add(New Binding("EditValue", employeeBindingSource, memberName, True, DataSourceUpdateMode.OnPropertyChanged))
+					control.Enabled = security.IsGranted(New PermissionRequest(securedObjectSpace, type, SecurityOperations.Write, targetObject, memberName))
+				End If
+			Else
+				control = New ProtectedContentEdit()
+				control.Enabled = False
+			End If
+			dataLayoutControl1.Controls.Add(control)
+			layout.Control = control
+		End Sub
+		Private Function GetControl(ByVal type As Type, ByVal memberName As String) As BaseEdit
             Dim control As BaseEdit = Nothing
             Dim typeInfo As ITypeInfo = securedObjectSpace.TypesInfo.PersistentTypes.FirstOrDefault(Function(t) t.Name = type.Name)
             Dim memberInfo As IMemberInfo = typeInfo.Members.FirstOrDefault(Function(t) t.Name = memberName)
