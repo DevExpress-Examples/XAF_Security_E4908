@@ -66,9 +66,8 @@
 			' 
 			' buttonLogin
 			' 
-			Me.buttonLogin.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, (CByte(0)))
-			Me.buttonLogin.Appearance.Options.UseFont = True
 			Me.buttonLogin.Location = New System.Drawing.Point(265, 121)
+            Me.buttonLogin.Margin = New System.Windows.Forms.Padding(2)
 			Me.buttonLogin.MaximumSize = New System.Drawing.Size(70, 26)
 			Me.buttonLogin.MinimumSize = New System.Drawing.Size(70, 26)
 			Me.buttonLogin.Name = "buttonLogin"
@@ -76,8 +75,6 @@
 			Me.buttonLogin.StyleController = Me.layoutControl1
 			Me.buttonLogin.TabIndex = 0
 			Me.buttonLogin.Text = "Log In"
-'INSTANT VB NOTE: The following InitializeComponent event wireup was converted to a 'Handles' clause:
-'ORIGINAL LINE: this.buttonLogin.Click += new System.EventHandler(this.Login_button_Click);
 			' 
 			' layoutControl1
 			' 
@@ -111,7 +108,7 @@
 			Me.pictureEditImage.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
 			Me.pictureEditImage.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto
 			Me.pictureEditImage.Properties.ShowMenu = False
-			Me.pictureEditImage.Properties.SvgImageSize = New System.Drawing.Size(70, 70)
+			Me.pictureEditImage.Properties.SvgImageSize = New System.Drawing.Size(64, 64)
 			Me.pictureEditImage.Size = New System.Drawing.Size(80, 80)
 			Me.pictureEditImage.StyleController = Me.layoutControl1
 			Me.pictureEditImage.TabIndex = 7
@@ -120,15 +117,13 @@
 			' 
 			Me.cancelButton.Location = New System.Drawing.Point(339, 121)
 			Me.cancelButton.Margin = New System.Windows.Forms.Padding(2)
-			Me.cancelButton.MaximumSize = New System.Drawing.Size(70, 24)
-			Me.cancelButton.MinimumSize = New System.Drawing.Size(70, 24)
+			Me.cancelButton.MaximumSize = New System.Drawing.Size(70, 26)
+			Me.cancelButton.MinimumSize = New System.Drawing.Size(70, 26)
 			Me.cancelButton.Name = "cancelButton"
-			Me.cancelButton.Size = New System.Drawing.Size(70, 24)
+			Me.cancelButton.Size = New System.Drawing.Size(70, 26)
 			Me.cancelButton.StyleController = Me.layoutControl1
 			Me.cancelButton.TabIndex = 1
 			Me.cancelButton.Text = "Cancel"
-'INSTANT VB NOTE: The following InitializeComponent event wireup was converted to a 'Handles' clause:
-'ORIGINAL LINE: this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
 			' 
 			' passwordEdit
 			' 
@@ -147,8 +142,6 @@
 			Me.userNameEdit.Size = New System.Drawing.Size(259, 20)
 			Me.userNameEdit.StyleController = Me.layoutControl1
 			Me.userNameEdit.TabIndex = 2
-'INSTANT VB NOTE: The following InitializeComponent event wireup was converted to a 'Handles' clause:
-'ORIGINAL LINE: this.userNameEdit.Validating += new System.ComponentModel.CancelEventHandler(this.UserNameEdit_Validating);
 			' 
 			' Root
 			' 
