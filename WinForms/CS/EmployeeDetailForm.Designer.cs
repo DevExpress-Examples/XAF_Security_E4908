@@ -70,51 +70,51 @@
             this.closeBarButtonItem.Name = "closeBarButtonItem";
             this.closeBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.CloseBarButtonItem_ItemClick);
             // 
-            // deleteButtonItem
+            // deleteBarButtonItem
             // 
             this.deleteBarButtonItem.Caption = "Delete";
             this.deleteBarButtonItem.Enabled = false;
             this.deleteBarButtonItem.Id = 4;
-            this.deleteBarButtonItem.Name = "deleteButtonItem";
-			this.deleteBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.DeleteBarButtonItem_ItemClick);
-			// 
-			// ribbonPage1
-			// 
-			this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.deleteBarButtonItem.Name = "deleteBarButtonItem";
+            this.deleteBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.DeleteBarButtonItem_ItemClick);
+            // 
+            // ribbonPage1
+            // 
+            this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup1});
             this.ribbonPage1.Name = "ribbonPage1";
             this.ribbonPage1.Text = "Home";
             // 
             // ribbonPageGroup1
             // 
+            this.ribbonPageGroup1.AllowTextClipping = false;
             this.ribbonPageGroup1.ItemLinks.Add(this.saveBarButtonItem);
             this.ribbonPageGroup1.ItemLinks.Add(this.closeBarButtonItem);
             this.ribbonPageGroup1.ItemLinks.Add(this.deleteBarButtonItem);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.Text = "Edit";
-			this.ribbonPageGroup1.AllowTextClipping = false;
-			// 
-			// EmployeeBindingSource
-			// 
-			this.employeeBindingSource.DisplayableProperties = "FirstName;LastName;Department;Department.Title";
+            // 
+            // employeeBindingSource
+            // 
+            this.employeeBindingSource.DisplayableProperties = "FirstName;LastName;Department;Department.Title";
             // 
             // dataLayoutControl1
             // 
             this.dataLayoutControl1.DataSource = this.employeeBindingSource;
-            this.dataLayoutControl1.Location = new System.Drawing.Point(12, 147);
+            this.dataLayoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataLayoutControl1.Location = new System.Drawing.Point(0, 143);
             this.dataLayoutControl1.Name = "dataLayoutControl1";
             this.dataLayoutControl1.Root = this.Root;
-            this.dataLayoutControl1.Size = new System.Drawing.Size(344, 161);
+            this.dataLayoutControl1.Size = new System.Drawing.Size(781, 401);
             this.dataLayoutControl1.TabIndex = 7;
             this.dataLayoutControl1.Text = "dataLayoutControl1";
-			this.dataLayoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // Root
             // 
             this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             this.Root.GroupBordersVisible = false;
             this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(344, 161);
+            this.Root.Size = new System.Drawing.Size(781, 401);
             this.Root.TextVisible = false;
             // 
             // EmployeeDetailForm
@@ -126,9 +126,9 @@
             this.Controls.Add(this.ribbonControl1);
             this.Name = "EmployeeDetailForm";
             this.Ribbon = this.ribbonControl1;
-            this.Text = "EmployeeDetailForm";
-			this.Load += new System.EventHandler(this.EmployeeDetailForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
+            this.Text = "Employee Details";
+            this.Load += new System.EventHandler(this.EmployeeDetailForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.employeeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataLayoutControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
