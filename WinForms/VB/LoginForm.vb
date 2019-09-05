@@ -10,11 +10,11 @@ Namespace WindowsFormsApplication
 
 		Private security As SecurityStrategyComplex
 		Private objectSpaceProvider As IObjectSpaceProvider
-		Public Sub New(ByVal security As SecurityStrategyComplex, ByVal objectSpaceProvider As IObjectSpaceProvider)
+		Public Sub New(ByVal security As SecurityStrategyComplex, ByVal objectSpaceProvider As IObjectSpaceProvider, ByVal userName As String)
 			InitializeComponent()
 			Me.security = security
 			Me.objectSpaceProvider = objectSpaceProvider
-			Me.userNameEdit.Text = "User"
+			Me.userNameEdit.Text = userName
 		End Sub
 		Private Sub Login_Click(ByVal sender As Object, ByVal e As EventArgs) Handles buttonLogin.Click
 			Dim logonObjectSpace As IObjectSpace = objectSpaceProvider.CreateObjectSpace()

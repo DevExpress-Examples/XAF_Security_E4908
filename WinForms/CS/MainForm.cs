@@ -20,12 +20,13 @@ namespace WindowsFormsApplication {
             foreach(Form form in MdiChildren) {
                 form.Close();
             }
+			string userName = Security.UserName;
             Security.Logoff();
             Hide();
-            ShowLoginForm();
+            ShowLoginForm(userName);
         }
-        private void ShowLoginForm() {
-            using(LoginForm loginForm = new LoginForm(Security, ObjectSpaceProvider)) {
+        private void ShowLoginForm(string userName = "User") {
+            using(LoginForm loginForm = new LoginForm(Security, ObjectSpaceProvider, userName)) {
                 DialogResult dialogResult = loginForm.ShowDialog();
                 if(dialogResult == DialogResult.OK) {
                     CreateListForm();

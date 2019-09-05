@@ -8,11 +8,11 @@ namespace WindowsFormsApplication {
     public partial class LoginForm : DevExpress.XtraEditors.XtraForm {
         private SecurityStrategyComplex security;
         private IObjectSpaceProvider objectSpaceProvider;
-        public LoginForm(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
+        public LoginForm(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider, string userName) {
             InitializeComponent();
             this.security = security;
             this.objectSpaceProvider = objectSpaceProvider;
-            this.userNameEdit.Text = "User";
+            this.userNameEdit.Text = userName;
         }
         private void Login_Click(object sender, EventArgs e) {
             IObjectSpace logonObjectSpace = objectSpaceProvider.CreateObjectSpace();
