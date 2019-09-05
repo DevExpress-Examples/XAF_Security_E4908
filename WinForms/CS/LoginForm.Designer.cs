@@ -28,7 +28,7 @@
             this.buttonLogin = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.pictureEditImage = new DevExpress.XtraEditors.PictureEdit();
-            this.cancelButton = new DevExpress.XtraEditors.SimpleButton();
+            this.buttonCancel = new DevExpress.XtraEditors.SimpleButton();
             this.passwordEdit = new DevExpress.XtraEditors.TextEdit();
             this.userNameEdit = new DevExpress.XtraEditors.TextEdit();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
@@ -75,13 +75,13 @@
             this.buttonLogin.StyleController = this.layoutControl1;
             this.buttonLogin.TabIndex = 0;
             this.buttonLogin.Text = "Log In";
-            this.buttonLogin.Click += new System.EventHandler(this.Login_button_Click);
+            this.buttonLogin.Click += new System.EventHandler(this.Login_Click);
             // 
             // layoutControl1
             // 
             this.layoutControl1.AllowCustomization = false;
             this.layoutControl1.Controls.Add(this.pictureEditImage);
-            this.layoutControl1.Controls.Add(this.cancelButton);
+            this.layoutControl1.Controls.Add(this.buttonCancel);
             this.layoutControl1.Controls.Add(this.buttonLogin);
             this.layoutControl1.Controls.Add(this.passwordEdit);
             this.layoutControl1.Controls.Add(this.userNameEdit);
@@ -117,16 +117,16 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(395, 149);
-            this.cancelButton.Margin = new System.Windows.Forms.Padding(2);
-            this.cancelButton.MaximumSize = new System.Drawing.Size(82, 32);
-            this.cancelButton.MinimumSize = new System.Drawing.Size(82, 32);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(82, 32);
-            this.cancelButton.StyleController = this.layoutControl1;
-            this.cancelButton.TabIndex = 1;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.buttonCancel.Location = new System.Drawing.Point(395, 149);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonCancel.MaximumSize = new System.Drawing.Size(82, 32);
+            this.buttonCancel.MinimumSize = new System.Drawing.Size(82, 32);
+            this.buttonCancel.Name = "cancelButton";
+            this.buttonCancel.Size = new System.Drawing.Size(82, 32);
+            this.buttonCancel.StyleController = this.layoutControl1;
+            this.buttonCancel.TabIndex = 1;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // passwordEdit
             // 
@@ -248,7 +248,7 @@
             // 
             // layoutControlItemCancel
             // 
-            this.layoutControlItemCancel.Control = this.cancelButton;
+            this.layoutControlItemCancel.Control = this.buttonCancel;
             this.layoutControlItemCancel.Location = new System.Drawing.Point(388, 40);
             this.layoutControlItemCancel.Name = "layoutControlItemCancel";
             this.layoutControlItemCancel.Size = new System.Drawing.Size(86, 36);
@@ -325,7 +325,7 @@
         private DevExpress.XtraLayout.SimpleLabelItem simpleLabelItem2;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemLogin;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
-        private DevExpress.XtraEditors.SimpleButton cancelButton;
+        private DevExpress.XtraEditors.SimpleButton buttonCancel;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemCancel;
         private DevExpress.XtraEditors.PictureEdit pictureEditImage;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItemImage;

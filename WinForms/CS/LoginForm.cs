@@ -14,7 +14,7 @@ namespace WindowsFormsApplication {
             this.objectSpaceProvider = objectSpaceProvider;
             this.userNameEdit.Text = "User";
         }
-        private void Login_button_Click(object sender, EventArgs e) {
+        private void Login_Click(object sender, EventArgs e) {
             IObjectSpace logonObjectSpace = objectSpaceProvider.CreateObjectSpace();
             string userName = userNameEdit.Text;
             string password = passwordEdit.Text;
@@ -28,7 +28,7 @@ namespace WindowsFormsApplication {
                 XtraMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void CancelButton_Click(object sender, EventArgs e) {
+        private void Cancel_Click(object sender, EventArgs e) {
             Application.Exit();
         }
 

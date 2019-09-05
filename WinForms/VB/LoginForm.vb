@@ -16,7 +16,7 @@ Namespace WindowsFormsApplication
 			Me.objectSpaceProvider = objectSpaceProvider
 			Me.userNameEdit.Text = "User"
 		End Sub
-		Private Sub Login_button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles buttonLogin.Click
+		Private Sub Login_Click(ByVal sender As Object, ByVal e As EventArgs) Handles buttonLogin.Click
 			Dim logonObjectSpace As IObjectSpace = objectSpaceProvider.CreateObjectSpace()
 			Dim userName As String = userNameEdit.Text
 			Dim password As String = passwordEdit.Text
@@ -29,7 +29,7 @@ Namespace WindowsFormsApplication
 				XtraMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 			End Try
 		End Sub
-		Private Sub CancelButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles cancelButton.Click
+		Private Sub Cancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles buttonCancel.Click
 			Application.Exit()
 		End Sub
 

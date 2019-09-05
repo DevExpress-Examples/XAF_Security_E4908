@@ -28,7 +28,7 @@
 			Me.buttonLogin = New DevExpress.XtraEditors.SimpleButton()
 			Me.layoutControl1 = New DevExpress.XtraLayout.LayoutControl()
 			Me.pictureEditImage = New DevExpress.XtraEditors.PictureEdit()
-			Me.cancelButton = New DevExpress.XtraEditors.SimpleButton()
+			Me.buttonCancel = New DevExpress.XtraEditors.SimpleButton()
 			Me.passwordEdit = New DevExpress.XtraEditors.TextEdit()
 			Me.userNameEdit = New DevExpress.XtraEditors.TextEdit()
 			Me.Root = New DevExpress.XtraLayout.LayoutControlGroup()
@@ -80,7 +80,7 @@
 			' 
 			Me.layoutControl1.AllowCustomization = False
 			Me.layoutControl1.Controls.Add(Me.pictureEditImage)
-			Me.layoutControl1.Controls.Add(Me.cancelButton)
+			Me.layoutControl1.Controls.Add(Me.buttonCancel)
 			Me.layoutControl1.Controls.Add(Me.buttonLogin)
 			Me.layoutControl1.Controls.Add(Me.passwordEdit)
 			Me.layoutControl1.Controls.Add(Me.userNameEdit)
@@ -115,15 +115,15 @@
 			' 
 			' cancelButton
 			' 
-			Me.cancelButton.Location = New System.Drawing.Point(339, 121)
-			Me.cancelButton.Margin = New System.Windows.Forms.Padding(2)
-			Me.cancelButton.MaximumSize = New System.Drawing.Size(70, 26)
-			Me.cancelButton.MinimumSize = New System.Drawing.Size(70, 26)
-			Me.cancelButton.Name = "cancelButton"
-			Me.cancelButton.Size = New System.Drawing.Size(70, 26)
-			Me.cancelButton.StyleController = Me.layoutControl1
-			Me.cancelButton.TabIndex = 1
-			Me.cancelButton.Text = "Cancel"
+			Me.buttonCancel.Location = New System.Drawing.Point(339, 121)
+			Me.buttonCancel.Margin = New System.Windows.Forms.Padding(2)
+			Me.buttonCancel.MaximumSize = New System.Drawing.Size(70, 26)
+			Me.buttonCancel.MinimumSize = New System.Drawing.Size(70, 26)
+			Me.buttonCancel.Name = "cancelButton"
+			Me.buttonCancel.Size = New System.Drawing.Size(70, 26)
+			Me.buttonCancel.StyleController = Me.layoutControl1
+			Me.buttonCancel.TabIndex = 1
+			Me.buttonCancel.Text = "Cancel"
 			' 
 			' passwordEdit
 			' 
@@ -231,7 +231,7 @@
 			' 
 			' layoutControlItemCancel
 			' 
-			Me.layoutControlItemCancel.Control = Me.cancelButton
+			Me.layoutControlItemCancel.Control = Me.buttonCancel
 			Me.layoutControlItemCancel.Location = New System.Drawing.Point(333, 23)
 			Me.layoutControlItemCancel.Name = "layoutControlItemCancel"
 			Me.layoutControlItemCancel.Size = New System.Drawing.Size(74, 30)
@@ -307,7 +307,7 @@
 		Private simpleLabelItem2 As DevExpress.XtraLayout.SimpleLabelItem
 		Private layoutControlItemLogin As DevExpress.XtraLayout.LayoutControlItem
 		Private emptySpaceItem2 As DevExpress.XtraLayout.EmptySpaceItem
-		Private WithEvents cancelButton As DevExpress.XtraEditors.SimpleButton
+		Private WithEvents buttonCancel As DevExpress.XtraEditors.SimpleButton
 		Private layoutControlItemCancel As DevExpress.XtraLayout.LayoutControlItem
 		Private pictureEditImage As DevExpress.XtraEditors.PictureEdit
 		Private layoutControlItemImage As DevExpress.XtraLayout.LayoutControlItem
