@@ -107,12 +107,21 @@ public class UnauthorizedRedirectMiddleware {
 
 ## Step 2: Initialize Data Store and XAF's Security System
 
-The [ConnectionHelper](/Helpers/ConnectionHelper.cs) class contains helper functions that provide access to XAF Security System functionality.
+The [SecurityProvider](/Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
+
+- Register `SecurityProvider` in the `ConfigureServices` method
+
+``` csharp
+public void ConfigureServices(IServiceCollection services) {
+    // ...
+    services.AddScoped<SecurityProvider>();
+}
+```
 
 - The `GetSecurity` method provides access to the Security System instance and registers authentication providers. The `AuthenticationMixed` class allows you to register several authentication providers, so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
 
 ``` csharp
-public static SecurityStrategyComplex GetSecurity(string authenticationName, object parameter) {
+public SecurityStrategyComplex GetSecurity(string authenticationName, object parameter) {
     AuthenticationMixed authentication = new AuthenticationMixed();
     authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
     authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
@@ -131,7 +140,7 @@ public static SecurityStrategyComplex GetSecurity(string authenticationName, obj
 - The `GetObjectSpaceProvider` method provides access to the Object Space Provider. The [XpoDataStoreProviderService](/Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
 
 ``` csharp
-public static IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
+public IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
     SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(connectionString, null, true), true);
     RegisterEntities(objectSpaceProvider);
     return objectSpaceProvider;
@@ -147,7 +156,7 @@ public class XpoDataStoreProviderService {
     }
 }
 // Registers all business object types you use in the application.
-private static void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
+private void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
     objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
     objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
     objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
@@ -157,7 +166,7 @@ private static void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvi
 - The `InitConnection` method authenticates a user both in the Security System and in [ASP.NET Core HttpContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontext?view=aspnetcore-2.2). A user is identified by the user name and password parameters.
 
 ``` csharp
-public static bool InitConnection(string userName, string password, HttpContext httpContext, XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
+public bool InitConnection(string userName, string password, HttpContext httpContext, XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
     AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(
       userName, password
     );
@@ -176,12 +185,12 @@ public static bool InitConnection(string userName, string password, HttpContext 
 }
 //...
 // Logs into the Security System.
-public static void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
+public void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
     IObjectSpace objectSpace = objectSpaceProvider.CreateObjectSpace();
     security.Logon(objectSpace);
 }
 // Signs into HttpContext and creates a cookie.
-private static void SignIn(HttpContext httpContext, string userName) {
+private void SignIn(HttpContext httpContext, string userName) {
     List<Claim> claims = new List<Claim>{
             new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
           };
@@ -196,28 +205,19 @@ private static void SignIn(HttpContext httpContext, string userName) {
 
 ## Step 3: Implement OData Controllers for CRUD, Login, Logoff, etc.
 
-- [BaseController](/Controllers/BaseController.cs) contains logic common for all controllers. It initializes the Security System with the appropriate authentication provider and the Object Space Provider. The identity authentication provider name and [Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.2&tabs=visual-studio) are used as `GetSecurity` method's parameters.
+- [BaseController](/Controllers/BaseController.cs) contains logic common for all controllers. [AccountController](/Controllers/AccountController.cs) and [SecuredController](/Controllers/SecuredController.cs) are derived from BaseController.
 
 ``` csharp
 [Route("api/[controller]")]
 public class BaseController : ODataController {
-    protected SecurityStrategyComplex Security { get; set; }
-    protected IObjectSpace ObjectSpace { get; set; }
-    protected XpoDataStoreProviderService XpoDataStoreProviderService { get; set; }
-    protected IConfiguration Config { get; set; }
-    public BaseController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config) {
-        XpoDataStoreProviderService = xpoDataStoreProviderService;
-        Config = config;
-    }
-    protected void Init() {
-        Security = ConnectionHelper.GetSecurity(typeof(IdentityAuthenticationProvider).Name, HttpContext?.User?.Identity);
-        string connectionString = Config.GetConnectionString("XafApplication");
-        // Uses the object space provider to log in to the Security System.
-        IObjectSpaceProvider objectSpaceProvider = ConnectionHelper.GetObjectSpaceProvider(Security, XpoDataStoreProviderService, connectionString);
-        ConnectionHelper.Login(Security, objectSpaceProvider);
-        // Creates an object space to get access to data.
-        ObjectSpace = objectSpaceProvider.CreateObjectSpace();
-    }
+	protected XpoDataStoreProviderService XpoDataStoreProviderService { get; set; }
+	protected SecurityProvider SecurityProvider { get; set; }
+	protected IConfiguration Config { get; set; }
+	public BaseController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper) {
+		XpoDataStoreProviderService = xpoDataStoreProviderService;
+		Config = config;
+		SecurityProvider = securityHelper;
+	}
 }
 ```
 
@@ -242,15 +242,41 @@ public void ConfigureServices(IServiceCollection services) {
 }
 ```
 
-- [EmployeesController](/Controllers/EmployeesController.cs) is a BaseController descendant. It implements the `Get` method to get access to Employee objects. [DepartmentsController](/Controllers/DepartmentsController.cs) contains similar implementation that obtains Department objects.
+- Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
 
 ``` csharp
-public class EmployeesController : BaseController {
-    public EmployeesController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config) : base(xpoDataStoreProviderService, config) { }
+public void ConfigureServices(IServiceCollection services) {
+    // ...
+    services.AddHttpContextAccessor();
+}
+```
+
+- [SecuredController](/Controllers/SecuredController.cs) has logic to initialize the Security System with the appropriate authentication provider and the Object Space Provider. The identity authentication provider name and [Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.2&tabs=visual-studio) are used as `GetSecurity` method's parameters.  [ActionsController](/Controllers/ActionsController.cs), [DepartmentsController](/Controllers/DepartmentsController.cs) and [EmployeesController](/Controllers/EmployeesController.cs) are derived from SecuredController.
+
+``` csharp
+public class SecuredController : BaseController {
+	protected SecurityStrategyComplex Security { get; set; }
+	protected IObjectSpace ObjectSpace { get; set; }
+	public SecuredController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper, IHttpContextAccessor contextAccessor)
+	: base(xpoDataStoreProviderService, config, securityHelper) {
+		Security = SecurityProvider.GetSecurity(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
+		string connectionString = Config.GetConnectionString("XafApplication");
+		IObjectSpaceProvider objectSpaceProvider = SecurityProvider.GetObjectSpaceProvider(Security, XpoDataStoreProviderService, connectionString);
+		SecurityProvider.Login(Security, objectSpaceProvider);
+		ObjectSpace = objectSpaceProvider.CreateObjectSpace();
+	}
+}
+```
+
+- [EmployeesController](/Controllers/EmployeesController.cs) implements the `Get` method to get access to Employee objects. [DepartmentsController](/Controllers/DepartmentsController.cs) contains similar implementation that obtains Department objects.
+
+``` csharp
+public class EmployeesController : SecuredController {
+    public EmployeesController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper, IHttpContextAccessor contextAccessor)
+			: base(xpoDataStoreProviderService, config, securityHelper, contextAccessor) { }
     [HttpGet]
     [EnableQuery]
     public ActionResult Get() {
-        Init();
         IQueryable<Employee> employees = ObjectSpace.GetObjects<Employee>().AsQueryable();
         return Ok(employees);
     }
@@ -268,7 +294,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
 public ActionResult Login(string userName, string password) {
     ActionResult result;
     string connectionString = Config.GetConnectionString("XafApplication");
-    if(ConnectionHelper.InitConnection(userName, password, HttpContext, XpoDataStoreProviderService, connectionString)) {
+    if(SecurityProvider.InitConnection(userName, password, HttpContext, XpoDataStoreProviderService, connectionString)) {
         result = Ok();
     }
     else {
@@ -293,7 +319,6 @@ public ActionResult Logoff() {
 [HttpPost]
 [ODataRoute("GetPermissions")]
 public ActionResult GetPermissions(ODataActionParameters parameters) {
-    Init();
     ActionResult result = NoContent();
     if(parameters.ContainsKey("keys") && parameters.ContainsKey("typeName")) {
         List<string> keys = new List<string>(parameters["keys"] as IEnumerable<string>);
@@ -332,6 +357,7 @@ private static IEnumerable<IMemberInfo> GetPersistentMembers(ITypeInfo typeInfo)
 $("#validateAndSubmit").dxButton({
   text: "Login",
   type: "success",
+  tabIndex: 1,
   onClick: function () {
     var userName = $("#userName").dxTextBox("instance").option("value");
     var password = $("#password").dxTextBox("instance").option("value");
@@ -341,6 +367,7 @@ $("#validateAndSubmit").dxButton({
       url: url,
       complete: function (e) {
   if (e.status == 200) {
+    document.cookie = "userName=" + userName;
     document.location.href = "/";
   }
   if (e.status == 401) {
