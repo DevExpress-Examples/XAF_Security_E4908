@@ -12,8 +12,8 @@ using System.Security.Claims;
 using XafSolution.Module.BusinessObjects;
 
 namespace ASPNETCoreODataService {
-	public static class ConnectionHelper {
-		public static bool InitConnection(string userName, string password, HttpContext httpContext,
+	public class SecurityProvider {
+		public bool InitConnection(string userName, string password, HttpContext httpContext,
 			XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
 			AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
 			SecurityStrategyComplex security = GetSecurity(typeof(AuthenticationStandardProvider).Name, parameters);
@@ -27,7 +27,7 @@ namespace ASPNETCoreODataService {
 				return false;
 			}
 		}
-		private static void SignIn(HttpContext httpContext, string userName) {
+		private void SignIn(HttpContext httpContext, string userName) {
 			List<Claim> claims = new List<Claim>{
 				new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
 			};
@@ -36,7 +36,7 @@ namespace ASPNETCoreODataService {
 			httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 		}
 
-		public static SecurityStrategyComplex GetSecurity(string authenticationName, object parameter) {
+		public SecurityStrategyComplex GetSecurity(string authenticationName, object parameter) {
 			AuthenticationMixed authentication = new AuthenticationMixed();
 			authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
 			authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
@@ -46,16 +46,16 @@ namespace ASPNETCoreODataService {
 			security.RegisterXPOAdapterProviders();
 			return security;
 		}
-		public static IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
+		public IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
 			SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(connectionString, null, true), true);
 			RegisterEntities(objectSpaceProvider);
 			return objectSpaceProvider;
 		}
-		public static void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
+		public void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
 			IObjectSpace objectSpace = objectSpaceProvider.CreateObjectSpace();
 			security.Logon(objectSpace);
 		}
-		private static void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
+		private void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
 			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
 			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
 			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));

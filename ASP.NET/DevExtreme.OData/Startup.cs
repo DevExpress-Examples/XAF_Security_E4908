@@ -26,6 +26,8 @@ namespace ASPNETCoreODataService {
 				.AddCookie();
 			services.AddSingleton<XpoDataStoreProviderService>();
 			services.AddSingleton(Configuration);
+			services.AddHttpContextAccessor();
+			services.AddScoped<SecurityProvider>();
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env) {

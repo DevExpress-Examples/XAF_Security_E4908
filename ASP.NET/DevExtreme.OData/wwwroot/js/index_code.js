@@ -67,7 +67,7 @@
 	});
 
 	$("#Logoff").dxButton({
-		text: "Logoff",
+		text: "Log Off",
 		type: "normal",
 		onClick: function () {
 			$.ajax({

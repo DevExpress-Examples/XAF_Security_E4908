@@ -1,19 +1,21 @@
 ﻿using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace ASPNETCoreODataService.Controllers {
 	public class AccountController : BaseController {
-		public AccountController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config) : base(xpoDataStoreProviderService, config) { }
+		public AccountController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper)
+			: base(xpoDataStoreProviderService, config, securityHelper) { }
 		[HttpGet]
 		[ODataRoute("Login(userName={userName}, password={password})")]
 		[AllowAnonymous]
 		public ActionResult Login(string userName, string password) {
 			ActionResult result;
 			string connectionString = Config.GetConnectionString("XafApplication");
-			if(ConnectionHelper.InitConnection(userName, password, HttpContext, XpoDataStoreProviderService, connectionString)) {
+			if(SecurityProvider.InitConnection(userName, password, HttpContext, XpoDataStoreProviderService, connectionString)) {
 				result = Ok();
 			}
 			else {

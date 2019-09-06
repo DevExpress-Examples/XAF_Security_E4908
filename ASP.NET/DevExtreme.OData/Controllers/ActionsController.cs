@@ -3,6 +3,7 @@ using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNet.OData.Routing;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -11,12 +12,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ASPNETCoreODataService.Controllers {
-	public class ActionsController : BaseController {
-		public ActionsController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config) : base(xpoDataStoreProviderService, config) { }
+	public class ActionsController : SecuredController {
+		public ActionsController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper, IHttpContextAccessor contextAccessor)
+			: base(xpoDataStoreProviderService, config, securityHelper, contextAccessor) { }
 		[HttpPost]
 		[ODataRoute("GetPermissions")]
 		public ActionResult GetPermissions(ODataActionParameters parameters) {
-			Init();
 			ActionResult result = NoContent();
 			if(parameters.ContainsKey("keys") && parameters.ContainsKey("typeName")) {
 				List<string> keys = new List<string>(parameters["keys"] as IEnumerable<string>);
