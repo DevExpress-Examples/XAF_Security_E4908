@@ -14,6 +14,7 @@ namespace WindowsFormsApplication {
 		private IObjectSpace securedObjectSpace;
 		private SecurityStrategyComplex security;
 		private IObjectSpaceProvider objectSpaceProvider;
+		private RepositoryItemProtectedContentTextEdit protectedContentTextEdit;
 		public EmployeeListForm() {
 			InitializeComponent();
 		}
@@ -23,12 +24,13 @@ namespace WindowsFormsApplication {
 			securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
 			employeeBindingSource.DataSource = securedObjectSpace.GetObjects<Employee>();
 			newBarButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Create));
+			protectedContentTextEdit = new RepositoryItemProtectedContentTextEdit();
 		}
 		private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
 			string fieldName = e.Column.FieldName;
 			object targetObject = employeeGridView.GetRow(e.RowHandle);
 			if(!security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, targetObject, fieldName))) {
-				e.RepositoryItem = new RepositoryItemProtectedContentTextEdit();
+				e.RepositoryItem = protectedContentTextEdit;
 			}
 		}
 		private void CreateDetailForm(Employee employee = null) {

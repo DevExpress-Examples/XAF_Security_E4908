@@ -16,6 +16,7 @@ Namespace WindowsFormsApplication
 		Private securedObjectSpace As IObjectSpace
 		Private security As SecurityStrategyComplex
 		Private objectSpaceProvider As IObjectSpaceProvider
+		Private protectedContentTextEdit As RepositoryItemProtectedContentTextEdit
 		Public Sub New()
 			InitializeComponent()
 		End Sub
@@ -25,12 +26,13 @@ Namespace WindowsFormsApplication
 			securedObjectSpace = objectSpaceProvider.CreateObjectSpace()
 			employeeBindingSource.DataSource = securedObjectSpace.GetObjects(Of Employee)()
 			newBarButtonItem.Enabled = security.IsGranted(New PermissionRequest(securedObjectSpace, GetType(Employee), SecurityOperations.Create))
+			protectedContentTextEdit = New RepositoryItemProtectedContentTextEdit()
 		End Sub
 		Private Sub GridView_CustomRowCellEdit(ByVal sender As Object, ByVal e As CustomRowCellEditEventArgs) Handles employeeGridView.CustomRowCellEdit
 			Dim fieldName As String = e.Column.FieldName
 			Dim targetObject As Object = employeeGridView.GetRow(e.RowHandle)
 			If Not security.IsGranted(New PermissionRequest(securedObjectSpace, GetType(Employee), SecurityOperations.Read, targetObject, fieldName)) Then
-				e.RepositoryItem = New RepositoryItemProtectedContentTextEdit()
+				e.RepositoryItem = protectedContentTextEdit
 			End If
 		End Sub
 		Private Sub CreateDetailForm(Optional ByVal employee As Employee = Nothing)
