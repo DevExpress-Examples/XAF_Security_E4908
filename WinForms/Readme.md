@@ -78,15 +78,16 @@ Application.Run(mainForm);
 private void MainForm_Load(object sender, EventArgs e) {
     ShowLoginForm();
 }
-private void ShowLoginForm() {
-    LoginForm loginForm = new LoginForm(Security, ObjectSpaceProvider);
-    DialogResult dialogResult = loginForm.ShowDialog();
-    if(dialogResult == DialogResult.OK) {
-        CreateListForm();
-        Show();
-    }
-    else {
-        Close();
+private void ShowLoginForm(string userName = "User") {
+    using(LoginForm loginForm = new LoginForm(Security, ObjectSpaceProvider, userName)) {
+	DialogResult dialogResult = loginForm.ShowDialog();
+	if(dialogResult == DialogResult.OK) {
+	    CreateListForm();
+	    Show();
+	}
+	else {
+	    Close();
+	}
     }
 }
 private void CreateListForm() {
