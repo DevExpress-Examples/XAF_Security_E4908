@@ -146,6 +146,7 @@ private void EmployeeListForm_Load(object sender, EventArgs e) {
             securedObjectSpace, typeof(Employee), SecurityOperations.Create
         )
     );
+    protectedContentTextEdit = new RepositoryItemProtectedContentTextEdit();
 }
 ```	
 - Handle the [GridView.CustomRowCellEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView.CustomRowCellEdit) event and check Read operation availability.
@@ -159,7 +160,7 @@ private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArg
             securedObjectSpace, typeof(Employee), SecurityOperations.Read, targetObject, fieldName
         )
     )) {
-        e.RepositoryItem = new RepositoryItemProtectedContentTextEdit();
+        e.RepositoryItem = protectedContentTextEdit;
     }
 }
 ```
