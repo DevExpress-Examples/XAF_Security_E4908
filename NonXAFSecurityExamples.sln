@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VB", "VB", "{BD959D9E-3BA8-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFormsApplication", "ASP.NET\WebForms\CS\WebFormsApplication.csproj", "{E51366AC-F9F5-45BF-BA70-DB6B825DB38E}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WebFormsApplication", "ASP.NET\WebForms\VB\WebFormsApplication.vbproj", "{182A1C79-07FE-417D-96BD-108FFA0C1615}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WebFormsApplicationVB", "ASP.NET\WebForms\VB\WebFormsApplicationVB.vbproj", "{182A1C79-07FE-417D-96BD-108FFA0C1615}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
