@@ -8,7 +8,8 @@
  - [WinForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_3.aspx)
  - [DevExtreme + ASP.NET Web API OData App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_2.aspx)
  - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
- - *ASP.NET WebForms App (Coming Soon)*
+ - [ASP.NET WebForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
+ - *WPF & Xamarin Apps (Coming Next)*
  
  > To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using the [Support Center](https://www.devexpress.com/ask) or this [Survey](https://community.devexpress.com/blogs/xaf/archive/2019/07/01/xaf-how-non-xaf-net-apps-using-xpo-for-data-access-can-benefit-from-xaf-security-system-apis.aspx).
 
