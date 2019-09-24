@@ -46,8 +46,7 @@ namespace WindowsFormsApplication {
         }
         private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
 			if(e.Clicks == 2) {
-				Employee employee = employeeGridView.GetRow(employeeGridView.FocusedRowHandle) as Employee;
-				CreateDetailForm(employee);
+				EditEmployee();
 			}
 		}
 		private void EmployeeGridView_FocusedRowObjectChanged(object sender, FocusedRowObjectChangedEventArgs e) {
@@ -61,5 +60,12 @@ namespace WindowsFormsApplication {
 			securedObjectSpace.Delete(cellObject);
 			securedObjectSpace.CommitChanges();
 		}
-	}
+        private void EditBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+			EditEmployee();
+		}
+		private void EditEmployee() {
+			Employee employee = employeeGridView.GetRow(employeeGridView.FocusedRowHandle) as Employee;
+			CreateDetailForm(employee);
+		}
+    }
 }

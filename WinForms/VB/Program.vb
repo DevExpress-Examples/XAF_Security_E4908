@@ -23,9 +23,9 @@ Namespace WindowsFormsApplication
             RegisterEntities()
             Dim authentication As New AuthenticationStandard()
             Dim security As New SecurityStrategyComplex(GetType(PermissionPolicyUser), GetType(PermissionPolicyRole), authentication)
+            security.RegisterXPOAdapterProviders()
             Dim connectionString As String = ConfigurationManager.ConnectionStrings("ConnectionString").ConnectionString
             Dim objectSpaceProvider As IObjectSpaceProvider = New SecuredObjectSpaceProvider(security, connectionString, Nothing)
-            security.RegisterXPOAdapterProviders()
 
             DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = True
             DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = False

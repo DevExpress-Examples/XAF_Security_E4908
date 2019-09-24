@@ -154,6 +154,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Action_Close.svg" />
+    <Content Include="Resources\Action_Delete.svg" />
+    <Content Include="Resources\Action_Edit.svg" />
+    <Content Include="Resources\Action_Logoff.svg" />
+    <Content Include="Resources\Action_New.svg" />
+    <Content Include="Resources\Action_Save.svg" />
     <Content Include="Resources\ExpressApp.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

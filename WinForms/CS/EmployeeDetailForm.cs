@@ -17,14 +17,14 @@ namespace WindowsFormsApplication {
 		private SecurityStrategyComplex security;
 		private IObjectSpaceProvider objectSpaceProvider;
 		private Employee employee;
-		private List<string> visibleMembers = new List<string>() {
-				nameof(Employee.FirstName),
-				nameof(Employee.LastName),
-				nameof(Employee.Department)
-			};
+		private Dictionary<string, string> visibleMembers;
 		public EmployeeDetailForm(Employee employee) {
 			InitializeComponent();
 			this.employee = employee;
+			visibleMembers = new Dictionary<string, string>();
+			visibleMembers.Add(nameof(Employee.FirstName), "First Name:");
+			visibleMembers.Add(nameof(Employee.LastName), "Last Name:");
+			visibleMembers.Add(nameof(Employee.Department), "Department:");
 		}
 		private void EmployeeDetailForm_Load(object sender, EventArgs e) {
 			security = ((MainForm)MdiParent).Security;
@@ -41,12 +41,14 @@ namespace WindowsFormsApplication {
 			AddControls();
 		}
 		private void AddControls() {
-			foreach(string memberName in visibleMembers) {
-				AddControl(dataLayoutControl1.AddItem(), employee, memberName);
+			foreach(KeyValuePair<string, string> pair in visibleMembers) {
+				string memberName = pair.Key;
+				string caption = pair.Value;
+				AddControl(dataLayoutControl1.AddItem(), employee, memberName, caption);
 			}
 		}
-		private void AddControl(LayoutControlItem layout, object targetObject, string memberName) {
-			layout.Text = memberName;
+		private void AddControl(LayoutControlItem layout, object targetObject, string memberName, string caption) {
+			layout.Text = caption;
 			Type type = targetObject.GetType();
 			BaseEdit control;
 			if(security.IsGranted(new PermissionRequest(securedObjectSpace, type, SecurityOperations.Read, targetObject, memberName))) {
@@ -58,7 +60,7 @@ namespace WindowsFormsApplication {
 			}
 			else {
 				control = new ProtectedContentEdit();
-                control.Enabled = false;
+				control.Enabled = false;
 			}
 			dataLayoutControl1.Controls.Add(control);
 			layout.Control = control;

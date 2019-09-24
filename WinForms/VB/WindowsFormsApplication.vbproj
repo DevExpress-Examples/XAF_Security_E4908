@@ -40,18 +40,6 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <Import Include="Microsoft.VisualBasic" />
-    <Import Include="System.Collections.Generic" />
-    <Import Include="System.Collections" />
-    <Import Include="System.Diagnostics" />
-    <Import Include="System.Linq" />
-    <Import Include="System.Xml.Linq" />
-    <Import Include="System.Data" />
-    <Import Include="System.Drawing" />
-    <Import Include="System.Windows.Forms" />
-    <Import Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="DevExpress.Charts" Version="19.1.*" />
     <PackageReference Include="DevExpress.Charts.Core" Version="19.1.*" />
     <PackageReference Include="DevExpress.CodeParser" Version="19.1.*" />
@@ -101,6 +89,18 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EmployeeDetailForm.vb">
@@ -172,6 +172,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Action_Close.svg" />
+    <Content Include="Resources\Action_Delete.svg" />
+    <Content Include="Resources\Action_Edit.svg" />
+    <Content Include="Resources\Action_Logoff.svg" />
+    <Content Include="Resources\Action_New.svg" />
+    <Content Include="Resources\Action_Save.svg" />
     <Content Include="Resources\ExpressApp.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

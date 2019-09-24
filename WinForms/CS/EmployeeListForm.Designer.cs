@@ -30,13 +30,14 @@ namespace WindowsFormsApplication {
             this.employeeGrid = new DevExpress.XtraGrid.GridControl();
             this.employeeBindingSource = new DevExpress.Xpo.XPBindingSource(this.components);
             this.employeeGridView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.employee = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.department = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Employee = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.Department = new DevExpress.XtraGrid.Columns.GridColumn();
             this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.newBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.deleteBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.editBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.employeeGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.employeeBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.employeeGridView)).BeginInit();
@@ -46,71 +47,82 @@ namespace WindowsFormsApplication {
             // employeeGrid
             // 
             this.employeeGrid.DataSource = this.employeeBindingSource;
-            this.employeeGrid.Location = new System.Drawing.Point(0, 141);
+            this.employeeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.employeeGrid.Location = new System.Drawing.Point(0, 157);
             this.employeeGrid.MainView = this.employeeGridView;
+            this.employeeGrid.Margin = new System.Windows.Forms.Padding(0);
             this.employeeGrid.Name = "employeeGrid";
-            this.employeeGrid.Size = new System.Drawing.Size(893, 437);
+            this.employeeGrid.Size = new System.Drawing.Size(685, 433);
             this.employeeGrid.TabIndex = 2;
             this.employeeGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.employeeGridView});
-			this.employeeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			// 
-			// EmployeeBindingSource
-			// 
-			this.employeeBindingSource.DisplayableProperties = "FullName;Department.Title";
+            // 
+            // employeeBindingSource
+            // 
+            this.employeeBindingSource.DisplayableProperties = "FullName;Department.Title";
             this.employeeBindingSource.ObjectType = typeof(XafSolution.Module.BusinessObjects.Employee);
-            // 
-            // employeeGridView
-            // 
-            this.employeeGridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.employee,
-            this.department});
+			// 
+			// employeeGridView
+			// 
+			this.employeeGridView.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+			this.employeeGridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.Employee,
+            this.Department});
             this.employeeGridView.CustomizationFormBounds = new System.Drawing.Rectangle(1031, 474, 260, 232);
             this.employeeGridView.GridControl = this.employeeGrid;
             this.employeeGridView.Name = "employeeGridView";
             this.employeeGridView.OptionsDetail.EnableMasterViewMode = false;
+            this.employeeGridView.OptionsView.ShowIndicator = false;
             this.employeeGridView.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.EmployeeGridView_RowClick);
+            this.employeeGridView.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.GridView_CustomRowCellEdit);
             this.employeeGridView.FocusedRowObjectChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowObjectChangedEventHandler(this.EmployeeGridView_FocusedRowObjectChanged);
-			this.employeeGridView.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(GridView_CustomRowCellEdit);
             // 
             // Employee
             // 
-            this.employee.Caption = "Employee";
-            this.employee.FieldName = "FullName";
-            this.employee.Name = "Employee";
-            this.employee.OptionsColumn.AllowEdit = false;
-            this.employee.Visible = true;
-            this.employee.VisibleIndex = 0;
+            this.Employee.Caption = "Employee";
+            this.Employee.FieldName = "FullName";
+            this.Employee.Name = "Employee";
+            this.Employee.OptionsColumn.AllowEdit = false;
+            this.Employee.OptionsColumn.FixedWidth = true;
+            this.Employee.Visible = true;
+            this.Employee.VisibleIndex = 0;
+            this.Employee.Width = 421;
             // 
             // Department
             // 
-            this.department.Caption = "Department";
-            this.department.FieldName = "Department.Title";
-            this.department.Name = "Department";
-            this.department.OptionsColumn.AllowEdit = false;
-            this.department.Visible = true;
-            this.department.VisibleIndex = 1;
+            this.Department.Caption = "Department";
+            this.Department.FieldName = "Department.Title";
+            this.Department.Name = "Department";
+            this.Department.OptionsColumn.AllowEdit = false;
+            this.Department.OptionsColumn.FixedWidth = true;
+            this.Department.Visible = true;
+            this.Department.VisibleIndex = 1;
+            this.Department.Width = 246;
             // 
             // ribbonControl1
             // 
             this.ribbonControl1.ExpandCollapseItem.Id = 0;
-			this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
-			this.ribbonControl1.ExpandCollapseItem,
-			this.ribbonControl1.SearchEditItem,
-			this.newBarButtonItem,
-			this.deleteBarButtonItem});
+            this.ribbonControl1.CommandLayout = DevExpress.XtraBars.Ribbon.CommandLayout.Simplified;
+            this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.ribbonControl1.ExpandCollapseItem,
+            this.ribbonControl1.SearchEditItem,
+            this.newBarButtonItem,
+            this.deleteBarButtonItem,
+            this.editBarButtonItem});
             this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
-            this.ribbonControl1.MaxItemId = 4;
+            this.ribbonControl1.MaxItemId = 5;
             this.ribbonControl1.Name = "ribbonControl1";
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
-            this.ribbonControl1.Size = new System.Drawing.Size(897, 143);
+            this.ribbonControl1.Size = new System.Drawing.Size(685, 157);
             this.ribbonControl1.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Hidden;
-            // 
-            // newBarButtonItem
-            // 
-            this.newBarButtonItem.Caption = "New";
+			this.ribbonControl1.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.Hide;
+			// 
+			// newBarButtonItem
+			// 
+			this.newBarButtonItem.Caption = "New";
             this.newBarButtonItem.Id = 1;
+            this.newBarButtonItem.ImageOptions.SvgImage = global::WindowsFormsApplication.Properties.Resources.New;
             this.newBarButtonItem.Name = "newBarButtonItem";
             this.newBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.NewBarButtonItem_ItemClick);
             // 
@@ -118,6 +130,7 @@ namespace WindowsFormsApplication {
             // 
             this.deleteBarButtonItem.Caption = "Delete";
             this.deleteBarButtonItem.Id = 2;
+            this.deleteBarButtonItem.ImageOptions.SvgImage = global::WindowsFormsApplication.Properties.Resources.Action_Delete;
             this.deleteBarButtonItem.Name = "deleteBarButtonItem";
             this.deleteBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.DeleteBarButtonItem_ItemClick);
             // 
@@ -130,26 +143,34 @@ namespace WindowsFormsApplication {
             // 
             // ribbonPageGroup1
             // 
-            this.ribbonPageGroup1.ItemLinks.Add(this.newBarButtonItem);
+            this.ribbonPageGroup1.AllowTextClipping = false;
+            this.ribbonPageGroup1.ItemLinks.Add(this.newBarButtonItem, true);
+            this.ribbonPageGroup1.ItemLinks.Add(this.editBarButtonItem);
             this.ribbonPageGroup1.ItemLinks.Add(this.deleteBarButtonItem);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
-            this.ribbonPageGroup1.Text = "Edit";
-			this.ribbonPageGroup1.AllowTextClipping = false;
-			// 
-			// EmployeeListForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.ribbonPageGroup1.Text = "General";
+            // 
+            // editBarButtonItem
+            // 
+            this.editBarButtonItem.Caption = "Edit";
+            this.editBarButtonItem.Id = 4;
+            this.editBarButtonItem.ImageOptions.SvgImage = global::WindowsFormsApplication.Properties.Resources.edit;
+            this.editBarButtonItem.Name = "editBarButtonItem";
+            this.editBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.EditBarButtonItem_ItemClick);
+            // 
+            // EmployeeListForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(897, 590);
+            this.ClientSize = new System.Drawing.Size(685, 590);
             this.ControlBox = false;
             this.Controls.Add(this.employeeGrid);
             this.Controls.Add(this.ribbonControl1);
             this.Name = "EmployeeListForm";
             this.Ribbon = this.ribbonControl1;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Employees";
-			this.Load += new System.EventHandler(this.EmployeeListForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.employeeGrid)).EndInit();
+            this.Load += new System.EventHandler(this.EmployeeListForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.employeeGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.employeeBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.employeeGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
@@ -161,13 +182,14 @@ namespace WindowsFormsApplication {
 		#endregion
 		private DevExpress.XtraGrid.GridControl employeeGrid;
         private DevExpress.XtraGrid.Views.Grid.GridView employeeGridView;
-		private DevExpress.XtraGrid.Columns.GridColumn employee;
-		private DevExpress.XtraGrid.Columns.GridColumn department;
 		private DevExpress.Xpo.XPBindingSource employeeBindingSource;
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
         private DevExpress.XtraBars.BarButtonItem newBarButtonItem;
         private DevExpress.XtraBars.BarButtonItem deleteBarButtonItem;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
+        private DevExpress.XtraGrid.Columns.GridColumn Employee;
+        private DevExpress.XtraGrid.Columns.GridColumn Department;
+        private DevExpress.XtraBars.BarButtonItem editBarButtonItem;
     }
 }
