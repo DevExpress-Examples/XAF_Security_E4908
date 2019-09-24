@@ -199,8 +199,9 @@ private void CreateDetailForm(Employee employee = null) {
 }
 ```
 
-We need to create `EmployeeDetailForm` in two cases: 
-    - When the user clicks the New button
+We need to create `EmployeeDetailForm` in three cases: 
+    
+   - When a user clicks the New button
 			
 ``` csharp
 private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
@@ -208,14 +209,25 @@ private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemC
 }
 ```
 
-   - When the user double-clicks a row (pass the current row handle as a parameter to the `CreateDetailForm` method)
+   - When a user clicks the Edit button (passes the current row handle as a parameter to the `CreateDetailForm` method)
+   
+``` csharp
+private void EditEmployee() {
+	Employee employee = employeeGridView.GetRow(employeeGridView.FocusedRowHandle) as Employee;
+	CreateDetailForm(employee);
+}
+
+private void EditBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+	EditEmployee();
+}
+```
+   - When a user double-clicks a row 
 		
 ``` csharp
 private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
-    if(e.Clicks == 2) {
-        Employee employee = employeeGridView.GetRow(employeeGridView.FocusedRowHandle) as Employee;
-        CreateDetailForm(employee);
-    }
+	if(e.Clicks == 2) {
+		EditEmployee();
+	}
 }
 ```
 
@@ -247,18 +259,24 @@ private void EmployeeDetailForm_Load(object sender, EventArgs e) {
     AddControls();
 }
 ```	
-- The `AddControls` method creates controls for all members declared in the `visibleMembers` collection.
+- The `AddControls` method creates controls for all members declared in the `visibleMembers` dictionary.
 		
 ``` csharp
-private List<string> visibleMembers = new List<string>() {
-    nameof(Employee.FirstName),
-    nameof(Employee.LastName),
-    nameof(Employee.Department)
-};
+private Dictionary<string, string> visibleMembers;
+// ...
+public EmployeeDetailForm(Employee employee) {
+	// ...
+	visibleMembers = new Dictionary<string, string>();
+	visibleMembers.Add(nameof(Employee.FirstName), "First Name:");
+	visibleMembers.Add(nameof(Employee.LastName), "Last Name:");
+	visibleMembers.Add(nameof(Employee.Department), "Department:");
+}
 // ...
 private void AddControls() {
-    foreach(string memberName in visibleMembers) {
-        AddControl(dataLayoutControl1.AddItem(), employee, memberName);
+    foreach(KeyValuePair<string, string> pair in visibleMembers) {
+        string memberName = pair.Key;
+	string caption = pair.Value;
+	AddControl(dataLayoutControl1.AddItem(), employee, memberName, caption);
     }
 }
 ```
@@ -269,8 +287,8 @@ private void AddControls() {
 	- Use the IsGranted request to check Write operation availability and thus determine whether the control should be enabled.
 		
 ``` csharp
-private void AddControl(LayoutControlItem layout, object targetObject, string memberName) {
-    layout.Text = memberName;
+private void AddControl(LayoutControlItem layout, object targetObject, string memberName, string caption) {
+    layout.Text = caption;
     Type type = targetObject.GetType();
     BaseEdit control;
     if(security.IsGranted(
