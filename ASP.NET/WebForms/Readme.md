@@ -230,3 +230,13 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
       objectSpaceProvider.Dispose();
   }
   ```
+  
+  ## Step 4: Run and Test the App
+ - Log in under 'User' with an empty password.
+   
+   ![](/images/WebForms_LoginPage.png)
+
+ - Notice that secured data is displayed as 'Protected Content'.
+   ![](/images/WebForms_ListView.png)
+
+ - Press the Logoff button and log in under 'Admin' to see all records.
