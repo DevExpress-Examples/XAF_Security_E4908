@@ -12,8 +12,7 @@ using System.Web.UI.WebControls;
 namespace WebFormsApplication {
 	public partial class LoginForm : Page {
 		protected void Page_Init(object sender, EventArgs e) {
-			string userName = Request.Cookies.Get("userName")?.Value;
-			UserNameBox.Text = userName == null ? "User" : userName;
+			UserNameBox.Text = Request.Cookies.Get("userName")?.Value ?? "User";
 			LoginButton.Focus();
 		}
 		protected void LoginButton_Click(object sender, EventArgs e) {

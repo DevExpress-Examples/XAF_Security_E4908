@@ -45,10 +45,8 @@ namespace WebFormsApplication {
 				e.Editor.Value = "Protected Content";
 				e.Editor.Enabled = false;
 			}
-			else {
-				if(!IsGranted(SecurityOperations.Write, employee, e.Column)) {
-					e.Editor.Enabled = false;
-				}
+			else if(!IsGranted(SecurityOperations.Write, employee, e.Column)) {
+				e.Editor.Enabled = false;
 			}
 		}
 		protected void EmployeeGrid_CommandButtonInitialize(object sender, ASPxGridViewCommandButtonEventArgs e) {
@@ -72,11 +70,8 @@ namespace WebFormsApplication {
 			FormsAuthentication.SignOut();
 			FormsAuthentication.RedirectToLoginPage();
 		}
-		private static string GetMemberName(GridViewDataColumn column) {
-			return column.FieldName.Split('!')[0];
-		}
 		private bool IsGranted(string operation, object employee = null, GridViewDataColumn column = null) {
-			string memberName = column != null ? GetMemberName(column) : null;
+			string memberName = column?.FieldName.Split('!')[0];
 			return security.IsGranted(new PermissionRequest(objectSpace, typeof(Employee), operation, employee, memberName));
 		}
 	}
