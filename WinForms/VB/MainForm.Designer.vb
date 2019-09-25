@@ -25,8 +25,8 @@
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
             Me.ribbonControl1 = New DevExpress.XtraBars.Ribbon.RibbonControl()
-            Me.logoffButtonItem = New DevExpress.XtraBars.BarButtonItem()
-            Me.ribbonPage1 = New DevExpress.XtraBars.Ribbon.RibbonPage()
+			Me.logoutButtonItem = New DevExpress.XtraBars.BarButtonItem()
+			Me.ribbonPage1 = New DevExpress.XtraBars.Ribbon.RibbonPage()
             Me.ribbonPageGroup1 = New DevExpress.XtraBars.Ribbon.RibbonPageGroup()
             Me.documentManager1 = New DevExpress.XtraBars.Docking2010.DocumentManager(Me.components)
             Me.nativeMdiView1 = New DevExpress.XtraBars.Docking2010.Views.NativeMdi.NativeMdiView(Me.components)
@@ -43,8 +43,8 @@
             Me.ribbonControl1.CommandLayout = DevExpress.XtraBars.Ribbon.CommandLayout.Simplified
             Me.ribbonControl1.Controller = Me.barAndDockingController1
             Me.ribbonControl1.ExpandCollapseItem.Id = 0
-            Me.ribbonControl1.Items.AddRange(New DevExpress.XtraBars.BarItem() { Me.ribbonControl1.ExpandCollapseItem, Me.ribbonControl1.SearchEditItem, Me.logoffButtonItem})
-            Me.ribbonControl1.Location = New System.Drawing.Point(0, 0)
+			Me.ribbonControl1.Items.AddRange(New DevExpress.XtraBars.BarItem() {Me.ribbonControl1.ExpandCollapseItem, Me.ribbonControl1.SearchEditItem, Me.logoutButtonItem})
+			Me.ribbonControl1.Location = New System.Drawing.Point(0, 0)
             Me.ribbonControl1.MaxItemId = 2
             Me.ribbonControl1.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always
             Me.ribbonControl1.Name = "ribbonControl1"
@@ -53,25 +53,25 @@
             Me.ribbonControl1.ShowPageHeadersMode = DevExpress.XtraBars.Ribbon.ShowPageHeadersMode.Hide
             Me.ribbonControl1.Size = New System.Drawing.Size(685, 82)
             Me.ribbonControl1.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Hidden
-            ' 
-            ' logoffButtonItem
-            ' 
-            Me.logoffButtonItem.Caption = "Log Off"
-            Me.logoffButtonItem.Id = 1
-            Me.logoffButtonItem.ImageOptions.SvgImage = My.Resources.Action_Logoff
-            Me.logoffButtonItem.Name = "logoffButtonItem"
-            ' 
-            ' ribbonPage1
-            ' 
-            Me.ribbonPage1.Groups.AddRange(New DevExpress.XtraBars.Ribbon.RibbonPageGroup() { Me.ribbonPageGroup1})
+			' 
+			' logoffButtonItem
+			' 
+			Me.logoutButtonItem.Caption = "Log Out"
+			Me.logoutButtonItem.Id = 1
+			Me.logoutButtonItem.ImageOptions.SvgImage = My.Resources.Action_Logoff
+			Me.logoutButtonItem.Name = "logoffButtonItem"
+			' 
+			' ribbonPage1
+			' 
+			Me.ribbonPage1.Groups.AddRange(New DevExpress.XtraBars.Ribbon.RibbonPageGroup() { Me.ribbonPageGroup1})
             Me.ribbonPage1.Name = "ribbonPage1"
             Me.ribbonPage1.Text = "Home"
             ' 
             ' ribbonPageGroup1
             ' 
             Me.ribbonPageGroup1.AllowTextClipping = False
-            Me.ribbonPageGroup1.ItemLinks.Add(Me.logoffButtonItem)
-            Me.ribbonPageGroup1.Name = "ribbonPageGroup1"
+			Me.ribbonPageGroup1.ItemLinks.Add(Me.logoutButtonItem)
+			Me.ribbonPageGroup1.Name = "ribbonPageGroup1"
             Me.ribbonPageGroup1.Text = "General"
             ' 
             ' documentManager1
@@ -109,8 +109,8 @@
         #End Region
 
         Private ribbonControl1 As DevExpress.XtraBars.Ribbon.RibbonControl
-        Private WithEvents logoffButtonItem As DevExpress.XtraBars.BarButtonItem
-        Private ribbonPage1 As DevExpress.XtraBars.Ribbon.RibbonPage
+		Private WithEvents logoutButtonItem As DevExpress.XtraBars.BarButtonItem
+		Private ribbonPage1 As DevExpress.XtraBars.Ribbon.RibbonPage
         Private ribbonPageGroup1 As DevExpress.XtraBars.Ribbon.RibbonPageGroup
         Private documentManager1 As DevExpress.XtraBars.Docking2010.DocumentManager
         Private nativeMdiView1 As DevExpress.XtraBars.Docking2010.Views.NativeMdi.NativeMdiView

@@ -25,7 +25,7 @@
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			this.ribbonControl1 = new DevExpress.XtraBars.Ribbon.RibbonControl();
-			this.logoffButtonItem = new DevExpress.XtraBars.BarButtonItem();
+			this.logoutButtonItem = new DevExpress.XtraBars.BarButtonItem();
 			this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
 			this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
 			this.documentManager1 = new DevExpress.XtraBars.Docking2010.DocumentManager(this.components);
@@ -46,7 +46,7 @@
 			this.ribbonControl1.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
 			this.ribbonControl1.ExpandCollapseItem,
 			this.ribbonControl1.SearchEditItem,
-			this.logoffButtonItem});
+			this.logoutButtonItem});
 			this.ribbonControl1.Location = new System.Drawing.Point(0, 0);
 			this.ribbonControl1.MaxItemId = 2;
 			this.ribbonControl1.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Always;
@@ -60,11 +60,11 @@
 			// 
 			// logoffButtonItem
 			// 
-			this.logoffButtonItem.Caption = "Log Off";
-			this.logoffButtonItem.Id = 1;
-			this.logoffButtonItem.ImageOptions.SvgImage = global::WindowsFormsApplication.Properties.Resources.Action_Logoff;
-			this.logoffButtonItem.Name = "logoffButtonItem";
-			this.logoffButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.LogoffButtonItem_ItemClick);
+			this.logoutButtonItem.Caption = "Log Out";
+			this.logoutButtonItem.Id = 1;
+			this.logoutButtonItem.ImageOptions.SvgImage = global::WindowsFormsApplication.Properties.Resources.Action_Logoff;
+			this.logoutButtonItem.Name = "logoffButtonItem";
+			this.logoutButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.LogoutButtonItem_ItemClick);
 			// 
 			// ribbonPage1
 			// 
@@ -76,7 +76,7 @@
 			// ribbonPageGroup1
 			// 
 			this.ribbonPageGroup1.AllowTextClipping = false;
-			this.ribbonPageGroup1.ItemLinks.Add(this.logoffButtonItem);
+			this.ribbonPageGroup1.ItemLinks.Add(this.logoutButtonItem);
 			this.ribbonPageGroup1.Name = "ribbonPageGroup1";
 			this.ribbonPageGroup1.Text = "General";
 			// 
@@ -117,7 +117,7 @@
 		#endregion
 
 		private DevExpress.XtraBars.Ribbon.RibbonControl ribbonControl1;
-		private DevExpress.XtraBars.BarButtonItem logoffButtonItem;
+		private DevExpress.XtraBars.BarButtonItem logoutButtonItem;
 		private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
 		private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
 		private DevExpress.XtraBars.Docking2010.DocumentManager documentManager1;

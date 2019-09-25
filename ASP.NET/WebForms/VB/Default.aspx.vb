@@ -69,11 +69,11 @@ Namespace WebFormsApplication
                 e.Cell.Text = "Protected content"
             End If
         End Sub
-        Protected Sub LogoffButton_Click(ByVal sender As Object, ByVal e As EventArgs)
-            FormsAuthentication.SignOut()
-            FormsAuthentication.RedirectToLoginPage()
-        End Sub
-        Private Shared Function GetMemberName(ByVal column As GridViewDataColumn) As String
+		Protected Sub LogoutButton_Click(ByVal sender As Object, ByVal e As EventArgs)
+			FormsAuthentication.SignOut()
+			FormsAuthentication.RedirectToLoginPage()
+		End Sub
+		Private Shared Function GetMemberName(ByVal column As GridViewDataColumn) As String
             Return column.FieldName.Split("!"c)(0)
         End Function
         Private Function IsGranted(ByVal operation As String, Optional ByVal employee As Object = Nothing, Optional ByVal column As GridViewDataColumn = Nothing) As Boolean

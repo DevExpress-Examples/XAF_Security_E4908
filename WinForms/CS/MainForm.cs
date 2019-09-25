@@ -16,7 +16,7 @@ namespace WindowsFormsApplication {
         private void MainForm_Load(object sender, EventArgs e) {
             ShowLoginForm();
         }
-        private void LogoffButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+        private void LogoutButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
             foreach(Form form in MdiChildren) {
                 form.Close();
             }

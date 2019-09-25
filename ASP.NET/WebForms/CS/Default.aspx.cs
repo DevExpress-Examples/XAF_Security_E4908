@@ -66,7 +66,7 @@ namespace WebFormsApplication {
 				e.Cell.Text = "Protected content";
 			}
 		}
-		protected void LogoffButton_Click(object sender, EventArgs e) {
+		protected void LogoutButton_Click(object sender, EventArgs e) {
 			FormsAuthentication.SignOut();
 			FormsAuthentication.RedirectToLoginPage();
 		}

@@ -9,7 +9,7 @@
         <tr>
             <td><h2 style="margin:1%">Employees</h2></td>
             <td><div style="margin:1%; text-align: right;">
-            <dx:ASPxButton ID="LogoffButton" runat="server" OnClick="LogoffButton_Click" Text="Log Off" Font-Size="Medium" CssClass="round_corner">
+            <dx:ASPxButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click" Text="Log Out" Font-Size="Medium" CssClass="round_corner">
             </dx:ASPxButton>
         </div></td>
         </tr>
