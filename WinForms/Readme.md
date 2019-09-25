@@ -97,10 +97,10 @@ private void CreateListForm() {
     employeeForm.Show();
 }
 ```
-- Handle the RibbonControl's Logoff item.
+- Handle the RibbonControl's Logout item.
 
 ``` csharp
-private void LogoffButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+private void LogoutButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
     foreach(Form form in MdiChildren) {
         form.Close();
     }
@@ -359,4 +359,4 @@ private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.It
  - Notice that secured data is displayed as 'Protected Content'.
    ![](/images/WinForms_MainForm.png)
 
- - Press the Logoff button and log in under 'Admin' to see all records.
+ - Press the Logout button and log in under 'Admin' to see all records.
