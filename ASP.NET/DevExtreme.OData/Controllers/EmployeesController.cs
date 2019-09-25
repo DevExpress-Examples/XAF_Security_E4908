@@ -13,7 +13,7 @@ namespace ASPNETCoreODataService.Controllers {
 		[HttpGet]
 		[EnableQuery]
 		public ActionResult Get() {
-			IQueryable<Employee> employees = ObjectSpace.GetObjects<Employee>().AsQueryable();
+			IQueryable<Employee> employees = ObjectSpace.GetObjectsQuery<Employee>();
 			return Ok(employees);
 		}
 	}

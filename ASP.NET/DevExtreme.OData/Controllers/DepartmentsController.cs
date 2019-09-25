@@ -14,7 +14,7 @@ namespace ASPNETCoreODataService.Controllers {
 		[HttpGet]
 		[EnableQuery]
 		public ActionResult Get() {
-			IQueryable<Department> departments = ObjectSpace.GetObjects<Department>().AsQueryable();
+			IQueryable<Department> departments = ObjectSpace.GetObjectsQuery<Department>();
 			return Ok(departments);
 		}
 	}
