@@ -124,7 +124,7 @@ Create the [Default.aspx](WebForms/CS/Default.aspx) page and add Log Off [ASPxBu
 to log out and return to the login page.
 
 ```csharp
-protected void LogoffButton_Click(object sender, EventArgs e) {
+protected void LogoutButton_Click(object sender, EventArgs e) {
     FormsAuthentication.SignOut();
     FormsAuthentication.RedirectToLoginPage();
 }
@@ -239,4 +239,4 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
  - Notice that secured data is displayed as 'Protected Content'.
    ![](/images/WebForms_ListView.png)
 
- - Press the Logoff button and log in under 'Admin' to see all records.
+ - Press the Logout button and log in under 'Admin' to see all records.
