@@ -147,6 +147,8 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
   }
   ```  
   Also, you need to assign the Session to ASPxGridView Data Sources.
+  
+  > !NOTE: We temporarily do not use `EmployeeDataSource` in [Server Mode](https://docs.devexpress.com/AspNet/14781/aspnet-webforms-controls/grid-view/concepts/bind-to-data/binding-to-large-data-database-server-mode) because of unexpected behavior when grouping ASPxGridView by associated properties, like Department. It is a known issue described in the [Security \- SecuredSessionObjectLayer allows accessing the key and the ServiceField properties of associated objects](https://supportcenter.devexpress.com/internal/ticket/details/t818790) bug report.
 
 - Check the read operation for appropriate members before each ASPxGridView cell is displayed
 
