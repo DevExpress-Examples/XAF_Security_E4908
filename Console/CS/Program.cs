@@ -50,7 +50,9 @@ namespace ConsoleApplication {
                 }
                 file.Write(stringBuilder);
             }
-            Console.ReadLine();
+			Console.WriteLine(@"The result.txt file has been created in the \bin\Debug directory.");
+			Console.WriteLine("Press any key to close the console...");
+			Console.ReadLine();
         }
         private static void RegisterEntities() {
             XpoTypesInfoHelper.GetXpoTypeInfoSource();
