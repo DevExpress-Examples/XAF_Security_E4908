@@ -1,4 +1,4 @@
-using DevExpress.Persistent.BaseImpl;
+﻿using DevExpress.Persistent.BaseImpl;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -52,24 +52,30 @@ namespace ASPNETCoreODataService {
 		private IEdmModel GetEdmModel() {
 			ODataModelBuilder builder = new ODataConventionModelBuilder();
 			EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
-			EntitySetConfiguration<Party> parties = builder.EntitySet<Party>("Parties");
-			EntitySetConfiguration<PermissionContainer> permissions = builder.EntitySet<PermissionContainer>("Permissions");
 			EntitySetConfiguration<Department> departments = builder.EntitySet<Department>("Departments");
+			EntitySetConfiguration<Party> parties = builder.EntitySet<Party>("Parties");
+			EntitySetConfiguration<ObjectPermission> objectPermissions = builder.EntitySet<ObjectPermission>("ObjectPermissions");
+			EntitySetConfiguration<MemberPermission> memberPermissions = builder.EntitySet<MemberPermission>("MemberPermissions");
+            EntitySetConfiguration<TypePermission> typePermissions = builder.EntitySet<TypePermission>("TypePermissions");
 
-			permissions.EntityType.HasKey(t => t.Key);
-			employees.EntityType.HasKey(t => t.Oid);
-			parties.EntityType.HasKey(t => t.Oid);
+            employees.EntityType.HasKey(t => t.Oid);
 			departments.EntityType.HasKey(t => t.Oid);
+			parties.EntityType.HasKey(t => t.Oid);
 
-			FunctionConfiguration logon = builder.Function("Login");
-			logon.Returns<int>();
-			logon.Parameter<string>("userName");
-			logon.Parameter<string>("password");
-			builder.Action("Logoff");
+            FunctionConfiguration login = builder.Function("Login");
+			login.Returns<int>();
+			login.Parameter<string>("userName");
+			login.Parameter<string>("password");
+
+			builder.Action("Logout");
 
 			ActionConfiguration getPermissions = builder.Action("GetPermissions");
 			getPermissions.Parameter<string>("typeName");
 			getPermissions.CollectionParameter<string>("keys");
+
+			ActionConfiguration getTypePermissions = builder.Action("GetTypePermissions");
+			getTypePermissions.Parameter<string>("typeName");
+            getTypePermissions.ReturnsFromEntitySet<TypePermission>("TypePermissions");
 			return builder.GetEdmModel();
 		}
 	}

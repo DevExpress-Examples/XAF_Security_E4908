@@ -7,10 +7,8 @@
 				url: "Employees",
 				version: 4,
 				key: "Oid",
-				keyType: {
-					Oid: "Guid"
-				},
-				onLoaded: onLoaded,
+				keyType: "Guid",
+				onLoaded: onLoaded
 			}),
 			expand: ["Department"]
 		}),
@@ -19,9 +17,17 @@
 		filterRow: { visible: true },
 		groupPanel: { visible: true },
 		grouping: { autoExpandAll: false },
+		onInitialized: onInitialized,
 		onCellPrepared: onCellPrepared,
+		onEditorPreparing: onEditorPreparing,
 		pager: {
 			showInfo: true
+		},
+		editing: {
+			mode: "form",
+			allowUpdating: true,
+			allowAdding: true,
+			allowDeleting: true
 		},
 		columns: [
 			{
@@ -49,9 +55,7 @@
 						url: "Departments",
 						version: 4,
 						key: "Oid",
-						keyType: {
-							Oid: "Guid"
-						}
+						keyType: "Guid"
 					}),
 					displayExpr: "Title",
 					valueExpr: "Oid"
@@ -66,13 +70,13 @@
 		]
 	});
 
-	$("#Logoff").dxButton({
-		text: "Log Off",
+	$("#Logout").dxButton({
+		text: "Log Out",
 		type: "normal",
 		onClick: function () {
 			$.ajax({
 				method: 'GET',
-				url: 'Logoff',
+				url: 'Logout',
 				complete: function () {
 					window.location = "Authentication.html";
 				}
@@ -80,24 +84,67 @@
 		}
 	});
 
+	function onInitialized(e) {
+		$.ajax({
+			method: 'GET',
+			url: 'GetTypePermissions?typeName=Employee',
+			async: false,
+			complete: function (data) {
+				typePermissions = data.responseJSON;
+			}
+		});
+		var grid = e.component;
+		grid.option("editing.allowAdding", typePermissions.Create);
+	}
+
 	function onCellPrepared(e) {
 		if (e.rowType === "data") {
 			var key = e.key._value;
 			var objectPermission = getPermission(key);
 			if (e.column.command != 'edit') {
 				var dataField = e.column.dataField.split('.')[0];
-				if (!objectPermission[dataField]) {
+				if (!objectPermission[dataField].Read) {
 					e.cellElement.text("Protected Content");
+				}
+			}
+			else {
+				if (!objectPermission.Delete) {
+					e.cellElement.find(".dx-link-delete").remove();
+				}
+				if (!objectPermission.Write) {
+					e.cellElement.find(".dx-link-edit").remove();
+				}
+			}
+		}
+	}
+
+	function onEditorPreparing(e) {
+		if (e.parentType === "dataRow") {
+			var dataField = e.dataField.split('.')[0];
+			var key = e.row.key._value;
+			if (key != undefined) {
+				var objectPermission = getPermission(key);
+				if (!objectPermission[dataField].Read) {
+					e.editorOptions.disabled = true;
+                    e.editorOptions.value = "Protected Content";
+				}
+				if (!objectPermission[dataField].Write) {
+					e.editorOptions.disabled = true;
+				}
+			}
+			else {
+				if (!typePermissions.data[dataField]) {
+					e.editorOptions.disabled = true;
 				}
 			}
 		}
 	}
 
 	function onLoaded(data) {
-		var oids = $.map(data, function (val) {
+        var oids = $.map(data, function (val) {
 			return val.Oid._value;
 		});
-		var data = {
+		var parameters = {
 			keys: oids,
 			typeName: 'Employee'
 		};
@@ -106,7 +153,7 @@
 			contentType: "application/json",
 			type: "POST",
 			async: false,
-			data: JSON.stringify(data)
+            data: JSON.stringify(parameters)
 		};
 		$.ajax("GetPermissions", options)
 			.done(function (e) {

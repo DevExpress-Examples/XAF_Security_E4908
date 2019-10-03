@@ -29,7 +29,6 @@
 
 	$("#validateAndSubmit").dxButton({
 		text: "Log In",
-		type: "success",
 		tabIndex: 1,
 		onClick: function () {
 			var userName = $("#userName").dxTextBox("instance").option("value");

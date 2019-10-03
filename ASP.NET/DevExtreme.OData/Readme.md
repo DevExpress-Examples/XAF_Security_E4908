@@ -18,420 +18,609 @@ This example demonstrates how to protect your data with the [XAF Security System
 For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-2.2&tabs=windows).
 - Configure the OData and MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
 
-``` csharp
-public void ConfigureServices(IServiceCollection services) {
-    services.AddOData();
-    services.AddMvc(options => {
-        options.EnableEndpointRouting = false;
-    }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-}
-public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-    if(env.IsDevelopment()) {
-        app.UseDeveloperExceptionPage();
-    }
-    else {
-        app.UseHsts();
-    }
-    app.UseMvc(routeBuilder => { // Add MVC to the request pipeline.
-        routeBuilder.EnableDependencyInjection();
-        routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
-        routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel()); // Add the ODATA routing to MVC.
-    });
-}
-```
+	``` csharp
+	public void ConfigureServices(IServiceCollection services) {
+		services.AddOData();
+		services.AddMvc(options => {
+			options.EnableEndpointRouting = false;
+		}).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+	}
+	public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+		if(env.IsDevelopment()) {
+			app.UseDeveloperExceptionPage();
+		}
+		else {
+			app.UseHsts();
+		}
+		app.UseMvc(routeBuilder => { // Add MVC to the request pipeline.
+			routeBuilder.EnableDependencyInjection();
+			routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
+			routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel()); // Add the ODATA routing to MVC.
+		});
+	}
+	```
 		
-- Define the EDM model that contains data description for all used entities. The [PermissionContainer](/Helpers/PermissionContainer.cs) class is used as container to transfer permissions to the client side.
+- Define the EDM model that contains data description for all used entities.
 
-``` csharp
-private IEdmModel GetEdmModel() {
-    ODataModelBuilder builder = new ODataConventionModelBuilder();
-    EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
-    EntitySetConfiguration<Party> parties = builder.EntitySet<Party>("Parties");
-    EntitySetConfiguration<PermissionContainer> permissions = builder.EntitySet<PermissionContainer>("Permissions");
-    EntitySetConfiguration<Department> departments = builder.EntitySet<Department>("Departments");
+	``` csharp
+	private IEdmModel GetEdmModel() {
+		ODataModelBuilder builder = new ODataConventionModelBuilder();
+		EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
+		EntitySetConfiguration<Department> departments = builder.EntitySet<Department>("Departments");
+		EntitySetConfiguration<Party> parties = builder.EntitySet<Party>("Parties");
+		EntitySetConfiguration<ObjectPermissions> objectPermissions = builder.EntitySet<ObjectPermissions>("ObjectPermissions");
+		EntitySetConfiguration<MemberPermissions> memberPermissions = builder.EntitySet<MemberPermissions>("MemberPermissions");
+		EntitySetConfiguration<TypePermission> typePermissions = builder.EntitySet<TypePermission>("TypePermissions");
 
-    permissions.EntityType.HasKey(t => t.Key);
-    employees.EntityType.HasKey(t => t.Oid);
-    parties.EntityType.HasKey(t => t.Oid);
-    departments.EntityType.HasKey(t => t.Oid);
-    return builder.GetEdmModel();
-}
-//...
-public class PermissionContainer {
-    // Сontains member permissions: member names are keys and permissions are boolean values.
-    public IDictionary<string, object> Data { get; set; }
-    // Сontains an object key that identifies this permission container's related business object.
-    public string Key { get; set; }
-    public PermissionContainer() {
-        Data = new Dictionary<string, object>();
-    }
-}
-```
+		employees.EntityType.HasKey(t => t.Oid);
+		departments.EntityType.HasKey(t => t.Oid);
+		parties.EntityType.HasKey(t => t.Oid);
+		return builder.GetEdmModel();
+	}
+	```
 
-- Enable the authentication service and configure the request pipeline with the authentication middleware in the `ConfigureServices` and `Configure` methods. [UnauthorizedRedirectMiddleware](/UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
+	The [MemberPermission](/Helpers/MemberPermission.cs), [ObjectPermission](/Helpers/ObjectPermission.cs) and [TypePermission](/Helpers/TypePermission.cs) classes are used as containers to transfer permissions to the client side.
 
-``` csharp
-public void ConfigureServices(IServiceCollection services) {
-    // ...
-    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-      .AddCookie(); // !!!
-}
-public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-    // ...
-    app.UseAuthentication(); // !!!
-    app.UseMiddleware<UnauthorizedRedirectMiddleware>(); // !!!
-    app.UseDefaultFiles();
-    app.UseStaticFiles();
-    app.UseHttpsRedirection();
-    app.UseCookiePolicy();
-    app.UseMvc(routeBuilder => {
-        routeBuilder.EnableDependencyInjection();
-        routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
-        routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel());
-    });
-}
-//...
-public class UnauthorizedRedirectMiddleware {
-    public async Task InvokeAsync(HttpContext context) {
-        if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
-          || IsAllowAnonymous(context)) {
-            await _next(context);
-                    else {
-                context.Response.Redirect(authenticationPagePath);
-            }
-        }
-        // ...
-    }
-}
-```
+	```csharp
+	public class MemberPermission {
+		[Key]
+		public Guid Key { get; set; }
+		public bool Read { get; set; }
+		public bool Write { get; set; }
+		public MemberPermission() {
+			Key = Guid.NewGuid();
+		}
+	}
+	//...
+	public class ObjectPermission {
+		public IDictionary<string, object> Data { get; set; }
+		[Key]
+		public string Key { get; set; }
+		public bool Write { get; set; }
+		public bool Delete { get; set; }
+		public ObjectPermission() {
+			Data = new Dictionary<string, object>();
+		}
+	}
+	//...
+	public class TypePermission {
+		public IDictionary<string, object> Data { get; set; }
+		[Key]
+		public string Key { get; set; }
+		public bool Create { get; set; }
+		public TypePermission() {
+			Data = new Dictionary<string, object>();
+		}
+	}
+	```
+
+- Enable the authentication service and configure the request pipeline with the authentication middleware in the `ConfigureServices` and `Configure` methods. 
+[UnauthorizedRedirectMiddleware](/UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
+
+	``` csharp
+	public void ConfigureServices(IServiceCollection services) {
+		// ...
+		services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+		  .AddCookie(); // !!!
+	}
+	public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+		// ...
+		app.UseAuthentication(); // !!!
+		app.UseMiddleware<UnauthorizedRedirectMiddleware>(); // !!!
+		app.UseDefaultFiles();
+		app.UseStaticFiles();
+		app.UseHttpsRedirection();
+		app.UseCookiePolicy();
+		app.UseMvc(routeBuilder => {
+			routeBuilder.EnableDependencyInjection();
+			routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
+			routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel());
+		});
+	}
+	//...
+	public class UnauthorizedRedirectMiddleware {
+		// ...
+		public async Task InvokeAsync(HttpContext context) {
+			if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
+				|| IsAllowAnonymous(context)) {
+				await _next(context);
+			}
+			else {
+				context.Response.Redirect(authenticationPagePath);
+			}
+		}
+		// ...
+	}
+	```
 
 ## Step 2: Initialize Data Store and XAF's Security System
 
 The [SecurityProvider](/Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
 
-- Register `SecurityProvider` in the `ConfigureServices` method
+- Register `SecurityProvider` in the `ConfigureServices` method.
 
-``` csharp
-public void ConfigureServices(IServiceCollection services) {
-    // ...
-    services.AddScoped<SecurityProvider>();
-}
-```
+	``` csharp
+	public void ConfigureServices(IServiceCollection services) {
+		// ...
+		services.AddScoped<SecurityProvider>();
+	}
+	```
 
-- The `GetSecurity` method provides access to the Security System instance and registers authentication providers. The `AuthenticationMixed` class allows you to register several authentication providers, so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
+- The `GetSecurity` method provides access to the Security System instance and registers authentication providers. The `AuthenticationMixed` class allows you to register several authentication providers, 
+so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
 
-``` csharp
-public SecurityStrategyComplex GetSecurity(string authenticationName, object parameter) {
-    AuthenticationMixed authentication = new AuthenticationMixed();
-    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    authentication.SetupAuthenticationProvider(authenticationName, parameter);
-    SecurityStrategyComplex security = new SecurityStrategyComplex(
-        typeof(PermissionPolicyUser),
-        typeof(PermissionPolicyRole),
-        authentication
-    );
-    security.RegisterXPOAdapterProviders();
-    return security;
-}
-```
+	``` csharp
+	public SecurityStrategyComplex GetSecurity(string authenticationName, object parameter) {
+		AuthenticationMixed authentication = new AuthenticationMixed();
+		authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+		authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+		authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+		authentication.SetupAuthenticationProvider(authenticationName, parameter);
+		SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+		security.RegisterXPOAdapterProviders();
+		return security;
+	}
+	```
 
 - The `GetObjectSpaceProvider` method provides access to the Object Space Provider. The [XpoDataStoreProviderService](/Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
 
-``` csharp
-public IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
-    SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(connectionString, null, true), true);
-    RegisterEntities(objectSpaceProvider);
-    return objectSpaceProvider;
-}
-//...
-public class XpoDataStoreProviderService {
-    private IXpoDataStoreProvider dataStoreProvider;
-    public IXpoDataStoreProvider GetDataStoreProvider(string connectionString, IDbConnection connection, bool enablePoolingInConnectionString) {
-        if(dataStoreProvider == null) {
-            dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, connection, enablePoolingInConnectionString);
-        }
-        return dataStoreProvider;
-    }
-}
-// Registers all business object types you use in the application.
-private void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
-    objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-    objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-    objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
-}
-```
+	``` csharp
+	public IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
+		SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(connectionString, null, true), true);
+		RegisterEntities(objectSpaceProvider);
+		return objectSpaceProvider;
+	}
+	//...
+	public class XpoDataStoreProviderService {
+		private IXpoDataStoreProvider dataStoreProvider;
+		public IXpoDataStoreProvider GetDataStoreProvider(string connectionString, IDbConnection connection, bool enablePoolingInConnectionString) {
+			if(dataStoreProvider == null) {
+				dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, connection, enablePoolingInConnectionString);
+			}
+			return dataStoreProvider;
+		}
+	}
+	// Registers all business object types you use in the application.
+	private void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
+		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
+		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+	}
+	```
 	
-- The `InitConnection` method authenticates a user both in the Security System and in [ASP.NET Core HttpContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontext?view=aspnetcore-2.2). A user is identified by the user name and password parameters.
+- The `InitConnection` method authenticates a user both in the Security System and in [ASP.NET Core HttpContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontext?view=aspnetcore-2.2). 
+A user is identified by the user name and password parameters.
 
-``` csharp
-public bool InitConnection(string userName, string password, HttpContext httpContext, XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
-    AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(
-      userName, password
-    );
-    SecurityStrategyComplex security = GetSecurity(typeof(AuthenticationStandardProvider).Name, parameters);
-    IObjectSpaceProvider objectSpaceProvider = GetObjectSpaceProvider(
-      security, xpoDataStoreProviderService, connectionString
-    );
-    try {
-        Login(security, objectSpaceProvider);
-        SignIn(httpContext, userName);
-        return true;
-    }
-    catch {
-        return false;
-    }
-}
-//...
-// Logs into the Security System.
-public void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
-    IObjectSpace objectSpace = objectSpaceProvider.CreateObjectSpace();
-    security.Logon(objectSpace);
-}
-// Signs into HttpContext and creates a cookie.
-private void SignIn(HttpContext httpContext, string userName) {
-    List<Claim> claims = new List<Claim>{
-            new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-          };
-    ClaimsIdentity id = new ClaimsIdentity(
-      claims, "ApplicationCookie",
-      ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType
-    );
-    ClaimsPrincipal principal = new ClaimsPrincipal(id);
-    httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-}
-```
+	``` csharp
+	public bool InitConnection(string userName, string password, HttpContext httpContext,
+		XpoDataStoreProviderService xpoDataStoreProviderService, string connectionString) {
+		AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
+		SecurityStrategyComplex security = GetSecurity(typeof(AuthenticationStandardProvider).Name, parameters);
+		IObjectSpaceProvider objectSpaceProvider = GetObjectSpaceProvider(security, xpoDataStoreProviderService, connectionString);
+		try {
+			Login(security, objectSpaceProvider);
+			SignIn(httpContext, userName);
+			return true;
+		}
+		catch {
+			return false;
+		}
+	}
+	//...
+	// Logs into the Security System.
+	public void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
+		IObjectSpace objectSpace = objectSpaceProvider.CreateObjectSpace();
+		security.Logon(objectSpace);
+	}
+	// Signs into HttpContext and creates a cookie.
+	private void SignIn(HttpContext httpContext, string userName) {
+		List<Claim> claims = new List<Claim>{
+			new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+		};
+		ClaimsIdentity id = new ClaimsIdentity(
+			claims, "ApplicationCookie",
+			ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType
+		);
+		ClaimsPrincipal principal = new ClaimsPrincipal(id);
+		httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+	}
+	```
 
 ## Step 3: Implement OData Controllers for CRUD, Login, Logoff, etc.
 
 - [BaseController](/Controllers/BaseController.cs) contains logic common for all controllers. [AccountController](/Controllers/AccountController.cs) and [SecuredController](/Controllers/SecuredController.cs) are derived from BaseController.
 
-``` csharp
-[Route("api/[controller]")]
-public class BaseController : ODataController {
-	protected XpoDataStoreProviderService XpoDataStoreProviderService { get; set; }
-	protected SecurityProvider SecurityProvider { get; set; }
-	protected IConfiguration Config { get; set; }
-	public BaseController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper) {
-		XpoDataStoreProviderService = xpoDataStoreProviderService;
-		Config = config;
-		SecurityProvider = securityHelper;
+	``` csharp
+	[Route("api/[controller]")]
+	public class BaseController : ODataController {
+		protected XpoDataStoreProviderService XpoDataStoreProviderService { get; set; }
+		protected SecurityProvider SecurityProvider { get; set; }
+		protected IConfiguration Config { get; set; }
+		public BaseController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper) {
+			XpoDataStoreProviderService = xpoDataStoreProviderService;
+			Config = config;
+			SecurityProvider = securityHelper;
+		}
 	}
-}
-```
+	```
 
-- Add the `Configuration` property to [Startup.cs](/Startup.cs) and register it as a singleton to have access to connectionString from controllers. The `IConfiguration` object is used to access the application configuration [appsettings.json](/appsettings.json) file.
+- Add the `Configuration` property to [Startup.cs](/Startup.cs) and register it as a singleton to have access to connectionString from controllers. 
+The `IConfiguration` object is used to access the application configuration [appsettings.json](/appsettings.json) file.
 
-``` csharp		
-//...
-public IConfiguration Configuration { get; }
-public Startup(IConfiguration configuration) {
-    Configuration = configuration;
-}
-public void ConfigureServices(IServiceCollection services) {
-    //...
-    services.AddSingleton(Configuration);
-}
-```	
-- In appsettings.json, replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
+	``` csharp		
+	//...
+	public IConfiguration Configuration { get; }
+	public Startup(IConfiguration configuration) {
+		Configuration = configuration;
+	}
+	public void ConfigureServices(IServiceCollection services) {
+		//...
+		services.AddSingleton(Configuration);
+	}
+	```	
+	In appsettings.json, replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
 
-``` json
-"ConnectionStrings": {
-  "XafApplication": "Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"
-}
-```
+	``` json
+	"ConnectionStrings": {
+	  "XafApplication": "Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"
+	}
+	```
 
 - Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
 
-``` csharp
-public void ConfigureServices(IServiceCollection services) {
-    // ...
-    services.AddHttpContextAccessor();
-}
-```
-
-- [SecuredController](/Controllers/SecuredController.cs) has logic to initialize the Security System with the appropriate authentication provider and the Object Space Provider. The identity authentication provider name and [Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.2&tabs=visual-studio) are used as `GetSecurity` method's parameters.  [ActionsController](/Controllers/ActionsController.cs), [DepartmentsController](/Controllers/DepartmentsController.cs) and [EmployeesController](/Controllers/EmployeesController.cs) are derived from SecuredController.
-
-``` csharp
-public class SecuredController : BaseController {
-	protected SecurityStrategyComplex Security { get; set; }
-	protected IObjectSpace ObjectSpace { get; set; }
-	public SecuredController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper, IHttpContextAccessor contextAccessor)
-	: base(xpoDataStoreProviderService, config, securityHelper) {
-		Security = SecurityProvider.GetSecurity(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
-		string connectionString = Config.GetConnectionString("XafApplication");
-		IObjectSpaceProvider objectSpaceProvider = SecurityProvider.GetObjectSpaceProvider(Security, XpoDataStoreProviderService, connectionString);
-		SecurityProvider.Login(Security, objectSpaceProvider);
-		ObjectSpace = objectSpaceProvider.CreateObjectSpace();
+	``` csharp
+	public void ConfigureServices(IServiceCollection services) {
+		// ...
+		services.AddHttpContextAccessor();
 	}
-}
-```
+	```
 
-- [EmployeesController](/Controllers/EmployeesController.cs) implements the `Get` method to get access to Employee objects. [DepartmentsController](/Controllers/DepartmentsController.cs) contains similar implementation that obtains Department objects.
+- [SecuredController](/Controllers/SecuredController.cs) has logic to initialize the Security System with a corresponding authentication provider and the Object Space Provider. 
+The identity authentication provider name and [Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.2&tabs=visual-studio) are used as the `GetSecurity` method's parameters.  
+[ActionsController](/Controllers/ActionsController.cs), [DepartmentsController](/Controllers/DepartmentsController.cs) and [EmployeesController](/Controllers/EmployeesController.cs) are derived from SecuredController.
 
-``` csharp
-public class EmployeesController : SecuredController {
-    public EmployeesController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper, IHttpContextAccessor contextAccessor)
+	``` csharp
+	public class SecuredController : BaseController {
+		protected SecurityStrategyComplex Security { get; set; }
+		protected IObjectSpace ObjectSpace { get; set; }
+		public SecuredController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper, IHttpContextAccessor contextAccessor)
+			: base(xpoDataStoreProviderService, config, securityHelper) {
+			Security = SecurityProvider.GetSecurity(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
+			string connectionString = Config.GetConnectionString("XafApplication");
+			IObjectSpaceProvider objectSpaceProvider = SecurityProvider.GetObjectSpaceProvider(Security, XpoDataStoreProviderService, connectionString);
+			SecurityProvider.Login(Security, objectSpaceProvider);
+			ObjectSpace = objectSpaceProvider.CreateObjectSpace();
+		}
+	}
+	```
+
+- [EmployeesController](/Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
+
+	``` csharp
+	public class EmployeesController : SecuredController {
+		public EmployeesController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper, IHttpContextAccessor contextAccessor)
+				: base(xpoDataStoreProviderService, config, securityHelper, contextAccessor) { }
+		[HttpGet]
+		[EnableQuery]
+		public ActionResult Get() {
+			IQueryable<Employee> employees = ObjectSpace.GetObjectsQuery<Employee>();
+			return Ok(employees);
+		}
+	}
+	```
+
+	The `Delete` method allows deleting Employee objects.
+
+	``` csharp
+	[HttpDelete]
+	public ActionResult Delete(Guid key) {
+		Employee existing = ObjectSpace.GetObjectByKey<Employee>(key);
+		if(existing == null) {
+			return NotFound();
+		}
+		ObjectSpace.Delete(existing);
+		ObjectSpace.CommitChanges();
+		return NoContent();
+	}
+	```
+
+	The `Patch` method allows updating Employee objects.
+
+	``` csharp
+	[HttpPatch]
+	public ActionResult Patch(Guid key, [FromBody]JObject jObject) {
+		Employee employee = ObjectSpace.FindObject<Employee>(new BinaryOperator(nameof(Employee.Oid), key));
+		if(employee != null) {
+			JsonParser.ParseJObject<Employee>(jObject, employee, ObjectSpace);
+			return Ok(employee);
+		}
+		return NotFound();
+	}
+	```
+
+	The `Post` method allows creating Employee objects.
+
+	``` csharp
+	[HttpPost]
+	public ActionResult Post([FromBody]JObject jObject) {
+		Employee employee = ObjectSpace.CreateObject<Employee>();
+		JsonParser.ParseJObject<Employee>(jObject, employee, ObjectSpace);
+		return Ok(employee);
+	}
+	```
+	
+	[JsonParser](/Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
+
+- [DepartmentsController](/Controllers/DepartmentsController.cs) has methods to get access to Department objects.
+ 
+	``` csharp
+	public class DepartmentsController : SecuredController {
+		public DepartmentsController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper, IHttpContextAccessor contextAccessor)
 			: base(xpoDataStoreProviderService, config, securityHelper, contextAccessor) { }
-    [HttpGet]
-    [EnableQuery]
-    public ActionResult Get() {
-        IQueryable<Employee> employees = ObjectSpace.GetObjectsQuery<Employee>();
-        return Ok(employees);
-    }
-}
-```
+		[HttpGet]
+		[EnableQuery]
+		public ActionResult Get() {
+			IQueryable<Department> departments = ObjectSpace.GetObjectsQuery<Department>();
+			return Ok(departments);
+		}
+		[HttpGet]
+		[EnableQuery]
+		public ActionResult Get(Guid key) {
+			Department department = ObjectSpace.GetObjectByKey<Department>(key);
+			return department != null ? Ok(department) : (ActionResult)NoContent();
+		}
+	}
+	```
 
-- [AccountController](/Controllers/AccountController.cs) handles the Login and Logoff operations.
+- [AccountController](/Controllers/AccountController.cs) handles the Login and Logout operations.
 The `Login` method is called when a user clicks the `Login` button on the login page. The `Logoff` method is called when a user clicks the `Logoff` button on the main page.
 
-``` csharp
-// Attempts to log users with accepted credentials into the Security System.
-[HttpGet]
-[ODataRoute("Login(userName={userName}, password={password})")]
-[AllowAnonymous]
-public ActionResult Login(string userName, string password) {
-    ActionResult result;
-    string connectionString = Config.GetConnectionString("XafApplication");
-    if(SecurityProvider.InitConnection(userName, password, HttpContext, XpoDataStoreProviderService, connectionString)) {
-        result = Ok();
-    }
-    else {
-        // If anything goes wrong during the authentication process, this method returns the Unauthorized response.
-        result = Unauthorized();
-    }
-    return result;
-}
-// Signs the user out of the HttpContext.
-[HttpGet]
-[ODataRoute("Logoff()")]
-public ActionResult Logoff() {
-    HttpContext.SignOutAsync();
-    return Ok();
-}
-```
+	``` csharp
+	// Attempts to log users with accepted credentials into the Security System.
+	[HttpGet]
+	[ODataRoute("Login(userName={userName}, password={password})")]
+	[AllowAnonymous]
+	public ActionResult Login(string userName, string password) {
+		ActionResult result;
+		string connectionString = Config.GetConnectionString("XafApplication");
+		if(SecurityProvider.InitConnection(userName, password, HttpContext, XpoDataStoreProviderService, connectionString)) {
+			result = Ok();
+		}
+		else {
+			// If anything goes wrong during the authentication process, this method returns the Unauthorized response.
+			result = Unauthorized();
+		}
+		return result;
+	}
+	// Signs the user out of the HttpContext.
+	[HttpGet]
+	[ODataRoute("Logoff()")]
+	public ActionResult Logoff() {
+		HttpContext.SignOutAsync();
+		return Ok();
+	}
+	```
 		
 - [ActionsController](/Controllers/ActionsController.cs) contains additional methods that process permissions.
 
-``` csharp
-// Gathers permissions for all objects on the DevExtreme Data Grid current page and sends them to the client side as part of the response.
-[HttpPost]
-[ODataRoute("GetPermissions")]
-public ActionResult GetPermissions(ODataActionParameters parameters) {
-    ActionResult result = NoContent();
-    if(parameters.ContainsKey("keys") && parameters.ContainsKey("typeName")) {
-        List<string> keys = new List<string>(parameters["keys"] as IEnumerable<string>);
-        string typeName = parameters["typeName"].ToString();
-        List<PermissionContainer> permissionContainerList = new List<PermissionContainer>();
-        ITypeInfo typeInfo = ObjectSpace.TypesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeName);
-        if(typeInfo != null) {
-            Type type = typeInfo.Type;
-            IList entityList = ObjectSpace.GetObjects(type, new InOperator(typeInfo.KeyMember.Name, keys));
-            foreach(var entity in entityList) {
-                PermissionContainer permissionContainer = new PermissionContainer();
-                permissionContainer.Key = typeInfo.KeyMember.GetValue(entity).ToString();
-                IEnumerable<IMemberInfo> memberList = GetPersistentMembers(typeInfo);
-                foreach(IMemberInfo member in memberList) {
-                    bool permission = Security.IsGranted(new PermissionRequest(ObjectSpace, type, SecurityOperations.Read, entity, member.Name));
-                    permissionContainer.Data.Add(member.Name, permission);
-                }
-                permissionContainerList.Add(permissionContainer);
-            }
-            result = Ok(permissionContainerList.AsQueryable());
-        }
-    }
-    return result;
-}
-// Returns only visible persistent members which are displayed in the grid.
-private static IEnumerable<IMemberInfo> GetPersistentMembers(ITypeInfo typeInfo) {
-    return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
-}
-```
+	The `GetPermissions` method gathers permissions for all objects on the DevExtreme Data Grid current page and sends them to the client side as part of the response.
+	``` csharp
+	[HttpPost]
+	[ODataRoute("GetPermissions")]
+	public ActionResult GetPermissions(ODataActionParameters parameters) {
+		ActionResult result = NoContent();
+		if(parameters.ContainsKey("keys") && parameters.ContainsKey("typeName")) {
+			List<string> keys = new List<string>(parameters["keys"] as IEnumerable<string>);
+			string typeName = parameters["typeName"].ToString();
+			ITypeInfo typeInfo = ObjectSpace.TypesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeName);
+			if(typeInfo != null) {
+				IList entityList = ObjectSpace.GetObjects(typeInfo.Type, new InOperator(typeInfo.KeyMember.Name, keys));
+				List<ObjectPermission> objectPermissions = new List<ObjectPermission>();
+				foreach(object entity in entityList) {
+					ObjectPermission objectPermission = CreateObjectPermission(typeInfo, entity);
+					objectPermissions.Add(objectPermission);
+				}
+				result = Ok(objectPermissions);
+			}
+		}
+		return result;
+	}
+	// Creates a new ObjectPermission object, which contains a business object key, write and delete operation permissions, and object-level member permissions for each persistent member.
+	private ObjectPermission CreateObjectPermission(ITypeInfo typeInfo, object entity) {
+		Type type = typeInfo.Type;
+		ObjectPermission objectPermission = new ObjectPermission();
+		objectPermission.Key = typeInfo.KeyMember.GetValue(entity).ToString();
+		objectPermission.Write = Security.IsGranted(new PermissionRequest(ObjectSpace, type, SecurityOperations.Write, entity));
+		objectPermission.Delete = Security.IsGranted(new PermissionRequest(ObjectSpace, type, SecurityOperations.Delete, entity));
+		IEnumerable<IMemberInfo> members = GetPersistentMembers(typeInfo);
+		foreach(IMemberInfo member in members) {
+			MemberPermission memberPermission = CreateMemberPermission(entity, type, member);
+			objectPermission.Data.Add(member.Name, memberPermission);
+		}
+		return objectPermission;
+	}
+	// Creates a new MemberPermission object, which contains read and write operation permissions for a specific member.
+	private MemberPermission CreateMemberPermission(object entity, Type type, IMemberInfo member) {
+		return new MemberPermission {
+			Read = Security.IsGranted(new PermissionRequest(ObjectSpace, type, SecurityOperations.Read, entity, member.Name)),
+			Write = Security.IsGranted(new PermissionRequest(ObjectSpace, type, SecurityOperations.Write, entity, member.Name))
+		};
+	}
+	// Returns only visible persistent members which are displayed in the grid.
+	private static IEnumerable<IMemberInfo> GetPersistentMembers(ITypeInfo typeInfo) {
+		return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
+	}
+	```
+	
+	The `GetTypePermissions` method gathers permissions for the type on the DevExtreme Data Grid's current page and sends them to the client side as part of the response.
+	
+	```csharp
+	[HttpGet]
+	[ODataRoute("GetTypePermissions")]
+	public ActionResult GetTypePermissions(string typeName) {
+		ActionResult result = NoContent();
+		ITypeInfo typeInfo = ObjectSpace.TypesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeName);
+		if(typeInfo != null) {
+			TypePermission typePermission = CreateTypePermission(typeInfo);
+			result = Ok(typePermission);
+		}
+		return result;
+	}
+	// Creates a new TypePermission object which contains the type name, create operation permission and type-level member permissions for each persistent member.
+	private TypePermission CreateTypePermission(ITypeInfo typeInfo) {
+		Type type = typeInfo.Type;
+		TypePermission typePermission = new TypePermission();
+		typePermission.Key = type.Name;
+		typePermission.Create = Security.IsGranted(new PermissionRequest(ObjectSpace, type, SecurityOperations.Create));
+		IEnumerable<IMemberInfo> members = GetPersistentMembers(typeInfo);
+		foreach(IMemberInfo member in members) {
+			bool writePermission = Security.IsGranted(new PermissionRequest(ObjectSpace, type, SecurityOperations.Write, null, member.Name));
+			typePermission.Data.Add(member.Name, writePermission);
+		}
+		return typePermission;
+	}
+	```
 	
 ## Step 4: Implement the Client-Side App
 - The authentication page ([Authentication.html](/wwwroot/Authentication.html)) and the main page([Index.html](/wwwroot/Index.html)) represent the client side UI.
 - [authentication_code.js](/wwwroot/js/authentication_code.js) gathers data from the login page and attempts to log the user in.
 
-``` javascript
-$("#validateAndSubmit").dxButton({
-  text: "Login",
-  type: "success",
-  tabIndex: 1,
-  onClick: function () {
-    var userName = $("#userName").dxTextBox("instance").option("value");
-    var password = $("#password").dxTextBox("instance").option("value");
-    var url = 'Login(userName = \'' + userName + '\', password = \'' + password + '\')'; 
-    $.ajax({
-      method: 'GET',
-      url: url,
-      complete: function (e) {
-  if (e.status == 200) {
-    document.cookie = "userName=" + userName;
-    document.location.href = "/";
-  }
-  if (e.status == 401) {
-    alert("User name or password is incorrect");
-  }
-      }
-    });
-  }
-});
-```	
+	``` javascript
+	$("#validateAndSubmit").dxButton({
+		text: "Log In",
+		tabIndex: 1,
+		onClick: function () {
+			var userName = $("#userName").dxTextBox("instance").option("value");
+			var password = $("#password").dxTextBox("instance").option("value");
+			var url = 'Login(userName = \'' + userName + '\', password = \'' + password + '\')';
+			$.ajax({
+				method: 'GET',
+				url: url,
+				complete: function (e) {
+					if (e.status == 200) {
+						document.cookie = "userName=" + userName;
+						document.location.href = "/";
+					}
+					if (e.status == 401) {
+						alert("User name or password is incorrect");
+					}
+				}
+			});
+		}
+	});
+	```	
 		
-- [index_code.js](/wwwroot/js/index_code.js) configures the DevExtreme Data Grid and logs the user off. The [onLoaded](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/ODataStore/Configuration/#onLoaded) function sends a request to the server to obtain permissions for the current data grid page.
+- [index_code.js](/wwwroot/js/index_code.js) configures the DevExtreme Data Grid and logs the user out. 
+The [onLoaded](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/ODataStore/Configuration/#onLoaded) function sends a request to the server to obtain permissions for the current data grid page.
 
-``` javascript
-function onLoaded(data) {
-  var oids = $.map(data, function (val) {
-    return val.Oid._value;
-  });
-  var data = {
-    keys: oids,
-    typeName: 'Employee'
-  };
-  var options = {
-    dataType: "json",
-    contentType: "application/json",
-    type: "POST",
-    async: false,
-    data: JSON.stringify(data)
-  };
-  $.ajax("GetPermissions", options)
-    .done(function (e) {
-      permissions = e.value;
-  });
-}
-```	
+	``` javascript
+	function onLoaded(data) {
+		var oids = $.map(data, function (val) {
+			return val.Oid._value;
+		});
+		var parameters = {
+			keys: oids,
+			typeName: 'Employee'
+		};
+		var options = {
+			dataType: "json",
+			contentType: "application/json",
+			type: "POST",
+			async: false,
+			data: JSON.stringify(parameters)
+		};
+		$.ajax("GetPermissions", options)
+			.done(function (e) {
+				permissions = e.value;
+			});
+	}
+	```	
 
-- The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#cellPrepared) event and checks Read operation permissions. If permission is denied, it displays the "Protected Content" text in grid cells:
+- The `onInitialized` function handles the data grid's [initialized](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#initialized) event 
+and checks create operation permission to define whether the Create action should be displayed or not.
 
-``` javascript
-function onCellPrepared(e) {
-  if (e.rowType === "data") {
-    var key = e.key._value;
-    var objectPermission = getPermission(key);
-    if (e.column.command != 'edit') {	
-      var dataField = e.column.dataField.split('.')[0];
-      if (!objectPermission[dataField]) {
-        e.cellElement.text("Protected Content");
-      }
-    }
-  }
-}
-```	
-Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the [SecurityStrategy.IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) method to determine when to mask default values with the "Protected Content" placeholder in the UI.
+	``` javascript
+	function onInitialized(e) {
+		$.ajax({
+			method: 'GET',
+			url: 'GetTypePermissions?typeName=Employee',
+			async: false,
+			complete: function (data) {
+				typePermissions = data.responseJSON;
+			}
+		});
+		var grid = e.component;
+		grid.option("editing.allowAdding", typePermissions.create);
+	}
+	```	
+
+- The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
+If the Read operation permission is denied, it displays the "Protected Content" placeholder and disables the editor. If the Write operation permission is denied, the editor is disabled.
+
+	``` javascript
+	function onEditorPreparing(e) {
+		if (e.parentType === "dataRow") {
+			var dataField = e.dataField.split('.')[0];
+			var key = e.row.key._value;
+			if (key != undefined) {
+				var objectPermission = getPermission(key);
+				if (!objectPermission[dataField].read) {
+					e.editorOptions.disabled = true;
+					e.editorOptions.value = "Protected Content";
+				}
+				if (!objectPermission[dataField].write) {
+					e.editorOptions.disabled = true;
+				}
+			}
+			else {
+				if (!typePermissions.data[dataField]) {
+					e.editorOptions.disabled = true;
+				}
+			}
+		}
+	}
+	```	
+
+- The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#cellPrepared) event and checks Read, Write, and Delete operation permissions. 
+If the Read permission is denied, it displays the "Protected Content" placeholder in data grid cells. Write and Delete operation permission checks define whether the Write and Delete actions should be displayed or not.
+
+	``` javascript
+	function onCellPrepared(e) {
+		if (e.rowType === "data") {
+			var key = e.key._value;
+			var objectPermission = getPermission(key);
+			if (e.column.command != 'edit') {
+				var dataField = e.column.dataField.split('.')[0];
+				if (!objectPermission[dataField].read) {
+					e.cellElement.text("Protected Content");
+				}
+			}
+			else {
+				if (!objectPermission.Delete) {
+					e.cellElement.find(".dx-link-delete").remove();
+				}
+				if (!objectPermission.Write) {
+					e.cellElement.find(".dx-link-edit").remove();
+				}
+			}
+		}
+	}
+	```	
+	
+Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. 
+Use the [SecurityStrategy.IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) method to determine 
+when to mask default values with the "Protected Content" placeholder in the UI.
 
 - The `getPermission` function returns the permission object for a business object. The business object is identified by the key passed in function parameters:
 
-``` javascript
-function getPermission(key) {
-  var permission = permissions.filter(function (entry) {
-     return entry.Key === key;
-  });
-  return permission[0];
-}
-```
+	``` javascript
+	function getPermission(key) {
+		var permission = permissions.filter(function (entry) {
+			return entry.Key === key;
+		});
+		return permission[0];
+	}
+	```
 
 ## Step 5: Run and Test the App
  - Log in under 'User' with an empty password.

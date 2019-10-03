@@ -25,8 +25,8 @@ namespace ASPNETCoreODataService.Controllers {
 		}
 
 		[HttpGet]
-		[ODataRoute("Logoff()")]
-		public ActionResult Logoff() {
+		[ODataRoute("Logout()")]
+		public ActionResult Logout() {
 			HttpContext.SignOutAsync();
 			return Ok();
 		}
