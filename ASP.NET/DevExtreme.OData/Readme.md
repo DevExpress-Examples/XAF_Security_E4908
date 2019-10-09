@@ -625,9 +625,9 @@ when to mask default values with the "Protected Content" placeholder in the UI.
 ## Step 5: Run and Test the App
  - Log in under 'User' with an empty password.
 
-![](/images/ODataLoginPage.png)
+   ![](/images/ODataLoginPage.png)
 
  - Notice that secured data is displayed as 'Protected Content'.
-![](/images/ODataListView.png)
+   ![](/images/ODataListView.png)
 
  - Press the Logoff button and log in under 'Admin' to see all records.
