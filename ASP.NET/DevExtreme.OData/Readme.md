@@ -630,4 +630,4 @@ when to mask default values with the "Protected Content" placeholder in the UI.
  - Notice that secured data is displayed as 'Protected Content'.
    ![](/images/ODataListView.png)
 
- - Press the Logoff button and log in under 'Admin' to see all records.
+ - Press the Logout button and log in under 'Admin' to see all records.
