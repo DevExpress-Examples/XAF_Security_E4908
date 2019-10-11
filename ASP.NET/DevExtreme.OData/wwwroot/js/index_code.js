@@ -133,7 +133,7 @@
 				}
 			}
 			else {
-				if (!typePermissions.data[dataField]) {
+				if (!typePermissions[dataField]) {
 					e.editorOptions.disabled = true;
 				}
 			}
