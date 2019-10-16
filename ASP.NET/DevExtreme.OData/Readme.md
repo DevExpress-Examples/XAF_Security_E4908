@@ -573,7 +573,7 @@ If the Read operation permission is denied, it displays the "Protected Content" 
 				}
 			}
 			else {
-				if (!typePermissions.data[dataField]) {
+				if (!typePermissions[dataField]) {
 					e.editorOptions.disabled = true;
 				}
 			}
@@ -589,13 +589,13 @@ If the Read permission is denied, it displays the "Protected Content" placeholde
 		if (e.rowType === "data") {
 			var key = e.key._value;
 			var objectPermission = getPermission(key);
-			if (e.column.command != 'edit') {
+			if (!e.column.command) {
 				var dataField = e.column.dataField.split('.')[0];
 				if (!objectPermission[dataField].read) {
 					e.cellElement.text("Protected Content");
 				}
 			}
-			else {
+			else if (e.column.command == 'edit') {
 				if (!objectPermission.Delete) {
 					e.cellElement.find(".dx-link-delete").remove();
 				}
