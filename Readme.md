@@ -11,7 +11,7 @@
  - [ASP.NET WebForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
  - *Coming Next: ASP.NET MVC Core, Xamarin, WPF, Blazor.*
  
- > To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using the [Support Center](https://www.devexpress.com/ask) or this [Survey](https://community.devexpress.com/blogs/xaf/archive/2019/07/01/xaf-how-non-xaf-net-apps-using-xpo-for-data-access-can-benefit-from-xaf-security-system-apis.aspx).
+ > To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using the [Support Center](https://www.devexpress.com/ask) or this [Survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx).
 
 ## Target Audience & Scenarios
 
