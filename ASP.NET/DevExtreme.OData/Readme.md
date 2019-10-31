@@ -378,8 +378,8 @@ The `Login` method is called when a user clicks the `Login` button on the login 
 
 	``` csharp
 	// Attempts to log users with accepted credentials into the Security System.
-	[HttpGet]
-	[ODataRoute("Login(userName={userName}, password={password})")]
+	[HttpPost]
+	[ODataRoute("Login")]
 	[AllowAnonymous]
 	public ActionResult Login(string userName, string password) {
 		ActionResult result;
@@ -493,10 +493,13 @@ The `Login` method is called when a user clicks the `Login` button on the login 
 		onClick: function () {
 			var userName = $("#userName").dxTextBox("instance").option("value");
 			var password = $("#password").dxTextBox("instance").option("value");
-			var url = 'Login(userName = \'' + userName + '\', password = \'' + password + '\')';
 			$.ajax({
-				method: 'GET',
-				url: url,
+				method: 'POST',
+				url: 'Login',
+				data: {
+					"userName": userName,
+					"password": password
+				},
 				complete: function (e) {
 					if (e.status == 200) {
 						document.cookie = "userName=" + userName;
