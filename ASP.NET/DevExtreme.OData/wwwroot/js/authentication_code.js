@@ -33,10 +33,13 @@
 		onClick: function () {
 			var userName = $("#userName").dxTextBox("instance").option("value");
 			var password = $("#password").dxTextBox("instance").option("value");
-			var url = 'Login(userName = \'' + userName + '\', password = \'' + password + '\')';
 			$.ajax({
-				method: 'GET',
-				url: url,
+				method: 'POST',
+				url: 'Login',
+				data: {
+					"userName": userName,
+					"password": password
+				},
 				complete: function (e) {
 					if (e.status == 200) {
 						document.cookie = "userName=" + userName;

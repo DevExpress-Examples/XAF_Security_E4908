@@ -9,8 +9,8 @@ namespace ASPNETCoreODataService.Controllers {
 	public class AccountController : BaseController {
 		public AccountController(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, SecurityProvider securityHelper)
 			: base(xpoDataStoreProviderService, config, securityHelper) { }
-		[HttpGet]
-		[ODataRoute("Login(userName={userName}, password={password})")]
+		[HttpPost]
+		[ODataRoute("Login")]
 		[AllowAnonymous]
 		public ActionResult Login(string userName, string password) {
 			ActionResult result;

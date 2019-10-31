@@ -62,8 +62,7 @@ namespace ASPNETCoreODataService {
 			departments.EntityType.HasKey(t => t.Oid);
 			parties.EntityType.HasKey(t => t.Oid);
 
-            FunctionConfiguration login = builder.Function("Login");
-			login.Returns<int>();
+			ActionConfiguration login = builder.Action("Login");
 			login.Parameter<string>("userName");
 			login.Parameter<string>("password");
 
