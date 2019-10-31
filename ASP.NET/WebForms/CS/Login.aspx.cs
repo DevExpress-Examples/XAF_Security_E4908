@@ -37,7 +37,6 @@ namespace WebFormsApplication {
 			objectSpaceProvider.Dispose();
 		}
 		private void SetCookie(string userName) {
-			FormsAuthentication.SetAuthCookie(userName, true);
 			HttpCookie cookie = new HttpCookie("userName", userName);
 			HttpContext.Current.Response.Cookies.Add(cookie);
 		}
