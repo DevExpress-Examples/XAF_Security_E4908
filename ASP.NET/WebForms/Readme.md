@@ -101,14 +101,6 @@ protected void LoginButton_Click(object sender, EventArgs e) {
 The `LoginButton_Click` method initializes the Security System and tries to log in the user by the specified user name and password. 
 If the user was successfully logged in, the Security System creates a cookie with the specified user name.
   
-```csharp
-private void SetCookie(string userName) {
-    FormsAuthentication.SetAuthCookie(userName, true);
-    HttpCookie cookie = new HttpCookie("userName", userName);
-    HttpContext.Current.Response.Cookies.Add(cookie);
-}
-```
-
 If the Security System can not find the user by specified credentials, it throws an exception. 
 In this example, we handle this exception and display an error message with the client script.
 
