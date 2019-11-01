@@ -1,0 +1,425 @@
+/*!
+ * DevExpress Diagram (dx-diagram)
+ * Version: 0.0.30
+ * Build date: Tue Jul 23 2019
+ * 
+ * Copyright (c) 2012 - 2019 Developer Express Inc. ALL RIGHTS RESERVED
+ * Read about DevExpress licensing here: https://www.devexpress.com/Support/EULAs
+ */
+.dxdi-control {
+  background-color: rgba(0, 0, 0, 0.15);
+  overflow: auto;
+  width: 100%;
+  box-sizing: border-box; }
+
+.dxdi-control .dxdi-canvas-container {
+  box-sizing: border-box;
+  min-width: 100%;
+  min-height: 100%; }
+
+.dxdi-control .dxdi-canvas {
+  display: block;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5);
+  background-color: white;
+  transform-origin: 0 0; }
+
+.dxdi-canvas * {
+  user-select: none; }
+
+.dxdi-canvas text {
+  font-family: Arial;
+  font-size: 10pt; }
+
+.dxdi-canvas .pages-grid-line {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.15);
+  stroke-dasharray: 8;
+  stroke-width: 2;
+  shape-rendering: crispEdges; }
+
+.dxdi-canvas .grid-outer-line,
+.dxdi-canvas .grid-inner-line {
+  fill: none;
+  shape-rendering: crispEdges; }
+
+.dxdi-canvas .grid-outer-line {
+  stroke: rgba(0, 0, 0, 0.1); }
+
+.dxdi-canvas .grid-inner-line {
+  stroke: rgba(0, 0, 0, 0.05); }
+
+.dxdi-canvas .shape,
+.dxdi-canvas .toolbox-item {
+  pointer-events: bounding-box; }
+
+.dxdi-canvas .shape rect, .dxdi-canvas .shape path, .dxdi-canvas .shape line, .dxdi-canvas .shape ellipse,
+.dxdi-canvas .toolbox-item rect,
+.dxdi-canvas .toolbox-item path,
+.dxdi-canvas .toolbox-item line,
+.dxdi-canvas .toolbox-item ellipse {
+  fill: white;
+  stroke-width: 2;
+  stroke: black; }
+
+.dxdi-canvas .shape ellipse,
+.dxdi-canvas .toolbox-item ellipse {
+  shape-rendering: initial; }
+
+.dxdi-canvas .shape text,
+.dxdi-canvas .toolbox-item text {
+  fill: black;
+  text-anchor: middle; }
+
+.dxdi-canvas .shape rect.selector,
+.dxdi-canvas .toolbox-item rect.selector {
+  stroke-width: 48;
+  stroke: transparent;
+  fill: transparent;
+  pointer-events: initial; }
+
+.dxdi-canvas .shape {
+  cursor: move; }
+
+.dxdi-canvas .shape.text-input text {
+  display: none; }
+
+.dxdi-canvas .toolbox-item {
+  cursor: pointer; }
+
+.dxdi-canvas .toolbox-item .selector {
+  display: none; }
+
+.dxdi-canvas .connector path, .dxdi-canvas .connector line {
+  fill: transparent;
+  stroke-width: 2;
+  stroke: black;
+  stroke-linecap: round; }
+
+.dxdi-canvas .connector path.selector, .dxdi-canvas .connector line.selector {
+  stroke-width: 16;
+  stroke: transparent; }
+
+.dxdi-canvas .connector text {
+  cursor: move;
+  fill: black;
+  text-anchor: middle; }
+
+.dxdi-canvas .connector .text-filter-flood {
+  flood-color: white; }
+
+.dxdi-canvas .selection-mark,
+.dxdi-canvas .geometry-mark,
+.dxdi-canvas .connection-point,
+.dxdi-canvas .connection-mark,
+.dxdi-canvas .connector-point-mark,
+.dxdi-canvas .connector-side-mark {
+  fill: white;
+  stroke-width: 2;
+  shape-rendering: crispEdges; }
+
+.dxdi-canvas .selection-mark {
+  stroke: dodgerblue; }
+
+.dxdi-canvas .selection-mark[data-type="7"][data-value="1"] {
+  cursor: nw-resize; }
+
+.dxdi-canvas .selection-mark[data-type="7"][data-value="2"] {
+  cursor: ne-resize; }
+
+.dxdi-canvas .selection-mark[data-type="7"][data-value="3"] {
+  cursor: se-resize; }
+
+.dxdi-canvas .selection-mark[data-type="7"][data-value="4"] {
+  cursor: sw-resize; }
+
+.dxdi-canvas .selection-mark[data-type="7"][data-value="5"] {
+  cursor: n-resize; }
+
+.dxdi-canvas .selection-mark[data-type="7"][data-value="6"] {
+  cursor: e-resize; }
+
+.dxdi-canvas .selection-mark[data-type="7"][data-value="7"] {
+  cursor: s-resize; }
+
+.dxdi-canvas .selection-mark[data-type="7"][data-value="8"] {
+  cursor: w-resize; }
+
+.dxdi-canvas .selection-mark[data-type="2"],
+.dxdi-canvas .selection-mark[data-type="3"] {
+  cursor: move; }
+
+.dxdi-canvas .locked-selection-mark {
+  fill: white;
+  stroke-width: 1;
+  stroke: #666666; }
+
+.dxdi-canvas .geometry-mark {
+  cursor: pointer;
+  stroke: goldenrod; }
+
+.dxdi-canvas .connection-target {
+  fill: transparent;
+  stroke: orchid;
+  stroke-width: 2;
+  shape-rendering: crispEdges;
+  pointer-events: none; }
+
+.dxdi-canvas .connection-point {
+  cursor: crosshair;
+  stroke: orchid;
+  shape-rendering: initial; }
+
+.dxdi-canvas .connection-mark {
+  cursor: crosshair;
+  stroke: orchid; }
+
+.dxdi-canvas .connection-point.selector,
+.dxdi-canvas .connection-mark.selector {
+  stroke: transparent;
+  fill: transparent; }
+
+.dxdi-canvas .connection-point.active {
+  fill: orchid; }
+
+.dxdi-canvas .connection-mark.active {
+  fill: orchid; }
+
+.dxdi-canvas .connector-point-mark,
+.dxdi-canvas .connector-side-mark {
+  cursor: move;
+  stroke: dodgerblue; }
+
+.dxdi-canvas .connector-point-mark.disabled {
+  cursor: default;
+  display: none; }
+
+.dxdi-canvas .connector-side-mark {
+  fill: dodgerblue; }
+
+.dxdi-canvas .connector-side-mark.vertical {
+  cursor: col-resize; }
+
+.dxdi-canvas .connector-side-mark.horizontal {
+  cursor: row-resize; }
+
+.dxdi-canvas .item-selection-rect,
+.dxdi-canvas .items-selection-rect {
+  fill: transparent;
+  stroke-width: 1;
+  stroke: dodgerblue;
+  stroke-dasharray: 2px;
+  shape-rendering: crispEdges;
+  pointer-events: none; }
+
+.dxdi-canvas .items-selection-rect {
+  fill: rgba(30, 144, 255, 0.02); }
+
+.dxdi-canvas .item-multi-selection-rect {
+  fill: rgba(30, 144, 255, 0.02);
+  stroke-width: 1;
+  stroke: dodgerblue;
+  shape-rendering: crispEdges;
+  pointer-events: none; }
+
+.dxdi-canvas .selection-rect {
+  fill: rgba(30, 144, 255, 0.2);
+  stroke-width: 1;
+  stroke: dodgerblue;
+  shape-rendering: crispEdges;
+  pointer-events: none; }
+
+.dxdi-canvas .connector-selection,
+.dxdi-canvas .connector-multi-selection {
+  fill: transparent;
+  stroke-width: 6;
+  stroke: dodgerblue;
+  pointer-events: none; }
+
+.dxdi-canvas .connector-selection.text,
+.dxdi-canvas .connector-multi-selection.text {
+  fill: transparent;
+  stroke-width: 1;
+  shape-rendering: crispEdges; }
+
+.dxdi-canvas .connector-selection {
+  stroke-dasharray: 2px; }
+
+.dxdi-canvas .connector-selection-mask rect {
+  fill: black; }
+
+.dxdi-canvas .connector-selection-mask rect.background {
+  fill: white; }
+
+.dxdi-canvas .connector-selection-mask path, .dxdi-canvas .connector-selection-mask line {
+  fill: white;
+  stroke: black;
+  stroke-width: 4; }
+
+.dxdi-canvas .connector-selection-mask text {
+  text-anchor: middle; }
+
+.dxdi-canvas .extension-line line {
+  stroke: dodgerblue;
+  stroke-width: 1;
+  stroke-dasharray: 4px;
+  shape-rendering: crispEdges; }
+
+.dxdi-canvas .extension-line text {
+  fill: dodgerblue;
+  font-size: 0.8em;
+  text-anchor: middle; }
+
+.dxdi-canvas .extension-line.center > line,
+.dxdi-canvas .extension-line.page > line {
+  stroke-dasharray: 0; }
+
+.dxdi-canvas .extension-line:not(.center) > line:not(:first-child) {
+  display: none; }
+
+.dxdi-canvas .resize-info text {
+  fill: rgba(0, 0, 0, 0.8);
+  font-size: 0.8em;
+  text-anchor: middle; }
+
+.dxdi-canvas .resize-info rect {
+  fill: white;
+  stroke: rgba(0, 0, 0, 0.3);
+  stroke-width: 1;
+  shape-rendering: crispEdges; }
+
+.dxdi-control:not(.focused) .dxdi-canvas .selection-mark {
+  stroke: #666666; }
+
+.dxdi-control:not(.focused) .dxdi-canvas .geometry-mark {
+  stroke: #666666; }
+
+.dxdi-control:not(.focused) .dxdi-canvas .item-selection-rect,
+.dxdi-control:not(.focused) .dxdi-canvas .items-selection-rect {
+  fill: transparent;
+  stroke: #666666; }
+
+.dxdi-control:not(.focused) .dxdi-canvas .items-selection-rect {
+  fill: rgba(144, 144, 144, 0.02); }
+
+.dxdi-control:not(.focused) .dxdi-canvas .item-multi-selection-rect {
+  fill: rgba(144, 144, 144, 0.02);
+  stroke: #666666; }
+
+.dxdi-control:not(.focused) .dxdi-canvas .connector-selection,
+.dxdi-control:not(.focused) .dxdi-canvas .connector-multi-selection {
+  stroke: #666666; }
+
+.dxdi-control:not(.focused) .dxdi-canvas .connector-point-mark,
+.dxdi-control:not(.focused) .dxdi-canvas .connector-side-mark {
+  stroke: #666666; }
+
+.dxdi-control:not(.focused) .dxdi-canvas .connector-side-mark {
+  fill: #666666; }
+
+.dxdi-canvas.export {
+  position: fixed;
+  left: -10000px !important;
+  top: -10000px !important; }
+
+.dxdi-toolbox,
+.dxdi-toolbox .dxdi-canvas,
+.dxdi-toolbox-drag-item .dxdi-canvas {
+  width: 100%;
+  height: 100%; }
+
+.dxdi-toolbox .dxdi-canvas .toolbox-item rect, .dxdi-toolbox .dxdi-canvas .toolbox-item path, .dxdi-toolbox .dxdi-canvas .toolbox-item line, .dxdi-toolbox .dxdi-canvas .toolbox-item ellipse {
+  fill: transparent;
+  stroke: currentColor; }
+
+.dxdi-toolbox .dxdi-canvas .toolbox-item text,
+.dxdi-toolbox-drag-item .dxdi-canvas text {
+  font-weight: bold;
+  font-family: "Segoe UI","Helvetica Neue",Helvetica,Arial,"san-serif";
+  fill: currentColor; }
+
+.dxdi-datasource {
+  margin: 0 0 1em; }
+
+.dxdi-datasource-title {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 0 0 1em; }
+
+.dxdi-datasource-item {
+  cursor: pointer;
+  user-select: none;
+  margin: 0 0 0.6em; }
+
+.dxdi-toolbox-drag-item,
+.dxdi-datasource-drag-item {
+  font-family: Arial;
+  font-size: 10pt;
+  color: black;
+  position: absolute;
+  z-index: 10000; }
+
+.dxdi-toolbox-drag-item, .dxdi-toolbox-drag-item *,
+.dxdi-datasource-drag-item,
+.dxdi-datasource-drag-item * {
+  pointer-events: none !important; }
+
+.dxdi-datasource-drag-item {
+  background-color: white;
+  border: 2px solid black;
+  padding: 0.5em; }
+
+.dxdi-tb-drag-captured {
+  display: none; }
+
+.dxdi-input,
+.dxdi-text-input {
+  padding: 0;
+  outline: none;
+  border: none; }
+
+.dxdi-clipboard-input,
+.dxdi-input.focus {
+  position: fixed;
+  overflow: hidden;
+  left: -1000px !important;
+  top: -1000px !important; }
+
+.dxdi-input.shape-text,
+.dxdi-input.connector-text {
+  position: absolute;
+  overflow: hidden;
+  background-color: transparent;
+  transform-origin: 0 0; }
+
+.dxdi-input.shape-text > div[contenteditable] {
+  display: table-cell;
+  overflow: hidden;
+  padding: 0;
+  outline: none;
+  background-color: transparent;
+  font-family: Arial;
+  font-size: 10pt;
+  color: black;
+  line-height: 1.1em;
+  text-align: center;
+  vertical-align: middle; }
+
+.dxdi-input.connector-text {
+  overflow: visible; }
+
+.dxdi-input.connector-text > div[contenteditable] {
+  padding: 2px;
+  outline: none;
+  height: calc(1.1em + 6px);
+  width: calc(8em + 6px);
+  margin-top: calc(-0.55em - 3px);
+  margin-left: calc(-4em - 3px);
+  background-color: white;
+  border: 1px solid dodgerblue;
+  font-family: Arial;
+  font-size: 10pt;
+  color: black;
+  line-height: 1.1em;
+  text-align: center;
+  vertical-align: middle; }
+
