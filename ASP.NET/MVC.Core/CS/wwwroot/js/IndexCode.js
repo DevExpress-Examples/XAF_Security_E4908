@@ -16,17 +16,21 @@ function onCellPrepared(e) {
 }
 
 function allowUpdating(e) {
-	var objectPermission = getPermission(e.row.key);
-	if (objectPermission.Write) {
-		return true;
+	if (e.row.rowType === "data") {
+		var objectPermission = getPermission(e.row.key);
+		if (objectPermission.Write) {
+			return true;
+		}
 	}
 	return false;
 }
 
 function allowDeleting(e) {
-	var objectPermission = getPermission(e.row.key);
-	if (objectPermission.Delete) {
-		return true;
+	if (e.row.rowType === "data") {
+		var objectPermission = getPermission(e.row.key);
+		if (objectPermission.Delete) {
+			return true;
+		}
 	}
 	return false;
 }
