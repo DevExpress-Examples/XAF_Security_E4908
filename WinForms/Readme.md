@@ -131,7 +131,7 @@ private void Login_button_Click(object sender, EventArgs e) {
 
 ## Step 3: Implement the List Form
 - [EmployeeListForm](CS/EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
-	- Create a `SecuredObjectSpace` instance to access protected data.
+	- Create a `SecuredObjectSpace` instance to access protected data and use its data manipulation APIs (for instance, *IObjectSpace.GetObjects*) OR if you prefer, the familiar `UnitOfWork` object accessible through the *SecuredObjectSpace.Session* property.
 	- Set [XPBindingSource.DataSource](https://docs.devexpress.com/XPO/DevExpress.Xpo.XPBindingSource.DataSource) to the Employees collection obtained from the secured object space.
 	- Perform the [IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) request to check Create operation availability and thus determine whether the New button can be enabled.
 		
@@ -140,6 +140,10 @@ private void EmployeeListForm_Load(object sender, EventArgs e) {
     security = ((MainForm)MdiParent).Security;
     objectSpaceProvider = ((MainForm)MdiParent).ObjectSpaceProvider;
     securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
+    // The XPO way:
+    // var session = ((SecuredObjectSpace)securedObjectSpace).Session;
+    // 
+    // The XAF way:
     employeeBindingSource.DataSource = securedObjectSpace.GetObjects<Employee>();
     newBarButtonItem.Enabled = security.IsGranted(
         new PermissionRequest(
