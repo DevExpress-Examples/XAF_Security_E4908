@@ -59,13 +59,18 @@ This example demonstrates how to access data protected by the [Security System](
 	IObjectSpace loginObjectSpace = objectSpaceProvider.CreateObjectSpace();
     security.Logon(loginObjectSpace);
 	```
-6. Now you can create the **SecuredObjectSpace** object and call the Object Space's methods (e.g., [IObjectSpace.GetObjects](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.IObjectSpace.GetObjects.overloads)).
+6. Now you can create **SecuredObjectSpace** and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*) **OR** if you prefer, the familiar **UnitOfWork** object accessible through the *SecuredObjectSpace.Session* property.
+
 	[](#tab/tabid-csharp)
 	
 	```csharp
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.Append("List of the 'Employee' objects:\n");
     using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
+            // The XPO way:
+            // var session = ((SecuredObjectSpace)securedObjectSpace).Session;
+            // 
+            // The XAF way:
 		foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
 			stringBuilder.Append(string.Format("Full name: {0}\n", employee.FullName));
 			if(security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, employee, "Department"))) {
