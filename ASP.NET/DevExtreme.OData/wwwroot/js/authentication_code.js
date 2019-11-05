@@ -4,18 +4,18 @@
 		placeholder: "User name",
 		tabIndex: 2,
 		onInitialized: function (e) {
-			var texBoxInstance  = e.component;
+			var texBoxInstance = e.component;
 			var userName = getCookie("userName");
 			if (userName === undefined) {
-				userName = "User"
+				userName = "User";
 			}
 			texBoxInstance.option("value", userName);
 		},
-		onEnterKey: pressEnter,
+		onEnterKey: pressEnter
 	}).dxValidator({
 		validationRules: [{
 			type: "required",
-			message: "The user name must not be empty"	
+			message: "The user name must not be empty"
 		}]
 	});
 
@@ -24,33 +24,37 @@
 		placeholder: "Password",
 		mode: "password",
 		tabIndex: 3,
-		onEnterKey: pressEnter,
+		onEnterKey: pressEnter
 	});
 
 	$("#validateAndSubmit").dxButton({
 		text: "Log In",
 		tabIndex: 1,
-		onClick: function () {
-			var userName = $("#userName").dxTextBox("instance").option("value");
-			var password = $("#password").dxTextBox("instance").option("value");
-			$.ajax({
-				method: 'POST',
-				url: 'Login',
-				data: {
-					"userName": userName,
-					"password": password
-				},
-				complete: function (e) {
-					if (e.status == 200) {
-						document.cookie = "userName=" + userName;
-						document.location.href = "/";
-					}
-					if (e.status == 401) {
-						alert("User name or password is incorrect");
-					}
+		useSubmitBehavior: true
+	});
+
+	$("#form").on("submit", function (e) {
+		var userName = $("#userName").dxTextBox("instance").option("value");
+		var password = $("#password").dxTextBox("instance").option("value");
+		$.ajax({
+			method: 'POST',
+			url: 'Login',
+			data: {
+				"userName": userName,
+				"password": password
+			},
+			complete: function (e) {
+				if (e.status === 200) {
+					document.cookie = "userName=" + userName;
+					document.location.href = "/";
 				}
-			});
-		}
+				if (e.status === 401) {
+					alert("User name or password is incorrect");
+				}
+			}
+		});
+
+		e.preventDefault();
 	});
 
 	function pressEnter(data) {
