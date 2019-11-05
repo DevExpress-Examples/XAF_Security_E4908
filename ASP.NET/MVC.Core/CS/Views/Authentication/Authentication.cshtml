@@ -1,4 +1,5 @@
-﻿@model AspNetCoreMvcApplication.Models.Login
+﻿@using AspNetCoreMvcApplication.Controllers
+@model AspNetCoreMvcApplication.Models.Login
 
 <link rel="stylesheet" type="text/css" href="css/devextreme/dx.common.css" />
 <link rel="stylesheet" type="text/css" href="css/devextreme/dx.light.css" />
@@ -7,7 +8,7 @@
 
 <title>Log In</title>
 <h1 style="margin-top:5%; margin-bottom:5%;">Welcome to the XAF's Security in Non-XAF Apps Demo</h1>
-@using (Html.BeginForm("Authentication", "Authentication", FormMethod.Post, new { style = "text-align:center", onsubmit = "login(event)" })) {
+@using (Html.BeginForm("Authentication", "Authentication", FormMethod.Post, new { style = "text-align:center" })) {
     <h2>Enter your user name (<b>Admin</b> or <b>User</b>) to proceed.</h2>
     <div class="login-input">
         @(Html.DevExtreme().TextBoxFor(m => m.UserName)
@@ -37,5 +38,11 @@
             .UseSubmitBehavior(true)
         )
     </div>
+}
+
+@if (!ViewContext.ModelState.IsValid) {
+    <script>
+        showError('@ViewContext.ModelState.GetErrorMessage()');
+    </script>
 }
 
