@@ -124,7 +124,7 @@ protected void LogoutButton_Click(object sender, EventArgs e) {
 
 Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridView) to display data in the grid format.
 
-- Create the Object Space instance and initialize the Security System in the `Page_Init` event handler
+- Initialize the Security System in the `Page_Init` event handler. Now you can create `SecuredObjectSpace` and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*) OR if you prefer, the familiar `UnitOfWork` object accessible through the *SecuredObjectSpace.Session* property.
   
   ```csharp
   protected void Page_Init(object sender, EventArgs e) {
@@ -133,6 +133,10 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
       IObjectSpace logonObjectSpace = objectSpaceProvider.CreateObjectSpace();
       security.Logon(logonObjectSpace);
       objectSpace = objectSpaceProvider.CreateObjectSpace();
+      // The XAF way:
+      // var employees = securedObjectSpace.GetObjects<Employee>();
+      //
+      // The XPO way:
       EmployeeDataSource.Session = ((XPObjectSpace)objectSpace).Session;
       DepartmentDataSource.Session = ((XPObjectSpace)objectSpace).Session;
       // ...
