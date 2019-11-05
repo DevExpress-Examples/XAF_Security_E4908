@@ -276,9 +276,7 @@ The `IConfiguration` object is used to access the application configuration [app
 	}
 	```
 
-- [SecuredController](/Controllers/SecuredController.cs) has logic to initialize the Security System with a corresponding authentication provider and the Object Space Provider. 
-The identity authentication provider name and [Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.2&tabs=visual-studio) are used as the `GetSecurity` method's parameters.  
-[ActionsController](/Controllers/ActionsController.cs), [DepartmentsController](/Controllers/DepartmentsController.cs) and [EmployeesController](/Controllers/EmployeesController.cs) are derived from SecuredController.
+- [SecuredController](/Controllers/SecuredController.cs) has logic to initialize the Security System with a corresponding authentication provider and the Object Space Provider. The identity authentication provider name and [Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.2&tabs=visual-studio) are used as the `GetSecurity` method's parameters. With that, you can create `SecuredObjectSpace` and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*) OR if you prefer, the familiar `UnitOfWork` object accessible through the *SecuredObjectSpace.Session* property. [ActionsController](/Controllers/ActionsController.cs), [DepartmentsController](/Controllers/DepartmentsController.cs) and [EmployeesController](/Controllers/EmployeesController.cs) are derived from SecuredController.
 
 	``` csharp
 	public class SecuredController : BaseController {
@@ -294,7 +292,6 @@ The identity authentication provider name and [Identity](https://docs.microsoft.
 		}
 	}
 	```
-
 - [EmployeesController](/Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
 
 	``` csharp
@@ -304,6 +301,10 @@ The identity authentication provider name and [Identity](https://docs.microsoft.
 		[HttpGet]
 		[EnableQuery]
 		public ActionResult Get() {
+                   // The XPO way:
+                   // var session = ((SecuredObjectSpace)ObjectSpace).Session;
+                   // 
+                   // The XAF way:
 			IQueryable<Employee> employees = ObjectSpace.GetObjectsQuery<Employee>();
 			return Ok(employees);
 		}
