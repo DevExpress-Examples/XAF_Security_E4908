@@ -31,7 +31,13 @@ namespace AspNetCoreMvcApplication.Controllers {
 		}
 		[Route("Authentication")]
 		public IActionResult Authentication() {
-			return View();
+			string userName = HttpContext.Request.Cookies["userName"];
+			if (string.IsNullOrWhiteSpace(userName)) {
+				userName = "User";
+			}
+			Models.Login login = new Models.Login();
+			login.UserName = userName;
+			return View(login);
 		}
 		protected override void Dispose(bool disposing) {
 			if(disposing) {
