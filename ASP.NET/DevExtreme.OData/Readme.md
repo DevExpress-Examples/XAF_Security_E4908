@@ -491,27 +491,31 @@ The `Login` method is called when a user clicks the `Login` button on the login 
 	$("#validateAndSubmit").dxButton({
 		text: "Log In",
 		tabIndex: 1,
-		onClick: function () {
-			var userName = $("#userName").dxTextBox("instance").option("value");
-			var password = $("#password").dxTextBox("instance").option("value");
-			$.ajax({
-				method: 'POST',
-				url: 'Login',
-				data: {
-					"userName": userName,
-					"password": password
-				},
-				complete: function (e) {
-					if (e.status == 200) {
-						document.cookie = "userName=" + userName;
-						document.location.href = "/";
-					}
-					if (e.status == 401) {
-						alert("User name or password is incorrect");
-					}
+		useSubmitBehavior: true
+	});
+
+	$("#form").on("submit", function (e) {
+		var userName = $("#userName").dxTextBox("instance").option("value");
+		var password = $("#password").dxTextBox("instance").option("value");
+		$.ajax({
+			method: 'POST',
+			url: 'Login',
+			data: {
+				"userName": userName,
+				"password": password
+			},
+			complete: function (e) {
+				if (e.status === 200) {
+					document.cookie = "userName=" + userName;
+					document.location.href = "/";
 				}
-			});
-		}
+				if (e.status === 401) {
+					alert("User name or password is incorrect");
+				}
+			}
+		});
+
+		e.preventDefault();
 	});
 	```	
 		
