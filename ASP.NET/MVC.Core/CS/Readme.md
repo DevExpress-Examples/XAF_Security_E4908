@@ -17,131 +17,130 @@ For detailed information about the ASP.NET Core application configuration, see [
 
 Configure the MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
     
-	``` csharp
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services) {
-			services.AddMvc(options => {
-				options.EnableEndpointRouting = false;
-			})
-				.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-				.AddDxSampleModelJsonOptions();
-			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-				 .AddCookie(options => {
-					 options.LoginPath = loginPath;
-				 });
-			services.AddSingleton<XpoDataStoreProviderService>();
-			services.AddSingleton(Configuration);
-			services.AddHttpContextAccessor();
-			services.AddScoped<SecurityProvider>();
-		}
+``` csharp
+// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services) {
+	services.AddMvc(options => {
+		options.EnableEndpointRouting = false;
+	})
+		.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+		.AddDxSampleModelJsonOptions();
+	services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+		 .AddCookie(options => {
+			 options.LoginPath = loginPath;
+		 });
+	services.AddSingleton<XpoDataStoreProviderService>();
+	services.AddSingleton(Configuration);
+	services.AddHttpContextAccessor();
+	services.AddScoped<SecurityProvider>();
+}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-			if(env.IsDevelopment()) {
-				app.UseDeveloperExceptionPage();
+// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+	if(env.IsDevelopment()) {
+		app.UseDeveloperExceptionPage();
+	}
+	else {
+		app.UseExceptionHandler("/Home/Error");
+		app.UseHsts();
+	}
+
+	app.UseAuthentication();
+	app.UseDefaultFiles();
+	app.UseHttpsRedirection();
+	app.UseStaticFiles(new StaticFileOptions() { 
+		OnPrepareResponse = context => {
+			if(context.Context.User.Identity.IsAuthenticated) {
+				return;
 			}
 			else {
-				app.UseExceptionHandler("/Home/Error");
-				app.UseHsts();
+				string referer = context.Context.Request.Headers["Referer"].ToString();
+				string authenticationPagePath = loginPath;
+				string vendorString = "vendor.css";
+				if(context.Context.Request.Path.HasValue && context.Context.Request.Path.StartsWithSegments(authenticationPagePath)
+					|| referer != null && (referer.Contains(authenticationPagePath) || referer.Contains(vendorString))) {
+					return;
+				}
+				context.Context.Response.Redirect(loginPath);
 			}
+		}
+	});
+	app.UseCookiePolicy();
+	app.UseMvc(routes => {
+		routes.MapRoute(
+			name: "default",
+			template: "{controller=Home}/{action=Index}/{id?}");
+	});
+}
+```
+	
+- The AddDxSampleModelJsonOptions extension is used to register [JsonResolver](/Helpers/JsonResolver.cs) needed to serialize business objects correctly.
+		
+	``` csharp
+	public class JsonResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {
+		public bool SerializeCollections { get; set; } = false;
+		public bool SerializeReferences { get; set; } = true;
+		public bool SerializeByteArrays { get; set; } = true;
+		readonly XPDictionary dictionary;
+		public JsonResolver() {
+			dictionary = new ReflectionDictionary();
+			dictionary.GetDataStoreSchema(typeof(Employee), typeof(Department));
+		}
+		protected override List<MemberInfo> GetSerializableMembers(Type objectType) {
+			XPClassInfo classInfo = dictionary.QueryClassInfo(objectType);
+			if(classInfo != null && classInfo.IsPersistent) {
+				var allSerializableMembers = base.GetSerializableMembers(objectType);
+				var serializableMembers = new List<MemberInfo>(allSerializableMembers.Count);
+				foreach(MemberInfo member in allSerializableMembers) {
+					XPMemberInfo mi = classInfo.FindMember(member.Name);
+					if(!(mi.IsPersistent || mi.IsAliased || mi.IsCollection || mi.IsManyToManyAlias)
+						|| ((mi.IsCollection || mi.IsManyToManyAlias) && !SerializeCollections)
+						|| (mi.ReferenceType != null && !SerializeReferences)
+						|| (mi.MemberType == typeof(byte[]) && !SerializeByteArrays)) {
+						continue;
+					}
+					serializableMembers.Add(member);
+				}
+				return serializableMembers;
+			}
+			return base.GetSerializableMembers(objectType);
+		}
+	}
+	```
 
-			app.UseAuthentication();
-			app.UseDefaultFiles();
-			app.UseHttpsRedirection();
-			app.UseStaticFiles(new StaticFileOptions() { 
-				OnPrepareResponse = context => {
-					if(context.Context.User.Identity.IsAuthenticated) {
-						return;
-					}
-					else {
-						string referer = context.Context.Request.Headers["Referer"].ToString();
-						string authenticationPagePath = loginPath;
-						string vendorString = "vendor.css";
-						if(context.Context.Request.Path.HasValue && context.Context.Request.Path.StartsWithSegments(authenticationPagePath)
-							|| referer != null && (referer.Contains(authenticationPagePath) || referer.Contains(vendorString))) {
-							return;
-						}
-						context.Context.Response.Redirect(loginPath);
-					}
-				}
-			});
-			app.UseCookiePolicy();
-			app.UseMvc(routes => {
-				routes.MapRoute(
-					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
-			});
-		}
-    
-    ```
-	
-	- The AddDxSampleModelJsonOptions extension is used to register [JsonResolver](/Helpers/JsonResolver.cs) needed to serialize business objects correctly.
+- The [XpoDataStoreProviderService](/Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
 		
-		``` csharp
-		public class JsonResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {
-			public bool SerializeCollections { get; set; } = false;
-			public bool SerializeReferences { get; set; } = true;
-			public bool SerializeByteArrays { get; set; } = true;
-			readonly XPDictionary dictionary;
-			public JsonResolver() {
-				dictionary = new ReflectionDictionary();
-				dictionary.GetDataStoreSchema(typeof(Employee), typeof(Department));
+	``` csharp
+	public class XpoDataStoreProviderService {
+		private IXpoDataStoreProvider dataStoreProvider;
+		public IXpoDataStoreProvider GetDataStoreProvider(string connectionString, IDbConnection connection, bool enablePoolingInConnectionString) {
+			if(dataStoreProvider == null) {
+				dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, connection, enablePoolingInConnectionString);
 			}
-			protected override List<MemberInfo> GetSerializableMembers(Type objectType) {
-				XPClassInfo classInfo = dictionary.QueryClassInfo(objectType);
-				if(classInfo != null && classInfo.IsPersistent) {
-					var allSerializableMembers = base.GetSerializableMembers(objectType);
-					var serializableMembers = new List<MemberInfo>(allSerializableMembers.Count);
-					foreach(MemberInfo member in allSerializableMembers) {
-						XPMemberInfo mi = classInfo.FindMember(member.Name);
-						if(!(mi.IsPersistent || mi.IsAliased || mi.IsCollection || mi.IsManyToManyAlias)
-							|| ((mi.IsCollection || mi.IsManyToManyAlias) && !SerializeCollections)
-							|| (mi.ReferenceType != null && !SerializeReferences)
-							|| (mi.MemberType == typeof(byte[]) && !SerializeByteArrays)) {
-							continue;
-						}
-						serializableMembers.Add(member);
-					}
-					return serializableMembers;
-				}
-				return base.GetSerializableMembers(objectType);
-			}
+			return dataStoreProvider;
 		}
-		```
+	}
+	```
+	
+- The `IConfiguration` object is used to access the application configuration [appsettings.json](/appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider. 
+		
+	``` csharp		
+	//...
+	public IConfiguration Configuration { get; }
+	public Startup(IConfiguration configuration) {
+		Configuration = configuration;
+	}
+	```
+	In appsettings.json, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
+	``` json
+	"ConnectionStrings": {
+	  "XafApplication": "Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"
+	}
+	```
+		
+- Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
 
-	- The [XpoDataStoreProviderService](/Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
-		
-		``` csharp
-		public class XpoDataStoreProviderService {
-			private IXpoDataStoreProvider dataStoreProvider;
-			public IXpoDataStoreProvider GetDataStoreProvider(string connectionString, IDbConnection connection, bool enablePoolingInConnectionString) {
-				if(dataStoreProvider == null) {
-					dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, connection, enablePoolingInConnectionString);
-				}
-				return dataStoreProvider;
-			}
-		}
-		```
-	
-	- The `IConfiguration` object is used to access the application configuration [appsettings.json](/appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider. 
-		
-		``` csharp		
-		//...
-		public IConfiguration Configuration { get; }
-		public Startup(IConfiguration configuration) {
-			Configuration = configuration;
-		}
-		```
-		In appsettings.json, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
-		``` json
-		"ConnectionStrings": {
-		  "XafApplication": "Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"
-		}
-		```
-		
-	- Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
-	
-	- Set the [StaticFileOptions\.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
+- Set the [StaticFileOptions\.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
 with the logic which сhecks if the ASP.NET Core Identity is authenticated. And, if not, it redirects a user to the authentication page.
 
 ## Step 2: Implement SecurityProvider and Permissions
@@ -200,7 +199,9 @@ private void Login(SecurityStrategyComplex security, IObjectSpaceProvider object
 }
 ```
 
-The `GetSecurity` method initializes the Security System instance and registers authentication providers. The `AuthenticationMixed` class allows you to register several authentication providers, 
+The `GetSecurity` method initializes the Security System instance and registers authentication providers. 
+
+The `AuthenticationMixed` class allows you to register several authentication providers, 
 so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
 
 ``` csharp
@@ -332,7 +333,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	
 	[JsonParser](/Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
 	
-	Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI.
+	> Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI.
 
 - [DepartmentsController](/Controllers/DepartmentsController.cs) has methods to get access to Department objects and contains code similar to the one in EmployeesController.
     
