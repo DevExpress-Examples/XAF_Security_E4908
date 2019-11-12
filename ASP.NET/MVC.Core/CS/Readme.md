@@ -12,7 +12,7 @@ This example demonstrates how to protect your data with the [XAF Security System
 
 ***
 
-## Step 1: Configure the ASP.NET Core Server App
+## Step 1: Configure the ASP.NET Core Server App Services
 For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-2.2&tabs=windows).
 
 Configure the MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
@@ -143,7 +143,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
 - Set the [StaticFileOptions\.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
 with the logic which сhecks if the ASP.NET Core Identity is authenticated. And, if not, it redirects a user to the authentication page.
 
-## Step 2: Implement SecurityProvider and Permissions
+## Step 2: Initialize Data Store and XAF's Security System. Authentication and Permission Configuration
 
 Create [MemberPermission](/Helpers/MemberPermission.cs), [ObjectPermission](/Helpers/ObjectPermission.cs) and [TypePermission](/Helpers/TypePermission.cs) classes. These classes are used as containers to transfer permissions to the client side.
 	
@@ -264,7 +264,7 @@ private void SignIn(HttpContext httpContext, string userName) {
 
 > Make sure that the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System) in your non-XAF application have the same values as in the XAF application where passwords were set. Otherwise you won't be able to login.
 
-## Step 3: Implement MVC Controllers for CRUD, Login, Logoff, etc.
+## Step 3: Server-Side App Authentication and Authorization with MVC Controllers for Login, Logout and CRUD
 
 All controllers get SecurityProvider as constructor parameters to have access to objectSpace and security.
 
@@ -463,7 +463,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	}
 	```	
 	
-## Step 4: Implement the Client-Side App
+## Step 4: Client-Side App Authentication and Authorization to Customize UI Based on Access Rights
 
 [Authentication.cshtml](Views/Authentication/Authentication.cshtml) is a login page that allows you to log into the application and [AuthenticationCode.js](/wwwroot/js/AuthenticationCode.js) contains scripts executed on the login page.
 
