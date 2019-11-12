@@ -1,6 +1,6 @@
 <!-- default file list -->
 
-# How to: Use the Integrated Mode of the Security System in Non-XAF Applications
+# User Authentication and Group Authorization API for .NET Apps Powered by the XPO ORM - App Security Made Easy
 
 ![image](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/blob/19.1.4%2B/Security-System-1x2-FB.png)
 
