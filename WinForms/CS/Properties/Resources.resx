@@ -137,6 +137,6 @@
     <value>..\Resources\Action_Close.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v19.1, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\edit.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v19.1, Version=19.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>..\Resources\edit.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v19.1, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
 </root>
