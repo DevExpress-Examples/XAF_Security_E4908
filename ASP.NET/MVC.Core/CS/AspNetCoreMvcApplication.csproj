@@ -4,26 +4,18 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-	<PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.1.*" />
-	<PackageReference Include="DevExpress.ExpressApp" Version="19.1.*" />
-	<PackageReference Include="DevExpress.ExpressApp.Security" Version="19.1.*" />
-	<PackageReference Include="DevExpress.ExpressApp.Xpo" Version="19.1.*" />
-	<PackageReference Include="DevExpress.Xpo" Version="19.1.*" />
-	<PackageReference Include="DevExpress.Utils" Version="19.1.*" />
-	<PackageReference Include="DevExpress.Data" Version="19.1.*" />
-	<PackageReference Include="DevExpress.Persistent.Base" Version="19.1.*" />
+	  <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.1.*" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.1.*" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
-	<PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.2.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.ViewCompilation" Version="2.0.3" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.3" />
     <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
-    <PackageReference Include="DevExtreme.AspNet.Data" Version="2.4.4" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="19.1.6" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="19.1.*" />
   </ItemGroup>
   
   <ItemGroup>
