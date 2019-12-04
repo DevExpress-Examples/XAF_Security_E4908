@@ -47,10 +47,10 @@
     <PackageReference Include="AspNet.ScriptManager.bootstrap" Version="3.4.1" />
     <PackageReference Include="AspNet.ScriptManager.jQuery" Version="3.3.1" />
     <PackageReference Include="bootstrap" Version="3.4.1" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.1.*" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.1.*" />
-    <PackageReference Include="DevExpress.Web" Version="19.1.*" />
-    <PackageReference Include="DevExpress.Web.Themes" Version="19.1.*" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.2.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.2.4" />
+    <PackageReference Include="DevExpress.Web" Version="19.2.4" />
+    <PackageReference Include="DevExpress.Web.Themes" Version="19.2.4" />
     <PackageReference Include="jQuery" Version="3.3.1" />
     <PackageReference Include="Microsoft.AspNet.FriendlyUrls" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNet.FriendlyUrls.Core" Version="1.0.2" />
@@ -226,11 +226,11 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;$(MSBuildBinPath)\MSBuild&quot; -t:restore WebFormsApplication.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+      <Output PropertyName="ExitCode" TaskParameter="ExitCode" />
+    </Exec>
+    <Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

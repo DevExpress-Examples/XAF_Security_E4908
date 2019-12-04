@@ -5,36 +5,41 @@ using System.Windows.Forms;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Win;
-using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.XtraEditors;
 
-namespace XafSolution.Win {
-    static class Program {
+namespace XafSolution.Win
+{
+    static class Program
+    {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main() {
+        static void Main()
+        {
 #if EASYTEST
             DevExpress.ExpressApp.Win.EasyTest.EasyTestRemotingRegistration.Register();
 #endif
             WindowsFormsSettings.LoadApplicationSettings();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+#if NETCOREAPP
+            DevExpress.ExpressApp.BaseObjectSpace.ThrowExceptionForNotRegisteredEntityType = true;
+#else
             EditModelPermission.AlwaysGranted = System.Diagnostics.Debugger.IsAttached;
-            if(Tracing.GetFileLocationFromSettings() == DevExpress.Persistent.Base.FileLocation.CurrentUserApplicationDataFolder) {
+#endif
+            if (Tracing.GetFileLocationFromSettings() == DevExpress.Persistent.Base.FileLocation.CurrentUserApplicationDataFolder) {
                 Tracing.LocalUserAppDataPath = Application.LocalUserAppDataPath;
             }
             Tracing.Initialize();
             XafSolutionWindowsFormsApplication winApplication = new XafSolutionWindowsFormsApplication();
             winApplication.LastLogonParametersReading += winApplication_LastLogonParametersReading;
-            // Refer to the https://docs.devexpress.com/eXpressAppFramework/112680 help article for more details on how to provide a custom splash form.
-            //winApplication.SplashScreen = new DevExpress.ExpressApp.Win.Utils.DXSplashScreen("YourSplashImage.png");
-			SecurityStrategy security = (SecurityStrategy)winApplication.Security;
-			SecurityAdapterHelper.Enable();
-            if(ConfigurationManager.ConnectionStrings["ConnectionString"] != null) {
+            SecurityStrategy security = (SecurityStrategy)winApplication.Security;
+            security.RegisterXPOAdapterProviders();
+            if (ConfigurationManager.ConnectionStrings["ConnectionString"] != null) {
                 winApplication.ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             }
 #if EASYTEST
@@ -52,11 +57,16 @@ namespace XafSolution.Win {
                 winApplication.Start();
             }
             catch(Exception e) {
+#if NETCOREAPP
+                winApplication.StopSplash();
+#endif
                 winApplication.HandleException(e);
             }
         }
-        static void winApplication_LastLogonParametersReading(object sender, LastLogonParametersReadingEventArgs e) {
-            if(string.IsNullOrEmpty(e.SettingsStorage.LoadOption("", nameof(AuthenticationStandardLogonParameters.UserName)))) {
+        static void winApplication_LastLogonParametersReading(object sender, LastLogonParametersReadingEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.SettingsStorage.LoadOption("", nameof(AuthenticationStandardLogonParameters.UserName))))
+            {
                 // This user is created in the XafSolution.Module\DatabaseUpdate\Updater.cs file.
                 e.SettingsStorage.SaveOption("", nameof(AuthenticationStandardLogonParameters.UserName), "Admin");
             }

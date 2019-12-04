@@ -1,15 +1,16 @@
-﻿Imports System.Reflection
+﻿#IF NETFRAMEWORK
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 
 ' General Information about an assembly is controlled through the following
 ' set of attributes. Change these attribute values to modify the information
 ' associated with an assembly.
-<Assembly: AssemblyTitle("ConsoleApplication")>
+<Assembly: AssemblyTitle("ConsoleApplicatoin")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyConfiguration("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("ConsoleApplication")>
+<Assembly: AssemblyProduct("ConsoleApplicatoin")>
 <Assembly: AssemblyCopyright("Copyright ©  2019")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCulture("")>
@@ -20,7 +21,7 @@ Imports System.Runtime.InteropServices
 <Assembly: ComVisible(False)>
 
 ' The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("677357e0-2425-4014-a1b3-ac3fa5bee0d4")>
+<Assembly: Guid("740651a7-1bdb-40fd-9c18-0d4f037b4007")>
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -34,3 +35,4 @@ Imports System.Runtime.InteropServices
 ' [assembly: AssemblyVersion("1.0.*")]
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
+#END If

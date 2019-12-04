@@ -110,8 +110,8 @@ Namespace WindowsFormsApplication
             ' 
             Me.newBarButtonItem.Caption = "New"
             Me.newBarButtonItem.Id = 1
-			Me.newBarButtonItem.ImageOptions.SvgImage = My.Resources.ActionNew
-			Me.newBarButtonItem.Name = "newBarButtonItem"
+            Me.newBarButtonItem.ImageOptions.SvgImage = My.Resources.[New]
+            Me.newBarButtonItem.Name = "newBarButtonItem"
             ' 
             ' deleteBarButtonItem
             ' 
@@ -139,7 +139,7 @@ Namespace WindowsFormsApplication
             ' 
             Me.editBarButtonItem.Caption = "Edit"
             Me.editBarButtonItem.Id = 4
-            Me.editBarButtonItem.ImageOptions.SvgImage = My.Resources.Edit
+            Me.editBarButtonItem.ImageOptions.SvgImage = My.Resources.edit
             Me.editBarButtonItem.Name = "editBarButtonItem"
             ' 
             ' EmployeeListForm

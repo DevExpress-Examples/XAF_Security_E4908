@@ -83,16 +83,6 @@ Namespace My.Resources
         ''' <summary>
         '''   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         ''' </summary>
-        Friend ReadOnly Property Edit() As DevExpress.Utils.Svg.SvgImage
-            Get
-                Dim obj As Object = ResourceManager.GetObject("Edit", resourceCulture)
-                Return (DirectCast(obj, DevExpress.Utils.Svg.SvgImage))
-            End Get
-        End Property
-
-        ''' <summary>
-        '''   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
-        ''' </summary>
         Friend ReadOnly Property Action_Logoff() As DevExpress.Utils.Svg.SvgImage
             Get
                 Dim obj As Object = ResourceManager.GetObject("Action_Logoff", resourceCulture)
@@ -100,22 +90,22 @@ Namespace My.Resources
             End Get
         End Property
 
-		''' <summary>
-		'''   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
-		''' </summary>
-		Friend ReadOnly Property ActionNew() As DevExpress.Utils.Svg.SvgImage
-			Get
-				Dim obj As Object = ResourceManager.GetObject("New", resourceCulture)
-				Return (DirectCast(obj, DevExpress.Utils.Svg.SvgImage))
-			End Get
-		End Property
-
-		''' <summary>
-		'''   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
-		''' </summary>
-		Friend ReadOnly Property Action_Save() As DevExpress.Utils.Svg.SvgImage
+        ''' <summary>
+        '''   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        ''' </summary>
+        Friend ReadOnly Property Action_Save() As DevExpress.Utils.Svg.SvgImage
             Get
                 Dim obj As Object = ResourceManager.GetObject("Action_Save", resourceCulture)
+                Return (DirectCast(obj, DevExpress.Utils.Svg.SvgImage))
+            End Get
+        End Property
+
+        ''' <summary>
+        '''   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        ''' </summary>
+        Friend ReadOnly Property edit() As DevExpress.Utils.Svg.SvgImage
+            Get
+                Dim obj As Object = ResourceManager.GetObject("edit", resourceCulture)
                 Return (DirectCast(obj, DevExpress.Utils.Svg.SvgImage))
             End Get
         End Property
@@ -127,6 +117,16 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("ExpressApp", resourceCulture)
                 Return (DirectCast(obj, System.Drawing.Icon))
+            End Get
+        End Property
+
+        ''' <summary>
+        '''   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        ''' </summary>
+        Friend ReadOnly Property [New]() As DevExpress.Utils.Svg.SvgImage
+            Get
+                Dim obj As Object = ResourceManager.GetObject("New", resourceCulture)
+                Return (DirectCast(obj, DevExpress.Utils.Svg.SvgImage))
             End Get
         End Property
     End Module

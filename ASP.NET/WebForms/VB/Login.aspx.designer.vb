@@ -7,38 +7,36 @@
 ' </auto-generated>
 '------------------------------------------------------------------------------
 
-Option Strict On
-Option Explicit On
-
 Namespace WebFormsApplication
-    
+
+
     Partial Public Class LoginForm
-        
-        '''<summary>
-        '''UserNameBox control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents UserNameBox As Global.DevExpress.Web.ASPxTextBox
-        
-        '''<summary>
-        '''PasswordBox control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents PasswordBox As Global.DevExpress.Web.ASPxTextBox
-        
-        '''<summary>
-        '''LoginButton control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents LoginButton As Global.DevExpress.Web.ASPxButton
+
+        ''' <summary>
+        ''' UserNameBox control.
+        ''' </summary>
+        ''' <remarks>
+        ''' Auto-generated field.
+        ''' To modify move field declaration from designer file to code-behind file.
+        ''' </remarks>
+        Protected UserNameBox As Global.DevExpress.Web.ASPxTextBox
+
+        ''' <summary>
+        ''' PasswordBox control.
+        ''' </summary>
+        ''' <remarks>
+        ''' Auto-generated field.
+        ''' To modify move field declaration from designer file to code-behind file.
+        ''' </remarks>
+        Protected PasswordBox As Global.DevExpress.Web.ASPxTextBox
+
+        ''' <summary>
+        ''' LoginButton control.
+        ''' </summary>
+        ''' <remarks>
+        ''' Auto-generated field.
+        ''' To modify move field declaration from designer file to code-behind file.
+        ''' </remarks>
+        Protected LoginButton As Global.DevExpress.Web.ASPxButton
     End Class
 End Namespace

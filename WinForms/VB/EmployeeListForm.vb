@@ -25,13 +25,13 @@ Namespace WindowsFormsApplication
             objectSpaceProvider = CType(MdiParent, MainForm).ObjectSpaceProvider
             securedObjectSpace = objectSpaceProvider.CreateObjectSpace()
             employeeBindingSource.DataSource = securedObjectSpace.GetObjects(Of Employee)()
-            newBarButtonItem.Enabled = security.IsGranted(New PermissionRequest(securedObjectSpace, GetType(Employee), SecurityOperations.Create))
+            newBarButtonItem.Enabled = security.CanCreate(Of Employee)()
             protectedContentTextEdit = New RepositoryItemProtectedContentTextEdit()
         End Sub
         Private Sub GridView_CustomRowCellEdit(ByVal sender As Object, ByVal e As CustomRowCellEditEventArgs) Handles employeeGridView.CustomRowCellEdit
             Dim fieldName As String = e.Column.FieldName
             Dim targetObject As Object = employeeGridView.GetRow(e.RowHandle)
-            If Not security.IsGranted(New PermissionRequest(securedObjectSpace, GetType(Employee), SecurityOperations.Read, targetObject, fieldName)) Then
+            If Not security.CanRead(targetObject, fieldName) Then
                 e.RepositoryItem = protectedContentTextEdit
             End If
         End Sub
@@ -52,7 +52,7 @@ Namespace WindowsFormsApplication
             End If
         End Sub
         Private Sub EmployeeGridView_FocusedRowObjectChanged(ByVal sender As Object, ByVal e As FocusedRowObjectChangedEventArgs) Handles employeeGridView.FocusedRowObjectChanged
-            deleteBarButtonItem.Enabled = security.IsGranted(New PermissionRequest(securedObjectSpace, GetType(Employee), SecurityOperations.Delete, e.Row))
+            deleteBarButtonItem.Enabled = security.CanDelete(e.Row)
         End Sub
         Private Sub NewBarButtonItem_ItemClick(ByVal sender As Object, ByVal e As DevExpress.XtraBars.ItemClickEventArgs) Handles newBarButtonItem.ItemClick
             CreateDetailForm()

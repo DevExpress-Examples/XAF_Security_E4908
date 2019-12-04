@@ -7,47 +7,45 @@
 ' </auto-generated>
 '------------------------------------------------------------------------------
 
-Option Strict On
-Option Explicit On
-
 Namespace WebFormsApplication
-    
+
+
     Partial Public Class _Default
-        
-        '''<summary>
-        '''LogoutButton control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents LogoutButton As Global.DevExpress.Web.ASPxButton
-        
-        '''<summary>
-        '''EmployeeGrid control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents EmployeeGrid As Global.DevExpress.Web.ASPxGridView
-        
-        '''<summary>
-        '''EmployeeDataSource control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents EmployeeDataSource As Global.DevExpress.Xpo.XpoDataSource
-        
-        '''<summary>
-        '''DepartmentDataSource control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents DepartmentDataSource As Global.DevExpress.Xpo.XpoDataSource
+
+        ''' <summary>
+        ''' LogoutButton control.
+        ''' </summary>
+        ''' <remarks>
+        ''' Auto-generated field.
+        ''' To modify move field declaration from designer file to code-behind file.
+        ''' </remarks>
+        Protected LogoutButton As Global.DevExpress.Web.ASPxButton
+
+        ''' <summary>
+        ''' EmployeeGrid control.
+        ''' </summary>
+        ''' <remarks>
+        ''' Auto-generated field.
+        ''' To modify move field declaration from designer file to code-behind file.
+        ''' </remarks>
+        Protected EmployeeGrid As Global.DevExpress.Web.ASPxGridView
+
+        ''' <summary>
+        ''' EmployeeDataSource control.
+        ''' </summary>
+        ''' <remarks>
+        ''' Auto-generated field.
+        ''' To modify move field declaration from designer file to code-behind file.
+        ''' </remarks>
+        Protected EmployeeDataSource As Global.DevExpress.Xpo.XpoDataSource
+
+        ''' <summary>
+        ''' DepartmentDataSource control.
+        ''' </summary>
+        ''' <remarks>
+        ''' Auto-generated field.
+        ''' To modify move field declaration from designer file to code-behind file.
+        ''' </remarks>
+        Protected DepartmentDataSource As Global.DevExpress.Xpo.XpoDataSource
     End Class
 End Namespace

@@ -43,42 +43,38 @@ Namespace WebFormsApplication
         End Sub
         Protected Sub EmployeeGrid_CellEditorInitialize(ByVal sender As Object, ByVal e As ASPxGridViewEditorEventArgs)
             Dim employee As Employee = objectSpace.GetObjectByKey(Of Employee)(e.KeyValue)
-            If Not IsGranted(SecurityOperations.Read, employee, e.Column) Then
+			Dim memberName As String = GetMemberName(e.Column)
+			If Not security.CanRead(employee, memberName) Then
                 e.Editor.Value = "Protected Content"
                 e.Editor.Enabled = False
-            Else
-                If Not IsGranted(SecurityOperations.Write, employee, e.Column) Then
-                    e.Editor.Enabled = False
-                End If
+            ElseIf Not security.CanWrite(employee, memberName) Then
+                e.Editor.Enabled = False
             End If
         End Sub
         Protected Sub EmployeeGrid_CommandButtonInitialize(ByVal sender As Object, ByVal e As ASPxGridViewCommandButtonEventArgs)
             If e.ButtonType = ColumnCommandButtonType.[New] Then
-				If Not IsGranted(SecurityOperations.Create) Then
-					e.Text = String.Empty
-				End If
-			End If
+                If Not security.CanCreate(Of Employee)() Then
+                    e.Text = String.Empty
+                End If
+            End If
             If e.ButtonType = ColumnCommandButtonType.Delete Then
                 Dim employee As Employee = TryCast(DirectCast(sender, ASPxGridView).GetRow(e.VisibleIndex), Employee)
-                e.Visible = IsGranted(SecurityOperations.Delete, employee)
+                e.Visible = security.CanDelete(employee)
             End If
         End Sub
         Protected Sub EmployeeGrid_HtmlDataCellPrepared(ByVal sender As Object, ByVal e As ASPxGridViewTableDataCellEventArgs)
             Dim employee As Employee = objectSpace.GetObjectByKey(Of Employee)(e.KeyValue)
-            If Not IsGranted(SecurityOperations.Read, employee, e.DataColumn) Then
+			Dim memberName As String = GetMemberName(e.DataColumn)
+			If Not security.CanRead(employee, memberName) Then
                 e.Cell.Text = "Protected content"
             End If
         End Sub
-		Protected Sub LogoutButton_Click(ByVal sender As Object, ByVal e As EventArgs)
-			FormsAuthentication.SignOut()
-			FormsAuthentication.RedirectToLoginPage()
-		End Sub
-		Private Shared Function GetMemberName(ByVal column As GridViewDataColumn) As String
-            Return column.FieldName.Split("!"c)(0)
-        End Function
-        Private Function IsGranted(ByVal operation As String, Optional ByVal employee As Object = Nothing, Optional ByVal column As GridViewDataColumn = Nothing) As Boolean
-            Dim memberName As String = If(column IsNot Nothing, GetMemberName(column), Nothing)
-            Return security.IsGranted(New PermissionRequest(objectSpace, GetType(Employee), operation, employee, memberName))
-        End Function
-    End Class
+        Protected Sub LogoutButton_Click(ByVal sender As Object, ByVal e As EventArgs)
+            FormsAuthentication.SignOut()
+            FormsAuthentication.RedirectToLoginPage()
+        End Sub
+		Private Function GetMemberName(ByVal column As GridViewDataColumn) As String
+			Return column?.FieldName.Split("!"c)(0)
+		End Function
+	End Class
 End Namespace

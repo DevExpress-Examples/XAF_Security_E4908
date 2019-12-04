@@ -23,13 +23,13 @@ namespace WindowsFormsApplication {
 			objectSpaceProvider = ((MainForm)MdiParent).ObjectSpaceProvider;
 			securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
 			employeeBindingSource.DataSource = securedObjectSpace.GetObjects<Employee>();
-			newBarButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Create));
+			newBarButtonItem.Enabled = security.CanCreate<Employee>();
 			protectedContentTextEdit = new RepositoryItemProtectedContentTextEdit();
 		}
 		private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
 			string fieldName = e.Column.FieldName;
-			object targetObject = employeeGridView.GetRow(e.RowHandle);
-			if(!security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, targetObject, fieldName))) {
+            object targetObject = employeeGridView.GetRow(e.RowHandle);
+            if (!security.CanRead(targetObject, fieldName)) {
 				e.RepositoryItem = protectedContentTextEdit;
 			}
 		}
@@ -50,7 +50,7 @@ namespace WindowsFormsApplication {
 			}
 		}
 		private void EmployeeGridView_FocusedRowObjectChanged(object sender, FocusedRowObjectChangedEventArgs e) {
-			deleteBarButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Delete, e.Row));
+			deleteBarButtonItem.Enabled = security.CanDelete(e.Row);
 		}
 		private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
 			CreateDetailForm();

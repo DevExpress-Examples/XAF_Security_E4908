@@ -154,16 +154,13 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
   ```csharp
   protected void EmployeeGrid_HtmlDataCellPrepared(object sender, ASPxGridViewTableDataCellEventArgs e) {
       Employee employee = objectSpace.GetObjectByKey<Employee>(e.KeyValue);
-      if(!IsGranted(SecurityOperations.Read, employee, e.DataColumn)) {
+      string memberName = GetMemberName(e.DataColumn);
+      if(!security.CanRead(employee, memberName)) {
           e.Cell.Text = "Protected content";
       }
   }
-  ```
-  The `IsGranted` method is extracted to make it easier to reuse.
-  ```csharp
-  private bool IsGranted(string operation, object employee = null, GridViewDataColumn column = null) {
-      string memberName = column?.FieldName.Split('!')[0];
-      return security.IsGranted(new PermissionRequest(objectSpace, typeof(Employee), operation, employee, memberName));
+  private string GetMemberName(GridViewDataColumn column) {
+      return column?.FieldName.Split('!')[0];
   }
   ```
   
@@ -173,13 +170,13 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
   ```csharp
   protected void EmployeeGrid_CommandButtonInitialize(object sender, ASPxGridViewCommandButtonEventArgs e) {
       if(e.ButtonType == ColumnCommandButtonType.New) {
-          if(!IsGranted(SecurityOperations.Create)) {
+          if(!security.CanCreate<Employee>()) {
               e.Text = string.Empty;
           }
       }
       if(e.ButtonType == ColumnCommandButtonType.Delete) {
           Employee employee = ((ASPxGridView)sender).GetRow(e.VisibleIndex) as Employee;
-          e.Visible = IsGranted(SecurityOperations.Delete, employee);
+          e.Visible = security.CanDelete(employee);
       }
   }
   ```
@@ -192,11 +189,12 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
   ```csharp
   protected void EmployeeGrid_CellEditorInitialize(object sender, ASPxGridViewEditorEventArgs e) {
       Employee employee = objectSpace.GetObjectByKey<Employee>(e.KeyValue);
-      if(!IsGranted(SecurityOperations.Read, employee, e.Column)) {
+      string memberName = GetMemberName(e.Column);
+      if(!security.CanRead(employee, memberName)) {
           e.Editor.Value = "Protected Content";
           e.Editor.Enabled = false;
       }
-      else if(!IsGranted(SecurityOperations.Write, employee, e.Column)) {
+      else if(!security.CanWrite(employee, memberName)) {
           e.Editor.Enabled = false;
       }
   }

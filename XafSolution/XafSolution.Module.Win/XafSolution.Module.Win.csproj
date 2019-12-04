@@ -103,12 +103,12 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Validation.Win" Version="19.1.*" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.1.*" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation.Win" Version="19.2.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.2.4" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command='"$(MSBuildBinPath)\MSBuild" -t:restore' ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+    <Exec Command='"$(MSBuildBinPath)\MSBuild" -t:restore XafSolution.Module.Win.csproj' ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
       <Output PropertyName="ExitCode" TaskParameter="ExitCode" />
     </Exec>
     <Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />

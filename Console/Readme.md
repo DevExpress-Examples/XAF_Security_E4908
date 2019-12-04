@@ -2,11 +2,17 @@
 
 This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from your Non-XAF application. The application outputs secured data to the 'result.txt' file.
 
+>There is also an example which uses .Net Core as Target Framework. If you are interested in the .Net Core example, run the [ConsoleApplication.NetCore](Console/CS/ConsoleApplication.NetCore.csproj) project 
+from the [NonXAFSecurityExamples.NetCore](NonXAFSecurityExamples.NetCore.sln) solution.
+
 >For simplicity, the instructions include only C# code snippets. For the complete C# and VB code, see the [CS](/CS) and [VB](/VB) sub-directories.
  
 ### Prerequisites
-- Build the solution and run the *XafSolution.Win* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module* project. 
-- Add the *XafSolution.Module* assembly reference to your application.
+- To use the .Net Core version of the example, [install DevExpress \.NET Core 3 Desktop Products](https://documentation.devexpress.com/GeneralInformation/401278/Installation/Install-DevExpress-NET-Core-3-Desktop-Products).
+- Build the [NonXAFSecurityExamples](NonXAFSecurityExamples.sln)/[NonXAFSecurityExamples.NetCore](NonXAFSecurityExamples.NetCore.sln) solution and 
+run the [XafSolution.Win](XafSolution/XafSolution.Win/XafSolution.Win.csproj)/[XafSolution.Win.NetCore](XafSolution/XafSolution.Win/XafSolution.Win.NetCore.csproj) project to log in under 'User' or 'Admin' with an empty password. 
+The application will generate a database with business objects from the [XafSolution.Module](XafSolution/XafSolution.Module/XafSolution.Module.csproj)/[XafSolution.Module.NetCore](XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) project.
+- Add the [XafSolution.Module](XafSolution/XafSolution.Module/XafSolution.Module.csproj)/[XafSolution.Module.NetCore](XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) assembly reference to your application.
 
 ***
 
@@ -73,7 +79,7 @@ This example demonstrates how to access data protected by the [Security System](
             // The XAF way:
 		foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
 			stringBuilder.Append(string.Format("Full name: {0}\n", employee.FullName));
-			if(security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Read, employee, "Department"))) {
+			if(security.CanRead(employee, nameof(Department))) {
 				stringBuilder.Append(string.Format("Department: {0}\n", employee.Department.Title));
 			}
 			else {
@@ -83,6 +89,6 @@ This example demonstrates how to access data protected by the [Security System](
 	}
 	```
 
-Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the [SecurityStrategy.IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) method to determine when to mask default values with the "Protected Content" placeholder in the UI.
+Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
 
 > Make sure that the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System) in your non-XAF application have same values as in the XAF application where passwords were set. Otherwise you won't be able to login.

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{292832EB-4A91-4845-9A8E-0FFE165FAEDD}</ProjectGuid>
+    <ProjectGuid>{74CAE5D3-2801-43AC-BFB1-872382492E38}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>
     </RootNamespace>
@@ -40,9 +40,9 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.1.*" />
-    <PackageReference Include="DevExpress.ExpressApp.Win" Version="19.1.*" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.1.*" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.2.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.2.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Win" Version="19.2.4" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -109,6 +109,7 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -149,4 +150,10 @@
     <Content Include="Resources\ExpressApp.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;$(MSBuildBinPath)\MSBuild&quot; -t:restore WindowsFormsApplication.vbproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+      <Output PropertyName="ExitCode" TaskParameter="ExitCode" />
+    </Exec>
+    <Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
+  </Target>
 </Project>

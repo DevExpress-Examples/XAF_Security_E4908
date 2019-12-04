@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A713C15B-D676-4B4D-AB60-1AF5DFEC9F63}</ProjectGuid>
+    <ProjectGuid>{740651A7-1BDB-40FD-9C18-0D4F037B4007}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>NonXAFSecurityConsoleApp</RootNamespace>
-    <AssemblyName>NonXAFSecurityConsoleApp</AssemblyName>
+    <RootNamespace>ConsoleApplicatoin</RootNamespace>
+    <AssemblyName>ConsoleApplicatoin</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +48,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.2.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.2.4" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
@@ -56,13 +60,9 @@
       <Name>XafSolution.Module</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.1.*" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.1.*" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command='"$(MSBuildBinPath)\MSBuild" -t:restore' ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+    <Exec Command="&quot;$(MSBuildBinPath)\MSBuild&quot; -t:restore ConsoleApplication.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
       <Output PropertyName="ExitCode" TaskParameter="ExitCode" />
     </Exec>
     <Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />

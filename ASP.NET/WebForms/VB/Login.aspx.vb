@@ -14,9 +14,12 @@ Namespace WebFormsApplication
         Inherits Page
 
         Protected Sub Page_Init(ByVal sender As Object, ByVal e As EventArgs)
-            Dim userName As String = Request.Cookies.Get("userName")?.Value
-            UserNameBox.Text = If(userName Is Nothing, "User", userName)
-            LoginButton.Focus()
+			Dim userName As String = Request.Cookies.Get("userName")?.Value
+			If userName Is Nothing Then
+				userName = "User"
+			End If
+			UserNameBox.Text = userName
+			LoginButton.Focus()
         End Sub
         Protected Sub LoginButton_Click(ByVal sender As Object, ByVal e As EventArgs)
             Dim userName As String = UserNameBox.Text
@@ -39,7 +42,6 @@ Namespace WebFormsApplication
             objectSpaceProvider.Dispose()
         End Sub
         Private Sub SetCookie(ByVal userName As String)
-            FormsAuthentication.SetAuthCookie(userName, True)
             Dim cookie As New HttpCookie("userName", userName)
             HttpContext.Current.Response.Cookies.Add(cookie)
         End Sub

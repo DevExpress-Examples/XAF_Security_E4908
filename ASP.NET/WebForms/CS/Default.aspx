@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="Employees" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebFormsApplication._Default" %>
 
-<%@ Register assembly="DevExpress.Xpo.v19.1" namespace="DevExpress.Xpo" tagprefix="dx" %>
+<%@ Register assembly="DevExpress.Xpo.v19.2" namespace="DevExpress.Xpo" tagprefix="dx" %>
 
-<%@ Register assembly="DevExpress.Web.v19.1" namespace="DevExpress.Web" tagprefix="dx" %>
+<%@ Register assembly="DevExpress.Web.v19.2" namespace="DevExpress.Web" tagprefix="dx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <table style="width:100%">

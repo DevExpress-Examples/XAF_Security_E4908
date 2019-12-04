@@ -24,9 +24,9 @@ Namespace WindowsFormsApplication
             InitializeComponent()
             Me.employee = employee
             visibleMembers = New Dictionary(Of String, String)()
-            visibleMembers.Add(nameof(Employee.FirstName), "First Name:")
-            visibleMembers.Add(nameof(Employee.LastName), "Last Name:")
-            visibleMembers.Add(nameof(Employee.Department), "Department:")
+            visibleMembers.Add(nameof(XafSolution.Module.BusinessObjects.Employee.FirstName), "First Name:")
+            visibleMembers.Add(nameof(XafSolution.Module.BusinessObjects.Employee.LastName), "Last Name:")
+            visibleMembers.Add(nameof(XafSolution.Module.BusinessObjects.Employee.Department), "Department:")
         End Sub
         Private Sub EmployeeDetailForm_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
             security = CType(MdiParent, MainForm).Security
@@ -36,7 +36,7 @@ Namespace WindowsFormsApplication
                 employee = securedObjectSpace.CreateObject(Of Employee)()
             Else
                 employee = securedObjectSpace.GetObject(employee)
-                deleteBarButtonItem.Enabled = security.IsGranted(New PermissionRequest(securedObjectSpace, GetType(Employee), SecurityOperations.Delete, employee))
+                deleteBarButtonItem.Enabled = security.CanDelete(employee)
             End If
             employeeBindingSource.DataSource = employee
             AddControls()
@@ -52,11 +52,11 @@ Namespace WindowsFormsApplication
             layout.Text = caption
             Dim type As Type = targetObject.GetType()
             Dim control As BaseEdit
-            If security.IsGranted(New PermissionRequest(securedObjectSpace, type, SecurityOperations.Read, targetObject, memberName)) Then
+            If security.CanRead(targetObject, memberName) Then
                 control = GetControl(type, memberName)
                 If control IsNot Nothing Then
                     control.DataBindings.Add(New Binding("EditValue", employeeBindingSource, memberName, True, DataSourceUpdateMode.OnPropertyChanged))
-                    control.Enabled = security.IsGranted(New PermissionRequest(securedObjectSpace, type, SecurityOperations.Write, targetObject, memberName))
+                    control.Enabled = security.CanWrite(targetObject, memberName)
                 End If
             Else
                 control = New ProtectedContentEdit()

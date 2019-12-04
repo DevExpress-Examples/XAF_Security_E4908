@@ -35,7 +35,7 @@ namespace WindowsFormsApplication {
 			}
 			else {
 				employee = securedObjectSpace.GetObject(employee);
-				deleteBarButtonItem.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, typeof(Employee), SecurityOperations.Delete, employee));
+				deleteBarButtonItem.Enabled = security.CanDelete(employee);
 			}
 			employeeBindingSource.DataSource = employee;
 			AddControls();
@@ -44,18 +44,18 @@ namespace WindowsFormsApplication {
 			foreach(KeyValuePair<string, string> pair in visibleMembers) {
 				string memberName = pair.Key;
 				string caption = pair.Value;
-				AddControl(dataLayoutControl1.AddItem(), employee, memberName, caption);
-			}
+                AddControl(dataLayoutControl1.AddItem(), employee, memberName, caption);
+            }
 		}
-		private void AddControl(LayoutControlItem layout, object targetObject, string memberName, string caption) {
-			layout.Text = caption;
-			Type type = targetObject.GetType();
-			BaseEdit control;
-			if(security.IsGranted(new PermissionRequest(securedObjectSpace, type, SecurityOperations.Read, targetObject, memberName))) {
+        private void AddControl(LayoutControlItem layout, object targetObject, string memberName, string caption) {
+            layout.Text = caption;
+            Type type = targetObject.GetType();
+            BaseEdit control;
+			if(security.CanRead(targetObject, memberName)) {
 				control = GetControl(type, memberName);
 				if(control != null) {
 					control.DataBindings.Add(new Binding("EditValue", employeeBindingSource, memberName, true, DataSourceUpdateMode.OnPropertyChanged));
-					control.Enabled = security.IsGranted(new PermissionRequest(securedObjectSpace, type, SecurityOperations.Write, targetObject, memberName));
+					control.Enabled = security.CanWrite(targetObject, memberName);
 				}
 			}
 			else {
