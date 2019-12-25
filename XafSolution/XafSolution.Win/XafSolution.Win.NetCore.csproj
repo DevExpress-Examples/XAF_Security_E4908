@@ -36,7 +36,7 @@
     <EmbeddedResource Include="Images\SplashScreenImage.svg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.WindowsDesktop.Xaf" Version="19.2.4-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.Xaf" Version="19.2.5-ctp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

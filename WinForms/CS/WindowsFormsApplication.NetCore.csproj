@@ -19,8 +19,8 @@
     <EmbeddedResource Remove="MainForm.resx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.WindowsDesktop.Xaf" Version="19.2.4-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.Win" Version="19.2.4-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.Xaf" Version="19.2.5-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.Win" Version="19.2.5-ctp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XafSolution\XafSolution.Module\XafSolution.Module.NetCore.csproj" />

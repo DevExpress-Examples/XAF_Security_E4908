@@ -18,7 +18,7 @@
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.WindowsDesktop.Xaf" Version="19.2.4-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.Xaf" Version="19.2.5-ctp" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="app.config" />
