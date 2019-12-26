@@ -4,10 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- master
+- 19.2.5+
 
 pool:
-  vmImage: '19.2.5+'
+  vmImage: 'windows-latest'
 
 variables:
   solution: '**/*.sln'
