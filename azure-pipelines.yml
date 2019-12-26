@@ -17,6 +17,11 @@ variables:
 steps:
 - task: NuGetToolInstaller@1
 
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'Write-Host "##vso[task.setvariable variable=DX_NUGET_PUB;]$(DX_NUGET)"'
+    
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
