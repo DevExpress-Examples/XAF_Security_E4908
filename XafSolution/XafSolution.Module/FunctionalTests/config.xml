@@ -5,7 +5,7 @@
 		<Application
 			Name="XafSolution"
 			FileName="[WinAppBin]\XafSolution.Win.exe"
-			AdapterAssemblyName="[WinAdapterAssemblyName]"
+			AdapterFileName="[WinAdapterAssemblyName]"
 			CommunicationPort="4100"/>
 	</Applications>
 	<TestDatabases>
@@ -14,7 +14,7 @@
 
 	<Aliases>
 		<Alias Name="DomainUserName" Value="%USERDOMAIN%\%USERNAME%" />
-		<Alias Name="WinAdapterAssemblyName" Value="[ConfigPath]\..\..\..\EasyTest\Bin\DevExpress.ExpressApp.EasyTest.WinAdapter.v19.2.dll" />
+		<Alias Name="WinAdapterAssemblyName" Value=".\EasyTest\Bin\DevExpress.ExpressApp.EasyTest.WinAdapter.v19.2.dll" />
 		<Alias Name="WinAppBin" Value="[ConfigPath]\..\..\XafSolution.Win\Bin\EasyTest" />
 	</Aliases>
 </Options>
