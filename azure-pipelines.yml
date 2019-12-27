@@ -41,11 +41,11 @@ steps:
     script: |
       $easyTestPath=".\EasyTests"
       sqllocaldb start MSSQLLocalDB
-      Nuget install DevExpress.EasyTest.TestExecutor -OutputDirectory easyTest -configfile NuGet.config      
-      New-Item -ItemType directory -Path "easytest\Bin\"
-      Copy-Item "C:\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll" -Destination "EasyTest\Bin\"
-      Get-ChildItem -Path "easytest\*" -Include *.dll,*.exe -Recurse | Where {$_.FullName -notlike "*\netstandard*\*"} | Copy-Item -Destination "EasyTest\Bin\"
-      .\easytest\Bin\TestExecutor.v19.2.exe $easyTestPath
+      Nuget install DevExpress.EasyTest.TestExecutor -OutputDirectory Easytest -configfile NuGet.config      
+      New-Item -ItemType directory -Path "Easytest\Bin\"
+      Get-ChildItem -Path "Easytest\*" -Include *.dll,*.exe -Recurse | Where {$_.FullName -notlike "*\netstandard*\*"} | Copy-Item -Destination "EasyTest\Bin\" -Force
+      Copy-Item "C:\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll" -Destination "EasyTest\Bin\" -Force
+      Easytest\Bin\TestExecutor.v19.2.exe $easyTestPath
       Get-Content -Path $easyTestPath\TestsLog.xml
       if(Select-String -Pattern 'Result="Failed"', 'Result="Warning"' -Path $easyTestPath\TestsLog.xml) { exit 1 }
 
