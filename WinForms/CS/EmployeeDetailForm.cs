@@ -67,8 +67,8 @@ namespace WindowsFormsApplication {
 		}
 		private BaseEdit GetControl(Type type, string memberName) {
 			BaseEdit control = null;
-			ITypeInfo typeInfo = securedObjectSpace.TypesInfo.PersistentTypes.FirstOrDefault(t => t.Name == type.Name);
-			IMemberInfo memberInfo = typeInfo.Members.FirstOrDefault(t => t.Name == memberName);
+			ITypeInfo typeInfo = securedObjectSpace.TypesInfo.FindTypeInfo(type);
+			IMemberInfo memberInfo = typeInfo.FindMember(memberName);
 			if(memberInfo != null) {
 				if(memberInfo.IsAssociation) {
 					control = new ComboBoxEdit();

@@ -67,8 +67,8 @@ Namespace WindowsFormsApplication
         End Sub
         Private Function GetControl(ByVal type As Type, ByVal memberName As String) As BaseEdit
             Dim control As BaseEdit = Nothing
-            Dim typeInfo As ITypeInfo = securedObjectSpace.TypesInfo.PersistentTypes.FirstOrDefault(Function(t) t.Name = type.Name)
-            Dim memberInfo As IMemberInfo = typeInfo.Members.FirstOrDefault(Function(t) t.Name = memberName)
+            Dim typeInfo As ITypeInfo = securedObjectSpace.TypesInfo.FindTypeInfo(type)
+            Dim memberInfo As IMemberInfo = typeInfo.FindMember(memberName)
             If memberInfo IsNot Nothing Then
                 If memberInfo.IsAssociation Then
                     control = New ComboBoxEdit()
