@@ -53,6 +53,6 @@ steps:
 - task: PublishPipelineArtifact@1
   condition: succeededOrFailed()
   inputs:
-    targetPath: '\XafSolution\XafSolution.Module\FunctionalTests'
+    targetPath: '\XafSolution\XafSolution.Module\FunctionalTests\'
     artifact: 'TestsResultFiles'
     publishLocation: 'pipeline'
