@@ -49,3 +49,10 @@ steps:
       Easytest\Bin\TestExecutor.v19.2.exe $easyTestPath
       Get-Content -Path $easyTestPath\TestsLog.xml
       if(Select-String -Pattern 'Result="Failed"', 'Result="Warning"' -Path $easyTestPath\TestsLog.xml) { exit 1 }
+
+- task: PublishPipelineArtifact@1
+  condition: succeededOrFailed()
+  inputs:
+    targetPath: '\EasyTests'
+    artifact: 'TestsResultFiles'
+    publishLocation: 'pipeline'
