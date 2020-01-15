@@ -1,20 +1,17 @@
-This example demonstrates how to protect your data with the [XAF Security System](https://docs.devexpress.com/eXpressAppFramework/113366/Concepts/Security-System/Security-System-Overview) in the MVC.Core web application with the DevExtreme UI.
+This example demonstrates how to protect your data with the [XAF Security System](https://docs.devexpress.com/eXpressAppFramework/113366/Concepts/Security-System/Security-System-Overview) in the ASP.NET Core MVC web application with the DevExtreme UI.
  
->There is also an example which uses .Net Core as Target Framework. If you are interested in the .Net Core example, run the [MvcApplication.NetCore](ASP.NetCore/MVC/MvcApplication.NetCore.csproj) project 
-from the [NonXAFSecurityExamples.NetCore](NonXAFSecurityExamples.NetCore.sln) solution.
-
 ## Prerequisites
 - [Visual Studio 2017 or 2019](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - **ASP.NET and web development**
   - **.NET Core cross-platform development**
-- [.NET Core SDK 2.2 or later](https://www.microsoft.com/net/download/all)
-- [DevExpress Unified Installer for .NET and HTML5 Developers](https://www.devexpress.com/Products/Try/)
+- [.NET Core SDK 3.0+](https://dotnet.microsoft.com/download/dotnet-core)
+- [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/).
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
-- To use the .Net Core version of the example, [install DevExpress \.NET Core 3 Desktop Products](https://documentation.devexpress.com/GeneralInformation/401278/Installation/Install-DevExpress-NET-Core-3-Desktop-Products).
-- Build the [NonXAFSecurityExamples](NonXAFSecurityExamples.sln)/[NonXAFSecurityExamples.NetCore](NonXAFSecurityExamples.NetCore.sln) solution and 
-run the [XafSolution.Win](XafSolution/XafSolution.Win/XafSolution.Win.csproj)/[XafSolution.Win.NetCore](XafSolution/XafSolution.Win/XafSolution.Win.NetCore.csproj) project to log in under 'User' or 'Admin' with an empty password. 
-The application will generate a database with business objects from the [XafSolution.Module](XafSolution/XafSolution.Module/XafSolution.Module.csproj)/[XafSolution.Module.NetCore](XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) project.
-- Add the [XafSolution.Module](XafSolution/XafSolution.Module/XafSolution.Module.csproj)/[XafSolution.Module.NetCore](XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) assembly reference to your application.
+- Build the following solutions and projects depending on your target framework:
+  - .NET Framework: *NonXAFSecurityExamples.sln* and *MvcApplication/XafSolution.Win*.
+  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* and *MvcApplication.NetCore/XafSolution.Win.NetCore*.
+- Run the *XafSolution.Win/XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module/XafSolution.Module.NetCore* project.
+- Add the *XafSolution.Module/XafSolution.Module.NetCore* assembly reference to your test application.
 
 ***
 
