@@ -27,7 +27,7 @@ steps:
     command: 'restore'
     restoreSolution: '$(solution)'
     feedsToUse: 'config'
-    nugetConfigPath: '\XafSolution\XafSolution.Module\FunctionalTests\NuGet.config'
+    nugetConfigPath: '.\XafSolution\XafSolution.Module\FunctionalTests\nuget.config'
 
 - task: VSBuild@1
   inputs:
