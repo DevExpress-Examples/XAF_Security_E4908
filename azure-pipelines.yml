@@ -40,7 +40,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $easyTestPath=".\XafSolution\XafSolution.Module\FunctionalTests"
+      $easyTestPath="\XafSolution\XafSolution.Module\FunctionalTests"
       sqllocaldb start MSSQLLocalDB
       Nuget install DevExpress.EasyTest.TestExecutor -OutputDirectory Easytest -configfile NuGet.config      
       New-Item -ItemType directory -Path "Easytest\Bin\"
@@ -53,6 +53,6 @@ steps:
 - task: PublishPipelineArtifact@1
   condition: succeededOrFailed()
   inputs:
-    targetPath: '\EasyTests'
+    targetPath: '\XafSolution\XafSolution.Module\FunctionalTests'
     artifact: 'TestsResultFiles'
     publishLocation: 'pipeline'
