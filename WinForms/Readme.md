@@ -49,7 +49,7 @@ security.RegisterXPOAdapterProviders();
 	
 ``` csharp
 string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(
+IObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(
     security, 
     connectionString,
     null
@@ -109,16 +109,17 @@ private void LogoutButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemC
     foreach(Form form in MdiChildren) {
         form.Close();
     }
+    string userName = Security.UserName;
     Security.Logoff();
     Hide();
-    ShowLoginForm();
+    ShowLoginForm(userName);
 }
 ```
 	
 - [LoginForm](CS/LoginForm.cs) contains two TextBox controls for username and password, and the Login button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if logon was successful.
 
 ``` csharp
-private void Login_button_Click(object sender, EventArgs e) {
+private void Login_Click(object sender, EventArgs e) {
     IObjectSpace logonObjectSpace = objectSpaceProvider.CreateObjectSpace();
     string userName = userNameEdit.Text;
     string password = passwordEdit.Text;
@@ -129,7 +130,7 @@ private void Login_button_Click(object sender, EventArgs e) {
         Close();
     }
     catch(Exception ex) {
-        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        XtraMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 }
 ```
