@@ -10,7 +10,7 @@ This example demonstrates how to access data protected by the [Security System](
   - .NET Framework: *NonXAFSecurityExamples.sln* and *WindowsFormsApplication/XafSolution.Win*.
   - .NET Core: *NonXAFSecurityExamples.NetCore.sln* and *WindowsFormsApplication.NetCore/XafSolution.Win.NetCore*.
 - Run the *XafSolution.Win/XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module/XafSolution.Module.NetCore* project.
-- Add the *XafSolution.Module/XafSolution.Module.NetCore* project reference to your test application.  
+- Add the *XafSolution.Module/XafSolution.Module.NetCore* assembly reference to your test application.  
   
 > **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
