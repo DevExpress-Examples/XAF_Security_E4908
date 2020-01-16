@@ -23,10 +23,16 @@ Configure the MVC pipelines in the `ConfigureServices` and `Configure` methods o
 ``` csharp
 // This method gets called by the runtime. Use this method to add services to the container.
 public void ConfigureServices(IServiceCollection services) {
+	JsonResolver resolver = new JsonResolver();
+	Action<MvcJsonOptions> JsonOptions = options => {
+		options.SerializerSettings.ContractResolver = resolver;
+		options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+	};
 	services.AddMvc(options => {
 		options.EnableEndpointRouting = false;
 	})
-		.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+		.AddJsonOptions(JsonOptions)
+		.SetCompatibilityVersion(CompatibilityVersion.Latest)
 		.AddDxSampleModelJsonOptions();
 	services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 		 .AddCookie(options => {
@@ -340,40 +346,37 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 
 - [DepartmentsController](Controllers/DepartmentsController.cs) has methods to get access to Department objects and contains code similar to the one in EmployeesController.
     
-- [AccountController](Controllers/AccountController.cs) handles the Log in and Log out operations.
+- [AuthenticationController](Controllers/AuthenticationController.cs) handles the Log in and Log out operations.
 	
 	The `Authentication` methods return the [Authentication](Views/Authentication/Authentication.cshtml) view.
 	The `Logout` method is called when a user clicks the `Log out` button on the [main page](Views/Home/Index.cshtml).
     
 	``` csharp
-    public class AuthenticationController : Controller {
-        [HttpGet]
-        [Route("Logout")]
-        public async Task<ActionResult> Logout() {
-            await HttpContext.SignOutAsync();
-            return Ok();
-        }
-        [Route("Authentication")]
-        public IActionResult Authentication() {
-            string userName = HttpContext.Request.Cookies["userName"];
-            if (string.IsNullOrWhiteSpace(userName)) {
-                userName = "User";
-            }
-            Models.Login login = new Models.Login();
-            login.UserName = userName;
-            return View(login);
-        }
-        [HttpPost]
-        [Route("Authentication")]
-        public IActionResult Authentication(Models.Login login) {            
-            if (!ModelState.IsValid) {
-                HttpContext.Response.StatusCode = 401;
-                return View(login);
-            }
-            HttpContext.Response.Cookies.Append("userName", login.UserName);
-            return Redirect("/");
-        }
-    }
+	    public class AuthenticationController : Controller {
+		[HttpGet]
+		[Route("Logout")]
+		public async Task<ActionResult> Logout() {
+		    await HttpContext.SignOutAsync();
+		    return Ok();
+		}
+		[HttpPost]
+		[Route("Login")]
+		[AllowAnonymous]
+		public ActionResult Login(string userName, string password) {
+			ActionResult result;
+			if(securityProvider.InitConnection(userName, password)) {
+				result = Ok();
+			}
+			else {
+				result = Unauthorized();
+			}
+			return result;
+		}
+		[Route("Authentication")]
+		public IActionResult Authentication() {
+			return View();
+		}
+	    }
     ```
 
 - [ActionsController](Controllers/ActionsController.cs) contains the `GetPermissions` method to process permissions.
@@ -441,14 +444,13 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	
 	```csharp
 	public ObjectPermission CreateObjectPermission(ITypeInfo typeInfo, object entity) {
-		Type type = typeInfo.Type;
 		ObjectPermission objectPermission = new ObjectPermission();
 		objectPermission.Key = typeInfo.KeyMember.GetValue(entity).ToString();
 		objectPermission.Write = Security.CanWrite(entity);
 		objectPermission.Delete = Security.CanDelete(entity);
 		IEnumerable<IMemberInfo> members = GetPersistentMembers(typeInfo);
 		foreach(IMemberInfo member in members) {
-			MemberPermission memberPermission = CreateMemberPermission(entity, type, member);
+			MemberPermission memberPermission = CreateMemberPermission(entity, member);
 			objectPermission.Data.Add(member.Name, memberPermission);
 		}
 		return objectPermission;
@@ -458,7 +460,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	The `CreateMemberPermission` method creates the `MemberPermission` object, which contains read and write operation permissions for the specified member.
 	
 	```csharp
-	public MemberPermission CreateMemberPermission(object entity, Type type, IMemberInfo member) {
+	public MemberPermission CreateMemberPermission(object entity, IMemberInfo member) {
 		return new MemberPermission {
 			Read = Security.CanRead(entity, member.Name),
 			Write = Security.CanWrite(entity, member.Name)
