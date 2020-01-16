@@ -77,7 +77,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
 }
 ```
 	
-- The AddDxSampleModelJsonOptions extension is used to register [JsonResolver](/Helpers/JsonResolver.cs) needed to serialize business objects correctly.
+- The AddDxSampleModelJsonOptions extension is used to register [JsonResolver](Helpers/JsonResolver.cs) needed to serialize business objects correctly.
 		
 	``` csharp
 	public class JsonResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {
@@ -111,7 +111,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
 	}
 	```
 
-- The [XpoDataStoreProviderService](/Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
+- The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
 		
 	``` csharp
 	public class XpoDataStoreProviderService {
@@ -125,7 +125,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
 	}
 	```
 	
-- The `IConfiguration` object is used to access the application configuration [appsettings.json](/appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider. 
+- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider. 
 		
 	``` csharp		
 	//...
@@ -148,7 +148,7 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
 
 ## Step 2: Initialize Data Store and XAF's Security System. Authentication and Permission Configuration
 
-Create [MemberPermission](/Helpers/MemberPermission.cs), [ObjectPermission](/Helpers/ObjectPermission.cs) and [TypePermission](/Helpers/TypePermission.cs) classes. These classes are used as containers to transfer permissions to the client side.
+Create [MemberPermission](Helpers/MemberPermission.cs), [ObjectPermission](Helpers/ObjectPermission.cs) and [TypePermission](Helpers/TypePermission.cs) classes. These classes are used as containers to transfer permissions to the client side.
 	
 ```csharp
 public class MemberPermission {
@@ -175,7 +175,7 @@ public class TypePermission {
 }
 ```
 
-The [SecurityProvider](/Helpers/SecurityProvider.cs) class provides access to the XAF Security System functionality.
+The [SecurityProvider](Helpers/SecurityProvider.cs) class provides access to the XAF Security System functionality.
 
 ``` csharp
 public SecurityProvider(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, IHttpContextAccessor contextAccessor) {
@@ -282,7 +282,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 }
 ```
 
-- [EmployeesController](/Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. 
+- [EmployeesController](Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. 
 
 	The `Get` method to get access to Employee objects. The [DataSourceLoader](https://devexpress.github.io/DevExtreme.AspNet.Data/net/api/DevExtreme.AspNet.Data.DataSourceLoader.html) class provides methods to load data from object collections.
     
@@ -334,16 +334,16 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	}
 	```
 	
-	[JsonParser](/Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
+	[JsonParser](Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
 	
 	> Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI.
 
-- [DepartmentsController](/Controllers/DepartmentsController.cs) has methods to get access to Department objects and contains code similar to the one in EmployeesController.
+- [DepartmentsController](Controllers/DepartmentsController.cs) has methods to get access to Department objects and contains code similar to the one in EmployeesController.
     
-- [AccountController](/Controllers/AccountController.cs) handles the Log in and Log out operations.
+- [AccountController](Controllers/AccountController.cs) handles the Log in and Log out operations.
 	
-	The `Authentication` methods return the [Authentication](/Views/Authentication/Authentication.cshtml) view.
-	The `Logout` method is called when a user clicks the `Log out` button on the [main page](/Views/Home/Index.cshtml).
+	The `Authentication` methods return the [Authentication](Views/Authentication/Authentication.cshtml) view.
+	The `Logout` method is called when a user clicks the `Log out` button on the [main page](Views/Home/Index.cshtml).
     
 	``` csharp
     public class AuthenticationController : Controller {
@@ -376,7 +376,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
     }
     ```
 
-- [ActionsController](/Controllers/ActionsController.cs) contains the `GetPermissions` method to process permissions.
+- [ActionsController](Controllers/ActionsController.cs) contains the `GetPermissions` method to process permissions.
     
 	``` csharp
     [HttpPost]
@@ -399,7 +399,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	}
     ```	    
     
-- [HomeController](/Controllers/HomeController.cs) sends to client-side the [Index](/Views/Home/Index.cshtml) view and type permissions.
+- [HomeController](Controllers/HomeController.cs) sends to client-side the [Index](Views/Home/Index.cshtml) view and type permissions.
     
 	``` csharp
     public IActionResult Index() {
@@ -412,7 +412,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	}
 	```
 	
-- [PermissionHelper](/Helpers/PermissionHelper.cs) is a helper class which provides methods to create permissions.
+- [PermissionHelper](Helpers/PermissionHelper.cs) is a helper class which provides methods to create permissions.
 		
 	Use the SecurityStrategy.CanCreate and SecurityStrategy.CanWrite methods	
 	to check if the user is allowed to perform a specific operation.
@@ -468,11 +468,11 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	
 ## Step 4: Client-Side App Authentication and Authorization to Customize UI Based on Access Rights
 
-[Authentication.cshtml](Views/Authentication/Authentication.cshtml) is a login page that allows you to log into the application and [AuthenticationCode.js](/wwwroot/js/AuthenticationCode.js) contains scripts executed on the login page.
+[Authentication.cshtml](Views/Authentication/Authentication.cshtml) is a login page that allows you to log into the application and [AuthenticationCode.js](wwwroot/js/AuthenticationCode.js) contains scripts executed on the login page.
 
 [Index.cshtml](Views/Home/Index.cshtml) is the main page. It configures the DevExtreme Data Grid and allows logging the user out.
 
-[IndexCode.js](/wwwroot/js/index_code.js) contains scripts executed on the main page:
+[IndexCode.js](wwwroot/js/IndexCode.js) contains scripts executed on the main page:
 
 - The `onInitialized` function initializes the TypePermission object in the DataGrid [initialized](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#initialized) event.
 	
