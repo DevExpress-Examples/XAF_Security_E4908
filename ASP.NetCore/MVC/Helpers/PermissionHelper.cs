@@ -13,7 +13,6 @@ namespace MvcApplication {
 			Security = security;
 		}
 		public ObjectPermission CreateObjectPermission(ITypeInfo typeInfo, object entity) {
-			Type type = typeInfo.Type;
 			ObjectPermission objectPermission = new ObjectPermission();
 			objectPermission.Key = typeInfo.KeyMember.GetValue(entity).ToString();
 			objectPermission.Write = Security.CanWrite(entity);
