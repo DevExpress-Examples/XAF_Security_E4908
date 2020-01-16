@@ -44,7 +44,7 @@ This example demonstrates how to access data protected by the [Security System](
 	[](#tab/tabid-csharp)
 	
 	```csharp
-    AuthenticationStandard auth = new AuthenticationStandard();
+    AuthenticationStandard authentication = new AuthenticationStandard();
     SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), auth);
     security.RegisterXPOAdapterProviders();
 	```
@@ -61,7 +61,7 @@ This example demonstrates how to access data protected by the [Security System](
 	```csharp
     string userName = "User";
     string password = string.Empty;
-    auth.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
+    authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
 	IObjectSpace loginObjectSpace = objectSpaceProvider.CreateObjectSpace();
     security.Logon(loginObjectSpace);
 	```
