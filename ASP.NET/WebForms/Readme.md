@@ -13,7 +13,7 @@ You will also learn how to execute Create, Write and Delete data operations taki
 ***
 
 ## Step 1. Database connection and Security System initialization
-- Implement [XpoDataStoreProviderService](WebForms/CS/XpoDataStoreProviderService.cs) to create Data Store Provider and access its value in singleton manner.
+- Implement [XpoDataStoreProviderService](CS/XpoDataStoreProviderService.cs) to create Data Store Provider and access its value in singleton manner.
   
   ```csharp
   public static class XpoDataStoreProviderService {
@@ -28,13 +28,13 @@ You will also learn how to execute Create, Write and Delete data operations taki
   }
   ```
   
-  In the [Web.config](WebForms/CS/Web.config) file, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "localhost" or "(local)" if you use a local Database Server.
+  In the [Web.config](CS/Web.config) file, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "localhost" or "(local)" if you use a local Database Server.
   
   ```xml
   <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"/>
   ```
   
-- Implement the [ConnectionHelper](WebForms/CS/ConnectionHelper.cs) class.
+- Implement the [ConnectionHelper](CS/ConnectionHelper.cs) class.
   
   Implement the `GetObjectSpaceProvider` method to create a new `SecuredObjectSpaceProvider` instance.
 
@@ -71,7 +71,7 @@ You will also learn how to execute Create, Write and Delete data operations taki
   ```
 
 ## Step 2. Login page
-Create the [Login.aspx](WebForms/CS/Login.aspx) page, add [ASPxTextBox](https://docs.devexpress.com/AspNet/11586/aspnet-webforms-controls/data-editors/aspxtextbox) 
+Create the [Login.aspx](CS/Login.aspx) page, add [ASPxTextBox](https://docs.devexpress.com/AspNet/11586/aspnet-webforms-controls/data-editors/aspxtextbox) 
 to enter the login/password. Then, add 'Log In' [ASPxButton](https://documentation.devexpress.com/AspNet/11620/ASP-NET-WebForms-Controls/Data-Editors/ASPxButton) to log in.
   
 ```csharp
@@ -112,7 +112,7 @@ function errorMessage() {
   
 ## Step 3. Default page
   
-Create the [Default.aspx](WebForms/CS/Default.aspx) page and add Log Off [ASPxButton](https://documentation.devexpress.com/AspNet/11620/ASP-NET-WebForms-Controls/Data-Editors/ASPxButton) 
+Create the [Default.aspx](CS/Default.aspx) page and add Log Off [ASPxButton](https://documentation.devexpress.com/AspNet/11620/ASP-NET-WebForms-Controls/Data-Editors/ASPxButton) 
 to log out and return to the login page.
 
 ```csharp
