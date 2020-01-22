@@ -3,53 +3,44 @@
 #Application XafSolution
 
 *FillForm
- User Name = Admin
+ User Name = User
+
 *Action Log In
 
-*Action Navigation(Default.Role)
+*Action Navigation(Default.Department)
 
-*ProcessRecord 
- Name = Default
-*CheckFieldValues
- Permission Policy = Deny all by default
-*CheckTable Users
- Columns = User Name
- Row[0] = User
-*Action Navigation Permissions
-*CheckTable Navigation Permissions
- Columns = Navigation Item, Navigate
- Row = Employee, Allow
- Row = Department, Allow
+*CheckTable
+ Columns = Title
+ RowCount = 2
+ Row[0] = Development Department
+ Row[1] = Research and Development
  
-*Action Type Permissions
+*Action Navigation(Default.Employee)
 
-*ProcessRecord Type Permissions
- Target Type = Employee
-*CheckFieldValues
- Read = Allow
- Write = Allow
- Create = ''
- Delete = ''
-*Action Member Permissions
-*CheckTable Member Permissions
- Columns = Members, Read, Write, Criteria
- Row[0] = Last Name, '', Deny, 'Not Contains([Department.Title], 'Development')'
-*Action Object Permissions
-*CheckTable Object Permissions
- Columns = Criteria, Read, Write, Delete
- Row[0] = 'Contains([Department.Title], 'Development')', '', '', Allow
+*CheckTable
+ Columns = Full Name, Department
+ Row = Aaron Borrmann, Protected Content
+ 
+*ProcessRecord
+ Full Name = Aaron Borrmann
+
+!ActionAvailable Delete
+
+!FillForm
+ Last Name = Johnson
+ 
 *Action Close
 
-*ProcessRecord Type Permissions
- Target Type = Department
-*CheckFieldValues
- Read = Deny
- Write = ''
- Create = ''
- Delete = ''
-*Action Object Permissions
-*CheckTable Object Permissions
- Columns = Criteria, Read, Write, Delete
- Row[0] = 'Contains([Title], 'Development')', Allow, '', ''
+*CheckTable
+ Columns = Full Name, Department
+ Row = Albert Walker, Research and Development
+ 
+*ProcessRecord
+ Full Name = Albert Walker
+
+*ActionAvailable Delete
+
+*FillForm
+ Last Name = Skywalker
  
 *Action Close
