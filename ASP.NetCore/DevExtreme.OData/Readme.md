@@ -13,9 +13,9 @@ from the [NonXAFSecurityExamples.NetCore](/NonXAFSecurityExamples.NetCore.sln) s
 - [DevExpress Unified Installer for .NET and HTML5 Developers](https://www.devexpress.com/Products/Try/)
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
 - To use the .Net Core version of the example, [install DevExpress \.NET Core 3 Desktop Products](https://documentation.devexpress.com/GeneralInformation/401278/Installation/Install-DevExpress-NET-Core-3-Desktop-Products).
-- Build the [NonXAFSecurityExamples](NonXAFSecurityExamples.sln)/[NonXAFSecurityExamples.NetCore](NonXAFSecurityExamples.NetCore.sln) solution and 
+- Build the [NonXAFSecurityExamples](/NonXAFSecurityExamples.sln)/[NonXAFSecurityExamples.NetCore](/NonXAFSecurityExamples.NetCore.sln) solution and 
 run the [XafSolution.Win](/XafSolution/XafSolution.Win/XafSolution.Win.csproj)/[XafSolution.Win.NetCore](/XafSolution/XafSolution.Win/XafSolution.Win.NetCore.csproj) project to log in under 'User' or 'Admin' with an empty password. 
-The application will generate a database with business objects from the [XafSolution.Module](XafSolution/XafSolution.Module/XafSolution.Module.csproj)/[XafSolution.Module.NetCore](XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) project.
+The application will generate a database with business objects from the [XafSolution.Module](/XafSolution/XafSolution.Module/XafSolution.Module.csproj)/[XafSolution.Module.NetCore](/XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) project.
 - Add the [XafSolution.Module](/XafSolution/XafSolution.Module/XafSolution.Module.csproj)/[XafSolution.Module.NetCore](/XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) assembly reference to your application.
 
 ***
