@@ -6,7 +6,6 @@
       "library": "C:/Program Files (x86)/DevExpress 19.2/DevExtreme/Sources/Lib/js/",
       "destination": "wwwroot/js/devextreme",
       "files": [
-        "jquery.js",
         "jquery.min.js",
         "dx.all.js"
       ]
