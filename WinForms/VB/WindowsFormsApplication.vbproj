@@ -40,9 +40,9 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.2.5" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.2.5" />
-    <PackageReference Include="DevExpress.ExpressApp.Win" Version="19.2.5" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.2.6" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.2.6" />
+    <PackageReference Include="DevExpress.ExpressApp.Win" Version="19.2.6" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
