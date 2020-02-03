@@ -8,7 +8,7 @@ This example demonstrates how to protect your data with the [XAF Security System
 - [Visual Studio 2017 or 2019](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - **ASP.NET and web development**
   - **.NET Core cross-platform development**
-    > The **.NET Core version** of this example **requires VS 2019 (v16.4)**. .NET Core SDK 3.1 is included in this Visual Studio version.
+> The **.NET Core version** of this example **requires VS 2019 (v16.4)**. .NET Core SDK 3.1 is included in this Visual Studio version.
 - [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/)
   - We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
 - Build the following solutions and projects depending on your target framework:
