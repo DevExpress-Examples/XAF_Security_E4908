@@ -2,8 +2,8 @@ This example demonstrates how to protect your data with the [XAF Security System
  * Server: an OData v4 service built with [ASP.NET Core Web API](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-2.2).
  * Client: an HTML/JavaScript app with the [DevExtreme Data Grid](https://js.devexpress.com/Overview/DataGrid/).
  
->There is also an example which uses .Net Core as Target Framework. If you are interested in the .Net Core example, run the [ODataService.NetCore](ASP.NetCore/DevExtreme.OData/ODataService.NetCore.csproj) project 
-from the [NonXAFSecurityExamples.NetCore](NonXAFSecurityExamples.NetCore.sln) solution.
+>There is also an example which uses .Net Core as Target Framework. If you are interested in the .Net Core example, run the [ODataService.NetCore](ODataService.NetCore.csproj) project 
+from the [NonXAFSecurityExamples.NetCore](/NonXAFSecurityExamples.NetCore.sln) solution.
  
 ## Prerequisites
 - [Visual Studio 2017 or 2019](https://visualstudio.microsoft.com/vs/) with the following workloads:
@@ -14,9 +14,9 @@ from the [NonXAFSecurityExamples.NetCore](NonXAFSecurityExamples.NetCore.sln) so
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
 - To use the .Net Core version of the example, [install DevExpress \.NET Core 3 Desktop Products](https://documentation.devexpress.com/GeneralInformation/401278/Installation/Install-DevExpress-NET-Core-3-Desktop-Products).
 - Build the [NonXAFSecurityExamples](NonXAFSecurityExamples.sln)/[NonXAFSecurityExamples.NetCore](NonXAFSecurityExamples.NetCore.sln) solution and 
-run the [XafSolution.Win](XafSolution/XafSolution.Win/XafSolution.Win.csproj)/[XafSolution.Win.NetCore](XafSolution/XafSolution.Win/XafSolution.Win.NetCore.csproj) project to log in under 'User' or 'Admin' with an empty password. 
+run the [XafSolution.Win](/XafSolution/XafSolution.Win/XafSolution.Win.csproj)/[XafSolution.Win.NetCore](/XafSolution/XafSolution.Win/XafSolution.Win.NetCore.csproj) project to log in under 'User' or 'Admin' with an empty password. 
 The application will generate a database with business objects from the [XafSolution.Module](XafSolution/XafSolution.Module/XafSolution.Module.csproj)/[XafSolution.Module.NetCore](XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) project.
-- Add the [XafSolution.Module](XafSolution/XafSolution.Module/XafSolution.Module.csproj)/[XafSolution.Module.NetCore](XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) assembly reference to your application.
+- Add the [XafSolution.Module](/XafSolution/XafSolution.Module/XafSolution.Module.csproj)/[XafSolution.Module.NetCore](/XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) assembly reference to your application.
 
 ***
 
@@ -65,7 +65,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	}
 	```
 
-	The [MemberPermission](/Helpers/MemberPermission.cs), [ObjectPermission](/Helpers/ObjectPermission.cs) and [TypePermission](/Helpers/TypePermission.cs) classes are used as containers to transfer permissions to the client side.
+	The [MemberPermission](Helpers/MemberPermission.cs), [ObjectPermission](Helpers/ObjectPermission.cs) and [TypePermission](Helpers/TypePermission.cs) classes are used as containers to transfer permissions to the client side.
 
 	```csharp
 	public class MemberPermission {
@@ -101,7 +101,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	```
 
 - Enable the authentication service and configure the request pipeline with the authentication middleware in the `ConfigureServices` and `Configure` methods. 
-[UnauthorizedRedirectMiddleware](/UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
+[UnauthorizedRedirectMiddleware](UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
 
 	``` csharp
 	public void ConfigureServices(IServiceCollection services) {
@@ -141,7 +141,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 
 ## Step 2: Initialize Data Store and XAF's Security System
 
-The [SecurityProvider](/Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
+The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
 
 ``` csharp
 public class SecurityProvider : IDisposable {
@@ -166,8 +166,8 @@ public class SecurityProvider : IDisposable {
 }
 ```
 
-- Add the `Configuration` property to [Startup.cs](/Startup.cs) and register it as a singleton to have access to connectionString from controllers. 
-The `IConfiguration` object is used to access the application configuration [appsettings.json](/appsettings.json) file.
+- Add the `Configuration` property to [Startup.cs](Startup.cs) and register it as a singleton to have access to connectionString from controllers. 
+The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file.
 
 	``` csharp		
 	//...
@@ -211,7 +211,7 @@ so you can use both [AuthenticationStandard authentication](https://docs.devexpr
 	}
 	```
 
-- The `GetObjectSpaceProvider` method provides access to the Object Space Provider. The [XpoDataStoreProviderService](/Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
+- The `GetObjectSpaceProvider` method provides access to the Object Space Provider. The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
 
 	``` csharp
 	private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
@@ -278,7 +278,7 @@ A user is identified by the user name and password parameters.
 
 ## Step 3: Implement OData Controllers for CRUD, Login, Logoff, etc.
 
-- [EmployeesController](/Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
+- [EmployeesController](Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
 
 	``` csharp
 	public class EmployeesController : ODataController, IDisposable {
@@ -341,9 +341,9 @@ A user is identified by the user name and password parameters.
 	}
 	```
 	
-	[JsonParser](/Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
+	[JsonParser](Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
 
-- [DepartmentsController](/Controllers/DepartmentsController.cs) has methods to get access to Department objects.
+- [DepartmentsController](Controllers/DepartmentsController.cs) has methods to get access to Department objects.
  
 	``` csharp
 	public class DepartmentsController : ODataController, IDisposable {
@@ -368,7 +368,7 @@ A user is identified by the user name and password parameters.
 	}
 	```
 
-- [AccountController](/Controllers/AccountController.cs) handles the Login and Logout operations.
+- [AccountController](Controllers/AccountController.cs) handles the Login and Logout operations.
 The `Login` method is called when a user clicks the `Login` button on the login page. The `Logoff` method is called when a user clicks the `Logoff` button on the main page.
 
 	``` csharp
@@ -397,7 +397,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
 	}
 	```
 		
-- [ActionsController](/Controllers/ActionsController.cs) contains additional methods that process permissions.
+- [ActionsController](Controllers/ActionsController.cs) contains additional methods that process permissions.
 
 	The `GetPermissions` method gathers permissions for all objects on the DevExtreme Data Grid current page and sends them to the client side as part of the response.
 	``` csharp
@@ -482,8 +482,8 @@ The `Login` method is called when a user clicks the `Login` button on the login 
 	```
 	
 ## Step 4: Implement the Client-Side App
-- The authentication page ([Authentication.html](/wwwroot/Authentication.html)) and the main page([Index.html](/wwwroot/Index.html)) represent the client side UI.
-- [authentication_code.js](/wwwroot/js/authentication_code.js) gathers data from the login page and attempts to log the user in.
+- The authentication page ([Authentication.html](wwwroot/Authentication.html)) and the main page([Index.html](wwwroot/Index.html)) represent the client side UI.
+- [authentication_code.js](wwwroot/js/authentication_code.js) gathers data from the login page and attempts to log the user in.
 
 	``` javascript
 	$("#validateAndSubmit").dxButton({
@@ -517,7 +517,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
 	});
 	```	
 		
-- [index_code.js](/wwwroot/js/index_code.js) configures the DevExtreme Data Grid and logs the user out. 
+- [index_code.js](wwwroot/js/index_code.js) configures the DevExtreme Data Grid and logs the user out. 
 The [onLoaded](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/ODataStore/Configuration/#onLoaded) function sends a request to the server to obtain permissions for the current data grid page.
 
 	``` javascript
