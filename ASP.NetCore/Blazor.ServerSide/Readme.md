@@ -73,7 +73,7 @@ public static IServiceCollection AddSecuredTypes(this IServiceCollection service
 
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
 
-- The [XpoDataStoreProviderService](/Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
+- The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
 
 ```csharp
 public class XpoDataStoreProviderService {
@@ -99,7 +99,7 @@ public class XpoDataStoreProviderService {
 }
 ```
 
-The [SecurityProvider](/Helpers/SecurityProvider.cs) class provides access to the XAF Security System functionality.
+The [SecurityProvider](Helpers/SecurityProvider.cs) class provides access to the XAF Security System functionality.
 
 ```csharp
 public SecurityProvider(XpoDataStoreProviderService xpoDataStoreProviderService, IHttpContextAccessor contextAccessor, IOptions<AppSettings> appSettingsAccessor) {
