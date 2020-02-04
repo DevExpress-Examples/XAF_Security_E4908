@@ -111,11 +111,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XafSolution.Module.Win\XafSolution.Module.Win.csproj">
-      <Project>{7964F87D-BC5D-4C4E-8B2F-71E89739AA97}</Project>
-      <Name>XafSolution.Module.Win</Name>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\XafSolution.Module\XafSolution.Module.csproj">
       <Project>{5F15837D-D1E5-44DC-92F0-4F2EBE9C3F8D}</Project>
       <Name>XafSolution.Module</Name>
@@ -130,7 +125,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command='"$(MSBuildBinPath)\MSBuild" -t:restore XafSolution.Win.csproj' ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+    <Exec Command="&quot;$(MSBuildBinPath)\MSBuild&quot; -t:restore XafSolution.Win.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
       <Output PropertyName="ExitCode" TaskParameter="ExitCode" />
     </Exec>
     <Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
