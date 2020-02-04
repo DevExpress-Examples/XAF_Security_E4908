@@ -9,8 +9,9 @@
  - [WinForms](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_3.aspx)
  - [ASP.NET WebForms](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
  - [ASP.NET Core MVC](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_5_MVC_Core.aspx)
+ - [Blazor Server](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_6_Blazor_ServerSide.aspx)
  - [Console](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
- - *Coming Next: WPF, Xamarin, Blazor.*
+ - *Coming Next: Xamarin, Blazor WebAssembly, WPF.*
  
  > To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using the [Support Center](https://www.devexpress.com/ask) or this [Survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx).
 
