@@ -12,11 +12,10 @@ This example demonstrates how to protect your data with the [XAF Security System
 - [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/)
   - We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
 - Build the following solutions and projects depending on your target framework:
-  - .NET Framework: [NonXAFSecurityExamples.sln](/NonXAFSecurityExamples.sln) and [ASP.NetCore/DevExtreme.OData/ODataService](/ASP.NetCore/DevExtreme.OData/ODataService.csproj).
-  - .NET Core: [NonXAFSecurityExamples.NetCore.sln](/NonXAFSecurityExamples.NetCore.sln) and [ASP.NetCore/DevExtreme.OData/ODataService.NetCore](/ASP.NetCore/DevExtreme.OData/ODataService.NetCore.csproj).
-- Run the [XafSolution.Win](/XafSolution/XafSolution.Win/XafSolution.Win.csproj) or [XafSolution.Win.NetCore](/XafSolution/XafSolution.Win/XafSolution.Win.NetCore.csproj) project to log in under 'User' or 'Admin' with an empty password.
-  The application will generate a database with business objects from the [XafSolution.Module](/XafSolution/XafSolution.Module/XafSolution.Module.csproj) or [XafSolution.Module.NetCore](/XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) project.
-- Add the [XafSolution.Module](/XafSolution/XafSolution.Module/XafSolution.Module.csproj) or [XafSolution.Module.NetCore](/XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj) assembly reference to your application.
+  - .NET Framework: *NonXAFSecurityExamples.sln* and *ODataService/XafSolution.Win*.
+  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* and *ODataService.NetCore/XafSolution.Win.NetCore*.
+- Run the *XafSolution.Win/XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module/XafSolution.Module.NetCore* project.
+- Add the *XafSolution.Module/XafSolution.Module.NetCore* assembly reference to your test application.
 
 ---
 
