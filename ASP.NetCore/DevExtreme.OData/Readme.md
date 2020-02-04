@@ -13,53 +13,88 @@ This example demonstrates how to protect your data with the [XAF Security System
 - Build the following solutions and projects depending on your target framework:
   - .NET Framework: *NonXAFSecurityExamples.sln* and *ODataService/XafSolution.Win*.
   - .NET Core: *NonXAFSecurityExamples.NetCore.sln* and *ODataService.NetCore/XafSolution.Win.NetCore*.
-- Run the *XafSolution.Win/XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module/XafSolution.Module.NetCore* project.
-- Add the *XafSolution.Module/XafSolution.Module.NetCore* assembly reference to your test application.
+- Run the *XafSolution.Win* or *XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module* or *XafSolution.Module.NetCore* project.
+- Add the *XafSolution.Module* or *XafSolution.Module.NetCore* assembly reference to your test application.
 
 ---
+
+> In the code snippets below, you will see constructions like:
+> ``` csharp
+> #if NETCOREAPP3_1
+>			// ...
+> #else
+>			// ...
+> #endif
+> ```
+> They mean that particular code lines will be compiled if the `NETCOREAPP3_1` preprocessor directive is defined (you will also see `NETCOREAPP`). It's defined for .NET Core. The lines after the `#if` statement will be used only for .NET Core. The lines after the `#else` statement will be used for .NET Framework. If your code targets only one of these target frameworks, you can omit these constructions and use only lines relevant for your target framework.
+
 
 ## Step 1: Configure the ASP.NET Core Server App
 For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-3.1&tabs=windows).
 - Configure the OData and MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
 
 	``` csharp
-	public void ConfigureServices(IServiceCollection services) {
-		services.AddOData();
-		services.AddMvc(options => {
-			options.EnableEndpointRouting = false;
-		}).SetCompatibilityVersion(CompatibilityVersion.Latest);
-	}
-	public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-		if(env.IsDevelopment()) {
-			app.UseDeveloperExceptionPage();
-		}
-		else {
-			app.UseHsts();
-		}
-		app.UseMvc(routeBuilder => { // Add MVC to the request pipeline.
-			routeBuilder.EnableDependencyInjection();
-			routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
-			routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel()); // Add the ODATA routing to MVC.
-		});
-	}
+  		public void ConfigureServices(IServiceCollection services) {
+  			services.AddOData();
+  #if NETCOREAPP3_1
+  			services.AddControllers(mvcOptions => {
+  				mvcOptions.EnableEndpointRouting = false;
+  			});
+  #else
+  			services.AddMvc(options => {
+  				options.EnableEndpointRouting = false;
+  			}).SetCompatibilityVersion(CompatibilityVersion.Latest);
+  #endif
+  		}
+  #if NETCOREAPP3_1
+  		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+  #else
+  		public void Configure(IApplicationBuilder app, IHostingEnvironment env) { 
+  #endif
+  			if(env.IsDevelopment()) {
+  				app.UseDeveloperExceptionPage();
+  			}
+  			else {
+  				app.UseHsts();
+  			}
+  			app.UseMvc(routeBuilder => { // Add MVC to the request pipeline.
+  				routeBuilder.EnableDependencyInjection();
+  				routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
+  				routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel());
+  			});
+  		}
 	```
 		
-- Define the EDM model that contains data description for all used entities.
+- Define the EDM model that contains data description for all used entities. We also need to define actions to log in/out a user and get the user permissions.
 
 	``` csharp
 	private IEdmModel GetEdmModel() {
-		ODataModelBuilder builder = new ODataConventionModelBuilder();
-		EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
-		EntitySetConfiguration<Department> departments = builder.EntitySet<Department>("Departments");
-		EntitySetConfiguration<Party> parties = builder.EntitySet<Party>("Parties");
-		EntitySetConfiguration<ObjectPermissions> objectPermissions = builder.EntitySet<ObjectPermissions>("ObjectPermissions");
-		EntitySetConfiguration<MemberPermissions> memberPermissions = builder.EntitySet<MemberPermissions>("MemberPermissions");
-		EntitySetConfiguration<TypePermission> typePermissions = builder.EntitySet<TypePermission>("TypePermissions");
-
-		employees.EntityType.HasKey(t => t.Oid);
-		departments.EntityType.HasKey(t => t.Oid);
-		parties.EntityType.HasKey(t => t.Oid);
-		return builder.GetEdmModel();
+        ODataModelBuilder builder = new ODataConventionModelBuilder();
+        EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
+        EntitySetConfiguration<Department> departments = builder.EntitySet<Department>("Departments");
+        EntitySetConfiguration<Party> parties = builder.EntitySet<Party>("Parties");
+        EntitySetConfiguration<ObjectPermission> objectPermissions = builder.EntitySet<ObjectPermission>("ObjectPermissions");
+        EntitySetConfiguration<MemberPermission> memberPermissions = builder.EntitySet<MemberPermission>("MemberPermissions");
+        EntitySetConfiguration<TypePermission> typePermissions = builder.EntitySet<TypePermission>("TypePermissions");
+        
+        employees.EntityType.HasKey(t => t.Oid);
+        departments.EntityType.HasKey(t => t.Oid);
+        parties.EntityType.HasKey(t => t.Oid);
+        
+        ActionConfiguration login = builder.Action("Login");
+        login.Parameter<string>("userName");
+        login.Parameter<string>("password");
+        
+        builder.Action("Logout");
+        
+        ActionConfiguration getPermissions = builder.Action("GetPermissions");
+        getPermissions.Parameter<string>("typeName");
+        getPermissions.CollectionParameter<string>("keys");
+        
+        ActionConfiguration getTypePermissions = builder.Action("GetTypePermissions");
+        getTypePermissions.Parameter<string>("typeName");
+        getTypePermissions.ReturnsFromEntitySet<TypePermission>("TypePermissions");
+        return builder.GetEdmModel();
 	}
 	```
 
@@ -102,25 +137,29 @@ For detailed information about ASP.NET Core application configuration, see [offi
 [UnauthorizedRedirectMiddleware](UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
 
 	``` csharp
-	public void ConfigureServices(IServiceCollection services) {
-		// ...
-		services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-		  .AddCookie(); // !!!
-	}
-	public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-		// ...
-		app.UseAuthentication(); // !!!
-		app.UseMiddleware<UnauthorizedRedirectMiddleware>(); // !!!
-		app.UseDefaultFiles();
-		app.UseStaticFiles();
-		app.UseHttpsRedirection();
-		app.UseCookiePolicy();
-		app.UseMvc(routeBuilder => {
-			routeBuilder.EnableDependencyInjection();
-			routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
-			routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel());
-		});
-	}
+	    public void ConfigureServices(IServiceCollection services) {
+	    	// ...
+	    	services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	    	  .AddCookie(); // !!!
+	    }
+  #if NETCOREAPP3_1
+  		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+  #else
+  		public void Configure(IApplicationBuilder app, IHostingEnvironment env) { 
+  #endif
+		    // ...
+		    app.UseAuthentication(); // !!!
+		    app.UseMiddleware<UnauthorizedRedirectMiddleware>(); // !!!
+		    app.UseDefaultFiles();
+		    app.UseStaticFiles();
+		    app.UseHttpsRedirection();
+		    app.UseCookiePolicy();
+		    app.UseMvc(routeBuilder => {
+		    	routeBuilder.EnableDependencyInjection();
+		    	routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
+		    	routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel());
+		    });
+	    }
 	//...
 	public class UnauthorizedRedirectMiddleware {
 		// ...
@@ -317,26 +356,36 @@ A user is identified by the user name and password parameters.
 	The `Patch` method allows updating Employee objects.
 
 	``` csharp
-	[HttpPatch]
-	public ActionResult Patch(Guid key, [FromBody]JObject jObject) {
-		Employee employee = ObjectSpace.FindObject<Employee>(new BinaryOperator(nameof(Employee.Oid), key));
-		if(employee != null) {
-			JsonParser.ParseJObject<Employee>(jObject, employee, ObjectSpace);
-			return Ok(employee);
-		}
-		return NotFound();
-	}
+  		[HttpPatch]
+  #if NETCOREAPP
+  		public ActionResult Patch(Guid key, [FromBody]JsonElement jElement) {
+  			JObject jObject = JObject.Parse(jElement.ToString());
+  #else
+  		public ActionResult Patch(Guid key, [FromBody]JObject jObject) {
+  #endif
+  			Employee employee = objectSpace.FindObject<Employee>(new BinaryOperator(nameof(Employee.Oid), key));
+  			if(employee != null) {
+  				JsonParser.ParseJObject<Employee>(jObject, employee, objectSpace);
+  				return Ok(employee);
+  			}
+  			return NotFound();
+  		}
 	```
 
 	The `Post` method allows creating Employee objects.
 
 	``` csharp
-	[HttpPost]
-	public ActionResult Post([FromBody]JObject jObject) {
-		Employee employee = ObjectSpace.CreateObject<Employee>();
-		JsonParser.ParseJObject<Employee>(jObject, employee, ObjectSpace);
-		return Ok(employee);
-	}
+  		[HttpPost]
+  #if NETCOREAPP
+  		public ActionResult Post([FromBody]JsonElement jElement) {
+  			JObject jObject = JObject.Parse(jElement.ToString());
+  #else
+  		public ActionResult Post([FromBody]JObject jObject) {
+  #endif
+  			Employee employee = objectSpace.CreateObject<Employee>();
+  			JsonParser.ParseJObject<Employee>(jObject, employee, objectSpace);
+  			return Ok(employee);
+  		}
 	```
 	
 	[JsonParser](Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
