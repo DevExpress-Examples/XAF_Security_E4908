@@ -1,0 +1,143 @@
+﻿@page "/"
+@attribute [Authorize]
+
+@using BlazorApplication.NetCore
+@using BlazorApplication.NetCore.Components
+@using XafSolution.Module.BusinessObjects
+@using DevExpress.ExpressApp
+@using DevExpress.ExpressApp.Utils
+@using DevExpress.ExpressApp.Security
+
+@implements IDisposable
+@inject SecurityProvider SecurityProvider
+
+<div style="text-align: right; margin: 10px">
+	<a class="ml-md-auto btn btn-primary" href="/logout">Log Out</a>
+</div>
+<CascadingValue Value="ObjectSpace">
+	<DxDataGrid Data=@employees
+				@ref="grid"
+				KeyFieldName=@nameof(Employee.Oid)
+				PageSize="20"
+				ShowFilterRow="true"
+				AllowSort="true">
+		<ChildContent>
+			<DxDataGridColumn Field=@nameof(Employee.FirstName)>
+				<DisplayTemplate>
+					<SecuredContainer Context="readOnly" CurrentObject=@context PropertyName=@nameof(Employee.FirstName)>
+						@(((Employee)context).FirstName)
+					</SecuredContainer>
+				</DisplayTemplate>
+			</DxDataGridColumn>
+			<DxDataGridColumn Field=@nameof(Employee.LastName)>
+				<DisplayTemplate>
+					<SecuredContainer Context="readOnly" CurrentObject=@context PropertyName=@nameof(Employee.LastName)>
+						@(((Employee)context).LastName)
+					</SecuredContainer>
+				</DisplayTemplate>
+			</DxDataGridColumn>
+			<DxDataGridColumn Field=@nameof(Employee.Email)>
+				<DisplayTemplate>
+					<SecuredContainer Context="readOnly" CurrentObject=@context PropertyName=@nameof(Employee.Email)>
+						@(((Employee)context).Email)
+					</SecuredContainer>
+				</DisplayTemplate>
+			</DxDataGridColumn>
+			<DxDataGridComboBoxColumn Field=@nameof(Employee.Department) Data=@departments>
+				<DisplayTemplate>
+					<SecuredContainer Context="readOnly" CurrentObject=@context PropertyName=@nameof(Employee.Department)>
+						@(CaptionHelper.GetDisplayText(((Employee)context).Department))
+					</SecuredContainer>
+				</DisplayTemplate>
+			</DxDataGridComboBoxColumn>
+			<DxDataGridCommandColumn Width="100px">
+				<HeaderCellTemplate>
+					@if(SecurityProvider.Security.CanCreate<Employee>()) {
+						<a @onclick="@(() => grid.StartRowEdit(null))" href="javascript:;">New</a>
+					}
+				</HeaderCellTemplate>
+				<CellTemplate>
+					@if(SecurityProvider.Security.CanWrite(context)) {
+						<a @onclick="@(() => grid.StartRowEdit(context))" href="javascript:;">Edit</a>
+					}
+					@if(SecurityProvider.Security.CanDelete(context)) {
+						<a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
+					}
+				</CellTemplate>
+			</DxDataGridCommandColumn>
+		</ChildContent>
+		<EditFormTemplate Context="employeeContext">
+			@{
+				Employee editingObject = (employeeContext as Employee) ?? ObjectSpace.CreateObject<Employee>();
+				<EditForm Model="@editingObject" Context="EditFormContext" OnValidSubmit="@HandleValidSubmit">
+					<DxFormLayout>
+						<DxFormLayoutItem Caption="First Name">
+							<Template>
+								<SecuredContainer Context="readOnly" CurrentObject=@editingObject PropertyName=@nameof(Employee.FirstName) IsEditor=true>
+									<DxTextBox @bind-Text=editingObject.FirstName ReadOnly=@readOnly />
+								</SecuredContainer>
+							</Template>
+						</DxFormLayoutItem>
+						<DxFormLayoutItem Caption="Last Name">
+							<Template>
+								<SecuredContainer Context="readOnly" CurrentObject=@editingObject PropertyName=@nameof(Employee.LastName) IsEditor=true>
+									<DxTextBox @bind-Text=editingObject.LastName ReadOnly=@readOnly />
+								</SecuredContainer>
+							</Template>
+						</DxFormLayoutItem>
+						<DxFormLayoutItem Caption="Email">
+							<Template>
+								<SecuredContainer Context="readOnly" CurrentObject=@editingObject PropertyName=@nameof(Employee.Email) IsEditor=true>
+									<DxTextBox @bind-Text=editingObject.Email ReadOnly=@readOnly />
+								</SecuredContainer>
+							</Template>
+						</DxFormLayoutItem>
+						<DxFormLayoutItem Caption="Department">
+							<Template>
+								<SecuredContainer Context="readOnly" CurrentObject=@editingObject PropertyName=@nameof(Employee.Department) IsEditor=true>
+									<DxComboBox Data="@departments" @bind-SelectedItem=editingObject.Department ReadOnly=@readOnly />
+								</SecuredContainer>
+							</Template>
+						</DxFormLayoutItem>
+						<DxFormLayoutItem>
+							<Template>
+								<div class="dxbs-fl-ctrl dxbs-fl-ctrl-nc text-right">
+									@{
+										string buttonCaption = ObjectSpace.IsNewObject(editingObject) ? "Create" : "Update";
+										<button class="btn btn-link" type="submit">@buttonCaption</button>
+									}
+									<button class="btn btn-link" type="button" @onclick="@grid.CancelRowEdit">Cancel</button>
+								</div>
+							</Template>
+						</DxFormLayoutItem>
+					</DxFormLayout>
+				</EditForm>
+			}
+		</EditFormTemplate>
+	</DxDataGrid>
+</CascadingValue>
+
+@code{
+	private IQueryable<Employee> employees;
+	private IQueryable<Department> departments;
+	private DxDataGrid<Employee> grid;
+	IObjectSpace ObjectSpace;
+
+	protected override void OnInitialized() {
+		ObjectSpace = SecurityProvider.ObjectSpaceProvider.CreateObjectSpace();
+		employees = ObjectSpace.GetObjectsQuery<Employee>();
+		departments = ObjectSpace.GetObjectsQuery<Department>();
+	}
+	void OnRowRemoving(object item) {
+		ObjectSpace.Delete(item);
+		ObjectSpace.CommitChanges();
+	}
+	void HandleValidSubmit() {
+		ObjectSpace.CommitChanges();
+		grid.CancelRowEdit();
+	}
+	public void Dispose() {
+		SecurityProvider?.Dispose();
+		ObjectSpace?.Dispose();
+	}
+}
