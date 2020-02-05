@@ -26,7 +26,7 @@ This example demonstrates how to protect your data with the [XAF Security System
 >			// ...
 > #endif
 > ```
-> They mean that particular code lines will be compiled if the `NETCOREAPP3_1` preprocessor directive is defined (you will also see `NETCOREAPP`). It's defined for .NET Core. The lines after the `#if` statement will be used only for .NET Core. The lines after the `#else` statement will be used for .NET Framework. If your code targets only one of these target frameworks, you can omit these constructions and use only lines relevant for your target framework.
+> They mean that particular code lines will be compiled if the `NETCOREAPP3_1` preprocessor directive is defined. It's defined for .NET Core. The lines after the `#if` statement will be used only for .NET Core. The lines after the `#else` statement will be used for .NET Framework. If your code targets only one of these target frameworks, you can omit these constructions and use only lines relevant for your target framework.
 
 
 ## Step 1: Configure the ASP.NET Core Server App
@@ -357,7 +357,7 @@ A user is identified by the user name and password parameters.
 
 	``` csharp
   		[HttpPatch]
-  #if NETCOREAPP
+  #if NETCOREAPP3_1
   		public ActionResult Patch(Guid key, [FromBody]JsonElement jElement) {
   			JObject jObject = JObject.Parse(jElement.ToString());
   #else
@@ -376,7 +376,7 @@ A user is identified by the user name and password parameters.
 
 	``` csharp
   		[HttpPost]
-  #if NETCOREAPP
+  #if NETCOREAPP3_1
   		public ActionResult Post([FromBody]JsonElement jElement) {
   			JObject jObject = JObject.Parse(jElement.ToString());
   #else
