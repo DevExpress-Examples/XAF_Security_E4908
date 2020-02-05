@@ -4,13 +4,12 @@ using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-#if !NETCOREAPP3_1
-using Microsoft.AspNetCore.Mvc; 
-#endif
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 #if NETCOREAPP3_1
 using Microsoft.Extensions.Hosting;
+#else
+using Microsoft.AspNetCore.Mvc; 
 #endif
 using Microsoft.OData.Edm;
 using System.Linq;
