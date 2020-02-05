@@ -42,7 +42,6 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XafSolution.Module.Win\XafSolution.Module.Win.NetCore.csproj" />
     <ProjectReference Include="..\XafSolution.Module\XafSolution.Module.NetCore.csproj" />
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
