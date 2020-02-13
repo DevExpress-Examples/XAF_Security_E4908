@@ -103,9 +103,9 @@ Namespace My.Resources
         ''' <summary>
         '''   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         ''' </summary>
-        Friend ReadOnly Property edit() As DevExpress.Utils.Svg.SvgImage
+        Friend ReadOnly Property Action_Edit() As DevExpress.Utils.Svg.SvgImage
             Get
-                Dim obj As Object = ResourceManager.GetObject("edit", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Action_Edit", resourceCulture)
                 Return (DirectCast(obj, DevExpress.Utils.Svg.SvgImage))
             End Get
         End Property
@@ -123,9 +123,9 @@ Namespace My.Resources
         ''' <summary>
         '''   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         ''' </summary>
-        Friend ReadOnly Property [New]() As DevExpress.Utils.Svg.SvgImage
+        Friend ReadOnly Property Action_New() As DevExpress.Utils.Svg.SvgImage
             Get
-                Dim obj As Object = ResourceManager.GetObject("New", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Action_New", resourceCulture)
                 Return (DirectCast(obj, DevExpress.Utils.Svg.SvgImage))
             End Get
         End Property

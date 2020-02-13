@@ -83,9 +83,29 @@ namespace WindowsFormsApplication.Properties {
         /// <summary>
         ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
         /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage Action_Edit {
+            get {
+                object obj = ResourceManager.GetObject("Action_Edit", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
         internal static DevExpress.Utils.Svg.SvgImage Action_Logoff {
             get {
                 object obj = ResourceManager.GetObject("Action_Logoff", resourceCulture);
+                return ((DevExpress.Utils.Svg.SvgImage)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
+        /// </summary>
+        internal static DevExpress.Utils.Svg.SvgImage Action_New {
+            get {
+                object obj = ResourceManager.GetObject("Action_New", resourceCulture);
                 return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }
@@ -101,32 +121,12 @@ namespace WindowsFormsApplication.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
-        /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage edit {
-            get {
-                object obj = ResourceManager.GetObject("edit", resourceCulture);
-                return ((DevExpress.Utils.Svg.SvgImage)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon ExpressApp {
             get {
                 object obj = ResourceManager.GetObject("ExpressApp", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type DevExpress.Utils.Svg.SvgImage.
-        /// </summary>
-        internal static DevExpress.Utils.Svg.SvgImage New {
-            get {
-                object obj = ResourceManager.GetObject("New", resourceCulture);
-                return ((DevExpress.Utils.Svg.SvgImage)(obj));
             }
         }
     }

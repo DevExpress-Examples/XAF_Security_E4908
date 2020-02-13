@@ -122,7 +122,7 @@ namespace WindowsFormsApplication {
 			// 
 			this.newBarButtonItem.Caption = "New";
             this.newBarButtonItem.Id = 1;
-            this.newBarButtonItem.ImageOptions.SvgImage = global::WindowsFormsApplication.Properties.Resources.New;
+            this.newBarButtonItem.ImageOptions.SvgImage = global::WindowsFormsApplication.Properties.Resources.Action_New;
             this.newBarButtonItem.Name = "newBarButtonItem";
             this.newBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.NewBarButtonItem_ItemClick);
             // 
@@ -154,7 +154,7 @@ namespace WindowsFormsApplication {
             // 
             this.editBarButtonItem.Caption = "Edit";
             this.editBarButtonItem.Id = 4;
-            this.editBarButtonItem.ImageOptions.SvgImage = global::WindowsFormsApplication.Properties.Resources.edit;
+            this.editBarButtonItem.ImageOptions.SvgImage = global::WindowsFormsApplication.Properties.Resources.Action_Edit;
             this.editBarButtonItem.Name = "editBarButtonItem";
             this.editBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.EditBarButtonItem_ItemClick);
             // 
