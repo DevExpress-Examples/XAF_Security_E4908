@@ -2,7 +2,7 @@
 
 # User Authentication and Group Authorization API for .NET Apps Powered by the XPO ORM - App Security Made Easy
 
-![image](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/blob/19.2.6%2B/Security-System-1x2-FB.png)
+![image](Security-System-1x2-FB.png)
 
 ## Demos & Tutorials for .NET Framework and .NET Core
  - [DevExtreme + ASP.NET Web API OData](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_2.aspx)
