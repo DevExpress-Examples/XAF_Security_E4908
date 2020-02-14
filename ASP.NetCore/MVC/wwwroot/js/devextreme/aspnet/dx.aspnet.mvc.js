@@ -1,7 +1,7 @@
 /*!
 * DevExtreme (dx.aspnet.mvc.js)
-* Version: 19.2.3
-* Build date: Tue Oct 22 2019
+* Version: 19.2.5
+* Build date: Mon Dec 16 2019
 *
 * Copyright (c) 2012 - 2019 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -17,12 +17,15 @@
 }(function($, setTemplateEngine, templateRendered, Guid, validationEngine, iteratorUtils, extractTemplateMarkup, encodeHtml, ajax) {
     var templateCompiler = createTemplateCompiler();
     var pendingCreateComponentRoutines = [];
+    var enableAlternateTemplateTags = true;
 
     function createTemplateCompiler() {
         var OPEN_TAG = "<%",
             CLOSE_TAG = "%>",
             ENCODE_QUALIFIER = "-",
             INTERPOLATE_QUALIFIER = "=";
+        var EXTENDED_OPEN_TAG = /[<[]%/g,
+            EXTENDED_CLOSE_TAG = /%[>\]]/g;
 
         function acceptText(bag, text) {
             if (text) {
@@ -44,10 +47,10 @@
         }
         return function(text) {
             var bag = ["var _ = [];", "with(obj||{}) {"],
-                chunks = text.split(OPEN_TAG);
+                chunks = text.split(enableAlternateTemplateTags ? EXTENDED_OPEN_TAG : OPEN_TAG);
             acceptText(bag, chunks.shift());
             for (var i = 0; i < chunks.length; i++) {
-                var tmp = chunks[i].split(CLOSE_TAG);
+                var tmp = chunks[i].split(enableAlternateTemplateTags ? EXTENDED_CLOSE_TAG : CLOSE_TAG);
                 if (2 !== tmp.length) {
                     throw "Template syntax error"
                 }
@@ -102,7 +105,7 @@
     }
 
     function createComponent(name, options, id, validatorOptions) {
-        var selector = "#" + id.replace(/[^\w-]/g, "\\$&");
+        var selector = "#" + String(id).replace(/[^\w-]/g, "\\$&");
         pendingCreateComponentRoutines.push(function() {
             var $component = $(selector)[name](options);
             if ($.isPlainObject(validatorOptions)) {
@@ -138,6 +141,9 @@
             if (setTemplateEngine) {
                 setTemplateEngine(createTemplateEngine())
             }
+        },
+        enableAlternateTemplateTags: function(value) {
+            enableAlternateTemplateTags = value
         },
         createValidationSummaryItems: function(validationGroup, editorNames) {
             var groupConfig, items, summary = getValidationSummary(validationGroup);

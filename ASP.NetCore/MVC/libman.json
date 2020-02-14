@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "defaultProvider": "filesystem",
+  "libraries": [
+    {
+      "library": "C:/Program Files (x86)/DevExpress 19.2/DevExtreme/Sources/Lib/js/",
+      "destination": "wwwroot/js/devextreme",
+      "files": [
+        "jquery.js",
+        "dx.all.js"
+      ]
+    },
+    {
+      "library": "C:/Program Files (x86)/DevExpress 19.2/DevExtreme/Sources/Lib/js/aspnet/",
+      "destination": "wwwroot/js/devextreme/aspnet/",
+      "files": [
+        "dx.aspnet.data.js",
+        "dx.aspnet.mvc.js"
+      ]
+    },
+    {
+      "library": "C:/Program Files (x86)/DevExpress 19.2/DevExtreme/Sources/Lib/css/fonts/",
+      "destination": "wwwroot/css/devextreme/fonts"
+    },
+    {
+      "library": "C:/Program Files (x86)/DevExpress 19.2/DevExtreme/Sources/Lib/css/icons/",
+      "destination": "wwwroot/css/devextreme/icons"
+    },
+    {
+      "library": "C:/Program Files (x86)/DevExpress 19.2/DevExtreme/Sources/Lib/css/",
+      "destination": "wwwroot/css/devextreme/",
+      "files": [
+        "bootstrap.css",
+        "dx.common.css",
+        "dx.light.css",
+        "dx.material.orange.light.css"
+      ]
+    }
+  ]
+}

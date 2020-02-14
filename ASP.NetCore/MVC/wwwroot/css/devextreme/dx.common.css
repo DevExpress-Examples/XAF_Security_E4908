@@ -1,7 +1,7 @@
 /**
 * DevExtreme (dx.common.css)
-* Version: 19.2.3
-* Build date: Tue Oct 22 2019
+* Version: 19.2.5
+* Build date: Mon Dec 16 2019
 *
 * Copyright (c) 2012 - 2019 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
@@ -531,20 +531,15 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 10000;
+  z-index: 2147483647;
 }
 .dx-sortable {
   overflow: hidden;
-  cursor: pointer;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   -webkit-touch-callout: none;
-}
-.dx-sortable.dx-state-disabled,
-.dx-state-disabled .dx-sortable {
-  cursor: default;
 }
 .dx-sortable-dragging.dx-sortable-clone {
   position: absolute;
@@ -553,7 +548,12 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   opacity: 0.9;
-  z-index: 10000;
+  z-index: 2147483647;
+}
+.dx-sortable-dragging {
+  cursor: pointer;
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
 }
 .dx-sortable-source {
   opacity: 0.5;
@@ -568,7 +568,7 @@
   border: 1px solid transparent;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  z-index: 10000;
+  z-index: 2147483647;
 }
 .dx-sortable-placeholder-inside {
   border-width: 2px;
@@ -796,6 +796,8 @@
   -webkit-flex-flow: row nowrap;
       -ms-flex-flow: row nowrap;
           flex-flow: row nowrap;
+  height: 100%;
+  width: 100%;
 }
 .dx-buttongroup-item {
   -webkit-box-flex: 0;
@@ -819,7 +821,6 @@
   -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
-  width: 100%;
 }
 .dx-scrollable-scrollbar-simulated {
   position: relative;
@@ -1745,6 +1746,12 @@
       -ms-flex-align: baseline;
           align-items: baseline;
 }
+.dx-dropdowneditor-field-template-wrapper > * {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
 .dx-dropdowneditor-active .dx-dropdowneditor-icon {
   opacity: 0.35;
 }
@@ -2216,9 +2223,6 @@
 }
 .dx-texteditor input[type=date]::-webkit-inner-spin-button {
   height: 20px;
-}
-.dx-datebox-native .dx-texteditor-buttons-container {
-  pointer-events: none;
 }
 .dx-datebox-native.dx-state-focused.dx-texteditor-empty .dx-placeholder {
   display: none;
@@ -4040,10 +4044,18 @@
 .dx-datagrid .dx-error-row .dx-error-message a {
   color: inherit;
 }
-.dx-datagrid .dx-datagrid-rowsview .dx-row .dx-command-drag {
+.dx-datagrid .dx-datagrid-rowsview .dx-data-row .dx-command-drag {
   cursor: move;
   vertical-align: middle;
   padding: 0;
+}
+.dx-sortable-dragging .dx-datagrid-rowsview .dx-data-row .dx-command-drag {
+  cursor: pointer;
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+.dx-sortable-without-handle .dx-data-row {
+  cursor: pointer;
 }
 .dx-datagrid-column-chooser .dx-overlay-content .dx-popup-title {
   border-bottom: none;
@@ -4604,6 +4616,10 @@ input.dx-hidden {
 .dx-datagrid-hidden-column {
   white-space: nowrap;
 }
+.dx-datagrid .dx-row .dx-datagrid-hidden-column {
+  border-right-width: 0;
+  border-left-width: 0;
+}
 .dx-datagrid-hidden-column > * {
   display: none !important;
 }
@@ -4696,10 +4712,12 @@ input.dx-hidden {
   padding: 7px 32px 7px 7px;
 }
 .dx-rtl .dx-datagrid-headers,
+.dx-rtl .dx-datagrid-rowsview,
 .dx-rtl .dx-datagrid-total-footer {
   direction: ltr;
 }
 .dx-rtl .dx-datagrid-headers .dx-datagrid-table,
+.dx-rtl .dx-datagrid-rowsview .dx-datagrid-table,
 .dx-rtl .dx-datagrid-total-footer .dx-datagrid-table {
   direction: rtl;
 }
@@ -5214,10 +5232,18 @@ input.dx-hidden {
 .dx-treelist .dx-error-row .dx-error-message a {
   color: inherit;
 }
-.dx-treelist .dx-treelist-rowsview .dx-row .dx-command-drag {
+.dx-treelist .dx-treelist-rowsview .dx-data-row .dx-command-drag {
   cursor: move;
   vertical-align: middle;
   padding: 0;
+}
+.dx-sortable-dragging .dx-treelist-rowsview .dx-data-row .dx-command-drag {
+  cursor: pointer;
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+.dx-sortable-without-handle .dx-data-row {
+  cursor: pointer;
 }
 .dx-treelist-column-chooser .dx-overlay-content .dx-popup-title {
   border-bottom: none;
@@ -5778,6 +5804,10 @@ input.dx-hidden {
 .dx-treelist-hidden-column {
   white-space: nowrap;
 }
+.dx-treelist .dx-row .dx-treelist-hidden-column {
+  border-right-width: 0;
+  border-left-width: 0;
+}
 .dx-treelist-hidden-column > * {
   display: none !important;
 }
@@ -5870,10 +5900,12 @@ input.dx-hidden {
   padding: 7px 32px 7px 7px;
 }
 .dx-rtl .dx-treelist-headers,
+.dx-rtl .dx-treelist-rowsview,
 .dx-rtl .dx-treelist-total-footer {
   direction: ltr;
 }
 .dx-rtl .dx-treelist-headers .dx-treelist-table,
+.dx-rtl .dx-treelist-rowsview .dx-treelist-table,
 .dx-rtl .dx-treelist-total-footer .dx-treelist-table {
   direction: rtl;
 }
@@ -6691,6 +6723,7 @@ input.dx-hidden {
 }
 .dx-scheduler .dx-scheduler-work-space-month > .dx-scrollable-native .dx-scrollable-content {
   min-height: 100%;
+  height: 100%;
 }
 .dx-scheduler-all-day-panel td {
   padding: 0;
@@ -6986,8 +7019,6 @@ input.dx-hidden {
 .dx-drawer {
   height: 100%;
   width: 100%;
-  -ms-touch-action: pinch-zoom;
-      touch-action: pinch-zoom;
 }
 .dx-drawer-wrapper {
   position: relative;
@@ -7075,6 +7106,9 @@ input.dx-hidden {
   overflow-x: visible;
 }
 .dx-drawer-overlap.dx-drawer-right.dx-drawer-expand .dx-overlay-content {
+  right: 0;
+}
+.dx-drawer-overlap.dx-drawer-right.dx-drawer-slide .dx-overlay-content {
   right: 0;
 }
 .dx-htmleditor {
@@ -7646,6 +7680,35 @@ input.dx-hidden {
   border-radius: 50%;
   cursor: pointer;
 }
+.dx-splitter-wrapper {
+  height: 100%;
+  width: 0;
+  position: absolute;
+  z-index: 998;
+  top: 0;
+}
+.dx-splitter-wrapper.dx-splitter-initial {
+  right: 0;
+}
+.dx-splitter-wrapper .dx-splitter-border {
+  z-index: 997;
+  height: 100%;
+  display: table;
+}
+.dx-splitter-wrapper .dx-splitter-border .dx-splitter {
+  height: 100%;
+  width: 3px;
+  display: block;
+  cursor: col-resize;
+  z-index: 999;
+}
+.dx-splitter-wrapper .dx-splitter-border .dx-splitter.dx-splitter-transparent {
+  z-index: 998;
+}
+.dx-splitter-wrapper .dx-splitter-border .dx-splitter.dx-state-disabled {
+  width: 0;
+  cursor: default;
+}
 .dx-filemanager {
   height: 500px;
   border: 1px solid;
@@ -7935,14 +7998,15 @@ input.dx-hidden {
   height: 100%;
 }
 .dx-filemanager .dx-filemanager-details .dx-filemanager-details-item-name-wrapper {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
           align-items: flex-start;
+  width: 100%;
 }
 .dx-filemanager .dx-filemanager-details .dx-filemanager-details-item-name-wrapper .dx-filemanager-details-item-name {
   -webkit-box-flex: 1;
@@ -8207,6 +8271,31 @@ input.dx-hidden {
   width: 64px;
   height: 64px;
 }
+.dx-diagram-touchbar.dx-context-menu .dx-menu-items-container {
+  display: block;
+  height: 100%;
+  padding: 0;
+}
+.dx-diagram-touchbar.dx-context-menu .dx-menu-items-container::after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.dx-diagram-touchbar.dx-context-menu .dx-menu-items-container > li {
+  display: block;
+  float: left;
+}
+.dx-diagram-touchbar.dx-context-menu .dx-menu-item.dx-menu-item-has-text.dx-menu-item-has-icon .dx-menu-item-content .dx-icon {
+  margin: 0;
+}
+.dx-diagram-touchbar.dx-context-menu .dx-menu-item .dx-menu-item-content .dx-menu-item-text {
+  display: none;
+}
+.dx-diagram-touchbar-target {
+  position: absolute;
+  background-color: transparent;
+  pointer-events: none;
+}
 .dx-gantt {
   display: -webkit-box;
   display: -webkit-flex;
@@ -8245,35 +8334,6 @@ input.dx-hidden {
 }
 .dx-gantt .dx-gantt-view .dx-scrollable-scrollbar {
   z-index: 100;
-}
-.dx-splitter-wrapper {
-  height: 100%;
-  width: 0;
-  position: absolute;
-  z-index: 998;
-  top: 0;
-}
-.dx-splitter-wrapper.dx-splitter-initial {
-  right: 0;
-}
-.dx-splitter-wrapper .dx-splitter-border {
-  z-index: 997;
-  height: 100%;
-  display: table;
-}
-.dx-splitter-wrapper .dx-splitter-border .dx-splitter {
-  height: 100%;
-  width: 3px;
-  display: block;
-  cursor: col-resize;
-  z-index: 999;
-}
-.dx-splitter-wrapper .dx-splitter-border .dx-splitter.dx-splitter-transparent {
-  z-index: 998;
-}
-.dx-splitter-wrapper .dx-splitter-border .dx-splitter.dx-state-disabled {
-  width: 0;
-  cursor: default;
 }
 .dx-deferrendering .dx-deferrendering-loadindicator-container {
   width: 100%;
