@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
+    <RuntimeIdentifier>win</RuntimeIdentifier>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>XafSolution.Module.NetCore</RootNamespace>
     <AssemblyName>XafSolution.Module.NetCore</AssemblyName>
