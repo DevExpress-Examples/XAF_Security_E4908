@@ -10,9 +10,9 @@ This example demonstrates how to protect your data with the [XAF Security System
   - **.NET Core cross-platform development**
 - [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/)
   - We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
-- Build the following solutions and projects depending on your target framework:
-  - .NET Framework: *NonXAFSecurityExamples.sln* and *ODataService/XafSolution.Win*.
-  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* and *ODataService.NetCore/XafSolution.Win.NetCore*.
+- Build the following solutions or projects depending on your target framework:
+  - .NET Framework: *NonXAFSecurityExamples.sln* or *ODataService/XafSolution.Win*.
+  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* or *ODataService.NetCore/XafSolution.Win.NetCore*.
 - Run the *XafSolution.Win* or *XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module* or *XafSolution.Module.NetCore* project.
 - Add the *XafSolution.Module* or *XafSolution.Module.NetCore* assembly reference to your test application.
 
