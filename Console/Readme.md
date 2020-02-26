@@ -8,9 +8,9 @@ This example demonstrates how to access data protected by the [Security System](
 - [.NET Core SDK 3.0+](https://dotnet.microsoft.com/download/dotnet-core)
 - [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/).
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
-- Build the following solutions and projects depending on your target framework:
-  - .NET Framework: *NonXAFSecurityExamples.sln* and *ConsoleApplication/XafSolution.Win*.
-  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* and *ConsoleApplication.NetCore/XafSolution.Win.NetCore*.
+- Build the following solutions or projects depending on your target framework:
+  - .NET Framework: *NonXAFSecurityExamples.sln* or *ConsoleApplication/XafSolution.Win*.
+  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* or *ConsoleApplication.NetCore/XafSolution.Win.NetCore*.
 - Run the *XafSolution.Win/XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module/XafSolution.Module.NetCore* project.
 - Add the *XafSolution.Module/XafSolution.Module.NetCore* assembly reference to your test application.
 
