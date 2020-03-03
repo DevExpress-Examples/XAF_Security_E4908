@@ -16,7 +16,7 @@ This example demonstrates how to access data protected by the [Security System](
 ### Create a database and populate it with data
 
 1. Build the *EFCoreNonXAFSecurityExamples.NetCore* solution.
-2. Open the [https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config](EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your server:
+2. Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your server:
 	
 	[](#tab/tabid-xml)
 	
@@ -45,7 +45,7 @@ You can find all this code in the 'EFCore/Console/' folder.
 	SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), auth);
 	```	
 
-3. Open the [https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/Console/CS/App.config](EFCore%5CConsole%5CCS%5CApp.config) file and modify it so that it refers to the same database as the DatabaseUpdater's config file ([EFCore/DatabaseUpdater/App.config](EFCore%5CDatabaseUpdater%5CApp.config)).
+3. Open the [EFCore/Console/CS/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/Console/CS/App.config) file and modify it so that it refers to the same database as the DatabaseUpdater's config file ([EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config)).
 
 4. Create a **SecuredEFCoreObjectSpaceProvider** object. Create an instance of the EFCoreDatabaseProviderHandler delegate with SqlServer and security extensions. It allows you to create **SecuredObjectSpace** to ensure secured data access.
 
