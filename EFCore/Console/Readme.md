@@ -1,6 +1,6 @@
 <!-- default file list -->
 
-# This example is under construction...
+# This branch is under construction...
 
 This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from your non-XAF .NET Core console application. The application outputs secured data to the 'result.txt' file.
 
