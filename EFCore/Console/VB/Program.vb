@@ -1,15 +1,10 @@
 ﻿Imports BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects
-Imports ConsoleApplication.EFCore.NetCore.DatabaseUpdate
 Imports DevExpress.EntityFrameworkCore.Security
 Imports DevExpress.ExpressApp
-Imports DevExpress.ExpressApp.DC
-Imports DevExpress.ExpressApp.EFCore
 Imports DevExpress.ExpressApp.Security
-Imports DevExpress.ExpressApp.Security.ClientServer
 Imports DevExpress.Persistent.Base
 Imports DevExpress.Persistent.BaseImpl.EF.PermissionPolicy
 Imports Microsoft.EntityFrameworkCore
-Imports System
 Imports System.Configuration
 Imports System.IO
 Imports System.Text

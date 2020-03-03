@@ -1,5 +1,4 @@
 ﻿using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.EFCore;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
@@ -9,7 +8,6 @@ using System.IO;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
-using DevExpress.ExpressApp.DC;
 using DevExpress.EntityFrameworkCore.Security;
 
 namespace ConsoleApplication {
