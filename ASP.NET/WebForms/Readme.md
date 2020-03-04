@@ -12,7 +12,7 @@ You will also learn how to execute Create, Write and Delete data operations taki
 
 ***
 
-## Step 1. Database connection and Security System initialization
+## Step 1. Database Connection and Security System Initialization
 - Implement [XpoDataStoreProviderService](CS/XpoDataStoreProviderService.cs) to create Data Store Provider and access its value in singleton manner.
   
   ```csharp
@@ -70,7 +70,7 @@ You will also learn how to execute Create, Write and Delete data operations taki
   }
   ```
 
-## Step 2. Login page
+## Step 2. Login Page Implementation
 Create the [Login.aspx](CS/Login.aspx) page, add [ASPxTextBox](https://docs.devexpress.com/AspNet/11586/aspnet-webforms-controls/data-editors/aspxtextbox) 
 to enter the login/password. Then, add 'Log In' [ASPxButton](https://documentation.devexpress.com/AspNet/11620/ASP-NET-WebForms-Controls/Data-Editors/ASPxButton) to log in.
   
@@ -110,7 +110,7 @@ function errorMessage() {
 }
 ```
   
-## Step 3. Default page
+## Step 3. Default Page Implementation
   
 Create the [Default.aspx](CS/Default.aspx) page and add Log Off [ASPxButton](https://documentation.devexpress.com/AspNet/11620/ASP-NET-WebForms-Controls/Data-Editors/ASPxButton) 
 to log out and return to the login page.
