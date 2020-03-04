@@ -2,21 +2,21 @@
 
 # This branch is under construction...
 
-This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from your non-XAF .NET Core console application. The application outputs secured data to the 'result.txt' file.
+This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a Console application with Entity Framework Core. The application outputs secured data to the 'result.txt' file.
 
 >For simplicity, the instructions include only C# code snippets. For the complete C# and VB code, see the [CS](CS) and [VB](VB) sub-directories.
  
-### Prerequisites
+## Prerequisites
 - [.NET Core SDK 3.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [.NET Framework installer](https://www.devexpress.com/Products/Try/).
+- [Unified Installer for .NET Framework](https://www.devexpress.com/Products/Try/).
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
   
+***
   
-  
-### Create a database and populate it with data
+## Step 1. Create a Database and Populate It with Data
 
 1. Build the *EFCoreNonXAFSecurityExamples.NetCore* solution.
-2. Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your server:
+2. Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your database server:
 	
 	[](#tab/tabid-xml)
 	
@@ -30,7 +30,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 
 
-### Get data from a database using Security System
+## Step 2. Initialize Data Store and XAF's Security System
 
 You can find all this code in the 'EFCore/Console/' folder.
 
@@ -47,7 +47,7 @@ You can find all this code in the 'EFCore/Console/' folder.
 
 3. Open the [EFCore/Console/CS/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/Console/CS/App.config) file and modify it so that it refers to the same database as the DatabaseUpdater's config file ([EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config)).
 
-4. Create a **SecuredEFCoreObjectSpaceProvider** object. Create an instance of the EFCoreDatabaseProviderHandler delegate with SqlServer and security extensions. It allows you to create **SecuredObjectSpace** to ensure secured data access.
+4. Create a **SecuredEFCoreObjectSpaceProvider** object. Create an instance of the EFCoreDatabaseProviderHandler delegate with SqlServer and security extensions. It allows you to create a secured **IObjectSpace** instance to ensure secured data access.
 
 
 	[](#tab/tabid-csharp)
@@ -72,7 +72,9 @@ You can find all this code in the 'EFCore/Console/' folder.
 	XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
 	XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
 	```
-6. Specify the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System):
+	
+## Step 3. Configure User Authentication Options and Login
+1. Specify the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System):
 	[](#tab/tabid-csharp)
 	
 	```csharp
@@ -80,7 +82,7 @@ You can find all this code in the 'EFCore/Console/' folder.
 	PasswordCryptographer.SupportLegacySha512 = false;
 	```
 
-7. Perform a logon. The code below demonstrates how to do this as a user named "User" who has an empty password.
+2. Perform a logon. The code below demonstrates how to do this as a user named "User" who has an empty password.
 
 	[](#tab/tabid-csharp)
 	
@@ -92,7 +94,8 @@ You can find all this code in the 'EFCore/Console/' folder.
 	security.Logon(loginObjectSpace);
 	```
 
-8. Now you can create **SecuredObjectSpace** and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*).
+## Step 4. Authorize CRUD Operations Based on User Access Rights
+Now you can create a secured **IObjectSpace** instance and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*).
 
 	[](#tab/tabid-csharp)
 	
@@ -111,5 +114,6 @@ You can find all this code in the 'EFCore/Console/' folder.
 	}
 	```
 
-Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
+Note that IObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
 
+## Step 5: Run and Test the App
