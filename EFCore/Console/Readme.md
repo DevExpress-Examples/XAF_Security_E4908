@@ -97,22 +97,22 @@ You can find all this code in the 'EFCore/Console/' folder.
 ## Step 4. Authorize CRUD Operations Based on User Access Rights
 Now you can create a secured **IObjectSpace** instance and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*).
 
-	[](#tab/tabid-csharp)
+[](#tab/tabid-csharp)
 	
-	```csharp
-	StringBuilder stringBuilder = new StringBuilder();
-	stringBuilder.Append("List of the 'Person' objects:\n");
-	using(IObjectSpace securedObjectSpace = securedObjectSpaceProvider.CreateObjectSpace()) {
-	    foreach(Person person in securedObjectSpace.GetObjects<Person>()) {
-	        stringBuilder.Append($"Full name: {person.FullName}\n");
-	        if(security.CanRead(person, nameof(person.Email))) {
-		    stringBuilder.Append($"Email: {person.Email}\n");
-		} else {
-		    stringBuilder.Append("Email: [Protected content]\n");
-		}
-	    } 
+```csharp
+StringBuilder stringBuilder = new StringBuilder();
+stringBuilder.Append("List of the 'Person' objects:\n");
+using(IObjectSpace securedObjectSpace = securedObjectSpaceProvider.CreateObjectSpace()) {
+    foreach(Person person in securedObjectSpace.GetObjects<Person>()) {
+        stringBuilder.Append($"Full name: {person.FullName}\n");
+        if(security.CanRead(person, nameof(person.Email))) {
+	    stringBuilder.Append($"Email: {person.Email}\n");
+	} else {
+	    stringBuilder.Append("Email: [Protected content]\n");
 	}
-	```
+    } 
+}
+```
 
 Note that IObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
 
