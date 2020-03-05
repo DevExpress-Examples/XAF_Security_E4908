@@ -35,7 +35,7 @@ Substitute "DBSERVER" with the Database Server name or its IP address. Use "**lo
 
 ## Step 2. Initialize Data Store and XAF's Security System 
 
-You can find all this code in the [EFCore/Console](EFCore/Console) folder.
+You can find all this code in the [EFCore/Console](/EFCore/Console) folder.
 
 **1.** Create a .NET Core console application.
 
