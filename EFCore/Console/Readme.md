@@ -16,6 +16,7 @@ This example demonstrates how to access data protected by the [Security System](
 ## Step 1. Create a Database and Populate It with Data
 
 **1.** Build the 'EFCoreNonXAFSecurityExamples.NetCore' solution.
+
 **2.** Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your database server:
 	
 	[](#tab/tabid-xml)
@@ -48,9 +49,9 @@ You can find all this code in the [EFCore/Console](EFCore/Console) folder.
 	```	
 [Full code](/EFCore/Console/CS/Program.cs#L16)
 
-3. Open the [EFCore/Console/CS/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/Console/CS/App.config) file and modify it so that it refers to the same database as the DatabaseUpdater's config file ([EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config)).
+**3.** Open the [EFCore/Console/CS/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/Console/CS/App.config) file and modify it so that it refers to the same database as the DatabaseUpdater's config file ([EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config)).
 
-4. Create a **SecuredEFCoreObjectSpaceProvider** object. Create an instance of the EFCoreDatabaseProviderHandler delegate with SqlServer and security extensions. It allows you to create a secured **IObjectSpace** instance to ensure secured data access.
+**4.** Create a **SecuredEFCoreObjectSpaceProvider** object. Create an instance of the EFCoreDatabaseProviderHandler delegate with SqlServer and security extensions. It allows you to create a secured **IObjectSpace** instance to ensure secured data access.
 
 
 	[](#tab/tabid-csharp)
@@ -62,7 +63,8 @@ You can find all this code in the [EFCore/Console](EFCore/Console) folder.
 	     builder.UseSqlServer(connectionString));
 	```
 [Full code](EFCore/Console/CS/Program.cs#L19)
-5. Initialize the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system and register the business objects that you will access from your code.
+
+**5.** Initialize the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system and register the business objects that you will access from your code.
 	
 	[](#tab/tabid-csharp)
 	
@@ -78,7 +80,7 @@ You can find all this code in the [EFCore/Console](EFCore/Console) folder.
 	
 [Full code](EFCore/Console/CS/Program.cs#L57)
 ## Step 3. Configure User Authentication Options and Login
-1. Specify the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System):
+**1.** Specify the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System):
 	[](#tab/tabid-csharp)
 	
 	```csharp
@@ -86,7 +88,8 @@ You can find all this code in the [EFCore/Console](EFCore/Console) folder.
 	PasswordCryptographer.SupportLegacySha512 = false;
 	```
 [Full code](EFCore/Console/CS/Program.cs#L26)
-2. Perform a logon. The code below demonstrates how to do this as a user named "User" who has an empty password.
+
+**2.** Perform a logon. The code below demonstrates how to do this as a user named "User" who has an empty password.
 
 	[](#tab/tabid-csharp)
 	
@@ -118,6 +121,7 @@ using(IObjectSpace securedObjectSpace = securedObjectSpaceProvider.CreateObjectS
 }
 ```
 [Full code](EFCore/Console/CS/Program.cs#L36)
+
 Note that IObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
 
 ## Step 5: Run and Test the App
