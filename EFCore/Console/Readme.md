@@ -1,7 +1,5 @@
 <!-- default file list -->
 
-# This branch is under construction...
-
 This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a Console application with Entity Framework Core. The application outputs secured data to the 'result.txt' file.
 
 >For simplicity, the instructions include only C# code snippets. For the complete C# and VB code, see the [CS](CS) and [VB](VB) sub-directories.
@@ -103,7 +101,7 @@ security.Logon(loginObjectSpace);
 ```
 [Full code](/EFCore/Console/CS/Program.cs#L29)
 ## Step 4. Authorize CRUD Operations Based on User Access Rights
-Now you can create a secured **IObjectSpace** instance and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*).
+Now you can create a secured **IObjectSpace** instance and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*). IObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
 
 [](#tab/tabid-csharp)
 	
@@ -123,6 +121,8 @@ using(IObjectSpace securedObjectSpace = securedObjectSpaceProvider.CreateObjectS
 ```
 [Full code](/EFCore/Console/CS/Program.cs#L36)
 
-Note that IObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
+**NOTE**: the current version of the *DevExpress.EntityFrameworkCore.Security* (CTP) library contains a number of restrictions and is not intended for use in production code. Known limitations:
+ - Permission evaluation for collections and reference properties is not yet available.
+ - Criteria evaluation for properties is prohibited by the security system.
 
 ## Step 5: Run and Test the App
