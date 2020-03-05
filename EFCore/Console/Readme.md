@@ -114,9 +114,9 @@ using(IObjectSpace securedObjectSpace = securedObjectSpaceProvider.CreateObjectS
     stringBuilder.Append($"Full name: {person.FullName}\n");
     if(security.CanRead(person, nameof(person.Email))) {
       stringBuilder.Append($"Email: {person.Email}\n");
-	  } else {
-	   	stringBuilder.Append("Email: [Protected content]\n");
-		}
+    } else {
+      stringBuilder.Append("Email: [Protected content]\n");
+    }
   } 
 }
 ```
