@@ -17,7 +17,9 @@ This example demonstrates how to access data protected by the [Security System](
 ***
 
 1. Initialize the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system and register the business objects that you will access from your code.
-
+	
+	[](#tab/tabid-csharp)
+	
 	```csharp
 	using DevExpress.ExpressApp;
 	using DevExpress.Persistent.BaseImpl.PermissionPolicy;
@@ -29,6 +31,8 @@ This example demonstrates how to access data protected by the [Security System](
 	```
 2. Open the application configuration file. It is an XML file located in the application folder. The Console application configuration file is _App.config_. Add the following line in this file.
 	
+	[](#tab/tabid-xml)
+	
 	```xml
 	<add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"/>
 	```
@@ -37,18 +41,22 @@ This example demonstrates how to access data protected by the [Security System](
 	
 3. Initialize the Security System.
 	
+	[](#tab/tabid-csharp)
+	
 	```csharp
     AuthenticationStandard authentication = new AuthenticationStandard();
     SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), auth);
     security.RegisterXPOAdapterProviders();
 	```
 4. Create a **SecuredObjectSpaceProvider** object. It allows you to create a **SecuredObjectSpace** to ensure a secured data access.
+	[](#tab/tabid-csharp)
 	
 	```csharp
 	string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 	SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 	```
 5. Perform a logon. The code below demonstrates how to do this as a user named "User" who has an empty password.
+[](#tab/tabid-csharp)
 	
 	```csharp
     string userName = "User";
@@ -59,21 +67,25 @@ This example demonstrates how to access data protected by the [Security System](
 	```
 6. Now you can create **SecuredObjectSpace** and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*) **OR** if you prefer, the familiar **UnitOfWork** object accessible through the *SecuredObjectSpace.Session* property.
 
-
+	[](#tab/tabid-csharp)
 	
 	```csharp
-	StringBuilder stringBuilder = new StringBuilder();
-	stringBuilder.Append("List of the 'Employee' objects:\n");
-	using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
-	    foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
-	        stringBuilder.Append(string.Format("Full name: {0}\n", employee.FullName));
-	        if(security.CanRead(employee, nameof(Department))) {
-	            stringBuilder.Append(string.Format("Department: {0}\n", employee.Department.Title));
-	        }
-	        else {
-	            stringBuilder.Append("Department: [Protected content]\n");
-	        }
-	    } 
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.Append("List of the 'Employee' objects:\n");
+    using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
+            // The XPO way:
+            // var session = ((SecuredObjectSpace)securedObjectSpace).Session;
+            // 
+            // The XAF way:
+		foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
+			stringBuilder.Append(string.Format("Full name: {0}\n", employee.FullName));
+			if(security.CanRead(employee, nameof(Department))) {
+				stringBuilder.Append(string.Format("Department: {0}\n", employee.Department.Title));
+			}
+			else {
+				stringBuilder.Append("Department: [Protected content]\n");
+			}
+		} 
 	}
 	```
 
