@@ -62,7 +62,7 @@ You can find all this code in the [EFCore/Console](EFCore/Console) folder.
 	    (builder, connectionString) =>
 	     builder.UseSqlServer(connectionString));
 	```
-[Full code](EFCore/Console/CS/Program.cs#L19)
+[Full code](/EFCore/Console/CS/Program.cs#L19)
 
 **5.** Initialize the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system and register the business objects that you will access from your code.
 	
@@ -78,7 +78,7 @@ You can find all this code in the [EFCore/Console](EFCore/Console) folder.
 	XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
 	```
 	
-[Full code](EFCore/Console/CS/Program.cs#L57)
+[Full code](/EFCore/Console/CS/Program.cs#L57)
 ## Step 3. Configure User Authentication Options and Login
 **1.** Specify the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System):
 	[](#tab/tabid-csharp)
@@ -87,7 +87,7 @@ You can find all this code in the [EFCore/Console](EFCore/Console) folder.
 	PasswordCryptographer.EnableRfc2898 = true;
 	PasswordCryptographer.SupportLegacySha512 = false;
 	```
-[Full code](EFCore/Console/CS/Program.cs#L26)
+[Full code](/EFCore/Console/CS/Program.cs#L26)
 
 **2.** Perform a logon. The code below demonstrates how to do this as a user named "User" who has an empty password.
 
@@ -100,7 +100,7 @@ You can find all this code in the [EFCore/Console](EFCore/Console) folder.
 	IObjectSpace loginObjectSpace = securedObjectSpaceProvider.CreateNonsecuredObjectSpace();
 	security.Logon(loginObjectSpace);
 	```
-[Full code](EFCore/Console/CS/Program.cs#L29)
+[Full code](/EFCore/Console/CS/Program.cs#L29)
 ## Step 4. Authorize CRUD Operations Based on User Access Rights
 Now you can create a secured **IObjectSpace** instance and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*).
 
@@ -120,7 +120,7 @@ using(IObjectSpace securedObjectSpace = securedObjectSpaceProvider.CreateObjectS
     } 
 }
 ```
-[Full code](EFCore/Console/CS/Program.cs#L36)
+[Full code](/EFCore/Console/CS/Program.cs#L36)
 
 Note that IObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
 
