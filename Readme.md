@@ -10,5 +10,6 @@
 The current version of DevExpress.EntityFrameworkCore.Security contains a number of restrictions and is not intended for use in production code.
 
 ### Limitations
-1. Evaluation permissions for collections and reference properties.
-2. Evaluation criteria for properties prohibited by the security system.
+**1.** Evaluation permissions for collections and reference properties.
+
+**2.** Evaluation criteria for properties prohibited by the security system.
