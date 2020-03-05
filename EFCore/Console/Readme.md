@@ -15,28 +15,30 @@ This example demonstrates how to access data protected by the [Security System](
   
 ## Step 1. Create a Database and Populate It with Data
 
-1. Build the *EFCoreNonXAFSecurityExamples.NetCore* solution.
-2. Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your database server:
+**1.** Build the 'EFCoreNonXAFSecurityExamples.NetCore' solution.
+**2.** Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your database server:
 	
 	[](#tab/tabid-xml)
 	
 	```xml
-	<add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=ConsoleEFCoreTestDB;Integrated Security=True"/>
+	<configuration>
+  		<connectionStrings>
+			<add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=ConsoleEFCoreTestDB;Integrated Security=True"/>
 	```
 
-	Substitute "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
+Substitute "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
     
-3. Run the *DatabaseUpdater* project. The console application will generate a database and populate it with business objects, security roles, and users.
+**3.** Run the *DatabaseUpdater* project. The console application will generate a database and populate it with business objects, security roles, and users.
 
 
 
-## Step 2. Initialize Data Store and XAF's Security System
+## Step 2. Initialize Data Store and XAF's Security System 
 
-You can find all this code in the 'EFCore/Console/' folder.
+You can find all this code in the [EFCore/Console](EFCore/Console) folder.
 
-1. Create a .NET Core console application.
+**1.** Create a .NET Core console application.
 
-2. Initialize the Security System.
+**2.** Initialize the Security System.
 	
 	[](#tab/tabid-csharp)
 	
