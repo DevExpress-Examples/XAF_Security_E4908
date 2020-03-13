@@ -43,7 +43,7 @@ Namespace ConsoleApplication
                         If security.CanRead(person, NameOf(person.Email)) Then
                             stringBuilder.Append($"Email: {person.Email}" & ControlChars.Lf)
                         Else
-                            stringBuilder.Append("Email: [Protected content]]" & ControlChars.Lf)
+                            stringBuilder.Append("Email: [Protected content]" & ControlChars.Lf)
                         End If
                     Next person
                 End Using
