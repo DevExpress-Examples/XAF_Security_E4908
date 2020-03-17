@@ -5,6 +5,7 @@
 ![image](Security-System-1x2-FB.png)
 
 ## Demos & Tutorials for .NET Framework and .NET Core
+ - [XafSolution](./XafSolution/) (creates initial users, roles, permissions and other data in the database)
  - [DevExtreme + ASP.NET Web API OData](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_2.aspx)
  - [WinForms](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_3.aspx)
  - [ASP.NET WebForms](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
