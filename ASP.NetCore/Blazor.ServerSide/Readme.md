@@ -1,14 +1,16 @@
 This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Blazor application.
 You will also see how to execute Create, Write and Delete data operations and take security permissions into account.
 
-### Prerequisites
+## Prerequisites
 
-- DevExpress UI Components for Blazor (Downloaded from the [DevExpress NuGet feed](https://nuget.devexpress.com/)).
-- Make sure that your environment meets our [Blazor Components Prerequisites](https://docs.devexpress.com/Blazor/401055/getting-started/prerequisites).
+- Make sure that your environment meets [Microsoft Blazor Prerequisites](https://docs.devexpress.com/Blazor/401055/getting-started/prerequisites).
+- [Download and run two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/)
+  - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
+- Download DevExpress Blazor UI Components from the [DevExpress NuGet feed](https://nuget.devexpress.com/)). 
+  - *If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.*
 - Build the solution and run the _XafSolution.Win_ project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the _XafSolution.Module_ project.
 - Add the _XafSolution.Module_ assembly reference to your application.
 
-> **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 > If you wish to create a Blazor project with our Blazor Components from scratch, follow the [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application) article.
 
