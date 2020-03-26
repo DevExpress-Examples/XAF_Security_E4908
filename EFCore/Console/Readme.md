@@ -126,3 +126,6 @@ using(IObjectSpace securedObjectSpace = securedObjectSpaceProvider.CreateObjectS
  - Criteria evaluation for properties is prohibited by the security system.
 
 ## Step 5: Run and Test the App
+The app will generate the result.txt file with only allowed data:
+
+![image](https://user-images.githubusercontent.com/14300209/77696202-08c7c280-6fbe-11ea-866e-82c2934afa37.png)
