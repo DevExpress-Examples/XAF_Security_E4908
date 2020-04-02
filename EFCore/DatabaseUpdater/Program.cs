@@ -13,10 +13,8 @@ namespace DatabaseUpdater {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             EFCoreObjectSpaceProvider objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
              (builder, cs) =>
-             builder.UseSqlServer(cs).
-             UseLazyLoadingProxies());
-
-            RegisterEntities();
+             builder.UseSqlServer(cs));
+            objectSpaceProvider.InitTypeInfoSource();
 
             PasswordCryptographer.EnableRfc2898 = true;
             PasswordCryptographer.SupportLegacySha512 = false;
@@ -30,11 +28,6 @@ namespace DatabaseUpdater {
 
             Console.WriteLine("Database is updated. Press any key to close.");
             Console.ReadKey();
-        }
-        private static void RegisterEntities() {
-            XafTypesInfo.Instance.RegisterEntity(typeof(Person));
-            XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
-            XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
         }
     }
 }

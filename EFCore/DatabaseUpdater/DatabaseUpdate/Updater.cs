@@ -10,43 +10,67 @@ using DevExpress.Persistent.Base;
 using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
 
 namespace DatabaseUpdater {
-    public class Updater {
-        private IObjectSpace objectSpace { get; }
+     public class Updater {
+        private IObjectSpace objectSpace;
 
         public Updater(IObjectSpace objectSpace) {
             this.objectSpace = objectSpace;
         }
+
         public void UpdateDatabase() {
-            CreatePersons();
+            CreateDepartments();
+            CreateEmployees();
             CreateUser();
             CreateAdmin();
             objectSpace.CommitChanges();
         }
-        private DataTable GetPersonsDataTable() {
-            string shortName = "Persons.xml";
+        private DataTable GetEmployeesDataTable() {
+            string shortName = "Employees.xml";
             string embeddedResourceName = Array.Find<string>(this.GetType().Assembly.GetManifestResourceNames(), (s) => { return s.Contains(shortName); });
             Stream stream = this.GetType().Assembly.GetManifestResourceStream(embeddedResourceName);
             if(stream == null) {
-                throw new Exception(string.Format("Cannot read Persons data from the {0} file!", shortName));
+                throw new Exception(string.Format("Cannot read employees data from the {0} file!", shortName));
             }
             DataSet ds = new DataSet();
             ds.ReadXml(stream);
-            return ds.Tables["Person"];
+            return ds.Tables["Employee"];
         }
-        private void CreatePersons() {
-            DataTable PersonsTable = GetPersonsDataTable();
-            foreach(DataRow PersonRow in PersonsTable.Rows) {
-                string email = Convert.ToString(PersonRow["EmailAddress"]);
-                Person Person = objectSpace.FindObject<Person>(CriteriaOperator.Parse("Email=?", email));
-                if(Person == null) {
-                    Person = objectSpace.CreateObject<Person>();
-                    Person.Email = email;
-                    Person.FirstName = Convert.ToString(PersonRow["FirstName"]);
-                    Person.LastName = Convert.ToString(PersonRow["LastName"]);
-                    Person.Birthday = Convert.ToDateTime(PersonRow["BirthDate"]);
-
-                    string departmentTitle = Convert.ToString(PersonRow["GroupName"]);
+        private void CreateEmployees() {
+            DataTable employeesTable = GetEmployeesDataTable();
+            foreach(DataRow employeeRow in employeesTable.Rows) {
+                string email = Convert.ToString(employeeRow["EmailAddress"]);
+                Employee employee = objectSpace.FindObject<Employee>(CriteriaOperator.Parse("Email=?", email));
+                if(employee == null) {
+                    employee = objectSpace.CreateObject<Employee>();
+                    employee.Email = email;
+                    employee.FirstName = Convert.ToString(employeeRow["FirstName"]);
+                    employee.LastName = Convert.ToString(employeeRow["LastName"]);
+                    employee.Birthday = Convert.ToDateTime(employeeRow["BirthDate"]);
+                    
+                    string departmentTitle = Convert.ToString(employeeRow["GroupName"]);
+                    Department department = objectSpace.FindObject<Department>(CriteriaOperator.Parse("Title=?", departmentTitle), true);
+                    if(department == null) {
+                        department = objectSpace.CreateObject<Department>();
+                        department.Title = departmentTitle;
+                        Random rnd = new Random();
+                        department.Office = string.Format("{0}0{0}", rnd.Next(1, 7), rnd.Next(9));
+                    }
+                    employee.Department = department;
                 }
+            }
+        }
+        private void CreateDepartments() {
+            Department devDepartment = objectSpace.FindObject<Department>(CriteriaOperator.Parse("Title == 'Development Department'"));
+            if(devDepartment == null) {
+                devDepartment = objectSpace.CreateObject<Department>();
+                devDepartment.Title = "Development Department";
+                devDepartment.Office = "205";
+            }
+            Department seoDepartment = objectSpace.FindObject<Department>(CriteriaOperator.Parse("Title == 'SEO'"));
+            if(seoDepartment == null) {
+                seoDepartment = objectSpace.CreateObject<Department>();
+                seoDepartment.Title = "SEO";
+                seoDepartment.Office = "703";
             }
         }
         private void CreateUser() {
@@ -57,7 +81,7 @@ namespace DatabaseUpdater {
                 sampleUser.SetPassword("");
             }
             PermissionPolicyRole defaultRole = CreateDefaultRole();
-            sampleUser.AddRole(defaultRole);
+            sampleUser.Roles.Add(defaultRole);
         }
         private void CreateAdmin() {
             PermissionPolicyUser userAdmin = objectSpace.FindObject<PermissionPolicyUser>(new BinaryOperator("UserName", "Admin"));
@@ -67,7 +91,7 @@ namespace DatabaseUpdater {
                 userAdmin.SetPassword("");
             }
             PermissionPolicyRole adminRole = CreateAdminRole();
-            userAdmin.AddRole(adminRole);
+            userAdmin.Roles.Add(adminRole);
         }
         private PermissionPolicyRole CreateAdminRole() {
             PermissionPolicyRole adminRole = objectSpace.FindObject<PermissionPolicyRole>(new BinaryOperator("Name", "Administrators"));
@@ -84,18 +108,17 @@ namespace DatabaseUpdater {
                 defaultRole = objectSpace.CreateObject<PermissionPolicyRole>();
                 defaultRole.Name = "Default";
 
-                defaultRole.AddObjectPermission<PermissionPolicyUser>(SecurityOperations.Read, "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
-                defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
-                defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "StoredPassword", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
-                defaultRole.AddTypePermissionsRecursively<PermissionPolicyRole>(SecurityOperations.Read, SecurityPermissionState.Deny);  
-                
-                defaultRole.AddTypePermissionsRecursively<Person>(SecurityOperations.Read, SecurityPermissionState.Allow);
-                defaultRole.AddTypePermissionsRecursively<Person>(SecurityOperations.Write, SecurityPermissionState.Allow);
-
-                defaultRole.AddObjectPermission<Person>(SecurityOperations.Read, "Contains([Email], '@administration.com')", SecurityPermissionState.Deny);
-                defaultRole.AddMemberPermission<Person>(SecurityOperations.Read, "Email;Birthday", "Contains([Email], '@management.com')", SecurityPermissionState.Deny);
-
-            }
+				defaultRole.AddObjectPermission<PermissionPolicyUser>(SecurityOperations.Read, "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
+				defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
+				defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "StoredPassword", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
+                defaultRole.AddTypePermissionsRecursively<PermissionPolicyRole>(SecurityOperations.Read, SecurityPermissionState.Deny);
+                defaultRole.AddTypePermissionsRecursively<Department>(SecurityOperations.Read, SecurityPermissionState.Deny);
+                defaultRole.AddObjectPermission<Department>(SecurityOperations.Read, "Contains([Title], 'Development')", SecurityPermissionState.Allow);
+				defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
+				defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
+				defaultRole.AddObjectPermission<Employee>(SecurityOperations.Delete, "Contains([Department.Title], 'Development')", SecurityPermissionState.Allow);
+				defaultRole.AddMemberPermission<Employee>(SecurityOperations.Write, "LastName", "Not Contains([Department.Title], 'Development')", SecurityPermissionState.Deny);
+			}
             return defaultRole;
         }
     }

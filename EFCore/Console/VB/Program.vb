@@ -1,6 +1,7 @@
 ﻿Imports BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects
 Imports DevExpress.EntityFrameworkCore.Security
 Imports DevExpress.ExpressApp
+Imports DevExpress.ExpressApp.EFCore
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.Persistent.Base
 Imports DevExpress.Persistent.BaseImpl.EF.PermissionPolicy
@@ -17,10 +18,10 @@ Namespace ConsoleApplication
 
 
             Dim connectionString As String = ConfigurationManager.ConnectionStrings("ConnectionString").ConnectionString
-            Dim securedObjectSpaceProvider As New SecuredEFCoreObjectSpaceProvider(security, GetType(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
+            Dim objectSpaceProvider As New SecuredEFCoreObjectSpaceProvider(security, GetType(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
                 Function(builder, cs) builder.UseSqlServer(cs))
 
-            RegisterEntities()
+            objectSpaceProvider.InitTypeInfoSource()
 
             PasswordCryptographer.EnableRfc2898 = True
             PasswordCryptographer.SupportLegacySha512 = False
@@ -29,34 +30,29 @@ Namespace ConsoleApplication
             Dim userName As String = "User"
             Dim password As String = String.Empty
             authentication.SetLogonParameters(New AuthenticationStandardLogonParameters(userName, password))
-            Dim loginObjectSpace As IObjectSpace = securedObjectSpaceProvider.CreateNonsecuredObjectSpace()
+            Dim loginObjectSpace As IObjectSpace = objectSpaceProvider.CreateNonsecuredObjectSpace()
             security.Logon(loginObjectSpace)
 
             Using file As New StreamWriter("result.txt", False)
                 Dim stringBuilder As New StringBuilder()
                 stringBuilder.Append($"{userName} is logged on." & ControlChars.Lf)
-                stringBuilder.Append("List of the 'Person' objects:" & ControlChars.Lf)
-                Using securedObjectSpace As IObjectSpace = securedObjectSpaceProvider.CreateObjectSpace()
-                    For Each person As Person In securedObjectSpace.GetObjects(Of Person)()
+                stringBuilder.Append("List of the 'Employee' objects:" & ControlChars.Lf)
+                Using securedObjectSpace As IObjectSpace = objectSpaceProvider.CreateObjectSpace()
+                    For Each employee As Employee In securedObjectSpace.GetObjects(Of Employee)()
                         stringBuilder.Append("=========================================" & ControlChars.Lf)
-                        stringBuilder.Append($"Full name: {person.FullName}" & ControlChars.Lf)
-                        If security.CanRead(person, NameOf(person.Email)) Then
-                            stringBuilder.Append($"Email: {person.Email}" & ControlChars.Lf)
+                        stringBuilder.Append($"Full name: {employee.FullName}" & ControlChars.Lf)
+                        If security.CanRead(employee, NameOf(Department)) Then
+                            stringBuilder.Append($"Department: {employee.Department.Title}" & ControlChars.Lf)
                         Else
-                            stringBuilder.Append("Email: [Protected content]" & ControlChars.Lf)
+                            stringBuilder.Append("Department: [Protected content]" & ControlChars.Lf)
                         End If
-                    Next person
+                    Next employee
                 End Using
                 file.Write(stringBuilder)
             End Using
             Console.WriteLine(String.Format("The result.txt file has been created in the {0} directory.", Environment.CurrentDirectory))
-            Console.WriteLine("Press any key to close.")
+            Console.WriteLine("Press any key to close a the console...")
             Console.ReadLine()
-        End Sub
-        Private Shared Sub RegisterEntities()
-            XafTypesInfo.Instance.RegisterEntity(GetType(Person))
-            XafTypesInfo.Instance.RegisterEntity(GetType(PermissionPolicyUser))
-            XafTypesInfo.Instance.RegisterEntity(GetType(PermissionPolicyRole))
         End Sub
     End Class
 End Namespace
