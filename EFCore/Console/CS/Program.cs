@@ -33,27 +33,26 @@ namespace ConsoleApplication {
             IObjectSpace loginObjectSpace = objectSpaceProvider.CreateNonsecuredObjectSpace();
             security.Logon(loginObjectSpace);
 
-			using(StreamWriter file = new StreamWriter("result.txt", false)) {
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.Append($"{userName} is logged on.\n");
-				stringBuilder.Append("List of the 'Employee' objects:\n");
-				using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
-					foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
-						stringBuilder.Append("=========================================\n");
-						stringBuilder.Append($"Full name: {employee.FullName}\n");
-						if(security.CanRead(securedObjectSpace, employee, nameof(Department))) {
-							stringBuilder.Append($"Department: {employee.Department.Title}\n");
-						}
-						else {
-							stringBuilder.Append("Department: [Protected content]\n");
-						}
-					}
-				}
-				file.Write(stringBuilder);
-			}
-			Console.WriteLine(string.Format(@"The result.txt file has been created in the {0} directory.", Environment.CurrentDirectory));
-			Console.WriteLine("Press any key to close a the console...");
-			Console.ReadLine();
+            using(StreamWriter file = new StreamWriter("result.txt", false)) {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append($"{userName} is logged on.\n");
+                stringBuilder.Append("List of the 'Employee' objects:\n");
+                using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
+                    foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
+                        stringBuilder.Append("=========================================\n");
+                        stringBuilder.Append($"Full name: {employee.FullName}\n");
+                        if(security.CanRead(securedObjectSpace, employee, nameof(Department))) {
+                            stringBuilder.Append($"Department: {employee.Department.Title}\n");
+                        } else {
+                            stringBuilder.Append("Department: [Protected content]\n");
+                        }
+                    }
+                }
+                file.Write(stringBuilder);
+            }
+            Console.WriteLine(string.Format(@"The result.txt file has been created in the {0} directory.", Environment.CurrentDirectory));
+            Console.WriteLine("Press any key to close a the console...");
+            Console.ReadLine();
         }
     }
 }
