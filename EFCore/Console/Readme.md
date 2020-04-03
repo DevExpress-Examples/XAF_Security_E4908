@@ -109,8 +109,6 @@ using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace())
 ```
 [Full code](/EFCore/Console/CS/Program.cs#L36)
 
-**NOTE**: the current version of the *DevExpress.EntityFrameworkCore.Security* (CTP) library contains a number of restrictions and is not intended for use in production code.
-
 ## Step 5: Run and Test the App
 The app will generate the result.txt file with only allowed data:
 
