@@ -10,7 +10,7 @@ using DevExpress.Persistent.Base;
 using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
 
 namespace DatabaseUpdater {
-     public class Updater {
+    public class Updater {
         private IObjectSpace objectSpace;
 
         public Updater(IObjectSpace objectSpace) {
@@ -46,7 +46,7 @@ namespace DatabaseUpdater {
                     employee.FirstName = Convert.ToString(employeeRow["FirstName"]);
                     employee.LastName = Convert.ToString(employeeRow["LastName"]);
                     employee.Birthday = Convert.ToDateTime(employeeRow["BirthDate"]);
-                    
+
                     string departmentTitle = Convert.ToString(employeeRow["GroupName"]);
                     Department department = objectSpace.FindObject<Department>(CriteriaOperator.Parse("Title=?", departmentTitle), true);
                     if(department == null) {
@@ -108,17 +108,17 @@ namespace DatabaseUpdater {
                 defaultRole = objectSpace.CreateObject<PermissionPolicyRole>();
                 defaultRole.Name = "Default";
 
-				defaultRole.AddObjectPermission<PermissionPolicyUser>(SecurityOperations.Read, "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
-				defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
-				defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "StoredPassword", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
+                defaultRole.AddObjectPermission<PermissionPolicyUser>(SecurityOperations.Read, "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
+                defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
+                defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "StoredPassword", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
                 defaultRole.AddTypePermissionsRecursively<PermissionPolicyRole>(SecurityOperations.Read, SecurityPermissionState.Deny);
                 defaultRole.AddTypePermissionsRecursively<Department>(SecurityOperations.Read, SecurityPermissionState.Deny);
                 defaultRole.AddObjectPermission<Department>(SecurityOperations.Read, "Contains([Title], 'Development')", SecurityPermissionState.Allow);
-				defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
-				defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
-				defaultRole.AddObjectPermission<Employee>(SecurityOperations.Delete, "Contains([Department.Title], 'Development')", SecurityPermissionState.Allow);
-				defaultRole.AddMemberPermission<Employee>(SecurityOperations.Write, "LastName", "Not Contains([Department.Title], 'Development')", SecurityPermissionState.Deny);
-			}
+                defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
+                defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
+                defaultRole.AddObjectPermission<Employee>(SecurityOperations.Delete, "Contains([Department.Title], 'Development')", SecurityPermissionState.Allow);
+                defaultRole.AddMemberPermission<Employee>(SecurityOperations.Write, "LastName", "Not Contains([Department.Title], 'Development')", SecurityPermissionState.Deny);
+            }
             return defaultRole;
         }
     }
