@@ -49,33 +49,19 @@ You can find all this code in the [EFCore/Console](/EFCore/Console) folder.
 
 **3.** Open the [EFCore/Console/CS/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/Console/CS/App.config) file and modify it so that it refers to the same database as the DatabaseUpdater's config file ([EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config)).
 
-**4.** Create a **SecuredEFCoreObjectSpaceProvider** object. Create an instance of the EFCoreDatabaseProviderHandler delegate with SqlServer and security extensions. It allows you to create a secured **IObjectSpace** instance to ensure secured data access.
+**4.** Create a **SecuredEFCoreObjectSpaceProvider** object. Create an instance of the EFCoreDatabaseProviderHandler delegate with SqlServer extension. It allows you to create a secured **IObjectSpace** instance to ensure secured data access.
 
 
 [](#tab/tabid-csharp)
 	
 ```csharp
   string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-  SecuredEFCoreObjectSpaceProvider securedObjectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, 
+  SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, 
   typeof(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
 	    (builder, connectionString) =>
               builder.UseSqlServer(connectionString));
 ```
 [Full code](/EFCore/Console/CS/Program.cs#L19)
-
-**5.** Initialize the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system and register the business objects that you will access from your code.
-	
-[](#tab/tabid-csharp)
-	
-```csharp
-using DevExpress.ExpressApp;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
-	//...
-  XafTypesInfo.Instance.RegisterEntity(typeof(Employee));
-  XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
-  XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
-```
 	
 [Full code](/EFCore/Console/CS/Program.cs#L57)
 ## Step 3. Configure User Authentication Options and Login
@@ -96,7 +82,7 @@ using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
 string userName = "User";
 string password = string.Empty;
 authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
-IObjectSpace loginObjectSpace = securedObjectSpaceProvider.CreateNonsecuredObjectSpace();
+IObjectSpace loginObjectSpace = objectSpaceProvider.CreateNonsecuredObjectSpace();
 security.Logon(loginObjectSpace);
 ```
 [Full code](/EFCore/Console/CS/Program.cs#L29)
@@ -107,23 +93,21 @@ Now you can create a secured **IObjectSpace** instance and use [its data manipul
 	
 ```csharp
 StringBuilder stringBuilder = new StringBuilder();
-stringBuilder.Append("List of the 'Person' objects:\n");
-using(IObjectSpace securedObjectSpace = securedObjectSpaceProvider.CreateObjectSpace()) {
-  foreach(Person person in securedObjectSpace.GetObjects<Person>()) {
-    stringBuilder.Append($"Full name: {person.FullName}\n");
-    if(security.CanRead(person, nameof(person.Email))) {
-      stringBuilder.Append($"Email: {person.Email}\n");
-    } else {
-      stringBuilder.Append("Email: [Protected content]\n");
+stringBuilder.Append($"{userName} is logged on.\n");
+stringBuilder.Append("List of the 'Employee' objects:\n");
+using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
+    foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
+        stringBuilder.Append("=========================================\n");
+        stringBuilder.Append($"Full name: {employee.FullName}\n");
+        if(security.CanRead(securedObjectSpace, employee, nameof(Department))) {
+            stringBuilder.Append($"Department: {employee.Department.Title}\n");
+        } else {
+            stringBuilder.Append("Department: [Protected content]\n");
+        }
     }
-  } 
 }
 ```
 [Full code](/EFCore/Console/CS/Program.cs#L36)
-
-**NOTE**: the current version of the *DevExpress.EntityFrameworkCore.Security* (CTP) library contains a number of restrictions and is not intended for use in production code. Known limitations:
- - Permission evaluation for collections and reference properties is not yet available.
- - Criteria evaluation for properties is prohibited by the security system.
 
 ## Step 5: Run and Test the App
 The app will generate the result.txt file with only allowed data:
