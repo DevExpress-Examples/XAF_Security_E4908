@@ -21,8 +21,6 @@ Namespace ConsoleApplication
             Dim objectSpaceProvider As New SecuredEFCoreObjectSpaceProvider(security, GetType(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
                 Function(builder, cs) builder.UseSqlServer(cs))
 
-            objectSpaceProvider.InitTypeInfoSource()
-
             PasswordCryptographer.EnableRfc2898 = True
             PasswordCryptographer.SupportLegacySha512 = False
 
