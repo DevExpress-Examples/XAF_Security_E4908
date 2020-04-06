@@ -6,15 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DatabaseUpdate\Persons.xml" />
+    <None Remove="DatabaseUpdate\Employees.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="DatabaseUpdate\Persons.xml" />
+    <EmbeddedResource Include="DatabaseUpdate\Employees.xml" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.1.2-pre-20064" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.EFCore" Version="20.1.1-ctp-20097" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
   </ItemGroup>
