@@ -21,9 +21,7 @@ namespace ConsoleApplication {
             SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
                 (builder, connectionString) =>
                  builder.UseSqlServer(connectionString));
-
-            objectSpaceProvider.InitTypeInfoSource();
-
+            
             PasswordCryptographer.EnableRfc2898 = true;
             PasswordCryptographer.SupportLegacySha512 = false;
 
