@@ -112,4 +112,4 @@ using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace())
 ## Step 5: Run and Test the App
 The app will generate the result.txt file with only allowed data:
 
-![image](https://user-images.githubusercontent.com/14300209/77696202-08c7c280-6fbe-11ea-866e-82c2934afa37.png)
+![image](image.png)
