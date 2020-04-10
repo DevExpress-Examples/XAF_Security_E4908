@@ -1,36 +1,35 @@
 This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Windows Forms application. You will also learn how to execute Create, Write and Delete data operations taking into account security permissions.
 
->For simplicity, the instructions include only C# code snippets. For the complete C# and VB code, see the [CS](CS) and [VB](VB) sub-directories.
+>For simplicity, the instructions include only C# code snippets. For the complete C# code, see the [CS](CS) sub-directory.
 
 ### Prerequisites
 - [.NET Core SDK 3.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/).
+- [Unified Installer for .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/).
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
-- Build the following solutions or projects depending on your target framework:
-  - .NET Framework: *NonXAFSecurityExamples.sln* or *WindowsFormsApplication/XafSolution.Win*.
-  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* or *WindowsFormsApplication.NetCore/XafSolution.Win.NetCore*.
-- Run the *XafSolution.Win/XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module/XafSolution.Module.NetCore* project.
-- Add the *XafSolution.Module/XafSolution.Module.NetCore* assembly reference to your test application.  
-  
-> **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ***
 
-# Step 1: Initialize Data Store and XAF's Security System
+## Step 1. Create a Database and Populate It with Data
 
-- In the `Main` method of Program.cs, initialize the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system and register the business objects that you will access from your code.
+**1.** Build the 'EFCoreNonXAFWinFormsSecurityExample.NetCore' solution.
+
+**2.** Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your database server:
 	
-	[](#tab/tabid-csharp)
+[](#tab/tabid-xml)
 	
-``` csharp
-using DevExpress.ExpressApp;
-using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-//...
-XpoTypesInfoHelper.GetXpoTypeInfoSource();
-XafTypesInfo.Instance.RegisterEntity(typeof(Employee));
-XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
-XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
+```xml
+<configuration>
+  <connectionStrings>
+    <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=EFCoreTestDB;Integrated Security=True"/>
 ```
+
+Substitute "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
+    
+**3.** Run the *DatabaseUpdater* project. The console application will generate a database and populate it with business objects, security roles, and users.
+
+
+
+# Step 2: Initialize Data Store and XAF's Security System
 - Initialize the Security System.
 	
 	[](#tab/tabid-csharp)
@@ -42,18 +41,16 @@ SecurityStrategyComplex security = new SecurityStrategyComplex(
     typeof(PermissionPolicyRole), 
     authentication
 );
-security.RegisterXPOAdapterProviders();
 ```
-- Create a `SecuredObjectSpaceProvider` object. It allows you to create `SecuredObjectSpace` instances to ensure secured data access.
+- Create a `SecuredEFCoreObjectSpaceProvider` object. It allows you to create `SecuredEFCoreObjectSpace` instances to ensure secured data access.
 	[](#tab/tabid-csharp)
 	
 ``` csharp
 string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-IObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(
-    security, 
-    connectionString,
-    null
-);
+SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, 
+typeof(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
+	(builder, connectionString) =>
+          builder.UseSqlServer(connectionString));
 ```
 
 - In _App.config_, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
@@ -61,12 +58,12 @@ IObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(
 	[](#tab/tabid-xml)
 	
 ``` xml
-<add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"/>
+<add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=EFCoreTestDB;Integrated Security=True"/>
 ```
 
 > Make sure that the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System) in your non-XAF application have same values as in the XAF application where passwords were set. Otherwise you won't be able to login.
 
-## Step 2: Implement the Main and Login Forms
+## Step 3: Implement the Main and Login Forms
 
 - In Program.cs, create [MainForm](CS/MainForm.cs) using a custom constructor. `MainForm` is the MDI parent form for [EmployeeListForm](CS/EmployeeListForm.cs) and [EmployeeDetailForm](CS/EmployeeDetailForm.cs).
 
@@ -120,7 +117,7 @@ private void LogoutButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemC
 
 ``` csharp
 private void Login_Click(object sender, EventArgs e) {
-    IObjectSpace logonObjectSpace = objectSpaceProvider.CreateObjectSpace();
+    IObjectSpace logonObjectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();
     string userName = userNameEdit.Text;
     string password = passwordEdit.Text;
     security.Authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
@@ -135,10 +132,10 @@ private void Login_Click(object sender, EventArgs e) {
 }
 ```
 
-## Step 3: Implement the List Form
+## Step 4: Implement the List Form
 - [EmployeeListForm](CS/EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
-	- Create a `SecuredObjectSpace` instance to access protected data and use its data manipulation APIs (for instance, *IObjectSpace.GetObjects*) OR if you prefer, the familiar `UnitOfWork` object accessible through the *SecuredObjectSpace.Session* property.
-	- Set [XPBindingSource.DataSource](https://docs.devexpress.com/XPO/DevExpress.Xpo.XPBindingSource.DataSource) to the Employees collection obtained from the secured object space.
+	- Create a `SecuredEFCoreObjectSpace` instance to access protected data and use its data manipulation APIs (for instance, *IObjectSpace.GetObjects*).
+	- Set [BindingList<Employee>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.localview-1.tobindinglist?view=efcore-2.1) to the Grid View Data Source. You can see the code of GetBindingList<TEntity> method in the [CS](CS/Utils/ObjectSpaceHelper.cs) file.
 	- Call the CanCreate method to check Create operation availability and thus determine whether the New button can be enabled.
 		
 ``` csharp
@@ -146,11 +143,7 @@ private void EmployeeListForm_Load(object sender, EventArgs e) {
     security = ((MainForm)MdiParent).Security;
     objectSpaceProvider = ((MainForm)MdiParent).ObjectSpaceProvider;
     securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
-    // The XPO way:
-    // var session = ((SecuredObjectSpace)securedObjectSpace).Session;
-    // 
-    // The XAF way:
-    employeeBindingSource.DataSource = securedObjectSpace.GetObjects<Employee>();
+    employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
     newBarButtonItem.Enabled = security.CanCreate<Employee>();
     protectedContentTextEdit = new RepositoryItemProtectedContentTextEdit();
 }
@@ -166,7 +159,7 @@ private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArg
     }
 }
 ```
-Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
+Note that SecuredEFCoreObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
 		
 - Handle the [FocusedRowObjectChanged](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Base.ColumnView.FocusedRowObjectChanged) event and use the SecurityStrategy.CanDelete method to check Delete operation availability and thus determine if the Delete button can be enabled.
 		
@@ -229,11 +222,11 @@ private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
 }
 ```
 
-## Step 4: Implement the Detail Form
+## Step 5: Implement the Detail Form
 
 - [EmployeeDetailForm](CS/EmployeeDetailForm.cs) contains detailed information on the Employee object. Perform the following operation in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler: 
 		
-	- Create a `SecuredObjectSpace` instance to get the current or create new Employee object.
+	- Create a `SecuredEFCoreObjectSpace` instance to get the current or create new Employee object.
 	- Use the SecurityStrategy.CanDelete method to check Delete operation availability and thus determine if the Delete button can be enabled. The Delete button is always disabled if you create new object.
 	- Set [XPBindingSource.DataSource](https://docs.devexpress.com/XPO/DevExpress.Xpo.XPBindingSource.DataSource) to the Employee object.
 		
@@ -276,7 +269,7 @@ private void AddControls() {
 ```
 - The `AddControl` method creates a control for a specific member. Use the SecurityStrategy.CanRead method to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the "Protected Content" placeholder. Otherwise: 
 		
-	- Call the `GetControl` method to create an appropriate control depending of the member type. We use the [ComboBoxEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraEditors.ComboBoxEdit) control for the Department associated property.
+	- Call the `GetControl` method to create an appropriate control depending of the member type. We use the [LookUpEdit](https://documentation.devexpress.com/WindowsForms/DevExpress.XtraEditors.LookUpEdit.class) control for the Department associated property.
 	- Add a binding to the [Control.DataBindings](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.databindings?view=netframework-4.8) collection.
 	- Use the SecurityStrategy.CanWrite method to check Write operation availability and thus determine whether the control should be enabled.
 		
@@ -310,10 +303,11 @@ private BaseEdit GetControl(Type type, string memberName) {
     IMemberInfo memberInfo = typeInfo.FindMember(memberName);
     if(memberInfo != null) {
         if(memberInfo.IsAssociation) {
-            control = new ComboBoxEdit();
-            ((ComboBoxEdit)control).Properties.Items.AddRange(
-                securedObjectSpace.GetObjects<Department>() as XPCollection<Department>
-            );
+            control = new LookUpEdit();
+            ((LookUpEdit)control).Properties.DataSource = securedObjectSpace.GetBindingList<Department>();
+            ((LookUpEdit)control).Properties.DisplayMember = "Title";
+            LookUpColumnInfo column = new LookUpColumnInfo("Title");
+            ((LookUpEdit)control).Properties.Columns.Add(column);
         }
         else {
             control = new TextEdit();
@@ -323,7 +317,7 @@ private BaseEdit GetControl(Type type, string memberName) {
 }
 ```
 		
-- Use `SecuredObjectSpace` to commit all changes to database in the [saveBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler and delete the current object in the [deleteBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler.
+- Use `SecuredEFCoreObjectSpace` to commit all changes to database in the [saveBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler and delete the current object in the [deleteBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler.
 		
 ``` csharp
 private void SaveBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
@@ -337,7 +331,7 @@ private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.It
 }
 ```
 
-## Step 5: Run and Test the App
+## Step 6: Run and Test the App
  - Log in under 'User' with an empty password.
    
    ![](/images/WinForms_LoginForm.png)
