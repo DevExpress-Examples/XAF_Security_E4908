@@ -13,7 +13,7 @@ This example demonstrates how to access data protected by the [Security System](
   
 ## Step 1. Create a Database and Populate It with Data
 
-**1.** Build the 'EFCoreNonXAFSecurityExamples.NetCore' solution.
+**1.** Build the 'EFCoreNonXAFConsoleSecurityExample.NetCore' solution.
 
 **2.** Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your database server:
 	
