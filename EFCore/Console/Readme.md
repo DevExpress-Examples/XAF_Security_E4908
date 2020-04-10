@@ -22,7 +22,7 @@ This example demonstrates how to access data protected by the [Security System](
 ```xml
 <configuration>
   <connectionStrings>
-    <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=ConsoleEFCoreTestDB;Integrated Security=True"/>
+    <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=EFCoreTestDB;Integrated Security=True"/>
 ```
 
 Substitute "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
