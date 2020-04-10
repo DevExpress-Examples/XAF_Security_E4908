@@ -63,7 +63,6 @@ You can find all this code in the [EFCore/Console](/EFCore/Console) folder.
 ```
 [Full code](/EFCore/Console/CS/Program.cs#L19)
 	
-[Full code](/EFCore/Console/CS/Program.cs#L57)
 ## Step 3. Configure User Authentication Options and Login
 **1.** Specify the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System):
 [](#tab/tabid-csharp)
