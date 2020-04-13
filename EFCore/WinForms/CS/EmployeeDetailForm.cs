@@ -38,7 +38,6 @@ namespace WindowsFormsApplication {
 				employee = securedObjectSpace.GetObject(employee);
 				deleteBarButtonItem.Enabled = security.CanDelete(employee);
 			}
-			dataLayoutControl1.DataSource = employee;
 			AddControls();
 		}
 		private void AddControls() {
