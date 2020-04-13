@@ -25,7 +25,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 Substitute "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
     
-**3.** Run the *DatabaseUpdater* project. The console application will generate a database and populate it with business objects, security roles, and users.
+**3.** Run the *DatabaseUpdater.NetCore.Desktop* project. The console application will generate a database and populate it with business objects, security roles, and users.
 
 
 
@@ -42,7 +42,7 @@ SecurityStrategyComplex security = new SecurityStrategyComplex(
     authentication
 );
 ```
-- Create a `SecuredEFCoreObjectSpaceProvider` object. It allows you to create `SecuredEFCoreObjectSpace` instances to ensure secured data access.
+- Create a **SecuredEFCoreObjectSpaceProvider** object. Create an instance of the EFCoreDatabaseProviderHandler delegate with SqlServer extension. It allows you to create a secured **IObjectSpace** instance to ensure secured data access.
 	[](#tab/tabid-csharp)
 	
 ``` csharp
@@ -60,11 +60,15 @@ typeof(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
 ``` xml
 <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=EFCoreTestDB;Integrated Security=True"/>
 ```
-
-> Make sure that the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System) in your non-XAF application have same values as in the XAF application where passwords were set. Otherwise you won't be able to login.
-
 ## Step 3: Implement the Main and Login Forms
 
+- Specify the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System):
+[](#tab/tabid-csharp)
+	
+```csharp
+PasswordCryptographer.EnableRfc2898 = true;
+PasswordCryptographer.SupportLegacySha512 = false;
+```
 - In Program.cs, create [MainForm](CS/MainForm.cs) using a custom constructor. `MainForm` is the MDI parent form for [EmployeeListForm](CS/EmployeeListForm.cs) and [EmployeeDetailForm](CS/EmployeeDetailForm.cs).
 
 ``` csharp
@@ -228,7 +232,6 @@ private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
 		
 	- Create a `SecuredEFCoreObjectSpace` instance to get the current or create new Employee object.
 	- Use the SecurityStrategy.CanDelete method to check Delete operation availability and thus determine if the Delete button can be enabled. The Delete button is always disabled if you create new object.
-	- Set [XPBindingSource.DataSource](https://docs.devexpress.com/XPO/DevExpress.Xpo.XPBindingSource.DataSource) to the Employee object.
 		
 ``` csharp
 private void EmployeeDetailForm_Load(object sender, EventArgs e) {
@@ -242,7 +245,6 @@ private void EmployeeDetailForm_Load(object sender, EventArgs e) {
         employee = securedObjectSpace.GetObject(employee);
         deleteBarButtonItem.Enabled = security.CanDelete(employee);
     }
-    employeeBindingSource.DataSource = employee;
     AddControls();
 }
 ```	
@@ -282,11 +284,7 @@ private void AddControl(LayoutControlItem layout, object targetObject, string me
         control = GetControl(type, memberName);
         if(control != null) {
             control.DataBindings.Add(
-                new Binding(
-                    "EditValue", employeeBindingSource, memberName, true,
-                     DataSourceUpdateMode.OnPropertyChanged
-                )
-            );
+	    new Binding("EditValue", targetObject, memberName, true, DataSourceUpdateMode.OnPropertyChanged));
             control.Enabled = security.CanWrite(targetObject, memberName);
         }
     }
