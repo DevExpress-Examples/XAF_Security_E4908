@@ -1,7 +1,7 @@
 <!-- default file list -->
 # User Authentication and Group Authorization API for Entity Framework Core Apps (CTP) - App Security Made Easy
 
-This branch is under construction and our goal is to help DevExpress and non-DevExpress customers benefit from [XAF](https://www.devexpress.com/products/net/application_framework/)'s Security System and the Microsoft EF Core ORM. We added a secured Object Space for EF Core 3.1+ and demonstrated its use for basic CRUD operations in [Console Application](/EFCore/Console/) and [WinForms](/EFCore/WinForms/).
+This branch is under construction and our goal is to help DevExpress and non-DevExpress customers benefit from [XAF](https://www.devexpress.com/products/net/application_framework/)'s Security System and the Microsoft EF Core ORM. We added a secured Object Space for EF Core 3.1+ and demonstrated its use for basic CRUD operations in [Console](/EFCore/Console/) and [WinForms](/EFCore/WinForms/) applications.
 
 Note that the current version of the *DevExpress.EntityFrameworkCore.Security* library has the [Community Technology Preview(CTP)](https://www.devexpress.com/aboutus/pre-release.xml) status and is not intended for use in production code.
  
