@@ -139,7 +139,7 @@ private void Login_Click(object sender, EventArgs e) {
 ## Step 4: Implement the List Form
 - [EmployeeListForm](CS/EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
 	- Create a `SecuredEFCoreObjectSpace` instance to access protected data and use its data manipulation APIs (for instance, *IObjectSpace.GetObjects*).
-	- Set [BindingList<Employee>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.localview-1.tobindinglist?view=efcore-2.1) to the Grid View Data Source. You can see the code of GetBindingList<TEntity> method in the [CS](CS/Utils/ObjectSpaceHelper.cs) file.
+	- Set [BindingList<Employee>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.localview-1.tobindinglist?view=efcore-2.1) to the Grid View Data Source. You can see the code of the GetBindingList<TEntity> method in the [CS](CS/Utils/ObjectSpaceHelper.cs) file.
 	- Call the CanCreate method to check Create operation availability and thus determine whether the New button can be enabled.
 		
 ``` csharp
@@ -230,7 +230,7 @@ private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
 
 - [EmployeeDetailForm](CS/EmployeeDetailForm.cs) contains detailed information on the Employee object. Perform the following operation in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler: 
 		
-	- Create a `SecuredEFCoreObjectSpace` instance to get the current or create new Employee object.
+	- Create a `SecuredEFCoreObjectSpace` instance to get the current Employee object or create a new one.
 	- Use the SecurityStrategy.CanDelete method to check Delete operation availability and thus determine if the Delete button can be enabled. The Delete button is always disabled if you create new object.
 		
 ``` csharp
@@ -271,7 +271,7 @@ private void AddControls() {
 ```
 - The `AddControl` method creates a control for a specific member. Use the SecurityStrategy.CanRead method to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the "Protected Content" placeholder. Otherwise: 
 		
-	- Call the `GetControl` method to create an appropriate control depending of the member type. We use the [LookUpEdit](https://documentation.devexpress.com/WindowsForms/DevExpress.XtraEditors.LookUpEdit.class) control for the Department associated property.
+	- Call the `GetControl` method to create an appropriate control depending on the member type. We use the [LookUpEdit](https://documentation.devexpress.com/WindowsForms/DevExpress.XtraEditors.LookUpEdit.class) control for the Department associated property.
 	- Add a binding to the [Control.DataBindings](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.databindings?view=netframework-4.8) collection.
 	- Use the SecurityStrategy.CanWrite method to check Write operation availability and thus determine whether the control should be enabled.
 		
@@ -315,7 +315,7 @@ private BaseEdit GetControl(Type type, string memberName) {
 }
 ```
 		
-- Use `SecuredEFCoreObjectSpace` to commit all changes to database in the [saveBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler and delete the current object in the [deleteBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler.
+- Use `SecuredEFCoreObjectSpace` to save all changes to the database in the [saveBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler and delete the current object in the [deleteBarButtonItem.ItemClick](https://docs.devexpress.com/WindowsForms/DevExpress.XtraBars.BarItem.ItemClick) event handler.
 		
 ``` csharp
 private void SaveBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
