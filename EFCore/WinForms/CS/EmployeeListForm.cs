@@ -1,13 +1,10 @@
 ﻿using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
 using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.EFCore;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Win.Editors;
-using DevExpress.Xpo;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace WindowsFormsApplication {

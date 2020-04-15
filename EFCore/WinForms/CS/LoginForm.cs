@@ -3,6 +3,8 @@ using System;
 using System.Windows.Forms;
 using DevExpress.ExpressApp.Security;
 using DevExpress.XtraEditors;
+using BusinessObjectsLibrary.EFCore.NetCore.Desktop;
+using Microsoft.Data.SqlClient;
 
 namespace WindowsFormsApplication {
     public partial class LoginForm : DevExpress.XtraEditors.XtraForm {
@@ -22,7 +24,11 @@ namespace WindowsFormsApplication {
             try {
                 security.Logon(logonObjectSpace);
                 DialogResult = DialogResult.OK;
-                Close();
+            }
+            catch(SqlException sqlEx) {
+                if(sqlEx.Number == 4060) {
+                    XtraMessageBox.Show(sqlEx.Message + Environment.NewLine + MessageHelper.OpenDatabaseFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch(Exception ex) {
                 XtraMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -34,7 +40,7 @@ namespace WindowsFormsApplication {
 
         private void UserNameEdit_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
             string message = string.IsNullOrEmpty(userNameEdit.Text) ? "The user name must not be empty. Try Admin or User." : string.Empty;
-            dxErrorProvider1.SetError(userNameEdit, message);
+            dxErrorProvider.SetError(userNameEdit, message);
         }
     }
 }

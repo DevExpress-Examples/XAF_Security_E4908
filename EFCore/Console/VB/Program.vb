@@ -1,10 +1,11 @@
 ﻿Imports BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects
+Imports BusinessObjectsLibrary.EFCore.NetCore.Desktop
 Imports DevExpress.EntityFrameworkCore.Security
 Imports DevExpress.ExpressApp
-Imports DevExpress.ExpressApp.EFCore
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.Persistent.Base
 Imports DevExpress.Persistent.BaseImpl.EF.PermissionPolicy
+Imports Microsoft.Data.SqlClient
 Imports Microsoft.EntityFrameworkCore
 Imports System.Configuration
 Imports System.IO
@@ -29,7 +30,14 @@ Namespace ConsoleApplication
             Dim password As String = String.Empty
             authentication.SetLogonParameters(New AuthenticationStandardLogonParameters(userName, password))
             Dim loginObjectSpace As IObjectSpace = objectSpaceProvider.CreateNonsecuredObjectSpace()
-            security.Logon(loginObjectSpace)
+            Try
+                security.Logon(loginObjectSpace)
+            Catch sqlEx As SqlException
+
+                If sqlEx.Number = 4060 Then
+                    Throw New Exception(sqlEx.Message & Environment.NewLine + MessageHelper.OpenDatabaseFailed, sqlEx)
+                End If
+            End Try
 
             Using file As New StreamWriter("result.txt", False)
                 Dim stringBuilder As New StringBuilder()

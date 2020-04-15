@@ -1,7 +1,6 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace WindowsFormsApplication {

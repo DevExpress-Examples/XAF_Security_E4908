@@ -48,7 +48,7 @@
 			this.emptySpaceItem9 = new DevExpress.XtraLayout.EmptySpaceItem();
 			this.emptySpaceItem10 = new DevExpress.XtraLayout.EmptySpaceItem();
 			this.emptySpaceItem4 = new DevExpress.XtraLayout.EmptySpaceItem();
-			this.dxErrorProvider1 = new DevExpress.XtraEditors.DXErrorProvider.DXErrorProvider(this.components);
+			this.dxErrorProvider = new DevExpress.XtraEditors.DXErrorProvider.DXErrorProvider(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
 			this.layoutControl1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.passwordEdit.Properties)).BeginInit();
@@ -72,7 +72,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem9)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem10)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dxErrorProvider1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dxErrorProvider)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// buttonLogin
@@ -130,7 +130,7 @@
 			// 
 			// userNameEdit
 			// 
-			this.dxErrorProvider1.SetIconAlignment(this.userNameEdit, System.Windows.Forms.ErrorIconAlignment.MiddleRight);
+			this.dxErrorProvider.SetIconAlignment(this.userNameEdit, System.Windows.Forms.ErrorIconAlignment.MiddleRight);
 			this.userNameEdit.Location = new System.Drawing.Point(83, 89);
 			this.userNameEdit.Name = "userNameEdit";
 			this.userNameEdit.Size = new System.Drawing.Size(310, 20);
@@ -333,7 +333,7 @@
 			// 
 			// dxErrorProvider1
 			// 
-			this.dxErrorProvider1.ContainerControl = this;
+			this.dxErrorProvider.ContainerControl = this;
 			// 
 			// LoginForm
 			// 
@@ -372,7 +372,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem9)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem10)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dxErrorProvider1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dxErrorProvider)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -394,7 +394,7 @@
 		private DevExpress.XtraLayout.LayoutControlItem layoutControlItemCancel;
 		private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroupButtons;
 		private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
-		private DevExpress.XtraEditors.DXErrorProvider.DXErrorProvider dxErrorProvider1;
+		private DevExpress.XtraEditors.DXErrorProvider.DXErrorProvider dxErrorProvider;
 		private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem4;
 		private DevExpress.XtraLayout.SimpleLabelItem simpleLabelItem3;
 		private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;

@@ -2,14 +2,13 @@
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.EFCore;
 using DevExpress.Persistent.Base;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Configuration;
 
 namespace DatabaseUpdater {
     class Program {
-        static void Main(string[] args) {
+        static void Main() {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             EFCoreObjectSpaceProvider objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
              (builder, cs) =>

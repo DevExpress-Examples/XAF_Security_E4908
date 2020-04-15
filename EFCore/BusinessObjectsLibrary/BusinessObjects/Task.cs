@@ -24,7 +24,6 @@ namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
         private IObjectSpace objectSpace;
 
         [Key]
-        //[Browsable(false)]
         [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public Int32 ID {
             get { return id; }

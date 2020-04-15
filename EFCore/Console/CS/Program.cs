@@ -9,7 +9,8 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
 using DevExpress.EntityFrameworkCore.Security;
-using DevExpress.ExpressApp.EFCore;
+using Microsoft.Data.SqlClient;
+using BusinessObjectsLibrary.EFCore.NetCore.Desktop;
 
 namespace ConsoleApplication {
     class Program {
@@ -29,7 +30,14 @@ namespace ConsoleApplication {
             string password = string.Empty;
             authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
             IObjectSpace loginObjectSpace = objectSpaceProvider.CreateNonsecuredObjectSpace();
-            security.Logon(loginObjectSpace);
+            try {
+                security.Logon(loginObjectSpace);
+            }
+            catch(SqlException sqlEx) {
+                if(sqlEx.Number == 4060) {
+                    throw new Exception(sqlEx.Message + Environment.NewLine + MessageHelper.OpenDatabaseFailed, sqlEx);
+                }
+            }
 
             using(StreamWriter file = new StreamWriter("result.txt", false)) {
                 StringBuilder stringBuilder = new StringBuilder();
@@ -41,7 +49,8 @@ namespace ConsoleApplication {
                         stringBuilder.Append($"Full name: {employee.FullName}\n");
                         if(security.CanRead(securedObjectSpace, employee, nameof(Department))) {
                             stringBuilder.Append($"Department: {employee.Department.Title}\n");
-                        } else {
+                        }
+                        else {
                             stringBuilder.Append("Department: [Protected content]\n");
                         }
                     }

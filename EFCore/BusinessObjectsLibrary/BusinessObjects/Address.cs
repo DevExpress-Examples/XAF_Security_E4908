@@ -25,7 +25,6 @@ namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
             Parties2 = new List<Party>();
         }
         [Key]
-        //[Browsable(false)]
         [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
         public Int32 ID {
             get { return id; }

@@ -2,7 +2,6 @@
 using System.Data;
 using DevExpress.ExpressApp;
 using DevExpress.Data.Filtering;
-using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using System.IO;
