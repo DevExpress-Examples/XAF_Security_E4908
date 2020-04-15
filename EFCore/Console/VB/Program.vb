@@ -18,7 +18,7 @@ Namespace ConsoleApplication
 
 
             Dim connectionString As String = ConfigurationManager.ConnectionStrings("ConnectionString").ConnectionString
-            Dim objectSpaceProvider As New SecuredEFCoreObjectSpaceProvider(security, GetType(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
+            Dim objectSpaceProvider As New SecuredEFCoreObjectSpaceProvider(security, GetType(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
                 Function(builder, cs) builder.UseSqlServer(cs))
 
             PasswordCryptographer.EnableRfc2898 = True

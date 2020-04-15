@@ -18,7 +18,7 @@ namespace ConsoleApplication {
             SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
 
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
+            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
                 (builder, connectionString) =>
                  builder.UseSqlServer(connectionString));
             

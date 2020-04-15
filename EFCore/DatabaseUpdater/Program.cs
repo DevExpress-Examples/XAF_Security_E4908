@@ -11,7 +11,7 @@ namespace DatabaseUpdater {
     class Program {
         static void Main(string[] args) {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            EFCoreObjectSpaceProvider objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
+            EFCoreObjectSpaceProvider objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
              (builder, cs) =>
              builder.UseSqlServer(cs));
             objectSpaceProvider.InitTypeInfoSource();

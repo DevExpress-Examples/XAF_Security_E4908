@@ -57,7 +57,7 @@ You can find all this code in the [EFCore/Console](/EFCore/Console) folder.
 ```csharp
   string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
   SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, 
-  typeof(ConsoleDbContext), XafTypesInfo.Instance, connectionString,
+  typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
 	    (builder, connectionString) =>
               builder.UseSqlServer(connectionString));
 ```
