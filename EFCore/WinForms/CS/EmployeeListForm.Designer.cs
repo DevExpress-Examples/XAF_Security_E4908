@@ -1,7 +1,4 @@
-﻿using System;
-using DevExpress.XtraEditors;
-
-namespace WindowsFormsApplication {
+﻿namespace WindowsFormsApplication {
 	partial class EmployeeListForm {
 		/// <summary>
 		/// Required designer variable.

@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
-    public class ConsoleDbContext : DbContext {
-        public ConsoleDbContext(DbContextOptions<ConsoleDbContext> options) : base(options) {
+    public class ApplicationDbContext : DbContext {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {
         }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }

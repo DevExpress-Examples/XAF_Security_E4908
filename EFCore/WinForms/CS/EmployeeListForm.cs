@@ -1,13 +1,10 @@
 ﻿using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
 using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.EFCore;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Win.Editors;
-using DevExpress.Xpo;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace WindowsFormsApplication {
@@ -39,12 +36,11 @@ namespace WindowsFormsApplication {
 			detailForm.MdiParent = MdiParent;
 			detailForm.WindowState = FormWindowState.Maximized;
 			detailForm.Show();
-            detailForm.FormClosing += DetailForm_FormClosing;
+            detailForm.FormClosing += (s, e) => { 
+                securedObjectSpace.Refresh();
+                employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
+            };
 		}
-        private void DetailForm_FormClosing(object sender, FormClosingEventArgs e) {
-			securedObjectSpace.Refresh();
-			employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
-        }
         private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
 			if(e.Clicks == 2) {
 				EditEmployee();

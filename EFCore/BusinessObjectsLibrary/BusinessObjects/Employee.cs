@@ -1,7 +1,4 @@
 ﻿using DevExpress.Persistent.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
     [DefaultClassOptions]
