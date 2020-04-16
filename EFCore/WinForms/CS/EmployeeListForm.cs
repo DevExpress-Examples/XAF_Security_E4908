@@ -38,7 +38,7 @@ namespace WindowsFormsApplication {
 			detailForm.Show();
             detailForm.FormClosing += (s, e) => { 
                 securedObjectSpace.Refresh();
-			    employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
+                employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
             };
 		}
         private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
