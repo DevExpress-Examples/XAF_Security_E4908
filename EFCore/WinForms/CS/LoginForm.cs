@@ -7,14 +7,14 @@ using BusinessObjectsLibrary.EFCore.NetCore.Desktop;
 using Microsoft.Data.SqlClient;
 
 namespace WindowsFormsApplication {
-    public partial class LoginForm : DevExpress.XtraEditors.XtraForm {
+    public partial class LoginForm : XtraForm {
         private SecurityStrategyComplex security;
         private IObjectSpaceProvider objectSpaceProvider;
         public LoginForm(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider, string userName) {
             InitializeComponent();
             this.security = security;
             this.objectSpaceProvider = objectSpaceProvider;
-            this.userNameEdit.Text = userName;
+            userNameEdit.Text = userName;
         }
         private void Login_Click(object sender, EventArgs e) {
             IObjectSpace logonObjectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();

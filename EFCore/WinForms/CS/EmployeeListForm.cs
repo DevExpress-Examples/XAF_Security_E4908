@@ -36,12 +36,11 @@ namespace WindowsFormsApplication {
 			detailForm.MdiParent = MdiParent;
 			detailForm.WindowState = FormWindowState.Maximized;
 			detailForm.Show();
-            detailForm.FormClosing += DetailForm_FormClosing;
+            detailForm.FormClosing += (s, e) => { 
+                securedObjectSpace.Refresh();
+			    employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
+            };
 		}
-        private void DetailForm_FormClosing(object sender, FormClosingEventArgs e) {
-			securedObjectSpace.Refresh();
-			employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
-        }
         private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
 			if(e.Clicks == 2) {
 				EditEmployee();
