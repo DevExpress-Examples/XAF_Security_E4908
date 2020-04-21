@@ -1,6 +1,6 @@
 <!-- default file list -->
 
-# User Authentication and Group Authorization API for .NET Apps Powered by the XPO ORM - App Security Made Easy
+# .NET User Authentication and Group Authorization API for DevExpress XPO and Microsoft Entity Framework Core ORMs
 
 ![image](XAF_Security_Diagram_200.png)
 
@@ -33,7 +33,7 @@ Please research the information below, because additional prerequisites may appl
 
 - Non-XAF developers who create standard line-of-business (LOB) apps with login, logout forms and security related functionality for any .NET UI technologies like WinForms, WPF, ASP.NET (WebForms, MVC 5, MVC Core, Razor Pages) and .NET server technologies like ASP.NET Web API/OData, WCF, etc. Yet more use-cases with Blazor & Xamarin.Forms (Android, iOS, UWP) UI technologies come with XAF v19.2 and .NET Standard 2.0 support.
 
-## User Authentication & Group Authorization Made Easy
+## User Authentication & Group Authorization - App Security Made Easy
 
 - Getting security right (safe, fast, up-to-date, flexible, and database agnostic) is complicated. Pre-built middleware libraries like ASP.NET Core Identity or Identity Server can be difficult to configure or offer unnecessary functionality. Our User Authentication & Group Authorization API for .NET allows you to integrate a proven, database agnostic security sub-system in the shortest possible time.
 
