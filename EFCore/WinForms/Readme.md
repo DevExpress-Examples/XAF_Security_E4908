@@ -30,7 +30,7 @@ Substitute "DBSERVER" with the Database Server name or its IP address. Use "**lo
 
 
 # Step 2: Initialize Data Store and XAF's Security System
-- Initialize the Security System.
+- Initialize the Security System in the `Main` method of *Program.cs*.
 	
 	[](#tab/tabid-csharp)
 	
@@ -53,7 +53,7 @@ typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
           builder.UseSqlServer(connectionString));
 ```
 
-- In _App.config_, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
+- In _App.config_ of _YourWinFormsApplication_, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
 	
 	[](#tab/tabid-xml)
 	
@@ -69,7 +69,7 @@ typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
 PasswordCryptographer.EnableRfc2898 = true;
 PasswordCryptographer.SupportLegacySha512 = false;
 ```
-- In Program.cs, create [MainForm](CS/MainForm.cs) using a custom constructor. `MainForm` is the MDI parent form for [EmployeeListForm](CS/EmployeeListForm.cs) and [EmployeeDetailForm](CS/EmployeeDetailForm.cs).
+- In _Program.cs_, create [MainForm](CS/MainForm.cs) using a custom constructor. `MainForm` is the MDI parent form for [EmployeeListForm](CS/EmployeeListForm.cs) and [EmployeeDetailForm](CS/EmployeeDetailForm.cs).
 
 ``` csharp
 Application.EnableVisualStyles();
@@ -78,7 +78,7 @@ MainForm mainForm = new MainForm(security, objectSpaceProvider);
 Application.Run(mainForm);
 ```
 
-- Display the [LoginForm](CS/LoginForm.cs) on the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event. If the dialog returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), `EmployeeListForm` is created and shown.
+- Display the [LoginForm](CS/LoginForm.cs) in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler. If the dialog returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), `EmployeeListForm` is created and shown.
 
 ``` csharp
 private void MainForm_Load(object sender, EventArgs e) {
@@ -103,7 +103,7 @@ private void CreateListForm() {
     employeeForm.Show();
 }
 ```
-- Handle the RibbonControl's Logout item.
+- Handle the RibbonControl's Logout item `ItemClick` event.
 
 ``` csharp
 private void LogoutButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
@@ -139,8 +139,8 @@ private void Login_Click(object sender, EventArgs e) {
 ## Step 4: Implement the List Form
 - [EmployeeListForm](CS/EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
 	- Create a `SecuredEFCoreObjectSpace` instance to access protected data and use its data manipulation APIs (for instance, *IObjectSpace.GetObjects*).
-	- Set [BindingList<Employee>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.localview-1.tobindinglist?view=efcore-2.1) to the Grid View Data Source. You can see the code of the GetBindingList<TEntity> method in the [CS](CS/Utils/ObjectSpaceHelper.cs) file.
-	- Call the CanCreate method to check Create operation availability and thus determine whether the New button can be enabled.
+	- Set [BindingList<Employee>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.localview-1.tobindinglist?view=efcore-2.1) to the Grid View Data Source. You can see the code of the `GetBindingList<TEntity>` method in the [CS](CS/Utils/ObjectSpaceHelper.cs) file.
+	- Call the `CanCreate` method to check Create operation availability and thus determine whether the **New** button can be enabled.
 		
 ``` csharp
 private void EmployeeListForm_Load(object sender, EventArgs e) {
@@ -163,9 +163,9 @@ private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArg
     }
 }
 ```
-Note that SecuredEFCoreObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
+Note that SecuredEFCoreObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the `SecurityStrategy.CanRead` method to determine when to mask default values with the "Protected Content" placeholder in the UI.
 		
-- Handle the [FocusedRowObjectChanged](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Base.ColumnView.FocusedRowObjectChanged) event and use the SecurityStrategy.CanDelete method to check Delete operation availability and thus determine if the Delete button can be enabled.
+- Handle the [FocusedRowObjectChanged](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Base.ColumnView.FocusedRowObjectChanged) event and use the `SecurityStrategy.CanDelete` method to check **Delete** operation availability and thus determine if the **Delete** button can be enabled.
 		
 ``` csharp
 private void EmployeeGridView_FocusedRowObjectChanged(object sender, FocusedRowObjectChangedEventArgs e) {
@@ -208,21 +208,21 @@ private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemC
    
 ``` csharp
 private void EditEmployee() {
-	Employee employee = employeeGridView.GetRow(employeeGridView.FocusedRowHandle) as Employee;
-	CreateDetailForm(employee);
+    Employee employee = employeeGridView.GetRow(employeeGridView.FocusedRowHandle) as Employee;
+    CreateDetailForm(employee);
 }
 
 private void EditBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-	EditEmployee();
+    EditEmployee();
 }
 ```
    - When a user double-clicks a row 
 		
 ``` csharp
 private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
-	if(e.Clicks == 2) {
-		EditEmployee();
-	}
+    if(e.Clicks == 2) {
+        EditEmployee();
+    }
 }
 ```
 
@@ -231,7 +231,7 @@ private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
 - [EmployeeDetailForm](CS/EmployeeDetailForm.cs) contains detailed information on the Employee object. Perform the following operation in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler: 
 		
 	- Create a `SecuredEFCoreObjectSpace` instance to get the current Employee object or create a new one.
-	- Use the SecurityStrategy.CanDelete method to check Delete operation availability and thus determine if the Delete button can be enabled. The Delete button is always disabled if you create new object.
+	- Use the `SecurityStrategy.CanDelete` method to check **Delete** operation availability and thus determine if the **Delete** button can be enabled. The **Delete** button is always disabled if you create new object.
 		
 ``` csharp
 private void EmployeeDetailForm_Load(object sender, EventArgs e) {
