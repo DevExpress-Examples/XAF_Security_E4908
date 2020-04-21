@@ -2,7 +2,7 @@
 
 # User Authentication and Group Authorization API for .NET Apps Powered by the XPO ORM - App Security Made Easy
 
-![image](Security-System-1x2-FB.png)
+![image](XAF_Security_Diagram_200.png)
 
 ## Prerequisites
 - [Visual Studio 2017 or 2019 v16.4+ (for .NET Core 3.1 examples)](https://visualstudio.microsoft.com/vs/) with the following workloads:
@@ -14,35 +14,34 @@
 
 ## Demos and Step-By-Step Tutorials for .NET Framework and .NET Core
 Please research the information below, because additional prerequisites may apply to certain platforms.
- - [DevExtreme + ASP.NET Web API OData App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_2.aspx)
- - [WinForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_3.aspx)
- - [ASP.NET WebForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
- - [ASP.NET Core MVC App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_5_MVC_Core.aspx)
- - [Blazor Server App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_6_Blazor_ServerSide.aspx)
- - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
- - **Coming Next**: [Security System for Microsoft Entity Framework Core](https://www.devexpress.com/go/XAF_Security_NonXAF_Console_EFCore.aspx) and Xamarin, Blazor WebAssembly, WPF Apps.
+ - [DevExtreme + ASP.NET Web API OData App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_2.aspx)
+ - [WinForms App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_3.aspx)
+ - [ASP.NET WebForms App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
+ - [ASP.NET Core MVC App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_5_MVC_Core.aspx)
+ - [Blazor Server App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_6_Blazor_ServerSide.aspx)
+ - [Console App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
+ - [Console App with Microsoft Entity Framework Core (EF Core)](https://www.devexpress.com/go/XAF_Security_NonXAF_Console_EFCore.aspx)
+ - **Coming Next**: WinForms and other Apps with EF Core, Xamarin, Blazor WebAssembly, WPF with XPO.
 
 **If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.**
 
 > To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using this [short survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx).
 
-## Target Audience & Scenarios
+## Target Audience & Common Usage Scenarios
 
 - XAF developers who create non-XAF .NET apps and want to reuse existing data models and [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) settings (users, roles and permissions) stored in an XAF application database. Based on experience, XAF customers create custom Web and mobile UI clients with ASP.NET MVC, DevExtreme; backend servers with ASP.NET Web API/OData or Console, Windows Service, WCF apps for various administrative tasks (data modifications, report generation, scheduled workflows).
 
 - Non-XAF developers who create standard line-of-business (LOB) apps with login, logout forms and security related functionality for any .NET UI technologies like WinForms, WPF, ASP.NET (WebForms, MVC 5, MVC Core, Razor Pages) and .NET server technologies like ASP.NET Web API/OData, WCF, etc. Yet more use-cases with Blazor & Xamarin.Forms (Android, iOS, UWP) UI technologies come with XAF v19.2 and .NET Standard 2.0 support.
 
-## Pain Points
+## User Authentication & Group Authorization Made Easy
 
-Developers often face the following difficulties when creating security systems:
+- Getting security right (safe, fast, up-to-date, flexible, and database agnostic) is complicated. Pre-built middleware libraries like ASP.NET Core Identity or Identity Server can be difficult to configure or offer unnecessary functionality. Our User Authentication & Group Authorization API for .NET allows you to integrate a proven, database agnostic security sub-system in the shortest possible time.
 
-- Getting security right: safe, fast, up-to-date, flexible, and database agnostic. Ready-to-use middleware libraries like ASP.NET Core Identity or Identity Server can be difficult to configure or offer unnecessary functionality.
+- LOB app developers want to save time and do not want to implement complex security memberships and authentication/authorization algorithms from scratch (for instance, apps that can filter protected data against a user's access rights or check whether the current user is allowed to delete records). Our User Authentication & Group Authorization API for .NET allows you to incorporate advanced security-related capabilities with minimal effort.
 
-- LOB app developers want to save time and do not want to implement complex security memberships and authentication/authorization algorithms from scratch. For instance, filtering protected data against the current user’s access rights or checking if the current user is allowed to delete records.
+- While certain platforms like ASP.NET simplify authentication and basic authorization with a built-in design time APIs, it is difficult to build a flexible and customizable security system (allowing users to customize the system once the app is deployed). Our User Authentication & Group Authorization API for .NET allows you to incorporate a highly flexible/customizable security system in your next .NET app.
 
-- Access right customization (runtime). While certain technologies like ASP.NET simplify authentication and basic authorization with built-in design time APIs, it is difficult to build a flexible and customizable security system (allowing users to customize the system once the app is deployed).
-
-## The XAF Security System
+## Feature Overview
 
 The primary XAF security system features used in line-of-business applications across supported platforms include:
 
