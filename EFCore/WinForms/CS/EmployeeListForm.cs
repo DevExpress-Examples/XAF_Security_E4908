@@ -10,15 +10,15 @@ using System.Windows.Forms;
 namespace WindowsFormsApplication {
 	public partial class EmployeeListForm : DevExpress.XtraBars.Ribbon.RibbonForm {
 		private IObjectSpace securedObjectSpace;
-		private SecurityStrategyComplex security;
-		private IObjectSpaceProvider objectSpaceProvider;
 		private RepositoryItemProtectedContentTextEdit protectedContentTextEdit;
-		public EmployeeListForm() {
+		private readonly SecurityStrategyComplex security;
+		private readonly IObjectSpaceProvider objectSpaceProvider;
+		public EmployeeListForm(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
 			InitializeComponent();
+			this.security = security;
+			this.objectSpaceProvider = objectSpaceProvider;
 		}
 		private void EmployeeListForm_Load(object sender, EventArgs e) {
-			security = ((MainForm)MdiParent).Security;
-			objectSpaceProvider = ((MainForm)MdiParent).ObjectSpaceProvider;
 			securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
 			employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
 			newBarButtonItem.Enabled = security.CanCreate<Employee>();
@@ -32,7 +32,7 @@ namespace WindowsFormsApplication {
 			}
 		}
 		private void CreateDetailForm(Employee employee = null) {
-			EmployeeDetailForm detailForm = new EmployeeDetailForm(employee);
+			EmployeeDetailForm detailForm = new EmployeeDetailForm(employee, security, objectSpaceProvider);
 			detailForm.MdiParent = MdiParent;
 			detailForm.WindowState = FormWindowState.Maximized;
 			detailForm.Show();

@@ -13,21 +13,21 @@ using System.Windows.Forms;
 namespace WindowsFormsApplication {
 	public partial class EmployeeDetailForm : DevExpress.XtraBars.Ribbon.RibbonForm {
 		private IObjectSpace securedObjectSpace;
-		private SecurityStrategyComplex security;
-		private IObjectSpaceProvider objectSpaceProvider;
 		private Employee employee;
 		private Dictionary<string, string> visibleMembers;
-		public EmployeeDetailForm(Employee employee) {
+		private readonly SecurityStrategyComplex security;
+		private readonly IObjectSpaceProvider objectSpaceProvider;
+		public EmployeeDetailForm(Employee employee, SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
 			InitializeComponent();
 			this.employee = employee;
+			this.security = security;
+			this.objectSpaceProvider = objectSpaceProvider;
 			visibleMembers = new Dictionary<string, string>();
 			visibleMembers.Add(nameof(Employee.FirstName), "First Name:");
 			visibleMembers.Add(nameof(Employee.LastName), "Last Name:");
 			visibleMembers.Add(nameof(Employee.Department), "Department:");
 		}
 		private void EmployeeDetailForm_Load(object sender, EventArgs e) {
-			security = ((MainForm)MdiParent).Security;
-			objectSpaceProvider = ((MainForm)MdiParent).ObjectSpaceProvider;
 			securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
 			if(employee == null) {
 				employee = securedObjectSpace.CreateObject<Employee>();
@@ -52,7 +52,7 @@ namespace WindowsFormsApplication {
 			if(security.CanRead(targetObject, memberName)) {
 				control = GetControl(type, memberName);
 				if(control != null) {
-					control.DataBindings.Add(new Binding("EditValue", targetObject, memberName, true, DataSourceUpdateMode.OnPropertyChanged));
+					control.DataBindings.Add(new Binding(nameof(BaseEdit.EditValue), targetObject, memberName, true, DataSourceUpdateMode.OnPropertyChanged));
 					control.Enabled = security.CanWrite(targetObject, memberName);
 				}
 			}
@@ -71,8 +71,8 @@ namespace WindowsFormsApplication {
 				if(memberInfo.IsAssociation) {
 					control = new LookUpEdit();
 					((LookUpEdit)control).Properties.DataSource = securedObjectSpace.GetBindingList<Department>();
-					((LookUpEdit)control).Properties.DisplayMember = "Title";
-					LookUpColumnInfo column = new LookUpColumnInfo("Title");
+					((LookUpEdit)control).Properties.DisplayMember = nameof(Department.Title);
+					LookUpColumnInfo column = new LookUpColumnInfo(nameof(Department.Title));
 					((LookUpEdit)control).Properties.Columns.Add(column);
 				}
 				else {
