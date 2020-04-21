@@ -97,7 +97,7 @@ private void ShowLoginForm(string userName = "User") {
     }
 }
 private void CreateListForm() {
-    EmployeeListForm employeeForm = new EmployeeListForm();
+    EmployeeListForm employeeForm = new EmployeeListForm(security, objectSpaceProvider);
     employeeForm.MdiParent = this;
     employeeForm.WindowState = FormWindowState.Maximized;
     employeeForm.Show();
@@ -144,8 +144,6 @@ private void Login_Click(object sender, EventArgs e) {
 		
 ``` csharp
 private void EmployeeListForm_Load(object sender, EventArgs e) {
-    security = ((MainForm)MdiParent).Security;
-    objectSpaceProvider = ((MainForm)MdiParent).ObjectSpaceProvider;
     securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
     employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
     newBarButtonItem.Enabled = security.CanCreate<Employee>();
@@ -186,7 +184,7 @@ private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.It
 		
 ``` csharp
 private void CreateDetailForm(Employee employee = null) {
-    EmployeeDetailForm detailForm = new EmployeeDetailForm(employee);
+    EmployeeDetailForm detailForm = new EmployeeDetailForm(employee, security, objectSpaceProvider);
     detailForm.MdiParent = MdiParent;
     detailForm.WindowState = FormWindowState.Maximized;
     detailForm.Show();
@@ -235,8 +233,6 @@ private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
 		
 ``` csharp
 private void EmployeeDetailForm_Load(object sender, EventArgs e) {
-    security = ((MainForm)MdiParent).Security;
-    objectSpaceProvider = ((MainForm)MdiParent).ObjectSpaceProvider;
     securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
     if(employee == null) {
         employee = securedObjectSpace.CreateObject<Employee>();
@@ -254,11 +250,11 @@ private void EmployeeDetailForm_Load(object sender, EventArgs e) {
 private Dictionary<string, string> visibleMembers;
 // ...
 public EmployeeDetailForm(Employee employee) {
-	// ...
-	visibleMembers = new Dictionary<string, string>();
-	visibleMembers.Add(nameof(Employee.FirstName), "First Name:");
-	visibleMembers.Add(nameof(Employee.LastName), "Last Name:");
-	visibleMembers.Add(nameof(Employee.Department), "Department:");
+    // ...
+    visibleMembers = new Dictionary<string, string>();
+    visibleMembers.Add(nameof(Employee.FirstName), "First Name:");
+    visibleMembers.Add(nameof(Employee.LastName), "Last Name:");
+    visibleMembers.Add(nameof(Employee.Department), "Department:");
 }
 // ...
 private void AddControls() {
@@ -284,7 +280,7 @@ private void AddControl(LayoutControlItem layout, object targetObject, string me
         control = GetControl(type, memberName);
         if(control != null) {
             control.DataBindings.Add(
-	    new Binding("EditValue", targetObject, memberName, true, DataSourceUpdateMode.OnPropertyChanged));
+	    new Binding(nameof(BaseEdit.EditValue), targetObject, memberName, true, DataSourceUpdateMode.OnPropertyChanged));
             control.Enabled = security.CanWrite(targetObject, memberName);
         }
     }
@@ -303,8 +299,8 @@ private BaseEdit GetControl(Type type, string memberName) {
         if(memberInfo.IsAssociation) {
             control = new LookUpEdit();
             ((LookUpEdit)control).Properties.DataSource = securedObjectSpace.GetBindingList<Department>();
-            ((LookUpEdit)control).Properties.DisplayMember = "Title";
-            LookUpColumnInfo column = new LookUpColumnInfo("Title");
+            ((LookUpEdit)control).Properties.DisplayMember = nameof(Department.Title);
+            LookUpColumnInfo column = new LookUpColumnInfo(nameof(Department.Title));
             ((LookUpEdit)control).Properties.Columns.Add(column);
         }
         else {
