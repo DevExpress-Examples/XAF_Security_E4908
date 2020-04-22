@@ -11,9 +11,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 1. Create a Database and Populate It with User, Role, Permission and Other Data
 
-**1.** Build the *EFCoreNonXAFWinFormsSecurityExample.NetCore* solution.
-
-**2.** Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your database server:
+-  Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that `DBSERVER` refers to your database server name or its IP address (for a local database server, use `localhost`, `(local)` or `.`):
 	
 [](#tab/tabid-xml)
 	
@@ -22,10 +20,8 @@ This example demonstrates how to access data protected by the [Security System](
   <connectionStrings>
     <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=EFCoreTestDB;Integrated Security=True"/>
 ```
-
-Substitute `DBSERVER` with the database server name or its IP address. Use `localhost` or `(local)` if you use a local database server.
     
-**3.** Run the *DatabaseUpdater.NetCore.Desktop* project. The console application will generate a database and populate it with business objects, security roles, and users. For more information, see [Predefined Users, Roles and Permissions](https://docs.devexpress.com/eXpressAppFramework/119065/concepts/security-system/predefined-users-roles-and-permissions).
+- Build and run the *DatabaseUpdater.NetCore.Desktop* project. The console application will generate a database and populate it with business objects, security roles, and users. For more information, see [Predefined Users, Roles and Permissions](https://docs.devexpress.com/eXpressAppFramework/119065/concepts/security-system/predefined-users-roles-and-permissions).
 
 
 # Step 2. Initialize a Secured Data Store and Authentication Options
