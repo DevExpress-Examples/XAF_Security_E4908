@@ -4,28 +4,32 @@
 
 ![image](XAF_Security_Diagram_200.png)
 
+## Demos and Step-By-Step Tutorials for .NET Framework and .NET Core
+Please research the information below, because additional prerequisites may apply to certain platforms. If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
+
+#### DevExpress XPO
+ - [DevExtreme + ASP.NET Web API OData App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_2.aspx)
+ - [WinForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_3.aspx)
+ - [ASP.NET WebForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
+ - [ASP.NET Core MVC App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_5_MVC_Core.aspx)
+ - [Blazor Server App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_6_Blazor_ServerSide.aspx)
+ - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
+
+#### Microsoft Entity Framework Core
+- [WinForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_WinForms_EFCore.aspx)
+- [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Console_EFCore.aspx)
+
+#### Coming Next
+Other Apps with EF Core and Xamarin, Blazor WebAssembly, WPF with XPO. To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using this **[short survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx)**.
+
 ## Prerequisites
 - [Visual Studio 2017 or 2019 v16.4+ (for .NET Core 3.1 examples)](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - *.NET desktop development*  |  *ASP.NET and web development*  |  *.NET Core cross-platform development*
 - [Download and run two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/)
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
-- Before you run any demos below, run (F5) the *XafSolution.Win* or *XafSolution.Win.NetCore* app depending on your target framework and log in under 'User' or 'Admin' with an empty password.
+- Before you run any demo apps, run (F5) the *XafSolution.Win* or *XafSolution.Win.NetCore* app depending on your target framework and log in under 'User' or 'Admin' with an empty password.
   - *This [Database Generation and Permision Management App](./XafSolution/) will create initial users, roles, permissions and other data in the database.*
 
-## Demos and Step-By-Step Tutorials for .NET Framework and .NET Core
-Please research the information below, because additional prerequisites may apply to certain platforms.
- - [DevExtreme + ASP.NET Web API OData App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_2.aspx)
- - [WinForms App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_3.aspx)
- - [ASP.NET WebForms App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
- - [ASP.NET Core MVC App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_5_MVC_Core.aspx)
- - [Blazor Server App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_6_Blazor_ServerSide.aspx)
- - [Console App with XPO](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
- - [Console App with Microsoft Entity Framework Core (EF Core)](https://www.devexpress.com/go/XAF_Security_NonXAF_Console_EFCore.aspx)
- - **Coming Next**: WinForms and other Apps with EF Core, Xamarin, Blazor WebAssembly, WPF with XPO.
-
-**If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.**
-
-> To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using this [short survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx).
 
 ## Target Audience & Common Usage Scenarios
 
