@@ -1,4 +1,4 @@
-This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Windows Forms application. You will also learn how to execute Create, Write and Delete data operations taking into account security permissions.
+This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Windows Forms application. You will also learn how to execute Create, Read, Update and Delete data operations taking into account security permissions.
 
 >For simplicity, the instructions include only C# code snippets. For the complete C# code, see the [CS](CS) sub-directory.
 
