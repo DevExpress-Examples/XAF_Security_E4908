@@ -2,7 +2,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 >For simplicity, the instructions include only C# code snippets. For the complete C# code, see the [CS](CS) sub-directory.
 
-### Prerequisites
+## Prerequisites
 - [.NET Core SDK 3.0+](https://dotnet.microsoft.com/download/dotnet-core)
 - [Unified Installer for .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/).
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
@@ -24,7 +24,7 @@ This example demonstrates how to access data protected by the [Security System](
 - Build and run the *DatabaseUpdater.NetCore.Desktop* project. The console application will generate a database and populate it with business objects, security roles, and users. For more information, see [Predefined Users, Roles and Permissions](https://docs.devexpress.com/eXpressAppFramework/119065/concepts/security-system/predefined-users-roles-and-permissions).
 
 
-# Step 2. Initialize a Secured Data Store and Authentication Options
+## Step 2. Initialize a Secured Data Store and Authentication Options
 - In *YourWinFormsApplication/Program.cs*, create a `SecurityStrategyComplex` instance using [AuthenticationStandard](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.AuthenticationStandard) (a simple Forms Authentication with a login and password) and password options ([EnableRfc2898 and SupportLegacySha512](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System)).
 	
 	[](#tab/tabid-csharp)
