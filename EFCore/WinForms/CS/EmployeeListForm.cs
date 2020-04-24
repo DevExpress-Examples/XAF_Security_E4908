@@ -1,11 +1,11 @@
 ﻿using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.Win.Editors;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using System;
 using System.Windows.Forms;
+using WindowsFormsApplication.Utils;
 
 namespace WindowsFormsApplication {
 	public partial class EmployeeListForm : DevExpress.XtraBars.Ribbon.RibbonForm {
@@ -32,10 +32,11 @@ namespace WindowsFormsApplication {
 			}
 		}
 		private void CreateDetailForm(Employee employee = null) {
-			EmployeeDetailForm detailForm = new EmployeeDetailForm(employee, security, objectSpaceProvider);
-			detailForm.MdiParent = MdiParent;
-			detailForm.WindowState = FormWindowState.Maximized;
-			detailForm.Show();
+            EmployeeDetailForm detailForm = new EmployeeDetailForm(employee, security, objectSpaceProvider) {
+                MdiParent = MdiParent,
+                WindowState = FormWindowState.Maximized
+            };
+            detailForm.Show();
             detailForm.FormClosing += (s, e) => { 
                 securedObjectSpace.Refresh();
                 employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();

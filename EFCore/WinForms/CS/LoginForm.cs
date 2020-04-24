@@ -3,13 +3,13 @@ using System;
 using System.Windows.Forms;
 using DevExpress.ExpressApp.Security;
 using DevExpress.XtraEditors;
-using BusinessObjectsLibrary.EFCore.NetCore.Desktop;
 using Microsoft.Data.SqlClient;
 
 namespace WindowsFormsApplication {
     public partial class LoginForm : XtraForm {
-        private SecurityStrategyComplex security;
-        private IObjectSpaceProvider objectSpaceProvider;
+        public static string OpenDatabaseFailed { get; } = "Make sure the database has been created.\r\nTo create the database, run the 'DatabaseUpdater' project.";
+        private readonly SecurityStrategyComplex security;
+        private readonly IObjectSpaceProvider objectSpaceProvider;
         public LoginForm(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider, string userName) {
             InitializeComponent();
             this.security = security;
@@ -27,7 +27,7 @@ namespace WindowsFormsApplication {
             }
             catch(SqlException sqlEx) {
                 if(sqlEx.Number == 4060) {
-                    XtraMessageBox.Show(sqlEx.Message + Environment.NewLine + MessageHelper.OpenDatabaseFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    XtraMessageBox.Show(sqlEx.Message + Environment.NewLine + OpenDatabaseFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch(Exception ex) {

@@ -37,9 +37,10 @@ namespace WindowsFormsApplication {
             }
         }
         private void CreateListForm() {
-            EmployeeListForm employeeForm = new EmployeeListForm(security, objectSpaceProvider);
-            employeeForm.MdiParent = this;
-            employeeForm.WindowState = FormWindowState.Maximized;
+            EmployeeListForm employeeForm = new EmployeeListForm(security, objectSpaceProvider) {
+                MdiParent = this,
+                WindowState = FormWindowState.Maximized
+            };
             employeeForm.Show();
         }
     }

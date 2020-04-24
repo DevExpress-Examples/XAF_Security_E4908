@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary.EFCore.NetCore", "BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.NetCore.Desktop.csproj", "{A8F2572B-79F6-4580-92BB-56069FE65796}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary.EFCore.NetCore", "BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.NetCore.csproj", "{A8F2572B-79F6-4580-92BB-56069FE65796}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater", "DatabaseUpdater\DatabaseUpdater.NetCore.Desktop.csproj", "{DB4F2CDD-E1D0-48A0-BD16-5203D0B527F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater", "DatabaseUpdater\DatabaseUpdater.NetCore.csproj", "{DB4F2CDD-E1D0-48A0-BD16-5203D0B527F6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms", "WinForms", "{352E0DD5-6DDE-44FC-81E5-E626FB4E74D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CS", "CS", "{A0CA27E8-072E-4431-938D-95028D16DDE1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsFormsApplication.NetCore", "WinForms\CS\WindowsFormsApplication.NetCore.Desktop.csproj", "{CAC6F47D-F183-488D-A680-6AD1849BFFF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsFormsApplication.NetCore", "WinForms\CS\WindowsFormsApplication.NetCore.csproj", "{CAC6F47D-F183-488D-A680-6AD1849BFFF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

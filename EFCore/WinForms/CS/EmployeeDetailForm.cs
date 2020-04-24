@@ -2,19 +2,19 @@
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.Win.Editors;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraLayout;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using WindowsFormsApplication.Utils;
 
 namespace WindowsFormsApplication {
 	public partial class EmployeeDetailForm : DevExpress.XtraBars.Ribbon.RibbonForm {
 		private IObjectSpace securedObjectSpace;
 		private Employee employee;
-		private Dictionary<string, string> visibleMembers;
+		private readonly Dictionary<string, string> visibleMembers;
 		private readonly SecurityStrategyComplex security;
 		private readonly IObjectSpaceProvider objectSpaceProvider;
 		public EmployeeDetailForm(Employee employee, SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
@@ -22,11 +22,12 @@ namespace WindowsFormsApplication {
 			this.employee = employee;
 			this.security = security;
 			this.objectSpaceProvider = objectSpaceProvider;
-			visibleMembers = new Dictionary<string, string>();
-			visibleMembers.Add(nameof(Employee.FirstName), "First Name:");
-			visibleMembers.Add(nameof(Employee.LastName), "Last Name:");
-			visibleMembers.Add(nameof(Employee.Department), "Department:");
-		}
+            visibleMembers = new Dictionary<string, string> {
+                { nameof(Employee.FirstName), "First Name:" },
+                { nameof(Employee.LastName), "Last Name:" },
+                { nameof(Employee.Department), "Department:" }
+            };
+        }
 		private void EmployeeDetailForm_Load(object sender, EventArgs e) {
 			securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
 			if(employee == null) {
@@ -58,7 +59,6 @@ namespace WindowsFormsApplication {
 			}
 			else {
 				control = new ProtectedContentEdit();
-				control.Enabled = false;
 			}
 			dataLayoutControl1.Controls.Add(control);
 			layout.Control = control;

@@ -19,14 +19,13 @@
     <EmbeddedResource Remove="MainForm.resx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.WindowsDesktop.Win" Version="20.1.2-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.EFCore" Version="20.1.2-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp.Win" Version="20.1.2-ctp" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.1.2-beta" />
+    <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.1.2-ctp" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.NetCore.Desktop.csproj" />
+    <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.NetCore.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
