@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
 using DevExpress.EntityFrameworkCore.Security;
 using Microsoft.Data.SqlClient;
-using BusinessObjectsLibrary.EFCore.NetCore.Desktop;
+using BusinessObjectsLibrary.EFCore.NetCore;
 
 namespace ConsoleApplication {
     class Program {

@@ -1,5 +1,5 @@
 ﻿Imports BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects
-Imports BusinessObjectsLibrary.EFCore.NetCore.Desktop
+Imports BusinessObjectsLibrary.EFCore.NetCore
 Imports DevExpress.EntityFrameworkCore.Security
 Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.Security

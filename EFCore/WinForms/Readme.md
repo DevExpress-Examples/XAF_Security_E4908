@@ -4,7 +4,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Prerequisites
 - [.NET Core SDK 3.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Unified Installer for .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/).
+- [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/).
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
 
 ***
@@ -21,7 +21,7 @@ This example demonstrates how to access data protected by the [Security System](
     <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=EFCoreTestDB;Integrated Security=True"/>
 ```
     
-- Build and run the *DatabaseUpdater.NetCore.Desktop* project. The console application will generate a database and populate it with business objects, security roles, and users. For more information, see [Predefined Users, Roles and Permissions](https://docs.devexpress.com/eXpressAppFramework/119065/concepts/security-system/predefined-users-roles-and-permissions).
+- Build and run the *DatabaseUpdater.NetCore* project. The console application will generate a database and populate it with business objects, security roles, and users. For more information, see [Predefined Users, Roles and Permissions](https://docs.devexpress.com/eXpressAppFramework/119065/concepts/security-system/predefined-users-roles-and-permissions).
 
 
 ## Step 2. Initialize a Secured Data Store and Authentication Options
@@ -86,9 +86,10 @@ private void ShowLoginForm(string userName = "User") {
     }
 }
 private void CreateListForm() {
-    EmployeeListForm employeeForm = new EmployeeListForm(security, objectSpaceProvider);
-    employeeForm.MdiParent = this;
-    employeeForm.WindowState = FormWindowState.Maximized;
+    EmployeeListForm employeeForm = new EmployeeListForm(security, objectSpaceProvider) {
+	MdiParent = this,
+	WindowState = FormWindowState.Maximized
+    };
     employeeForm.Show();
 }
 ```
@@ -143,7 +144,7 @@ private void EmployeeListForm_Load(object sender, EventArgs e) {
 }
 ```	
 
-- Handle the [GridView.CustomRowCellEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView.CustomRowCellEdit) event and check Read operation availability.
+- Handle the [GridView.CustomRowCellEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView.CustomRowCellEdit) event and check Read operation availability. If not available, use the `RepositoryItemProtectedContentTextEdit` object  which displays the 'Protected Content' placeholder.
 		
 ``` csharp
 private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
@@ -177,9 +178,10 @@ private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.It
 		
 ``` csharp
 private void CreateDetailForm(Employee employee = null) {
-    EmployeeDetailForm detailForm = new EmployeeDetailForm(employee, security, objectSpaceProvider);
-    detailForm.MdiParent = MdiParent;
-    detailForm.WindowState = FormWindowState.Maximized;
+    EmployeeDetailForm detailForm = new EmployeeDetailForm(employee, security, objectSpaceProvider) {
+	MdiParent = MdiParent,
+	WindowState = FormWindowState.Maximized
+    };
     detailForm.Show();
     detailForm.FormClosing += DetailForm_FormClosing;
 }
@@ -279,7 +281,6 @@ private void AddControl(LayoutControlItem layout, object targetObject, string me
     }
     else {
         control = new ProtectedContentEdit();
-        control.Enabled = false;
     }
     dataLayoutControl1.Controls.Add(control);
     layout.Control = control;
