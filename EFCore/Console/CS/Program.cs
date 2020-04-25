@@ -1,16 +1,16 @@
-﻿using DevExpress.ExpressApp;
+﻿using BusinessObjectsLibrary.EFCore.NetCore;
+using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
+using DevExpress.EntityFrameworkCore.Security;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Configuration;
 using System.IO;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
-using DevExpress.EntityFrameworkCore.Security;
-using Microsoft.Data.SqlClient;
-using BusinessObjectsLibrary.EFCore.NetCore;
 
 namespace ConsoleApplication {
     class Program {
@@ -19,13 +19,14 @@ namespace ConsoleApplication {
             SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
 
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
-                (builder, connectionString) =>
-                 builder.UseSqlServer(connectionString));
-            
+            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(
+                security, typeof(ApplicationDbContext), 
+                XafTypesInfo.Instance, connectionString,
+                (builder, connectionString) => builder.UseSqlServer(connectionString)
+            );
+
             PasswordCryptographer.EnableRfc2898 = true;
             PasswordCryptographer.SupportLegacySha512 = false;
-
             string userName = "User";
             string password = string.Empty;
             authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
@@ -46,8 +47,8 @@ namespace ConsoleApplication {
                 using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
                     foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
                         stringBuilder.Append("=========================================\n");
-                        stringBuilder.Append($"Full name: {employee.FullName}\n");
-                        if(security.CanRead(securedObjectSpace, employee, nameof(Department))) {
+                        stringBuilder.Append($"Full Name: {employee.FullName}\n");
+                        if(security.CanRead(securedObjectSpace, employee, nameof(Employee.Department))) {
                             stringBuilder.Append($"Department: {employee.Department.Title}\n");
                         }
                         else {

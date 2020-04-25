@@ -47,7 +47,7 @@ Namespace ConsoleApplication
                     For Each employee As Employee In securedObjectSpace.GetObjects(Of Employee)()
                         stringBuilder.Append("=========================================" & ControlChars.Lf)
                         stringBuilder.Append($"Full name: {employee.FullName}" & ControlChars.Lf)
-                        If security.CanRead(employee, NameOf(Department)) Then
+                        If security.CanRead(employee, NameOf(Employee.Department)) Then
                             stringBuilder.Append($"Department: {employee.Department.Title}" & ControlChars.Lf)
                         Else
                             stringBuilder.Append("Department: [Protected content]" & ControlChars.Lf)
