@@ -1,7 +1,7 @@
-﻿using DevExpress.ExpressApp.Editors;
+﻿using DevExpress.Accessibility;
+using DevExpress.Utils;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Drawing;
-using DevExpress.XtraEditors.Mask;
 using DevExpress.XtraEditors.Registrator;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.ViewInfo;
@@ -12,68 +12,34 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WindowsFormsApplication {
-	public class ProtectedContentEdit : StringEdit {
-		static ProtectedContentEdit() {
-			RepositoryItemProtectedContentTextEdit.Register();
-		}
-		public ProtectedContentEdit() { }
-		public override string EditorTypeName { get { return RepositoryItemProtectedContentTextEdit.EditorName; } }
-	}
-	public class StringEdit : TextEdit {
-		static StringEdit() {
-			RepositoryItemStringEdit.Register();
-		}
-		public StringEdit() { }
-		public StringEdit(int maxLength) {
-			((RepositoryItemStringEdit)Properties).MaxLength = maxLength;
-		}
-		public override string EditorTypeName { get { return RepositoryItemStringEdit.EditorName; } }
-	}
-	public class RepositoryItemStringEdit : RepositoryItemTextEdit {
-		internal const string EditorName = "StringEdit";
-		internal static void Register() {
-			if(!EditorRegistrationInfo.Default.Editors.Contains(EditorName)) {
-				EditorRegistrationInfo.Default.Editors.Add(new EditorClassInfo(EditorName, typeof(StringEdit),
-					typeof(RepositoryItemStringEdit),
-					typeof(TextEditViewInfo), new TextEditPainter(), true, EditImageIndexes.TextEdit,
-					typeof(DevExpress.Accessibility.TextEditAccessible)));
-			}
-		}
-		static RepositoryItemStringEdit() {
-			Register();
-		}
+    public class ProtectedContentEdit : TextEdit {
+        public ProtectedContentEdit() : base() {
+            Enabled = false;
+        }
+        internal const string EditorName = "ProtectedContentEdit";
+        internal const string ProtectedContentText = "Protected Content";
+        static ProtectedContentEdit() { RepositoryItemProtectedContentTextEdit.Register(); }
+        public override string EditorTypeName => EditorName;
+    }
 
-		public override string EditorTypeName { get { return EditorName; } }
-		public RepositoryItemStringEdit(int maxLength) : this() {
-			MaxLength = maxLength;
-		}
-		public RepositoryItemStringEdit() {
-			Mask.MaskType = MaskType.None;
-			if(Mask.MaskType != MaskType.RegEx) {
-				Mask.UseMaskAsDisplayFormat = true;
-			}
-		}
-		public void Init(string displayFormat, string editMask, EditMaskType maskType) {
-			Init(editMask, maskType);
-			if(!string.IsNullOrEmpty(displayFormat)) {
-				Mask.UseMaskAsDisplayFormat = false;
-				DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-				DisplayFormat.FormatString = displayFormat;
-			}
-		}
-		public void Init(string editMask, EditMaskType maskType) {
-			if(!string.IsNullOrEmpty(editMask)) {
-				Mask.EditMask = editMask;
-				switch(maskType) {
-					case EditMaskType.RegEx:
-						Mask.UseMaskAsDisplayFormat = false;
-						Mask.MaskType = MaskType.RegEx;
-						break;
-					default:
-						Mask.MaskType = MaskType.Simple;
-						break;
-				}
-			}
-		}
-	}
+    public class RepositoryItemProtectedContentTextEdit : RepositoryItemTextEdit {
+        static RepositoryItemProtectedContentTextEdit() { Register(); }
+        public RepositoryItemProtectedContentTextEdit() { ExportMode = ExportMode.DisplayText; }
+        internal static void Register() {
+            if(!EditorRegistrationInfo.Default.Editors.Contains(ProtectedContentEdit.EditorName)) {
+                EditorRegistrationInfo.Default.Editors
+                    .Add(new EditorClassInfo(ProtectedContentEdit.EditorName,
+                                             typeof(ProtectedContentEdit),
+                                             typeof(RepositoryItemProtectedContentTextEdit),
+                                             typeof(TextEditViewInfo),
+                                             new TextEditPainter(),
+                                             designTimeVisible: true,
+                                             EditImageIndexes.TextEdit,
+                                             typeof(TextEditAccessible)));
+            }
+        }
+        public override string GetDisplayText(FormatInfo format, object editValue) { return ProtectedContentEdit.ProtectedContentText; }
+        public override string EditorTypeName => ProtectedContentEdit.EditorName;
+        public override bool ReadOnly { get { return true; } set { } }
+    }
 }

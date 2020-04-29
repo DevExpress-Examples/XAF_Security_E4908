@@ -100,9 +100,6 @@
     <Compile Include="ProtectedContentEdit.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RepositoryItemProtectedContentTextEdit.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <EmbeddedResource Include="EmployeeDetailForm.resx">
       <DependentUpon>EmployeeDetailForm.vb</DependentUpon>
     </EmbeddedResource>
