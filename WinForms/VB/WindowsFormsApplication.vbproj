@@ -42,7 +42,7 @@
   <ItemGroup>
     <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="19.2.6" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="19.2.6" />
-    <PackageReference Include="DevExpress.ExpressApp.Win" Version="19.2.6" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="19.2.6" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -97,6 +97,12 @@
     </Compile>
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="ProtectedContentEdit.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RepositoryItemProtectedContentTextEdit.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="EmployeeDetailForm.resx">
       <DependentUpon>EmployeeDetailForm.vb</DependentUpon>
     </EmbeddedResource>

@@ -1,7 +1,6 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.Win.Editors;
 using DevExpress.Xpo;
 using DevExpress.XtraEditors;
 using DevExpress.XtraLayout;

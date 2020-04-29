@@ -1,32 +1,85 @@
-﻿using System;
-using System.Linq;
-using System.Data;
+﻿using XafSolution.Module.BusinessObjects;
 using DevExpress.ExpressApp;
 using DevExpress.Data.Filtering;
 using DevExpress.Persistent.Base;
 using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.SystemModule;
-using DevExpress.ExpressApp.Security.Strategy;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp.Xpo;
-using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using XafSolution.Module.BusinessObjects;
+using System;
+using System.Data;
 using System.IO;
 
 namespace XafSolution.Module.DatabaseUpdate {
     public class Updater : ModuleUpdater {
+        private const string AdministratorUserName = "Admin";
+        private const string AdministratorRoleName = "Administrators";
+        private const string DefaultUserName = "User";
+        private const string DefaultUserRoleName = "Users";
         public Updater(IObjectSpace objectSpace, Version currentDBVersion) :
             base(objectSpace, currentDBVersion) {
         }
         public override void UpdateDatabaseAfterUpdateSchema() {
             base.UpdateDatabaseAfterUpdateSchema();
-            CreateDepartments();
-            CreateEmployees();
             CreateUser();
             CreateAdmin();
+            CreateEmployees();
+            CreateDepartments();
             ObjectSpace.CommitChanges();
+        }
+        private void CreateUser() {
+            PermissionPolicyUser sampleUser = ObjectSpace.FindObject<PermissionPolicyUser>(new BinaryOperator("UserName", DefaultUserName));
+            if(sampleUser == null) {
+                sampleUser = ObjectSpace.CreateObject<PermissionPolicyUser>();
+                sampleUser.UserName = DefaultUserName;
+                sampleUser.SetPassword("");
+            }
+            PermissionPolicyRole defaultRole = CreateDefaultRole();
+            sampleUser.Roles.Add(defaultRole);
+        }
+        private void CreateAdmin() {
+            PermissionPolicyUser userAdmin = ObjectSpace.FindObject<PermissionPolicyUser>(new BinaryOperator("UserName", AdministratorUserName));
+            if(userAdmin == null) {
+                userAdmin = ObjectSpace.CreateObject<PermissionPolicyUser>();
+                userAdmin.UserName = AdministratorUserName;
+                userAdmin.SetPassword("");
+            }
+            PermissionPolicyRole adminRole = CreateAdminRole();
+            userAdmin.Roles.Add(adminRole);
+        }
+        private PermissionPolicyRole CreateAdminRole() {
+            PermissionPolicyRole adminRole = ObjectSpace.FindObject<PermissionPolicyRole>(new BinaryOperator("Name", AdministratorRoleName));
+            if(adminRole == null) {
+                adminRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
+                adminRole.Name = AdministratorRoleName;
+            }
+            adminRole.IsAdministrative = true;
+            return adminRole;
+        }
+        private PermissionPolicyRole CreateDefaultRole() {
+            PermissionPolicyRole defaultRole = ObjectSpace.FindObject<PermissionPolicyRole>(new BinaryOperator("Name", DefaultUserRoleName));
+            if(defaultRole == null) {
+                defaultRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
+                defaultRole.Name = DefaultUserRoleName;
+
+                defaultRole.AddObjectPermission<PermissionPolicyUser>(SecurityOperations.Read, "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
+                defaultRole.AddNavigationPermission(@"Application/NavigationItems/Items/Default/Items/MyDetails", SecurityPermissionState.Allow);
+                defaultRole.AddNavigationPermission(@"Application/NavigationItems/Items/Default/Items/Department_ListView", SecurityPermissionState.Allow);
+                defaultRole.AddNavigationPermission(@"Application/NavigationItems/Items/Default/Items/Employee_ListView", SecurityPermissionState.Allow);
+                defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
+                defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "StoredPassword", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
+                defaultRole.AddTypePermissionsRecursively<PermissionPolicyRole>(SecurityOperations.Read, SecurityPermissionState.Deny);
+                //defaultRole.AddTypePermissionsRecursively<ModelDifference>(SecurityOperations.ReadWriteAccess, SecurityPermissionState.Allow);
+                //defaultRole.AddTypePermissionsRecursively<ModelDifferenceAspect>(SecurityOperations.ReadWriteAccess, SecurityPermissionState.Allow);
+                //defaultRole.AddTypePermissionsRecursively<ModelDifference>(SecurityOperations.Create, SecurityPermissionState.Allow);
+                //defaultRole.AddTypePermissionsRecursively<ModelDifferenceAspect>(SecurityOperations.Create, SecurityPermissionState.Allow);
+                defaultRole.AddTypePermissionsRecursively<Department>(SecurityOperations.Read, SecurityPermissionState.Deny);
+                defaultRole.AddObjectPermission<Department>(SecurityOperations.Read, "Contains([Title], 'Development')", SecurityPermissionState.Allow);
+                defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
+                defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
+                defaultRole.AddObjectPermission<Employee>(SecurityOperations.Delete, "Contains([Department.Title], 'Development')", SecurityPermissionState.Allow);
+                defaultRole.AddMemberPermission<Employee>(SecurityOperations.Write, "LastName", "Not Contains([Department.Title], 'Development')", SecurityPermissionState.Deny);
+            }
+            return defaultRole;
         }
         private DataTable GetEmployeesDataTable() {
             string shortName = "Employees.xml";
@@ -77,63 +130,8 @@ namespace XafSolution.Module.DatabaseUpdate {
                 seoDepartment.Office = "703";
             }
         }
-        private void CreateUser() {
-            PermissionPolicyUser sampleUser = ObjectSpace.FindObject<PermissionPolicyUser>(new BinaryOperator("UserName", "User"));
-            if(sampleUser == null) {
-                sampleUser = ObjectSpace.CreateObject<PermissionPolicyUser>();
-                sampleUser.UserName = "User";
-                sampleUser.SetPassword("");
-            }
-            PermissionPolicyRole defaultRole = CreateDefaultRole();
-            sampleUser.Roles.Add(defaultRole);
-        }
-        private void CreateAdmin() {
-            PermissionPolicyUser userAdmin = ObjectSpace.FindObject<PermissionPolicyUser>(new BinaryOperator("UserName", "Admin"));
-            if(userAdmin == null) {
-                userAdmin = ObjectSpace.CreateObject<PermissionPolicyUser>();
-                userAdmin.UserName = "Admin";
-                userAdmin.SetPassword("");
-            }
-            PermissionPolicyRole adminRole = CreateAdminRole();
-            userAdmin.Roles.Add(adminRole);
-        }
         public override void UpdateDatabaseBeforeUpdateSchema() {
             base.UpdateDatabaseBeforeUpdateSchema();
-        }
-        private PermissionPolicyRole CreateAdminRole() {
-            PermissionPolicyRole adminRole = ObjectSpace.FindObject<PermissionPolicyRole>(new BinaryOperator("Name", "Administrators"));
-            if(adminRole == null) {
-                adminRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
-                adminRole.Name = "Administrators";
-            }
-            adminRole.IsAdministrative = true;
-            return adminRole;
-        }
-        private PermissionPolicyRole CreateDefaultRole() {
-            PermissionPolicyRole defaultRole = ObjectSpace.FindObject<PermissionPolicyRole>(new BinaryOperator("Name", "Default"));
-            if(defaultRole == null) {
-                defaultRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
-                defaultRole.Name = "Default";
-
-				defaultRole.AddObjectPermission<PermissionPolicyUser>(SecurityOperations.Read, "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
-                defaultRole.AddNavigationPermission(@"Application/NavigationItems/Items/Default/Items/MyDetails", SecurityPermissionState.Allow);
-				defaultRole.AddNavigationPermission(@"Application/NavigationItems/Items/Default/Items/Department_ListView", SecurityPermissionState.Allow);
-				defaultRole.AddNavigationPermission(@"Application/NavigationItems/Items/Default/Items/Employee_ListView", SecurityPermissionState.Allow);
-				defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
-				defaultRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "StoredPassword", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
-                defaultRole.AddTypePermissionsRecursively<PermissionPolicyRole>(SecurityOperations.Read, SecurityPermissionState.Deny);
-    //            defaultRole.AddTypePermissionsRecursively<ModelDifference>(SecurityOperations.ReadWriteAccess, SecurityPermissionState.Allow);
-    //            defaultRole.AddTypePermissionsRecursively<ModelDifferenceAspect>(SecurityOperations.ReadWriteAccess, SecurityPermissionState.Allow);
-				//defaultRole.AddTypePermissionsRecursively<ModelDifference>(SecurityOperations.Create, SecurityPermissionState.Allow);
-    //            defaultRole.AddTypePermissionsRecursively<ModelDifferenceAspect>(SecurityOperations.Create, SecurityPermissionState.Allow);
-                defaultRole.AddTypePermissionsRecursively<Department>(SecurityOperations.Read, SecurityPermissionState.Deny);
-                defaultRole.AddObjectPermission<Department>(SecurityOperations.Read, "Contains([Title], 'Development')", SecurityPermissionState.Allow);
-				defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
-				defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
-				defaultRole.AddObjectPermission<Employee>(SecurityOperations.Delete, "Contains([Department.Title], 'Development')", SecurityPermissionState.Allow);
-				defaultRole.AddMemberPermission<Employee>(SecurityOperations.Write, "LastName", "Not Contains([Department.Title], 'Development')", SecurityPermissionState.Deny);
-			}
-            return defaultRole;
         }
     }
 }

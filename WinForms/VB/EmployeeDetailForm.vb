@@ -1,7 +1,6 @@
 ﻿Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.DC
 Imports DevExpress.ExpressApp.Security
-Imports DevExpress.ExpressApp.Win.Editors
 Imports DevExpress.Xpo
 Imports DevExpress.XtraEditors
 Imports DevExpress.XtraLayout
