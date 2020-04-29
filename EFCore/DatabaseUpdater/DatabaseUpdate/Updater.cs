@@ -57,23 +57,21 @@ namespace DatabaseUpdater {
             if(userRole == null) {
                 userRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
                 userRole.Name = DefaultUserRoleName;
-                userRole.AddTypePermissionsRecursively<PermissionPolicyRole>(SecurityOperations.Read, SecurityPermissionState.Deny);
-                userRole.AddTypePermissionsRecursively<Department>(SecurityOperations.Read, SecurityPermissionState.Deny);
+                // Allow users to read departments only if their title contains 'Development'. 
+                const string protectedDepartment = "Development";
+                CriteriaOperator departmentCriteria = new FunctionOperator(FunctionOperatorType.Contains,
+                    new OperandProperty(nameof(Department.Title)), new OperandValue(protectedDepartment)
+                );
+                userRole.AddObjectPermission<Department>(SecurityOperations.Read, (!departmentCriteria).ToString() /*"!Contains(Title, 'Development')"*/, SecurityPermissionState.Deny);
+                // Allow users to read and modify employee records and their fields by criteria.
                 userRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
                 userRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
-                var protectedDepartment = "Development";
-                // Allow users to read all departments if their title contains 'Development'.
-                CriteriaOperator departmentCriteria = new FunctionOperator(FunctionOperatorType.Contains, new OperandProperty(nameof(Department.Title)), new OperandValue(protectedDepartment));
-                userRole.AddObjectPermission<Department>(SecurityOperations.Read, departmentCriteria.ToString(), SecurityPermissionState.Allow);
-                // The line below shows the same permission declaration using string criteria. For more information on criteria language syntax (both string and strongly-typed formats), see https://docs.devexpress.com/CoreLibraries/4928/devexpress-data-library/criteria-language-syntax.
-                // userRole.AddObjectPermission<Department>(SecurityOperations.Read, "Contains(Title, 'Development')", SecurityPermissionState.Allow);
-                CriteriaOperator employeeCriteria = new FunctionOperator(FunctionOperatorType.Contains, new OperandProperty(nameof(Employee.Department) + "." + nameof(Department.Title)), new OperandValue(protectedDepartment));
-                userRole.AddObjectPermission<Employee>(SecurityOperations.Delete, employeeCriteria.ToString(), SecurityPermissionState.Allow);
-                userRole.AddMemberPermission<Employee>(SecurityOperations.Write, nameof(Employee.LastName), (!employeeCriteria).ToString(), SecurityPermissionState.Deny);
-                // The code lines below require a custom criteria function implementation (CurrentUserId) in non-XAF apps (https://docs.devexpress.com/eXpressAppFramework/113480/concepts/filtering/custom-function-criteria-operators).
-                //userRole.AddObjectPermission<PermissionPolicyUser>(SecurityOperations.Read, "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
-                //userRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "ChangePasswordOnFirstLogon", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
-                //userRole.AddMemberPermission<PermissionPolicyUser>(SecurityOperations.Write, "StoredPassword", "[Oid] = CurrentUserId()", SecurityPermissionState.Allow);
+                CriteriaOperator employeeCriteria = new FunctionOperator(FunctionOperatorType.Contains, 
+                    new OperandProperty(nameof(Employee.Department) + "." + nameof(Department.Title)), new OperandValue(protectedDepartment)
+                );
+                userRole.AddObjectPermission<Employee>(SecurityOperations.Delete, employeeCriteria.ToString()/*"Contains(Department.Title, 'Development')"*/, SecurityPermissionState.Allow);
+                userRole.AddMemberPermission<Employee>(SecurityOperations.Write, nameof(Employee.LastName), (!employeeCriteria).ToString() /*"!Contains(Department.Title, 'Development')"*/, SecurityPermissionState.Deny);
+                // For more information on criteria language syntax (both string and strongly-typed formats), see https://docs.devexpress.com/CoreLibraries/4928/.
             }
             return userRole;
         }

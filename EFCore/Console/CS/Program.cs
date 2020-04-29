@@ -9,27 +9,29 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Configuration;
-using System.IO;
-using System.Text;
+using System.Diagnostics;
 
 namespace ConsoleApplication {
+    // ## Prerequisites. Add the 'DevExpress.ExpressApp.EFCore' NuGet package, define your ORM data model 
+    // and create a database with user, role and permission data (run the 'DatabaseUpdater' app first).
     class Program {
         static void Main() {
+            // ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
+            PasswordCryptographer.EnableRfc2898 = true;
+            PasswordCryptographer.SupportLegacySha512 = false;
             AuthenticationStandard authentication = new AuthenticationStandard();
-            SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            SecurityStrategyComplex security = new SecurityStrategyComplex(
+                typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),
+                authentication
+            );
             SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(
-                security, typeof(ApplicationDbContext), 
-                XafTypesInfo.Instance, connectionString,
+                security, typeof(ApplicationDbContext),
+                XafTypesInfo.Instance, ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString,
                 (builder, connectionString) => builder.UseSqlServer(connectionString)
             );
 
-            PasswordCryptographer.EnableRfc2898 = true;
-            PasswordCryptographer.SupportLegacySha512 = false;
-            string userName = "User";
-            string password = string.Empty;
-            authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
+            // ## Step 2. Authentication. Log in as a 'User' with an Empty Password
+            authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName: "User", password: string.Empty));
             IObjectSpace loginObjectSpace = objectSpaceProvider.CreateNonsecuredObjectSpace();
             try {
                 security.Logon(loginObjectSpace);
@@ -40,27 +42,24 @@ namespace ConsoleApplication {
                 }
             }
 
-            using(StreamWriter file = new StreamWriter("result.txt", false)) {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append($"{userName} is logged on.\n");
-                stringBuilder.Append("List of the 'Employee' objects:\n");
-                using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
-                    foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
-                        stringBuilder.Append("=========================================\n");
-                        stringBuilder.Append($"Full Name: {employee.FullName}\n");
-                        if(security.CanRead(securedObjectSpace, employee, nameof(Employee.Department))) {
-                            stringBuilder.Append($"Department: {employee.Department.Title}\n");
-                        }
-                        else {
-                            stringBuilder.Append("Department: [Protected content]\n");
-                        }
-                    }
+            // ## Step 3. Authorization. Read and Manipulate Data Based on User Access Rights
+            Console.WriteLine($"{"Full Name",-40}{"Department",-40}");
+            using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
+                // User cannot read protected entities like PermissionPolicyRole.
+                Debug.Assert(securedObjectSpace.GetObjects<PermissionPolicyRole>().Count == 0);
+                foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) { // User can read Employee data.
+                    // User can read Department data by criteria.
+                    bool canRead = security.CanRead(securedObjectSpace, employee, memberName: nameof(Employee.Department));
+                    Debug.Assert(!canRead == (employee.Department == null));
+                    // Mask protected property values when User has no 'Read' permission.
+                    var department = canRead ? employee.Department.Title : "Protected Content";
+                    Console.WriteLine($"{employee.FullName,-40}{department,-40}");
                 }
-                file.Write(stringBuilder);
             }
-            Console.WriteLine(string.Format(@"The result.txt file has been created in the {0} directory.", Environment.CurrentDirectory));
-            Console.WriteLine("Press any key to close a the console...");
-            Console.ReadLine();
+            security.Logoff();
+
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }

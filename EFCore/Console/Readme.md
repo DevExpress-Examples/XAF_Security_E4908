@@ -9,13 +9,7 @@ This example demonstrates how to access data protected by the [Security System](
 - [Unified Installer for .NET Framework](https://www.devexpress.com/Products/Try/).
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
   
-***
-  
-## Step 1. Create a Database and Populate It with Data
-
-**1.** Build the 'EFCoreNonXAFConsoleSecurityExample.NetCore' solution.
-
-**2.** Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that it refers to your database server:
+- Open the *EFCoreNonXAFConsoleSecurityExample.NetCore* solution and edit the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file so that `DBSERVER` refers to your database server name or its IP address (for a local database server, use `localhost`, `(local)` or `.`):
 	
 [](#tab/tabid-xml)
 	
@@ -25,90 +19,91 @@ This example demonstrates how to access data protected by the [Security System](
     <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=EFCoreTestDB;Integrated Security=True"/>
 ```
 
-Substitute "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
-    
-**3.** Run the *DatabaseUpdater* project. The console application will generate a database and populate it with business objects, security roles, and users.
+- Build and run the *DatabaseUpdater* project. The console application will generate a database and populate it with business objects, security roles, and users based on the ORM data model in the *BusinessObjectsLibrary* project. For more information, see [Predefined Users, Roles and Permissions](https://docs.devexpress.com/eXpressAppFramework/119065/concepts/security-system/predefined-users-roles-and-permissions).
 
 
+## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
 
-## Step 2. Initialize Data Store and XAF's Security System 
-
-You can find all this code in the [EFCore/Console](/EFCore/Console) folder.
-
-**1.** Create a .NET Core console application.
-
-**2.** Initialize the Security System.
+- Create a .NET Core console application and add the `DevExpress.ExpressApp.EFCore` NuGet package.
+- Add the [EFCore/BusinessObjectsLibrary](/EFCore/BusinessObjectsLibrary) project reference to your console application (this project contains `ApplicationDbContext` and the ORM data model).
+- In *YourConsoleApplication/Program.cs*, create a `SecurityStrategyComplex` instance using [AuthenticationStandard](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.AuthenticationStandard) (a simple Forms Authentication with a login and password) and password options ([EnableRfc2898 and SupportLegacySha512](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System)).
 	
 [](#tab/tabid-csharp)
 	
 ```csharp
-  AuthenticationStandard authentication = new AuthenticationStandard();
-  SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+static void Main() {
+    PasswordCryptographer.EnableRfc2898 = true;
+    PasswordCryptographer.SupportLegacySha512 = false;
+
+    AuthenticationStandard authentication = new AuthenticationStandard();
+
+    SecurityStrategyComplex security = new SecurityStrategyComplex(
+        typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),
+        authentication
+    );
 ```	
-[Full code](/EFCore/Console/CS/Program.cs#L16)
-
-**3.** Open the [EFCore/Console/CS/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/Console/CS/App.config) file and modify it so that it refers to the same database as the DatabaseUpdater's config file ([EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config)).
-
-**4.** Create a **SecuredEFCoreObjectSpaceProvider** object. Create an instance of the EFCoreDatabaseProviderHandler delegate with SqlServer extension. It allows you to create a secured **IObjectSpace** instance to ensure secured data access.
-
-
-[](#tab/tabid-csharp)
-	
-```csharp
-  string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-  SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, 
-  typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
-	    (builder, connectionString) =>
-              builder.UseSqlServer(connectionString));
-```
 [Full code](/EFCore/Console/CS/Program.cs#L19)
-	
-## Step 3. Configure User Authentication Options and Login
-**1.** Specify the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System):
+
+- Create a `SecuredEFCoreObjectSpaceProvider` instance using the `EFCoreDatabaseProviderHandler` delegate and the `UseSqlServer` extension:
+
+
 [](#tab/tabid-csharp)
 	
 ```csharp
-  PasswordCryptographer.EnableRfc2898 = true;
-  PasswordCryptographer.SupportLegacySha512 = false;
+SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(
+    security, typeof(ApplicationDbContext),
+    XafTypesInfo.Instance, ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString,
+    (builder, connectionString) => builder.UseSqlServer(connectionString)
+);
 ```
-[Full code](/EFCore/Console/CS/Program.cs#L26)
+[Full code](/EFCore/Console/CS/Program.cs#L27)
 
-**2.** Perform a logon. The code below demonstrates how to do this as a user named "User" who has an empty password.
+- In *YourConsoleApplication/App.config*, add the same connection string as in **Step 1**.
+
+This provider allows you to create secured [IObjectSpace](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) instances to perform secured CRUD (create-read-update-delete) operations. Object Space is an ORM-independent implementation of the well-known Repository and Unit Of Work design patterns (for instance, `SecuredEFCoreObjectSpace` is an IObjectSpace implementation for EF Core that wraps DbContext).
+	
+## Step 2. Authentication. Log in as a 'User' with an Empty Password
 
 [](#tab/tabid-csharp)
 	
 ```csharp
-string userName = "User";
-string password = string.Empty;
-authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));
+authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName: "User", password: string.Empty));
 IObjectSpace loginObjectSpace = objectSpaceProvider.CreateNonsecuredObjectSpace();
-security.Logon(loginObjectSpace);
-```
-[Full code](/EFCore/Console/CS/Program.cs#L29)
-## Step 4. Authorize CRUD Operations Based on User Access Rights
-Now you can create a secured **IObjectSpace** instance and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data). IObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
-
-[](#tab/tabid-csharp)
-	
-```csharp
-StringBuilder stringBuilder = new StringBuilder();
-stringBuilder.Append($"{userName} is logged on.\n");
-stringBuilder.Append("List of the 'Employee' objects:\n");
-using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
-    foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
-        stringBuilder.Append("=========================================\n");
-        stringBuilder.Append($"Full name: {employee.FullName}\n");
-        if(security.CanRead(securedObjectSpace, employee, nameof(Department))) {
-            stringBuilder.Append($"Department: {employee.Department.Title}\n");
-        } else {
-            stringBuilder.Append("Department: [Protected content]\n");
-        }
+try {
+    security.Logon(loginObjectSpace);
+}
+catch(SqlException sqlEx) {
+    if(sqlEx.Number == 4060) {
+        throw new Exception(sqlEx.Message + Environment.NewLine + MessageHelper.OpenDatabaseFailed, sqlEx);
     }
 }
 ```
-[Full code](/EFCore/Console/CS/Program.cs#L36)
 
-## Step 5: Run and Test the App
-The app will generate the result.txt file with only allowed data:
+[Full code](/EFCore/Console/CS/Program.cs#L34)
 
-![image](image.png)
+To log off or sign out, call the `security.Logoff` method.
+
+## Step 3. Authorization. Read and Manipulate Data Based on User Access Rights
+Create a `SecuredEFCoreObjectSpace` instance to access protected data and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, `IObjectSpace.GetObjects`). Note that `SecuredEFCoreObjectSpace` returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the `SecurityStrategy.CanRead` method to determine when to mask default values with the **Protected Content** placeholder in the UI.
+
+[](#tab/tabid-csharp)
+	
+```csharp
+using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
+    foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) { 
+        bool canRead = security.CanRead(securedObjectSpace, employee, memberName: nameof(Employee.Department));
+        var department = canRead ? employee.Department.Title : "Protected Content";
+        Console.WriteLine($"{employee.FullName,-40}{department,-40}");
+    }
+}
+security.Logoff();
+```
+[Full code](/EFCore/Console/CS/Program.cs#L46)
+
+***
+
+## Run and Test the App
+
+Our console application will display employees and mask departments if their titles do not contain 'Development'.
+
+![](/images/Console.png)
