@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 using DevExpress.Persistent.Base;
 
-namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
+namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
     [DefaultProperty(nameof(Number))]
     public class PhoneNumber : IPhoneNumber, INotifyPropertyChanged {
         private Int32 id;

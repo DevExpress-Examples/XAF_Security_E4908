@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Base.General;
 
-namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
+namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
     [DefaultProperty(nameof(Name))]
     public class Country : ICountry, INotifyPropertyChanged {
         private Int32 id;

@@ -1,5 +1,4 @@
-﻿using BusinessObjectsLibrary.EFCore.NetCore;
-using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
+﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
 using DevExpress.EntityFrameworkCore.Security;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
@@ -12,8 +11,10 @@ using System.Configuration;
 using System.Diagnostics;
 
 namespace ConsoleApplication {
-    // ## Prerequisites. Add the 'DevExpress.ExpressApp.EFCore' NuGet package, define your ORM data model 
-    // and create a database with user, role and permission data (run the 'DatabaseUpdater' app first).
+    // ## Prerequisites. 
+    // 1) Add the 'DevExpress.ExpressApp.EFCore' and 'Microsoft.EntityFrameworkCore*' NuGet packages; 
+    // 2) Define your ORM data model and DbContext (explore the 'BusinessObjectsLibrary' project);
+    // 3) Create a database with user, role and permission data (run the 'DatabaseUpdater' project).
     class Program {
         static void Main() {
             // ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
@@ -38,11 +39,11 @@ namespace ConsoleApplication {
             }
             catch(SqlException sqlEx) {
                 if(sqlEx.Number == 4060) {
-                    throw new Exception(sqlEx.Message + Environment.NewLine + MessageHelper.OpenDatabaseFailed, sqlEx);
+                    throw new Exception(sqlEx.Message + Environment.NewLine + ApplicationDbContext.DatabaseConnectionFailedMessage, sqlEx);
                 }
             }
 
-            // ## Step 3. Authorization. Read and Manipulate Data Based on User Access Rights
+            // ## Step 3. Authorization. Access and Manipulate Data/UI Based on User/Role Rights
             Console.WriteLine($"{"Full Name",-40}{"Department",-40}");
             using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
                 // User cannot read protected entities like PermissionPolicyRole.

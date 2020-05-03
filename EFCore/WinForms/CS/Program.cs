@@ -1,4 +1,4 @@
-﻿using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
+﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
 using DevExpress.EntityFrameworkCore.Security;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
+namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
     [DefaultClassOptions]
     [System.ComponentModel.DefaultProperty("Title")]
     public class Department : INotifyPropertyChanged {

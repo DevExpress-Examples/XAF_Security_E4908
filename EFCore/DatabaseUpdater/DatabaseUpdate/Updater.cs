@@ -1,4 +1,4 @@
-﻿using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
+﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
@@ -9,7 +9,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 
-namespace DatabaseUpdater {
+namespace DatabaseUpdater.EFCore {
     public class Updater {
         private const string AdministratorUserName = "Admin";
         private const string AdministratorRoleName = "Administrators";

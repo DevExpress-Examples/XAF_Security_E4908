@@ -8,7 +8,7 @@ using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 
-namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
+namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
     [DefaultProperty(nameof(Subject))]
     public class Task : ITask, IXafEntityObject, INotifyPropertyChanged, IObjectSpaceLink {
         private bool isLoaded = false;

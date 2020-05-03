@@ -1,5 +1,4 @@
-﻿Imports BusinessObjectsLibrary.EFCore.NetCore
-Imports BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects
+﻿Imports BusinessObjectsLibrary.EFCore.BusinessObjects
 Imports DevExpress.EntityFrameworkCore.Security
 Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.Security
@@ -7,12 +6,13 @@ Imports DevExpress.Persistent.Base
 Imports DevExpress.Persistent.BaseImpl.EF.PermissionPolicy
 Imports Microsoft.Data.SqlClient
 Imports Microsoft.EntityFrameworkCore
-Imports System
 Imports System.Configuration
-Imports System.Diagnostics
 
 Namespace ConsoleApplication
-	' Prerequisites. Add the 'DevExpress.ExpressApp.EFCore' NuGet package, define your ORM data model and create a database with user, role and permission data (run the 'DatabaseUpdater' app first).
+	' ## Prerequisites. 
+	' 1) Add the 'DevExpress.ExpressApp.EFCore' and 'Microsoft.EntityFrameworkCore*' NuGet packages; 
+	' 2) Define your ORM data model and DbContext (explore the 'BusinessObjectsLibrary' project);
+	' 3) Create a database with user, role and permission data (run the 'DatabaseUpdater' project).
 	Friend Class Program
 		Shared Sub Main()
 			' ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
@@ -23,24 +23,24 @@ Namespace ConsoleApplication
 			Dim objectSpaceProvider As New SecuredEFCoreObjectSpaceProvider(security, GetType(ApplicationDbContext), XafTypesInfo.Instance, ConfigurationManager.ConnectionStrings("ConnectionString").ConnectionString, Function(builder, connectionString) builder.UseSqlServer(connectionString))
 
 			' ## Step 2. Authentication. Log in as a 'User' with an Empty Password
-			authentication.SetLogonParameters(New AuthenticationStandardLogonParameters(userName:= "User", password:= String.Empty))
+			authentication.SetLogonParameters(New AuthenticationStandardLogonParameters(userName:="User", password:=String.Empty))
 			Dim loginObjectSpace As IObjectSpace = objectSpaceProvider.CreateNonsecuredObjectSpace()
 			Try
 				security.Logon(loginObjectSpace)
 			Catch sqlEx As SqlException
 				If sqlEx.Number = 4060 Then
-					Throw New Exception(sqlEx.Message & Environment.NewLine & MessageHelper.OpenDatabaseFailed, sqlEx)
+					Throw New Exception(sqlEx.Message & Environment.NewLine & ApplicationDbContext.DatabaseConnectionFailedMessage, sqlEx)
 				End If
 			End Try
 
-			' ## Step 3. Authorization. Read and Manipulate Data Based on User Access Rights
+			' ## Step 3. Authorization. Access and Manipulate Data/UI Based on User/Role Rights
 			Console.WriteLine($"{"Full Name",-40}{"Department",-40}")
 			Using securedObjectSpace As IObjectSpace = objectSpaceProvider.CreateObjectSpace()
 				' User cannot read protected entities like PermissionPolicyRole.
 				Debug.Assert(securedObjectSpace.GetObjects(Of PermissionPolicyRole)().Count = 0)
 				For Each employee As Employee In securedObjectSpace.GetObjects(Of Employee)() ' User can read Employee data.
-				    ' User can read Department data by criteria.
-					Dim canRead As Boolean = security.CanRead(securedObjectSpace, employee, memberName:= NameOf(Employee.Department))
+					' User can read Department data by criteria.
+					Dim canRead As Boolean = security.CanRead(securedObjectSpace, employee, memberName:=NameOf(Employee.Department))
 					Debug.Assert((Not canRead) = (employee.Department Is Nothing))
 					' Mask protected property values when User has no 'Read' permission.
 					Dim department = If(canRead, employee.Department.Title, "Protected Content")

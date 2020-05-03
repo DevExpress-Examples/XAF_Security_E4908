@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Base.General;
 
-namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
+namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
     [DefaultProperty(nameof(FullAddress))]
     public class Address : IAddress, INotifyPropertyChanged {
         private const string defaultFullAddressFormat = "{Country.Name}; {StateProvince}; {City}; {Street}; {ZipPostal}";

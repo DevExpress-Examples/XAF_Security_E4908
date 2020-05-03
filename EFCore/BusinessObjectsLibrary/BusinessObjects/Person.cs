@@ -5,7 +5,7 @@ using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Filtering;
 using DevExpress.Persistent.Base;
 
-namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
+namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
     [DefaultProperty(nameof(FullName))]
     [ImageName("BO_Person")]
     public class Person : Party, IPerson {

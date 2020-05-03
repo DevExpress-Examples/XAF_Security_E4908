@@ -1,4 +1,4 @@
-﻿using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
+﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.EFCore;
 using DevExpress.Persistent.Base;
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Configuration;
 
-namespace DatabaseUpdater {
+namespace DatabaseUpdater.EFCore {
     class Program {
         static void Main() {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;

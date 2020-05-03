@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using DevExpress.ExpressApp.Security;
 using DevExpress.XtraEditors;
 using Microsoft.Data.SqlClient;
-using BusinessObjectsLibrary.EFCore.NetCore;
+using BusinessObjectsLibrary.EFCore.BusinessObjects;
 
 namespace WindowsFormsApplication {
     public partial class LoginForm : XtraForm {
@@ -27,7 +27,7 @@ namespace WindowsFormsApplication {
             }
             catch(SqlException sqlEx) {
                 if(sqlEx.Number == 4060) {
-                    XtraMessageBox.Show(sqlEx.Message + Environment.NewLine + MessageHelper.OpenDatabaseFailed, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    XtraMessageBox.Show(sqlEx.Message + Environment.NewLine + ApplicationDbContext.DatabaseConnectionFailedMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch(Exception ex) {

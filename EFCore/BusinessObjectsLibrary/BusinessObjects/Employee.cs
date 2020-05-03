@@ -1,6 +1,6 @@
 ﻿using DevExpress.Persistent.Base;
 
-namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
+namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
     [DefaultClassOptions]
     public class Employee : Person {
         private Department department;

@@ -1,44 +1,65 @@
-This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Windows Forms application. You will also learn how to execute Create, Read, Update and Delete data operations taking into account security permissions.
+This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Windows Forms App (.NET Core). You will also learn how to execute Create, Read, Update and Delete data operations taking into account security permissions.
 
->For simplicity, the instructions include only C# code snippets. For the complete C# code, see the [CS](CS) sub-directory.
+> For simplicity, the instructions include only C# code snippets. For the complete C# code, see the [CS](CS) sub-directory.
 
-## Prerequisites
-- [.NET Core SDK 3.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/).
-  - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
-
-***
-
-## Step 1. Create a Database and Populate It with User, Role, Permission and Other Data
-
+## Prerequisites. Create a Database and Populate It with User, Role, Permission and Other Data
+- [.NET Core SDK 3.1+](https://dotnet.microsoft.com/download/dotnet-core) and [EF Core 3.1](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/3.1.2) (EF Core 5 is to be supported).
+- [Download and run two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/) or [obtain a DevExpress NuGet Feed URL](https://docs.devexpress.com/GeneralInformation/115912/installation/install-devexpress-controls-using-nuget-packages).
+  - *We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.**
 -  Open the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file and modify it so that `DBSERVER` refers to your database server name or its IP address (for a local database server, use `localhost`, `(local)` or `.`):
 	
 [](#tab/tabid-xml)
 	
 ```xml
-<configuration>
-  <connectionStrings>
-    <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=EFCoreTestDB;Integrated Security=True"/>
+<connectionStrings>
+    <add name="ConnectionString" 
+        connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True"
+    />
+</connectionStrings>
 ```
     
-- Build and run the *DatabaseUpdater.NetCore* project. The console application will generate a database and populate it with business objects, security roles, and users. For more information, see [Predefined Users, Roles and Permissions](https://docs.devexpress.com/eXpressAppFramework/119065/concepts/security-system/predefined-users-roles-and-permissions).
+- Build and run the *DatabaseUpdater* project. This console application will create a database with user, role, permission and other data based on the `ApplicationDbContext` and `Updater` classes and the ORM data model in the *BusinessObjectsLibrary* project. For more information, see [Predefined Users, Roles and Permissions](https://docs.devexpress.com/eXpressAppFramework/119065/concepts/security-system/predefined-users-roles-and-permissions).
 
+***
 
-## Step 2. Initialize a Secured Data Store and Authentication Options
+## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
+- Create a new **Windows Forms App (.NET Core)** project and add the [EFCore/BusinessObjectsLibrary](/EFCore/BusinessObjectsLibrary) project reference. *BusinessObjectsLibrary* adds important NuGet dependencies:
+```xml
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.1.3-ctp" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+```
+The `DevExpress.ExpressApp.EFCore` NuGet package contains the PermissionPolicyUser, PermissionPolicyRole and other XAF's Security System API.
+
+- Add NuGet packages for Entity Framework Core with SQL Server and DevExpress WinForms (.NET Core) components:
+```xml
+   <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.2" />
+   <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+   <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.1.3-ctp" />
+```
 - In *YourWinFormsApplication/Program.cs*, create a `SecurityStrategyComplex` instance using [AuthenticationStandard](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.AuthenticationStandard) (a simple Forms Authentication with a login and password) and password options ([EnableRfc2898 and SupportLegacySha512](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System)).
 	
 	[](#tab/tabid-csharp)
 	
 ``` csharp
+using BusinessObjectsLibrary.EFCore.BusinessObjects;
+using DevExpress.EntityFrameworkCore.Security;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Security;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
+using Microsoft.EntityFrameworkCore;
+//...
+
 static void Main() {
-    AuthenticationStandard authentication = new AuthenticationStandard();
-    SecurityStrategyComplex security = new SecurityStrategyComplex(
-        typeof(PermissionPolicyUser), 
-        typeof(PermissionPolicyRole), 
-        authentication
-    );
     PasswordCryptographer.EnableRfc2898 = true;
     PasswordCryptographer.SupportLegacySha512 = false;
+
+    AuthenticationStandard authentication = new AuthenticationStandard();
+
+    SecurityStrategyComplex security = new SecurityStrategyComplex(
+        typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),
+        authentication
+    );
 ```
 
 - Create a `SecuredEFCoreObjectSpaceProvider` instance using the `EFCoreDatabaseProviderHandler` delegate and the `UseSqlServer` extension
@@ -46,70 +67,28 @@ static void Main() {
 	[](#tab/tabid-csharp)
 	
 ``` csharp
-string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, 
-typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
-	(builder, connectionString) =>
-          builder.UseSqlServer(connectionString));
+SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(
+    security, typeof(ApplicationDbContext),
+    XafTypesInfo.Instance, ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString,
+    (builder, connectionString) => builder.UseSqlServer(connectionString)
+);
 ```
-- In *YourWinFormsApplication/App.config*, add the same connection string as in **Step 1**.
+- In *YourWinFormsApplication/App.config*, add the same connection string as in **Prerequisites**.
 
 This provider allows you to create secured [IObjectSpace](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) instances to perform secured CRUD (create-read-update-delete) operations. Object Space is an ORM-independent implementation of the well-known Repository and Unit Of Work design patterns (for instance, `SecuredEFCoreObjectSpace` is an IObjectSpace implementation for EF Core that wraps DbContext).
 
-## Step 3: Implement the Main and Login Forms
-
-- In *YourWinFormsApplication/Program.cs*, create [MainForm](CS/MainForm.cs) using a custom constructor. `MainForm` is the MDI parent form for [EmployeeListForm](CS/EmployeeListForm.cs) and [EmployeeDetailForm](CS/EmployeeDetailForm.cs).
-
-``` csharp
-Application.EnableVisualStyles();
-Application.SetCompatibleTextRenderingDefault(false);
-MainForm mainForm = new MainForm(security, objectSpaceProvider);
-Application.Run(mainForm);
-```
-
-- Display the [LoginForm](CS/LoginForm.cs) in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler. If the dialog returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), `EmployeeListForm` is created and shown.
-
-``` csharp
-private void MainForm_Load(object sender, EventArgs e) {
-    ShowLoginForm();
-}
-private void ShowLoginForm(string userName = "User") {
-    using(LoginForm loginForm = new LoginForm(Security, ObjectSpaceProvider, userName)) {
-	DialogResult dialogResult = loginForm.ShowDialog();
-	if(dialogResult == DialogResult.OK) {
-	    CreateListForm();
-	    Show();
-	}
-	else {
-	    Close();
-	}
-    }
-}
-private void CreateListForm() {
-    EmployeeListForm employeeForm = new EmployeeListForm(security, objectSpaceProvider) {
-	MdiParent = this,
-	WindowState = FormWindowState.Maximized
-    };
-    employeeForm.Show();
-}
-```
-- Handle the RibbonControl's Logout item `ItemClick` event.
-
-``` csharp
-private void LogoutButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-    foreach(Form form in MdiChildren) {
-        form.Close();
-    }
-    string userName = Security.UserName;
-    Security.Logoff();
-    Hide();
-    ShowLoginForm(userName);
-}
-```
-	
+## Step 2. Authentication. Implement the Login Form to Validate User Name and Password
 - [LoginForm](CS/LoginForm.cs) contains two `TextEdit` controls for user name and password, and the **Log In** button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if logon was successful.
 
 ``` csharp
+private readonly SecurityStrategyComplex security;
+private readonly IObjectSpaceProvider objectSpaceProvider;
+public LoginForm(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider, string userName) {
+    InitializeComponent();
+    this.security = security;
+    this.objectSpaceProvider = objectSpaceProvider;
+    userNameEdit.Text = userName;
+}
 private void Login_Click(object sender, EventArgs e) {
     IObjectSpace logonObjectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();
     string userName = userNameEdit.Text;
@@ -126,7 +105,61 @@ private void Login_Click(object sender, EventArgs e) {
 }
 ```
 
-## Step 4: Implement the List Form
+## Step 3. Implement the Main Form to Show/Hide Login, List and Detail Forms 
+- In *YourWinFormsApplication/Program.cs*, create [MainForm](CS/MainForm.cs) using a custom constructor with `SecurityStrategyComplex` / `SecuredEFCoreObjectSpaceProvider` from **Step 1**. `MainForm` is the MDI parent form for [EmployeeListForm](CS/EmployeeListForm.cs) and [EmployeeDetailForm](CS/EmployeeDetailForm.cs).
+
+``` csharp
+Application.EnableVisualStyles();
+Application.SetCompatibleTextRenderingDefault(false);
+MainForm mainForm = new MainForm(security, objectSpaceProvider);
+Application.Run(mainForm);
+```
+
+- Display the [LoginForm](CS/LoginForm.cs) in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler. If the dialog returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), `EmployeeListForm` is created.
+
+``` csharp
+private void MainForm_Load(object sender, EventArgs e) {
+    ShowLoginForm();
+}
+private void ShowLoginForm(string userName = "User") {
+    using(LoginForm loginForm = new LoginForm(Security, ObjectSpaceProvider, userName)) {
+	    DialogResult dialogResult = loginForm.ShowDialog();
+	    if(dialogResult == DialogResult.OK) {
+	        CreateListForm();
+	        Show();
+	    }
+	    else {
+	        Close();
+    	}
+    }
+}
+```
+
+- The `CreateListForm` method creates and shows `EmployeeListForm` using a custom constructor with `SecurityStrategyComplex` / `SecuredEFCoreObjectSpaceProvider` from **Step 1**.
+``` csharp
+private void CreateListForm() {
+    EmployeeListForm employeeForm = new EmployeeListForm(security, objectSpaceProvider) {
+	    MdiParent = this,
+	    WindowState = FormWindowState.Maximized
+    };
+    employeeForm.Show();
+}
+```
+- Handle the `ItemClick` event of the **Log Out** ribbon button to close all forms and sign out.
+
+``` csharp
+private void LogoutButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+    foreach(Form form in MdiChildren) {
+        form.Close();
+    }
+    string userName = Security.UserName;
+    Security.Logoff();
+    Hide();
+    ShowLoginForm(userName);
+}
+```
+
+## Step 4. Authorization. Implement the List Form to Access and Manipulate Data/UI Based on User/Role Rights
 - [EmployeeListForm](CS/EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and do the following: 
 
    - Create a `SecuredEFCoreObjectSpace` instance to access protected data and use its [data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, `IObjectSpace.GetObjects`).
@@ -174,7 +207,7 @@ private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.It
 }
 ```
 		
-- Create and show `EmployeeDetailForm`.
+- Create and show `EmployeeDetailForm` using a custom constructor with the `Employee` object and `SecurityStrategyComplex` / `SecuredEFCoreObjectSpaceProvider` from **Step 1**.
 		
 ``` csharp
 private void CreateDetailForm(Employee employee = null) {
@@ -219,7 +252,7 @@ private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
 }
 ```
 
-## Step 5: Implement the Detail Form
+## Step 5. Authorization. Implement the Detail Form to Access and Manipulate Data/UI Based on User/Role Rights
 
 - [EmployeeDetailForm](CS/EmployeeDetailForm.cs) contains detailed information on the Employee object. Perform the following operation in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler: 
 		
@@ -318,8 +351,11 @@ private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.It
     Close();
 }
 ```
+> Microsoft WinForms designer for .NET Core apps is in [preview](https://devblogs.microsoft.com/dotnet/updates-on-net-core-windows-forms-designer/), so it is only possible to work with UI controls in code or use a workaround with linked files designed in .NET Framework projects ([learn more](https://docs.devexpress.com/XtraReports/401268/reporting-in-net-core-3-ctp#add-an-auxiliary-desktop-net-project)). See also: [.NET Core Support | WinForms Documentation](https://docs.devexpress.com/WindowsForms/401191/dotnet-core-support).
 
-## Step 6: Run and Test the App
+***
+
+## Run and Test the App
  - Log in under **User** with an empty password.
    
    ![](/images/WinForms_LoginForm.png)

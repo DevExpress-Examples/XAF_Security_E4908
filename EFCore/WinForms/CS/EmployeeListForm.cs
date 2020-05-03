@@ -1,4 +1,4 @@
-﻿using BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects;
+﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.XtraGrid.Views.Base;

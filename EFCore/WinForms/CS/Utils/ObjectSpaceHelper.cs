@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace WindowsFormsApplication {
+namespace WindowsFormsApplication.Utils {
     public static class ObjectSpaceHelper {
         public static object GetBindingList<TEntity>(this IObjectSpace objectSpace) where TEntity : class {
             BindingList<TEntity> bindingSource = null;

@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 
-namespace BusinessObjectsLibrary.EFCore.NetCore.BusinessObjects {
+namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
     [DefaultProperty(nameof(DisplayName))]
     public abstract class Party: INotifyPropertyChanged {
         private Int32 id;
