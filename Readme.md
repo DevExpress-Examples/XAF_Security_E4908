@@ -32,7 +32,7 @@ Other Apps with EF Core and Xamarin, Blazor WebAssembly, WPF with XPO. To help u
 
 ## Frequently Asked Questions
 
-Please review [this KB Article](https://supportcenter.devexpress.com/ticket/details/t886740/faq-xaf-user-authentication-and-group-authorization-api-for-devexpress-xpo-and-microsoft). Please submit additional questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
+Please review [this KB Article](https://supportcenter.devexpress.com/ticket/details/t886740/faq-xaf-user-authentication-and-group-authorization-api-for-devexpress-xpo-and-microsoft). Feel free to submit additional questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
 
 ## Target Audience & Common Usage Scenarios
 
