@@ -30,6 +30,9 @@ Other Apps with EF Core and Xamarin, Blazor WebAssembly, WPF with XPO. To help u
 - Before you run any demo apps, run (F5) the *XafSolution.Win* or *XafSolution.Win.NetCore* app depending on your target framework and log in under 'User' or 'Admin' with an empty password.
   - *This [Database Generation and Permision Management App](./XafSolution/) will create initial users, roles, permissions and other data in the database.*
 
+## Frequently Asked Questions
+
+Please review [this KB Article](https://supportcenter.devexpress.com/ticket/details/t886740/faq-xaf-user-authentication-and-group-authorization-api-for-devexpress-xpo-and-microsoft). Please submit additional questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
 
 ## Target Audience & Common Usage Scenarios
 
