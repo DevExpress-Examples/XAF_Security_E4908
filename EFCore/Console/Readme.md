@@ -9,7 +9,7 @@ This example demonstrates how to access data protected by the [Security System](
 - [Download and run a unified installer for .NET Framework (v20.1+)](https://www.devexpress.com/Products/Try/) or [obtain a DevExpress NuGet Feed URL](https://docs.devexpress.com/GeneralInformation/115912/installation/install-devexpress-controls-using-nuget-packages).
   - *We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later*.
   
-- Open the *ConsoleApplication.EFCore.sln* solution and edit the [EFCore/DatabaseUpdater/App.config](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/tree/20.1/EFCore/DatabaseUpdater/App.config) file so that `DBSERVER` refers to your database server name or its IP address (for a local database server, use `localhost`, `(local)` or `.`):
+- Open the *ConsoleApplication.EFCore.sln* solution and edit the [EFCore/DatabaseUpdater/App.config](../DatabaseUpdater/App.config) file so that `DBSERVER` refers to your database server name or its IP address (for a local database server, use `localhost`, `(local)` or `.`):
 	
 [](#tab/tabid-xml)
 	
@@ -64,7 +64,7 @@ static void Main() {
         authentication
     );
 ```	
-[Full code](/EFCore/Console/CS/Program.cs#L19)
+[Full code](CS/Program.cs#L19)
 
 - Create a `SecuredEFCoreObjectSpaceProvider` instance using the `EFCoreDatabaseProviderHandler` delegate and the `UseSqlServer` extension:
 
@@ -78,7 +78,7 @@ SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSp
     (builder, connectionString) => builder.UseSqlServer(connectionString)
 );
 ```
-[Full code](/EFCore/Console/CS/Program.cs#L27)
+[Full code](CS/Program.cs#L27)
 
 - In *YourConsoleApplication/App.config*, add the same connection string as in **Prerequisites**.
 
@@ -101,7 +101,7 @@ catch(SqlException sqlEx) {
 }
 ```
 
-[Full code](/EFCore/Console/CS/Program.cs#L34)
+[Full code](CS/Program.cs#L34)
 
 To log off or sign out, call the `security.Logoff` method.
 
@@ -120,7 +120,7 @@ using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace())
 }
 security.Logoff();
 ```
-[Full code](/EFCore/Console/CS/Program.cs#L46)
+[Full code](CS/Program.cs#L46)
 
 ***
 
