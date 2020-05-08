@@ -26,7 +26,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
 
-- Create a new **Console App (.NET Core)** project and add the [EFCore/BusinessObjectsLibrary](/EFCore/BusinessObjectsLibrary) project reference. *BusinessObjectsLibrary* adds important NuGet dependencies:
+- Create a new **Console App (.NET Core)** project and add the [EFCore/BusinessObjectsLibrary](../BusinessObjectsLibrary) project reference. *BusinessObjectsLibrary* adds important NuGet dependencies:
 ```xml
     <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.1.3-ctp" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
