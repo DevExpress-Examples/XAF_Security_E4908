@@ -16,7 +16,7 @@ This example demonstrates how to access data protected by the [Security System](
 ```xml
 <connectionStrings>
     <add name="ConnectionString" 
-        connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True"
+        connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"
     />
 </connectionStrings>
 ```
