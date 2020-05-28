@@ -14,7 +14,6 @@ namespace DatabaseUpdater.EFCore {
                 typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
                 (builder, cs) => builder.UseSqlServer(cs)
             );
-            objectSpaceProvider.InitTypeInfoSource();
 
             PasswordCryptographer.EnableRfc2898 = true;
             PasswordCryptographer.SupportLegacySha512 = false;
