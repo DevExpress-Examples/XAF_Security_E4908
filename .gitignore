@@ -300,3 +300,5 @@ __pycache__/
 *.xsd.cs
 ASP.NetCore/DevExtreme.OData/wwwroot/css/devextreme
 ASP.NetCore/DevExtreme.OData/wwwroot/js/devextreme
+XPO/ASP.NetCore/DevExtreme.OData/wwwroot/css/devextreme
+XPO/ASP.NetCore/DevExtreme.OData/wwwroot/js/devextreme

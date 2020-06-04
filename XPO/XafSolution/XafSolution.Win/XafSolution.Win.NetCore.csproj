@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>ExpressApp.ico</ApplicationIcon>
+    <RootNamespace>XafSolution</RootNamespace>
+    <AssemblyName>XafSolution</AssemblyName>
+    <Deterministic>false</Deterministic>
+    <PackageId>XafSolution.Win.NetCore</PackageId>
+    <AssemblyVersion>1.0.*</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Configurations>Debug;Release;EasyTest</Configurations>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AppConfig>App.NetCore.config</AppConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin_NetCore</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="App.config" />
+    <None Remove="Images\SplashScreenImage.svg" />
+    <None Remove="Model.xafml" />
+    <None Remove="Images\Logo.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model.xafml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\SplashScreenImage.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.WindowsDesktop.RichEdit.Export" Version="20.1.4" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp" Version="20.1.4-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp.Win" Version="20.1.4-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.Base" Version="20.1.4-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="20.1.4-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="20.1.4-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Validation.Win" Version="20.1.4-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Xpo" Version="20.1.4-ctp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XafSolution.Module\XafSolution.Module.NetCore.csproj" />
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="dotnet restore XafSolution.Win.NetCore.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+      <Output PropertyName="ExitCode" TaskParameter="ExitCode" />
+    </Exec>
+    <Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
+  </Target>
+</Project>

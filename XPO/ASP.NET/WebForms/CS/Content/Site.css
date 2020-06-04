@@ -1,0 +1,30 @@
+﻿html, body {
+    height: 100%;
+    width: 100%;
+    font-family:'Helvetica';
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+    color: darkorange;
+}
+
+h2 {
+    font-size: 25px;
+    margin-left: 1%;
+}
+
+h3 {
+    font-size: 14px;
+}
+
+.centered {
+    margin: 0 auto;
+    float: none !important;
+    display: table;
+}
+
+.round_corner {
+    border-radius: 4px;
+}
