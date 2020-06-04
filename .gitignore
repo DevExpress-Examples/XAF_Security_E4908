@@ -302,3 +302,7 @@ ASP.NetCore/DevExtreme.OData/wwwroot/css/devextreme
 ASP.NetCore/DevExtreme.OData/wwwroot/js/devextreme
 XPO/ASP.NetCore/DevExtreme.OData/wwwroot/css/devextreme
 XPO/ASP.NetCore/DevExtreme.OData/wwwroot/js/devextreme
+XPO/ASP.NetCore/MVC/wwwroot/css/devextreme
+XPO/ASP.NetCore/MVC/wwwroot/css/vendor.css
+XPO/ASP.NetCore/MVC/wwwroot/js/devextreme
+XPO/ASP.NetCore/MVC/wwwroot/js/vendor.js
