@@ -30,7 +30,7 @@ Other Apps with EF Core and Xamarin, Blazor WebAssembly, WPF with XPO. To help u
 - [Download and run two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/)
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 - Before you run any demo apps, run (F5) the *XafSolution.Win* or *XafSolution.Win.NetCore* app depending on your target framework and log in under 'User' or 'Admin' with an empty password.
-  - *This [Database Generation and Permision Management App](./XafSolution/) will create initial users, roles, permissions and other data in the database.*
+  - *This [Database Generation and Permision Management App](./XPO/XafSolution/) will create initial users, roles, permissions and other data in the database.*
 
 ## Frequently Asked Questions
 
