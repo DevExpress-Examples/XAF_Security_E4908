@@ -35,7 +35,7 @@
 				.AllowAdding(Model.Create)
 				.AllowDeleting(new JS("allowDeleting"))
 				.AllowUpdating(new JS("allowUpdating")))
-			.DataSource(employeesDataSourse => employeesDataSourse.Mvc().Controller("Employees")
+			.DataSource(employeesDataSource => employeesDataSource.Mvc().Controller("Employees")
 				.LoadAction("Get")
 				.InsertAction("Add")
 				.UpdateAction("Update")
@@ -61,7 +61,7 @@
 					.Caption("Department")
 					.DataField("Department.Oid")
 					.Lookup(department => {
-						department.DataSource(departmentDataSourse => departmentDataSourse.Mvc().Controller("Departments")
+						department.DataSource(departmentDataSource => departmentDataSource.Mvc().Controller("Departments")
 							.LoadAction("Get")
 							.InsertAction("Add")
 							.UpdateAction("Update")
