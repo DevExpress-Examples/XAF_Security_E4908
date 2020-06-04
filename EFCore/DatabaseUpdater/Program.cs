@@ -10,10 +10,8 @@ namespace DatabaseUpdater.EFCore {
     class Program {
         static void Main() {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            EFCoreObjectSpaceProvider objectSpaceProvider = new EFCoreObjectSpaceProvider(
-                typeof(ApplicationDbContext), XafTypesInfo.Instance, connectionString,
-                (builder, cs) => builder.UseSqlServer(cs)
-            );
+            EFCoreObjectSpaceProvider objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext),
+                (builder, _) => builder.UseSqlServer(connectionString));
 
             PasswordCryptographer.EnableRfc2898 = true;
             PasswordCryptographer.SupportLegacySha512 = false;

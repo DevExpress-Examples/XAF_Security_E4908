@@ -28,7 +28,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 - Create a new **Console App (.NET Core)** project and add the [EFCore/BusinessObjectsLibrary](../BusinessObjectsLibrary) project reference. *BusinessObjectsLibrary* adds important NuGet dependencies:
 ```xml
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.1.3-ctp" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.1.4-ctp" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
 ```
 The `DevExpress.ExpressApp.EFCore` NuGet package contains the PermissionPolicyUser, PermissionPolicyRole and other XAF's Security System API.

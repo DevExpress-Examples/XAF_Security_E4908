@@ -25,7 +25,7 @@ This example demonstrates how to access data protected by the [Security System](
 ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
 - Create a new **Windows Forms App (.NET Core)** project and add the [EFCore/BusinessObjectsLibrary](../BusinessObjectsLibrary) project reference. *BusinessObjectsLibrary* adds important NuGet dependencies:
 ```xml
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.1.3-ctp" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.1.4-ctp" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
 ```
 The `DevExpress.ExpressApp.EFCore` NuGet package contains the PermissionPolicyUser, PermissionPolicyRole and other XAF's Security System API.
@@ -34,7 +34,7 @@ The `DevExpress.ExpressApp.EFCore` NuGet package contains the PermissionPolicyUs
 ```xml
    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.2" />
    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
-   <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.1.3-ctp" />
+   <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.1.4-ctp" />
 ```
 - In *YourWinFormsApplication/Program.cs*, create a `SecurityStrategyComplex` instance using [AuthenticationStandard](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.AuthenticationStandard) (a simple Forms Authentication with a login and password) and password options ([EnableRfc2898 and SupportLegacySha512](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System)).
 	
