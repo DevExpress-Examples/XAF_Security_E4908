@@ -332,7 +332,7 @@ A user is identified by the user name and password parameters.
                    // var session = ((SecuredObjectSpace)ObjectSpace).Session;
                    // 
                    // The XAF way:
-			IQueryable<Employee> employees = ((XPQuery<Employee>)objectSpace.GetObjectsQuery<Employee>()).AsWrappedQuery();
+			IQueryable<Employee> employees = ((XPQuery<Employee>)objectSpace.GetObjectsQuery<Employee>());
 			return Ok(employees);
 		}
 	}
@@ -403,7 +403,7 @@ A user is identified by the user name and password parameters.
 		[HttpGet]
 		[EnableQuery]
 		public ActionResult Get() {
-			IQueryable<Department> departments = ((XPQuery<Department>)objectSpace.GetObjectsQuery<Department>()).AsWrappedQuery();
+			IQueryable<Department> departments = ((XPQuery<Department>)objectSpace.GetObjectsQuery<Department>());
 			return Ok(departments);
 		}
 		[HttpGet]

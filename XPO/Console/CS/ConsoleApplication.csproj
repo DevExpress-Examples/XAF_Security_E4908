@@ -48,8 +48,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.1.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.1.5" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.1.5" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
