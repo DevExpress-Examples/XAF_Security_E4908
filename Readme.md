@@ -2,7 +2,7 @@
 
 # .NET User Authentication and Group Authorization API for DevExpress XPO and Microsoft Entity Framework Core ORMs
 
-![image](images/XAF_Security_Architecture.png)
+![image](images/XAF_Security_Architecture2.png)
 
 ## Demos and Step-By-Step Tutorials for .NET Framework and .NET Core
 Please research the information below, because additional prerequisites may apply to certain platforms. If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
