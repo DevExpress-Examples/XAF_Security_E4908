@@ -19,7 +19,7 @@ Please research the information below, because additional prerequisites may appl
 - [WinForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_WinForms_EFCore.aspx)
 - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Console_EFCore.aspx)
 
-**NOTE**: The *DevExpress.ExpressApp.EFCore* NuGet package is available as a [Community Technology Preview (CTP)](https://www.devexpress.com/aboutus/pre-release.xml) and is not ready for production. We've made it available to gather feedback and engage those of you considering it for future use.
+**NOTE**: The *DevExpress.ExpressApp.EFCore* NuGet package is available as a [Community Technology Preview](https://www.devexpress.com/aboutus/pre-release.xml) and is not ready for production. We've made it available to gather feedback and engage those of you considering it for future use.
 
 #### Coming Next
 Other Apps with EF Core and Xamarin, Blazor WebAssembly, WPF with XPO. To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using this **[short survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx)**.
