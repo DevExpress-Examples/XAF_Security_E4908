@@ -23,11 +23,9 @@ namespace WindowsFormsApplication {
                 typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),
                 authentication
             );
-            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(
-                security, typeof(ApplicationDbContext),
-                XafTypesInfo.Instance, ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString,
-                (builder, connectionString) => builder.UseSqlServer(connectionString)
-            );
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
+                (builder, _) => builder.UseSqlServer(connectionString));
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

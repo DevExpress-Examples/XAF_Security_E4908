@@ -25,11 +25,9 @@ namespace ConsoleApplication {
                 typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),
                 authentication
             );
-            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(
-                security, typeof(ApplicationDbContext),
-                XafTypesInfo.Instance, ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString,
-                (builder, connectionString) => builder.UseSqlServer(connectionString)
-            );
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
+                (builder, _) => builder.UseSqlServer(connectionString));
 
             // ## Step 2. Authentication. Log in as a 'User' with an Empty Password
             authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName: "User", password: string.Empty));

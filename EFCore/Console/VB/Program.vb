@@ -20,7 +20,8 @@ Namespace ConsoleApplication
 			PasswordCryptographer.SupportLegacySha512 = False
 			Dim authentication As New AuthenticationStandard()
 			Dim security As New SecurityStrategyComplex(GetType(PermissionPolicyUser), GetType(PermissionPolicyRole), authentication)
-			Dim objectSpaceProvider As New SecuredEFCoreObjectSpaceProvider(security, GetType(ApplicationDbContext), XafTypesInfo.Instance, ConfigurationManager.ConnectionStrings("ConnectionString").ConnectionString, Function(builder, connectionString) builder.UseSqlServer(connectionString))
+			Dim connectionString As String = ConfigurationManager.ConnectionStrings("ConnectionString").ConnectionString
+			Dim objectSpaceProvider As SecuredEFCoreObjectSpaceProvider = New SecuredEFCoreObjectSpaceProvider(security, GetType(ApplicationDbContext), Function(builder, __) builder.UseSqlServer(connectionString))
 
 			' ## Step 2. Authentication. Log in as a 'User' with an Empty Password
 			authentication.SetLogonParameters(New AuthenticationStandardLogonParameters(userName:="User", password:=String.Empty))

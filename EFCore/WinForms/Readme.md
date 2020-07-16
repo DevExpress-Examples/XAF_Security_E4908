@@ -67,11 +67,9 @@ static void Main() {
 	[](#tab/tabid-csharp)
 	
 ``` csharp
-SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(
-    security, typeof(ApplicationDbContext),
-    XafTypesInfo.Instance, ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString,
-    (builder, connectionString) => builder.UseSqlServer(connectionString)
-);
+string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
+    (builder, _) => builder.UseSqlServer(connectionString));
 ```
 - In *YourWinFormsApplication/App.config*, add the same connection string as in **Prerequisites**.
 
