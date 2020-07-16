@@ -43,7 +43,7 @@ namespace ASPNETCoreODataService.Controllers {
 #else
 		public ActionResult Patch(Guid key, [FromBody]JObject jObject) {
 #endif
-			Employee employee = objectSpace.FindObject<Employee>(new BinaryOperator(nameof(Employee.Oid), key));
+			Employee employee = objectSpace.FirstOrDefault<Employee>(e => e.Oid == key);
 			if(employee != null) {
 				JsonParser.ParseJObject<Employee>(jObject, employee, objectSpace);
 				return Ok(employee);

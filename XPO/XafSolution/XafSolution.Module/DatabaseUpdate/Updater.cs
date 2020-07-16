@@ -27,7 +27,7 @@ namespace XafSolution.Module.DatabaseUpdate {
             ObjectSpace.CommitChanges();
         }
         private void CreateUser() {
-            PermissionPolicyUser sampleUser = ObjectSpace.FindObject<PermissionPolicyUser>(new BinaryOperator("UserName", DefaultUserName));
+            PermissionPolicyUser sampleUser = ObjectSpace.FirstOrDefault<PermissionPolicyUser>(u => u.UserName == DefaultUserName);
             if(sampleUser == null) {
                 sampleUser = ObjectSpace.CreateObject<PermissionPolicyUser>();
                 sampleUser.UserName = DefaultUserName;
@@ -37,7 +37,7 @@ namespace XafSolution.Module.DatabaseUpdate {
             sampleUser.Roles.Add(defaultRole);
         }
         private void CreateAdmin() {
-            PermissionPolicyUser userAdmin = ObjectSpace.FindObject<PermissionPolicyUser>(new BinaryOperator("UserName", AdministratorUserName));
+            PermissionPolicyUser userAdmin = ObjectSpace.FirstOrDefault<PermissionPolicyUser>(u => u.UserName == AdministratorUserName);
             if(userAdmin == null) {
                 userAdmin = ObjectSpace.CreateObject<PermissionPolicyUser>();
                 userAdmin.UserName = AdministratorUserName;
@@ -47,7 +47,7 @@ namespace XafSolution.Module.DatabaseUpdate {
             userAdmin.Roles.Add(adminRole);
         }
         private PermissionPolicyRole CreateAdminRole() {
-            PermissionPolicyRole adminRole = ObjectSpace.FindObject<PermissionPolicyRole>(new BinaryOperator("Name", AdministratorRoleName));
+            PermissionPolicyRole adminRole = ObjectSpace.FirstOrDefault<PermissionPolicyRole>(r => r.Name == AdministratorRoleName);
             if(adminRole == null) {
                 adminRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
                 adminRole.Name = AdministratorRoleName;
@@ -56,7 +56,7 @@ namespace XafSolution.Module.DatabaseUpdate {
             return adminRole;
         }
         private PermissionPolicyRole CreateDefaultRole() {
-            PermissionPolicyRole defaultRole = ObjectSpace.FindObject<PermissionPolicyRole>(new BinaryOperator("Name", DefaultUserRoleName));
+            PermissionPolicyRole defaultRole = ObjectSpace.FirstOrDefault<PermissionPolicyRole>(r => r.Name == DefaultUserRoleName);
             if(defaultRole == null) {
                 defaultRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
                 defaultRole.Name = DefaultUserRoleName;
@@ -96,7 +96,7 @@ namespace XafSolution.Module.DatabaseUpdate {
             DataTable employeesTable = GetEmployeesDataTable();
             foreach(DataRow employeeRow in employeesTable.Rows) {
                 string email = Convert.ToString(employeeRow["EmailAddress"]);
-                Employee employee = ObjectSpace.FindObject<Employee>(CriteriaOperator.Parse("Email=?", email));
+                Employee employee = ObjectSpace.FirstOrDefault<Employee>(e => e.Email == email);
                 if(employee == null) {
                     employee = ObjectSpace.CreateObject<Employee>();
                     employee.Email = email;
@@ -105,7 +105,7 @@ namespace XafSolution.Module.DatabaseUpdate {
                     employee.Birthday = Convert.ToDateTime(employeeRow["BirthDate"]);
                     
                     string departmentTitle = Convert.ToString(employeeRow["GroupName"]);
-                    Department department = ObjectSpace.FindObject<Department>(CriteriaOperator.Parse("Title=?", departmentTitle), true);
+                    Department department = ObjectSpace.FirstOrDefault<Department>(d => d.Title == departmentTitle, true);
                     if(department == null) {
                         department = ObjectSpace.CreateObject<Department>();
                         department.Title = departmentTitle;
@@ -117,13 +117,13 @@ namespace XafSolution.Module.DatabaseUpdate {
             }
         }
         private void CreateDepartments() {
-            Department devDepartment = ObjectSpace.FindObject<Department>(CriteriaOperator.Parse("Title == 'Development Department'"));
+            Department devDepartment = ObjectSpace.FirstOrDefault<Department>(d => d.Title == "Development Department");
             if(devDepartment == null) {
                 devDepartment = ObjectSpace.CreateObject<Department>();
                 devDepartment.Title = "Development Department";
                 devDepartment.Office = "205";
             }
-            Department seoDepartment = ObjectSpace.FindObject<Department>(CriteriaOperator.Parse("Title == 'SEO'"));
+            Department seoDepartment = ObjectSpace.FirstOrDefault<Department>(d => d.Title == "SEO");
             if(seoDepartment == null) {
                 seoDepartment = ObjectSpace.CreateObject<Department>();
                 seoDepartment.Title = "SEO";

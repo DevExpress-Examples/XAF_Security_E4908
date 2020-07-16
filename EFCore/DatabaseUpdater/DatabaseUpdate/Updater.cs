@@ -24,7 +24,7 @@ namespace DatabaseUpdater.EFCore {
             CreateEmployees();
         }
         private void CreateUser() {
-            PermissionPolicyUser defaultUser = ObjectSpace.GetObjectsQuery<PermissionPolicyUser>().FirstOrDefault(u => u.UserName == DefaultUserName);
+            PermissionPolicyUser defaultUser = ObjectSpace.FirstOrDefault<PermissionPolicyUser>(u => u.UserName == DefaultUserName);
             if(defaultUser == null) {
                 defaultUser = ObjectSpace.CreateObject<PermissionPolicyUser>();
                 defaultUser.UserName = DefaultUserName;
@@ -34,7 +34,7 @@ namespace DatabaseUpdater.EFCore {
             }
         }
         private void CreateAdmin() {
-            PermissionPolicyUser adminUser = ObjectSpace.GetObjectsQuery<PermissionPolicyUser>().FirstOrDefault(u => u.UserName == AdministratorUserName);
+            PermissionPolicyUser adminUser = ObjectSpace.FirstOrDefault<PermissionPolicyUser>(u => u.UserName == AdministratorUserName);
             if(adminUser == null) {
                 adminUser = ObjectSpace.CreateObject<PermissionPolicyUser>();
                 adminUser.UserName = AdministratorUserName;
@@ -44,7 +44,7 @@ namespace DatabaseUpdater.EFCore {
             }
         }
         private PermissionPolicyRole GetAdminRole() {
-            PermissionPolicyRole adminRole = ObjectSpace.GetObjectsQuery<PermissionPolicyRole>().FirstOrDefault(u => u.Name == AdministratorRoleName);
+            PermissionPolicyRole adminRole = ObjectSpace.FirstOrDefault<PermissionPolicyRole>(u => u.Name == AdministratorRoleName);
             if(adminRole == null) {
                 adminRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
                 adminRole.Name = AdministratorRoleName;
@@ -53,7 +53,7 @@ namespace DatabaseUpdater.EFCore {
             return adminRole;
         }
         private PermissionPolicyRole GetUserRole() {
-            PermissionPolicyRole userRole = ObjectSpace.GetObjectsQuery<PermissionPolicyRole>().FirstOrDefault(u => u.Name == DefaultUserRoleName);
+            PermissionPolicyRole userRole = ObjectSpace.FirstOrDefault<PermissionPolicyRole>(u => u.Name == DefaultUserRoleName);
             if(userRole == null) {
                 userRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
                 userRole.Name = DefaultUserRoleName;
@@ -79,7 +79,7 @@ namespace DatabaseUpdater.EFCore {
             DataTable employeesTable = GetEmployeesDataTable();
             foreach(DataRow employeeRow in employeesTable.Rows) {
                 string email = Convert.ToString(employeeRow["EmailAddress"]);
-                Employee employee = ObjectSpace.GetObjectsQuery<Employee>().FirstOrDefault(e => e.Email == email);
+                Employee employee = ObjectSpace.FirstOrDefault<Employee>(e => e.Email == email);
                 if(employee == null) {
                     employee = ObjectSpace.CreateObject<Employee>();
                     employee.Email = email;
@@ -88,7 +88,7 @@ namespace DatabaseUpdater.EFCore {
                     employee.Birthday = Convert.ToDateTime(employeeRow["BirthDate"]);
 
                     string departmentTitle = Convert.ToString(employeeRow["GroupName"]);
-                    Department department = ObjectSpace.FindObject<Department>(CriteriaOperator.Parse($"{nameof(Department.Title)}=?", departmentTitle), true);
+                    Department department = ObjectSpace.FirstOrDefault<Department>(d => d.Title == departmentTitle, true);
                     if(department == null) {
                         department = ObjectSpace.CreateObject<Department>();
                         department.Title = departmentTitle;
