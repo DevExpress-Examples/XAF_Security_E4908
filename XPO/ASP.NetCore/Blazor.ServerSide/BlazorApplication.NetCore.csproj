@@ -6,8 +6,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DevExpress.Blazor" Version="19.1.10" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.1.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.1.5" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.1.5" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
   </ItemGroup>

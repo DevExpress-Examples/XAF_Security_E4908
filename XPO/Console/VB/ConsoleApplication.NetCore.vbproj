@@ -11,8 +11,8 @@
     <Compile Remove="Properties\AssemblyInfo.vb" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.1.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.1.5" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.1.5" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
   </ItemGroup>
   <ItemGroup>
