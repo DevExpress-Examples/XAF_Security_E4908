@@ -15,9 +15,9 @@
     <OutputPath>bin_NetCore</OutputPath>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="20.1.5" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Validation" Version="20.1.5" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="20.1.5" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="20.1.5-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Validation" Version="20.1.5-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="20.1.5-ctp" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.1.5" />

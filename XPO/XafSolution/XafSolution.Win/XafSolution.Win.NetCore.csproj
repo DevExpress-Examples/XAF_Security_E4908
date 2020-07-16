@@ -37,13 +37,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DevExpress.WindowsDesktop.RichEdit.Export" Version="20.1.5" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp" Version="20.1.5" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp.Win" Version="20.1.5" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.Base" Version="20.1.5" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="20.1.5" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="20.1.5" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Validation.Win" Version="20.1.5" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Xpo" Version="20.1.5" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp" Version="20.1.5-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp.Win" Version="20.1.5-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.Base" Version="20.1.5-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="20.1.5-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="20.1.5-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Validation.Win" Version="20.1.5-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Xpo" Version="20.1.5-ctp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
