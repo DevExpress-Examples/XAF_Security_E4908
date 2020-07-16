@@ -34,7 +34,7 @@ The `DevExpress.ExpressApp.EFCore` NuGet package contains the PermissionPolicyUs
 ```xml
    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.2" />
    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
-   <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.1.5" />
+   <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.1.5-ctp" />
 ```
 - In *YourWinFormsApplication/Program.cs*, create a `SecurityStrategyComplex` instance using [AuthenticationStandard](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.AuthenticationStandard) (a simple Forms Authentication with a login and password) and password options ([EnableRfc2898 and SupportLegacySha512](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System)).
 	
