@@ -2,7 +2,7 @@
 
 This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from your Non-XAF application using XPO ORM for data access. The application outputs secured data to the 'result.txt' file. 
 
->If you are using EF Core, [follow this tutorial](https://www.devexpress.com/go/XAF_Security_NonXAF_Console_EFCore.aspx).
+>If you are using EF Core for data access, [follow this tutorial](https://www.devexpress.com/go/XAF_Security_NonXAF_Console_EFCore.aspx).
 
 For simplicity, the instructions include only C# code snippets. For the complete C# and VB code, see the [CS](CS) and [VB](VB) sub-directories.
  
