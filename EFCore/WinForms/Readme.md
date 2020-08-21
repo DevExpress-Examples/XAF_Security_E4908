@@ -64,7 +64,7 @@ This example demonstrates how to access data protected by the [Security System](
         string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
             (builder, _) => builder.UseSqlServer(connectionString)
-	);
+        );
     }
     ```
     
@@ -118,14 +118,14 @@ private void Login_Click(object sender, EventArgs e) {
     }
     private void ShowLoginForm(string userName = "User") {
         using(LoginForm loginForm = new LoginForm(Security, ObjectSpaceProvider, userName)) {
-	        DialogResult dialogResult = loginForm.ShowDialog();
-	        if(dialogResult == DialogResult.OK) {
-	            CreateListForm();
-	            Show();
-	        }
-	        else {
-	            Close();
-    	    }
+            DialogResult dialogResult = loginForm.ShowDialog();
+            if(dialogResult == DialogResult.OK) {
+                CreateListForm();
+                Show();
+            }
+            else {
+                Close();
+            }
         }
     }
     ```
@@ -134,8 +134,8 @@ private void Login_Click(object sender, EventArgs e) {
     ```csharp
     private void CreateListForm() {
         EmployeeListForm employeeForm = new EmployeeListForm(security, objectSpaceProvider) {
-	    MdiParent = this,
-	    WindowState = FormWindowState.Maximized
+            MdiParent = this,
+            WindowState = FormWindowState.Maximized
         };
         employeeForm.Show();
     }
@@ -209,32 +209,31 @@ private void Login_Click(object sender, EventArgs e) {
         detailForm.FormClosing += DetailForm_FormClosing;
     }
     ```
-
     We want to create `EmployeeDetailForm` in three cases:
-        - When a user clicks the **New** button:			
-            ```csharp
-            private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
-                CreateDetailForm();
-            }
-            ```
-        - When a user clicks the **Edit** button that passes the current row handle as a parameter to the `CreateDetailForm` method:
-            ```csharp
-            private void EditEmployee() {
-                Employee employee = employeeGridView.GetRow(employeeGridView.FocusedRowHandle) as Employee;
-                CreateDetailForm(employee);
-            }
-            private void EditBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+    - When a user clicks the **New** button:  
+        ```csharp
+        private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+            CreateDetailForm();
+        }
+        ```
+    - When a user clicks the **Edit** button that passes the current row handle as a parameter to the `CreateDetailForm` method:  
+        ```csharp
+        private void EditEmployee() {
+            Employee employee = employeeGridView.GetRow(employeeGridView.FocusedRowHandle) as Employee;
+            CreateDetailForm(employee);
+        }
+        private void EditBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
+            EditEmployee();
+        }
+        ```
+    - When a user double-clicks a grid row:  
+        ```csharp
+        private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
+            if(e.Clicks == 2) {
                 EditEmployee();
             }
-            ```
-        - When a user double-clicks a grid row: 	
-            ```csharp
-            private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
-                if(e.Clicks == 2) {
-                    EditEmployee();
-                }
-            }
-            ```
+        }
+        ```
 
 ## Step 5. Authorization. Implement the Detail Form to Access and Manipulate Data/UI Based on User/Role Rights
 
@@ -337,10 +336,10 @@ private void Login_Click(object sender, EventArgs e) {
 > Microsoft WinForms designer for .NET Core apps is in [preview](https://devblogs.microsoft.com/dotnet/updates-on-net-core-windows-forms-designer/), so it is only possible to work with UI controls in code or use a workaround with linked files designed in .NET Framework projects ([learn more](https://docs.devexpress.com/XtraReports/401268/reporting-in-net-core-3-ctp#add-an-auxiliary-desktop-net-project)). See also: [.NET Core Support | WinForms Documentation](https://docs.devexpress.com/WindowsForms/401191/dotnet-core-support).
 
 ## Run and Test the App
- - Log in under **User** with an empty password.
+ - Log in under **User** with an empty password.  
    ![](/images/WinForms_LoginForm.png)
 
- - Notice that secured data is displayed as **Protected Content**.
+ - Notice that secured data is displayed as **Protected Content**.  
    ![](/images/WinForms_MainForm.png)
 
  - Press the **Log Out** button and log in under **Admin** to see all records.
