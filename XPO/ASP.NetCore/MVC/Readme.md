@@ -510,7 +510,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	```
 
 - The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
-If the Read operation permission is denied, it displays the "Protected Content" placeholder and disables the editor. If the Write operation permission is denied, the editor is disabled.
+If the Read operation permission is denied, it displays the "*******" placeholder and disables the editor. If the Write operation permission is denied, the editor is disabled.
 
 	``` javascript
 	function onEditorPreparing(e) {
@@ -526,7 +526,7 @@ If the Read operation permission is denied, it displays the "Protected Content" 
 				var objectPermission = getPermission(key);
 				if (!objectPermission.Data[dataField].Read) {
 					e.editorOptions.disabled = true;
-					e.editorOptions.value = "Protected Content";
+					e.editorOptions.value = "*******";
 				}
 				if (!objectPermission.Data[dataField].Write) {
 					e.editorOptions.disabled = true;
@@ -537,7 +537,7 @@ If the Read operation permission is denied, it displays the "Protected Content" 
 	```	
 	
 - The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#cellPrepared) event and checks Read operation permissions. 
-If the Read operation is denied, it displays the "Protected Content" placeholder in data grid cells.
+If the Read operation is denied, it displays the "*******" placeholder in data grid cells.
 
 	``` javascript
 	function onCellPrepared(e) {
@@ -547,7 +547,7 @@ If the Read operation is denied, it displays the "Protected Content" placeholder
     		if (!e.column.command) {
     			var dataField = e.column.dataField.split('.')[0];
     			if (!objectPermission.Data[dataField].Read) {
-    				e.cellElement.text("Protected Content");
+    				e.cellElement.text("*******");
     			}
     		}
     	}
@@ -600,7 +600,7 @@ The delete operation permission  defines whether the Delete actions should be di
 
    ![](/images/ODataLoginPage.png)
 
- - Notice that secured data is displayed as 'Protected Content'.
+ - Notice that secured data is displayed as '*******'.
    ![](/images/MVC_ListView.png)
 
  - Press the Logout button and log in under 'Admin' to see all records.
