@@ -150,13 +150,13 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
 
   The Data Source contains only the data that is filtered based on security permissions, but we still have to handle protected data in UI. 
   In the [ASPxGridView\.HtmlDataCellPrepared](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridView.HtmlDataCellPrepared) 
-  event handler, display the 'Protected Content' placeholder instead of a default value returned by secured Data Source.  
+  event handler, display the '*******' placeholder instead of a default value returned by secured Data Source.  
   ```csharp
   protected void EmployeeGrid_HtmlDataCellPrepared(object sender, ASPxGridViewTableDataCellEventArgs e) {
       Employee employee = objectSpace.GetObjectByKey<Employee>(e.KeyValue);
       string memberName = GetMemberName(e.DataColumn);
       if(!security.CanRead(employee, memberName)) {
-          e.Cell.Text = "Protected content";
+          e.Cell.Text = "*******";
       }
   }
   private string GetMemberName(GridViewDataColumn column) {
@@ -184,14 +184,14 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
 - Check Read and Write operations for editors in [Popup Edit Form](https://demos.devexpress.com/aspxgridviewdemos/gridediting/PopupEditForm.aspx)
 
   Handle the [ASPxGridView\.CellEditorInitialize](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridView.CellEditorInitialize) 
-  event to display the 'Protected Content' placeholder and disable editors based on security permissions.
+  event to display the '*******' placeholder and disable editors based on security permissions.
   
   ```csharp
   protected void EmployeeGrid_CellEditorInitialize(object sender, ASPxGridViewEditorEventArgs e) {
       Employee employee = objectSpace.GetObjectByKey<Employee>(e.KeyValue);
       string memberName = GetMemberName(e.Column);
       if(!security.CanRead(employee, memberName)) {
-          e.Editor.Value = "Protected Content";
+          e.Editor.Value = "*******";
           e.Editor.Enabled = false;
       }
       else if(!security.CanWrite(employee, memberName)) {
@@ -232,7 +232,7 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
    
    ![](/images/WebForms_LoginPage.png)
 
- - Notice that secured data is displayed as 'Protected Content'.
+ - Notice that secured data is displayed as '*******'.
    ![](/images/WebForms_ListView.png)
 
  - Press the Logout button and log in under 'Admin' to see all records.

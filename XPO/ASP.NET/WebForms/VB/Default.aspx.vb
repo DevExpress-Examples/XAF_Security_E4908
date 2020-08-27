@@ -45,7 +45,7 @@ Namespace WebFormsApplication
             Dim employee As Employee = objectSpace.GetObjectByKey(Of Employee)(e.KeyValue)
 			Dim memberName As String = GetMemberName(e.Column)
 			If Not security.CanRead(employee, memberName) Then
-                e.Editor.Value = "Protected Content"
+                e.Editor.Value = "*******"
                 e.Editor.Enabled = False
             ElseIf Not security.CanWrite(employee, memberName) Then
                 e.Editor.Enabled = False
@@ -66,7 +66,7 @@ Namespace WebFormsApplication
             Dim employee As Employee = objectSpace.GetObjectByKey(Of Employee)(e.KeyValue)
 			Dim memberName As String = GetMemberName(e.DataColumn)
 			If Not security.CanRead(employee, memberName) Then
-                e.Cell.Text = "Protected content"
+                e.Cell.Text = "*******"
             End If
         End Sub
         Protected Sub LogoutButton_Click(ByVal sender As Object, ByVal e As EventArgs)
