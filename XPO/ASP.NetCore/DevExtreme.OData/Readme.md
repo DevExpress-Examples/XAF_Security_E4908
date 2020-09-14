@@ -609,7 +609,7 @@ and checks create operation permission to define whether the Create action shoul
 	```	
 
 - The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
-If the Read operation permission is denied, it displays the "Protected Content" placeholder and disables the editor. If the Write operation permission is denied, the editor is disabled.
+If the Read operation permission is denied, it displays the "*******" placeholder and disables the editor. If the Write operation permission is denied, the editor is disabled.
 
 	``` javascript
 	function onEditorPreparing(e) {
@@ -620,7 +620,7 @@ If the Read operation permission is denied, it displays the "Protected Content" 
 				var objectPermission = getPermission(key);
 				if (!objectPermission[dataField].read) {
 					e.editorOptions.disabled = true;
-					e.editorOptions.value = "Protected Content";
+					e.editorOptions.value = "*******";
 				}
 				if (!objectPermission[dataField].write) {
 					e.editorOptions.disabled = true;
@@ -636,7 +636,7 @@ If the Read operation permission is denied, it displays the "Protected Content" 
 	```	
 
 - The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#cellPrepared) event and checks Read, Write, and Delete operation permissions. 
-If the Read permission is denied, it displays the "Protected Content" placeholder in data grid cells. Write and Delete operation permission checks define whether the Write and Delete actions should be displayed or not.
+If the Read permission is denied, it displays the "*******" placeholder in data grid cells. Write and Delete operation permission checks define whether the Write and Delete actions should be displayed or not.
 
 	``` javascript
 	function onCellPrepared(e) {
@@ -646,7 +646,7 @@ If the Read permission is denied, it displays the "Protected Content" placeholde
 			if (!e.column.command) {
 				var dataField = e.column.dataField.split('.')[0];
 				if (!objectPermission[dataField].read) {
-					e.cellElement.text("Protected Content");
+					e.cellElement.text("*******");
 				}
 			}
 			else if (e.column.command == 'edit') {
@@ -663,7 +663,7 @@ If the Read permission is denied, it displays the "Protected Content" placeholde
 	
 Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. 
 Use the [SecurityStrategy.IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) method to determine 
-when to mask default values with the "Protected Content" placeholder in the UI.
+when to mask default values with the "*******" placeholder in the UI.
 
 - The `getPermission` function returns the permission object for a business object. The business object is identified by the key passed in function parameters:
 
@@ -681,7 +681,7 @@ when to mask default values with the "Protected Content" placeholder in the UI.
 
    ![](/images/ODataLoginPage.png)
 
- - Notice that secured data is displayed as 'Protected Content'.
+ - Notice that secured data is displayed as '*******'.
    ![](/images/ODataListView.png)
 
  - Press the Logout button and log in under 'Admin' to see all records.

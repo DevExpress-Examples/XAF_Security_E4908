@@ -104,7 +104,7 @@
 			if (!e.column.command) {
 				var dataField = e.column.dataField.split('.')[0];
 				if (!objectPermission[dataField].Read) {
-					e.cellElement.text("Protected Content");
+					e.cellElement.text("*******");
 				}
 			}
 			else if (e.column.command == 'edit') {
@@ -126,7 +126,7 @@
 				var objectPermission = getPermission(key);
 				if (!objectPermission[dataField].Read) {
 					e.editorOptions.disabled = true;
-                    e.editorOptions.value = "Protected Content";
+                    e.editorOptions.value = "*******";
 				}
 				if (!objectPermission[dataField].Write) {
 					e.editorOptions.disabled = true;
