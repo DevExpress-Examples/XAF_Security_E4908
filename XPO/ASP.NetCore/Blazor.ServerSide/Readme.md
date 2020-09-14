@@ -282,7 +282,7 @@ The page is decorated with the Authorize attribute to prohibit unauthorized acce
 @attribute [Authorize]
 ```
 
-To show the `Protected Content` text instead of a default value in data grid cells and editors, use [SecuredContainer](Components/SecuredContainer.razor)
+To show the `*******` text instead of a default value in data grid cells and editors, use [SecuredContainer](Components/SecuredContainer.razor)
 
 ```razor
 <DxDataGridColumn Field=@nameof(Employee.FirstName)>
@@ -302,7 +302,7 @@ To show the `Protected Content` text instead of a default value in data grid cel
 </DxFormLayoutItem>
 ```
 
-To show the `Protected Content` text instead of the default text, check the Read permission by using the `CanRead` method of the Security System.
+To show the `*******` text instead of the default text, check the Read permission by using the `CanRead` method of the Security System.
 Use the `CanWrite` method of the Security System to check if a user is allowed to edit a property and an editor should be created for this property.
 
 ```razor
@@ -316,7 +316,7 @@ private bool HasAccess => ObjectSpace.IsNewObject(CurrentObject) ?
 - Log in under 'User' with an empty password.
   ![](/images/Blazor_LoginPage.png)
 
-- Note that secured data is displayed as 'Protected Content'.
+- Note that secured data is displayed as '*******'.
   ![](/images/Blazor_ListView.png)
 
 - Press the Logout button and log in under 'Admin' to see all records.
