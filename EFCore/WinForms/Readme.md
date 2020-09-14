@@ -169,7 +169,7 @@ private void Login_Click(object sender, EventArgs e) {
     }
     ```	
 
-- Handle the [GridView.CustomRowCellEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView.CustomRowCellEdit) event and check Read operation availability. If not available, use the `RepositoryItemProtectedContentTextEdit` object  which displays the 'Protected Content' placeholder.	
+- Handle the [GridView.CustomRowCellEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Grid.GridView.CustomRowCellEdit) event and check Read operation availability. If not available, use the `RepositoryItemProtectedContentTextEdit` object  which displays the '*******' placeholder.	
     ```csharp
     private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
         string fieldName = e.Column.FieldName;
@@ -179,7 +179,7 @@ private void Login_Click(object sender, EventArgs e) {
         }
     }
     ```
-    Note that `SecuredEFCoreObjectSpace` returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the `SecurityStrategy.CanRead` method to determine when to mask default values with the **Protected Content** placeholder in the UI.
+    Note that `SecuredEFCoreObjectSpace` returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the `SecurityStrategy.CanRead` method to determine when to mask default values with the '*******' placeholder in the UI.
 		
 - Handle the [FocusedRowObjectChanged](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Base.ColumnView.FocusedRowObjectChanged) event and use the `SecurityStrategy.CanDelete` method to check Delete operation availability and thus determine if the **Delete** button can be enabled.
 		
@@ -276,7 +276,7 @@ private void Login_Click(object sender, EventArgs e) {
     }
     ```
     
-- The `AddControl` method creates a control for a specific member. Use the `SecurityStrategy.CanRead` method to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the 'Protected Content' placeholder. Otherwise: 
+- The `AddControl` method creates a control for a specific member. Use the `SecurityStrategy.CanRead` method to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the '*******' placeholder. Otherwise: 
     - Call the `GetControl` method to create an appropriate control depending on the member type. We use the [LookUpEdit](https://documentation.devexpress.com/WindowsForms/DevExpress.XtraEditors.LookUpEdit.class) control for the associated property Department.
     - Add a binding to the [Control.DataBindings](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.databindings?view=netframework-4.8) collection.
     - Use the `SecurityStrategy.CanWrite` method to check Write operation availability and thus determine whether the control should be enabled.
@@ -339,7 +339,7 @@ private void Login_Click(object sender, EventArgs e) {
  - Log in under **User** with an empty password.  
    ![](/images/WinForms_LoginForm.png)
 
- - Notice that secured data is displayed as **Protected Content**.  
+ - Notice that secured data is displayed as '*******'  
    ![](/images/WinForms_MainForm.png)
 
  - Press the **Log Out** button and log in under **Admin** to see all records.
