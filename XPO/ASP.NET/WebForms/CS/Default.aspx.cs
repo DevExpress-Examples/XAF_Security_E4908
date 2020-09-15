@@ -43,7 +43,7 @@ namespace WebFormsApplication {
 			Employee employee = objectSpace.GetObjectByKey<Employee>(e.KeyValue);
             string memberName = GetMemberName(e.Column);
             if (!security.CanRead(employee, memberName)) {
-				e.Editor.Value = "Protected Content";
+				e.Editor.Value = "*******";
 				e.Editor.Enabled = false;
 			}
 			else if(!security.CanWrite(employee, memberName)) {
@@ -65,7 +65,7 @@ namespace WebFormsApplication {
 			Employee employee = objectSpace.GetObjectByKey<Employee>(e.KeyValue);
             string memberName = GetMemberName(e.DataColumn);
 			if(!security.CanRead(employee, memberName)) {
-				e.Cell.Text = "Protected content";
+				e.Cell.Text = "*******";
 			}
 		}
 		protected void LogoutButton_Click(object sender, EventArgs e) {

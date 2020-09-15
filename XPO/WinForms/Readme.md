@@ -168,7 +168,7 @@ private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArg
     }
 }
 ```
-Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
+Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "*******" placeholder in the UI.
 		
 - Handle the [FocusedRowObjectChanged](https://docs.devexpress.com/WindowsForms/DevExpress.XtraGrid.Views.Base.ColumnView.FocusedRowObjectChanged) event and use the SecurityStrategy.CanDelete method to check Delete operation availability and thus determine if the Delete button can be enabled.
 		
@@ -276,7 +276,7 @@ private void AddControls() {
     }
 }
 ```
-- The `AddControl` method creates a control for a specific member. Use the SecurityStrategy.CanRead method to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the "Protected Content" placeholder. Otherwise: 
+- The `AddControl` method creates a control for a specific member. Use the SecurityStrategy.CanRead method to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the "*******" placeholder. Otherwise: 
 		
 	- Call the `GetControl` method to create an appropriate control depending of the member type. We use the [ComboBoxEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraEditors.ComboBoxEdit) control for the Department associated property.
 	- Add a binding to the [Control.DataBindings](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.databindings?view=netframework-4.8) collection.
@@ -344,7 +344,7 @@ private void DeleteBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.It
    
    ![](/images/WinForms_LoginForm.png)
 
- - Notice that secured data is displayed as 'Protected Content'.
+ - Notice that secured data is displayed as "*******".
    ![](/images/WinForms_MainForm.png)
 
  - Press the Logout button and log in under 'Admin' to see all records.

@@ -107,7 +107,7 @@ static void Main() {
     using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
         foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) { 
             bool canRead = security.CanRead(securedObjectSpace, employee, memberName: nameof(Employee.Department));
-            var department = canRead ? employee.Department.Title : "Protected Content";
+            var department = canRead ? employee.Department.Title : "*******";
             Console.WriteLine($"{employee.FullName,-40}{department,-40}");
         }
     }

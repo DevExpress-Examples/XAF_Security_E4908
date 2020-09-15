@@ -19,7 +19,7 @@ Namespace WindowsFormsApplication
             Enabled = False
         End Sub
         Friend Const EditorName As String = "ProtectedContentEdit"
-        Friend Const ProtectedContentText As String = "Protected Content"
+        Friend Const ProtectedContentText As String = "*******"
         Shared Sub New()
             RepositoryItemProtectedContentTextEdit.Register()
         End Sub

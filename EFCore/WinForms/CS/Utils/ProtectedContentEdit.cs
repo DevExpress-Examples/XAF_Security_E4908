@@ -14,7 +14,7 @@ namespace WindowsFormsApplication.Utils {
             Enabled = false;
         }
         internal const string EditorName = "ProtectedContentEdit";
-        internal const string ProtectedContentText = "Protected Content";
+        internal const string ProtectedContentText = "*******";
 
         static ProtectedContentEdit() { RepositoryItemProtectedContentTextEdit.Register(); }
         

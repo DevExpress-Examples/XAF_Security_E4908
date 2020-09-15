@@ -85,12 +85,12 @@ For simplicity, the instructions include only C# code snippets. For the complete
 				stringBuilder.Append(string.Format("Department: {0}\n", employee.Department.Title));
 			}
 			else {
-				stringBuilder.Append("Department: [Protected content]\n");
+				stringBuilder.Append("Department: *******\n");
 			}
 		} 
 	}
 	```
 
-Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "Protected Content" placeholder in the UI.
+Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. Use the SecurityStrategy.CanRead method to determine when to mask default values with the "*******" placeholder in the UI.
 
 > Make sure that the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System) in your non-XAF application have same values as in the XAF application where passwords were set. Otherwise you won't be able to login.

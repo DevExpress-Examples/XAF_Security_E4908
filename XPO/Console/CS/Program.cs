@@ -42,7 +42,7 @@ namespace ConsoleApplication {
 							stringBuilder.Append($"Department: {employee.Department.Title}\n");
 						}
 						else {
-							stringBuilder.Append("Department: [Protected content]\n");
+							stringBuilder.Append("Department: *******\n");
 						}
 					}
 				}

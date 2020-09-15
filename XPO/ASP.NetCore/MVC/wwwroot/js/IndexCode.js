@@ -9,7 +9,7 @@ function onCellPrepared(e) {
 		if (!e.column.command) {
 			var dataField = e.column.dataField.split('.')[0];
 			if (!objectPermission.Data[dataField].Read) {
-				e.cellElement.text("Protected Content");
+                e.cellElement.text("*******");
 			}
 		}
 	}
@@ -48,7 +48,7 @@ function onEditorPreparing(e) {
 			var objectPermission = getPermission(key);
 			if (!objectPermission.Data[dataField].Read) {
 				e.editorOptions.disabled = true;
-				e.editorOptions.value = "Protected Content";
+                e.editorOptions.value = "*******";
 			}
 			if (!objectPermission.Data[dataField].Write) {
 				e.editorOptions.disabled = true;

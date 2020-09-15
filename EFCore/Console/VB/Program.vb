@@ -44,7 +44,7 @@ Namespace ConsoleApplication
 					Dim canRead As Boolean = security.CanRead(securedObjectSpace, employee, memberName:=NameOf(Employee.Department))
 					Debug.Assert((Not canRead) = (employee.Department Is Nothing))
 					' Mask protected property values when User has no 'Read' permission.
-					Dim department = If(canRead, employee.Department.Title, "Protected Content")
+					Dim department = If(canRead, employee.Department.Title, "*******")
 					Console.WriteLine($"{employee.FullName,-40}{department,-40}")
 				Next employee
 			End Using

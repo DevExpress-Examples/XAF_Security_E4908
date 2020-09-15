@@ -51,7 +51,7 @@ namespace ConsoleApplication {
                     bool canRead = security.CanRead(securedObjectSpace, employee, memberName: nameof(Employee.Department));
                     Debug.Assert(!canRead == (employee.Department == null));
                     // Mask protected property values when User has no 'Read' permission.
-                    var department = canRead ? employee.Department.Title : "Protected Content";
+                    var department = canRead ? employee.Department.Title : "*******";
                     Console.WriteLine($"{employee.FullName,-40}{department,-40}");
                 }
             }

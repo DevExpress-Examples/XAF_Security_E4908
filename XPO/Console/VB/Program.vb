@@ -41,7 +41,7 @@ Namespace ConsoleApplication
                         If security.CanRead(employee, NameOf(Department)) Then
                             stringBuilder.Append($"Department: {employee.Department.Title}" & ControlChars.Lf)
                         Else
-                            stringBuilder.Append("Department: [Protected content]" & ControlChars.Lf)
+                            stringBuilder.Append("Department: *******" & ControlChars.Lf)
                         End If
                     Next employee
                 End Using
