@@ -1,10 +1,8 @@
 <!-- default file list -->
 
-# .NET User Authentication and Group Authorization API for DevExpress XPO and Microsoft Entity Framework Core ORMs
+# .NET Role-based Access Control & User Authentication API for DevExpress XPO and Microsoft Entity Framework Core ORMs
 
-For general information on XAF's Security System API, please review [our landing page](https://www.devexpress.com/products/net/application_framework/security.xml) or watch the following video: [XAF Security: Overview of .NET User Authentication & Group Authorization API for EF Core and XPO ORM](https://youtu.be/sIhWOXRWlOw).
-
-![image](images/XAF_Security_Architecture2.png)
+For general information on XAF's Security System API, please review [our landing page](https://www.devexpress.com/products/net/application_framework/security.xml) or watch [the overview video](https://youtu.be/sIhWOXRWlOw).
 
 ## Demos and Step-By-Step Tutorials for .NET Framework and .NET Core
 Please research the information below, because additional prerequisites may apply to certain platforms. If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
@@ -21,7 +19,7 @@ Please research the information below, because additional prerequisites may appl
 - [WinForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_WinForms_EFCore.aspx)
 - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Console_EFCore.aspx)
 
-We detailed the main integration steps for any .NET Core application in the following video: [XAF Security: .NET User Authentication & Group Authorization API for EF Core in Blazor Server Apps](https://youtu.be/o1q4GqFgSFE).
+We detailed the main integration steps for any .NET Core application in [this video](https://youtu.be/o1q4GqFgSFE).
 
 #### Coming Next
 Other Apps with EF Core and Xamarin, Blazor WebAssembly, WPF with XPO. To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using this **[short survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx)**.
@@ -44,13 +42,13 @@ Please review [this KB Article](https://supportcenter.devexpress.com/ticket/deta
 
 - Non-XAF developers who create standard line-of-business (LOB) apps with login, logout forms and security related functionality for any .NET UI technologies like WinForms, WPF, ASP.NET (WebForms, MVC 5, MVC Core, Razor Pages) and .NET server technologies like ASP.NET Web API/OData, WCF, etc. 
 
-## User Authentication & Group Authorization - App Security Made Easy
+## Role-based Access Control & User Authentication - App Security Made Easy
 
-- Getting security right (safe, fast, up-to-date, flexible, and database agnostic) is complicated. Pre-built middleware libraries like ASP.NET Core Identity or Identity Server can be difficult to configure or offer unnecessary functionality. Our User Authentication & Group Authorization API for .NET allows you to integrate a proven, database agnostic security sub-system in the shortest possible time.
+- Getting security right (safe, fast, up-to-date, flexible, and database agnostic) is complicated. Pre-built middleware libraries like ASP.NET Core Identity or Identity Server can be difficult to configure or offer unnecessary functionality. Our Role-based Access Control & User Authentication API for .NET allows you to integrate a proven, database agnostic security sub-system in the shortest possible time.
 
-- LOB app developers want to save time and do not want to implement complex security memberships and authentication/authorization algorithms from scratch (for instance, apps that can filter protected data against a user's access rights or check whether the current user is allowed to delete records). Our User Authentication & Group Authorization API for .NET allows you to incorporate advanced security-related capabilities with minimal effort.
+- LOB app developers want to save time and do not want to implement complex security memberships and authentication/authorization algorithms from scratch (for instance, apps that can filter protected data against a user's access rights or check whether the current user is allowed to delete records). Our Role-based Access Control & User Authentication API for .NET allows you to incorporate advanced security-related capabilities with minimal effort.
 
-- While certain platforms like ASP.NET simplify authentication and basic authorization with a built-in design time APIs, it is difficult to build a flexible and customizable security system (allowing users to customize the system once the app is deployed). Our User Authentication & Group Authorization API for .NET allows you to incorporate a highly flexible/customizable security system in your next .NET app.
+- While certain platforms like ASP.NET simplify authentication and basic authorization with a built-in design time APIs, it is difficult to build a flexible and customizable security system (allowing users to customize the system once the app is deployed). Our Role-based Access Control & User Authentication API for .NET allows you to incorporate a highly flexible/customizable security system in your next .NET app.
 
 ## Feature Overview
 
