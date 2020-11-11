@@ -14,7 +14,7 @@
 
 	<Aliases>
 		<Alias Name="DomainUserName" Value="%USERDOMAIN%\%USERNAME%" />
-		<Alias Name="WinAdapterAssemblyName" Value="DevExpress.ExpressApp.EasyTest.WinAdapter.v20.1" />
+		<Alias Name="WinAdapterAssemblyName" Value="DevExpress.ExpressApp.EasyTest.WinAdapter.v20.2" />
 		<Alias Name="WinAppBin" Value="[ConfigPath]\..\..\XafSolution.Win\Bin\EasyTest" />
 	</Aliases>
 </Options>

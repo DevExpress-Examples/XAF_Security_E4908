@@ -84,9 +84,9 @@
     <EmbeddedResource Include="DatabaseUpdate\Employees.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.1.5" />
-    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="20.1.5" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="20.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.2.3" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
