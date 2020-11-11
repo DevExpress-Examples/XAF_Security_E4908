@@ -311,7 +311,6 @@ A user is identified by the user name and password parameters.
 		httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 	}
 	```
-> Make sure that the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System) in your non-XAF application have same values as in the XAF application where passwords were set. Otherwise you won't be able to login.
 
 ## Step 3: Implement OData Controllers for CRUD, Login, Logoff, etc.
 

@@ -12,8 +12,6 @@ namespace ASPNETCoreODataService
     {
         public static void Main(string[] args)
         {
-			DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = true;
-			DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = false;
 			BuildWebHost(args).Run();
 		}
 
