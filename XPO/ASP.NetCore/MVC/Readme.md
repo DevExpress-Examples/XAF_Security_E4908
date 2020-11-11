@@ -271,8 +271,6 @@ private void SignIn(HttpContext httpContext, string userName) {
 }
 ```
 
-> Make sure that the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System) in your non-XAF application have the same values as in the XAF application where passwords were set. Otherwise you won't be able to login.
-
 ## Step 3: Server-Side App Authentication and Authorization with MVC Controllers for Login, Logout and CRUD
 
 All controllers get SecurityProvider as constructor parameters to have access to objectSpace and security.

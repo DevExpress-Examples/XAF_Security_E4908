@@ -3,7 +3,7 @@
   "defaultProvider": "filesystem",
   "libraries": [
     {
-      "library": "C:/Program Files (x86)/DevExpress 20.1/DevExtreme/Sources/Lib/js/",
+      "library": "C:/Program Files (x86)/DevExpress 20.2/DevExtreme/Sources/Lib/js/",
       "destination": "wwwroot/js/devextreme",
       "files": [
         "jquery.js",
@@ -11,7 +11,7 @@
       ]
     },
     {
-      "library": "C:/Program Files (x86)/DevExpress 20.1/DevExtreme/Sources/Lib/js/aspnet/",
+      "library": "C:/Program Files (x86)/DevExpress 20.2/DevExtreme/Sources/Lib/js/aspnet/",
       "destination": "wwwroot/js/devextreme/aspnet/",
       "files": [
         "dx.aspnet.data.js",
@@ -19,15 +19,15 @@
       ]
     },
     {
-      "library": "C:/Program Files (x86)/DevExpress 20.1/DevExtreme/Sources/Lib/css/fonts/",
+      "library": "C:/Program Files (x86)/DevExpress 20.2/DevExtreme/Sources/Lib/css/fonts/",
       "destination": "wwwroot/css/devextreme/fonts"
     },
     {
-      "library": "C:/Program Files (x86)/DevExpress 20.1/DevExtreme/Sources/Lib/css/icons/",
+      "library": "C:/Program Files (x86)/DevExpress 20.2/DevExtreme/Sources/Lib/css/icons/",
       "destination": "wwwroot/css/devextreme/icons"
     },
     {
-      "library": "C:/Program Files (x86)/DevExpress 20.1/DevExtreme/Sources/Lib/css/",
+      "library": "C:/Program Files (x86)/DevExpress 20.2/DevExtreme/Sources/Lib/css/",
       "destination": "wwwroot/css/devextreme/",
       "files": [
         "bootstrap.css",
