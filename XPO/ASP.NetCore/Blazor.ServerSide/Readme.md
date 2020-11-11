@@ -6,8 +6,6 @@ You will also see how to execute Create, Write and Delete data operations and ta
 - Make sure that your environment meets [Microsoft Blazor Prerequisites](https://docs.devexpress.com/Blazor/401055/getting-started/prerequisites).
 - [Download and run two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/)
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
-- Download DevExpress Blazor UI Components from the [DevExpress NuGet feed](https://nuget.devexpress.com/)). 
-  - *If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.*
 - Build the solution and run the _XafSolution.Win_ project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the _XafSolution.Module_ project.
 - Add the _XafSolution.Module_ assembly reference to your application.
 
@@ -196,8 +194,6 @@ private void SignIn(HttpContext httpContext, string userName) {
 }
 ```
 
-> Make sure that the static [EnableRfc2898 and SupportLegacySha512 properties](https://docs.devexpress.com/eXpressAppFramework/112649/Concepts/Security-System/Passwords-in-the-Security-System) in your non-XAF application have the same values as in the XAF application where the passwords were set. Otherwise you won't be able to log in.
-
 ## Step 3. Pages
 
 [Login.cshtml](Pages/Login.cshtml) is a login page that allows you to log into the application.
@@ -241,18 +237,21 @@ protected override void OnInitialized() {
 The `HandleValidSubmit` method saves changes if data is valid.
 
 ```csharp
-void HandleValidSubmit() {
+async Task HandleValidSubmit() {
 	ObjectSpace.CommitChanges();
-	grid.CancelRowEdit();
+	await grid.Refresh();
+	employee = null;
+	await grid.CancelRowEdit();
 }
 ```
 
 The `OnRowRemoving` method removes an object.
 
 ```csharp
-void OnRowRemoving(object item) {
+Task OnRowRemoving(object item) {
 	ObjectSpace.Delete(item);
 	ObjectSpace.CommitChanges();
+	return grid.Refresh();
 }
 ```
 
@@ -261,15 +260,18 @@ To show/hide the `New`, `Edit`, `Delete` actions, use the appropriate `CanXXX` m
 ```razor
 <DxDataGridCommandColumn Width="100px">
 	<HeaderCellTemplate>
-		@if(SecurityProvider.Security.CanCreate<Employee>()) {
-			<a @onclick="@(() => grid.StartRowEdit(null))" href="javascript:;">New</a>
+		@if (SecurityProvider.Security.CanCreate<Employee>())
+		{
+			<button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
 		}
 	</HeaderCellTemplate>
 	<CellTemplate>
-		@if(SecurityProvider.Security.CanWrite(context)) {
-			<a @onclick="@(() => grid.StartRowEdit(context))" href="javascript:;">Edit</a>
+		@if (SecurityProvider.Security.CanWrite(context))
+		{
+			<a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit</a>
 		}
-		@if(SecurityProvider.Security.CanDelete(context)) {
+		@if (SecurityProvider.Security.CanDelete(context))
+		{
 			<a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
 		}
 	</CellTemplate>
@@ -286,17 +288,17 @@ To show the `*******` text instead of a default value in data grid cells and edi
 
 ```razor
 <DxDataGridColumn Field=@nameof(Employee.FirstName)>
-	<DisplayTemplate>
-		<SecuredContainer Context="readOnly" CurrentObject=@context PropertyName=@nameof(Employee.FirstName)>
-			@(((Employee)context).FirstName)
-		</SecuredContainer>
-	</DisplayTemplate>
+    <DisplayTemplate>
+        <SecuredContainer Context="readOnly" CurrentObject=@context PropertyName=@nameof(Employee.FirstName)>
+            @(((Employee)context).FirstName)
+        </SecuredContainer>
+    </DisplayTemplate>
 </DxDataGridColumn>
 //...
 <DxFormLayoutItem Caption="First Name">
 	<Template>
-		<SecuredContainer Context="readOnly" CurrentObject=@editingObject PropertyName=@nameof(Employee.FirstName) IsEditor=true>
-			<DxTextBox @bind-Text=editingObject.FirstName ReadOnly=@readOnly />
+		<SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.FirstName) IsEditor=true>
+			<DxTextBox @bind-Text=employee.FirstName ReadOnly=@readOnly />
 		</SecuredContainer>
 	</Template>
 </DxFormLayoutItem>

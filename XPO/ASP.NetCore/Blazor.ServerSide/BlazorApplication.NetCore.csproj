@@ -5,9 +5,9 @@
     <UserSecretsId>aspnet-BlazorApplication.NetCore-780C9DB8-097F-4C45-843A-E78A7BF43BCD</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Blazor" Version="19.1.10" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.1.5" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.1.5" />
+    <PackageReference Include="DevExpress.Blazor" Version="20.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.2.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
   </ItemGroup>

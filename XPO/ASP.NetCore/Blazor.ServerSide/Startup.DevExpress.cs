@@ -6,12 +6,12 @@
 //
 // <Project Sdk="Microsoft.NET.Sdk.Web">
 //  <PropertyGroup>
-//    <TargetFramework>netcoreapp3.0</TargetFramework>
+//    <TargetFramework>netcoreapp3.1</TargetFramework>
 //    <DxExtendStartupHost>False</DxExtendStartupHost>
 //  </PropertyGroup>
 //------------------------------------------------------------------------------
 using System;
-using DevExpress.Blazor;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 
 [assembly: HostingStartup(typeof(BlazorApplication.NetCore.DevExpressHostingStartup))]
