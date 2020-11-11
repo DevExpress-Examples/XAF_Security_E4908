@@ -27,9 +27,6 @@ Namespace WindowsFormsApplication
             Dim connectionString As String = ConfigurationManager.ConnectionStrings("ConnectionString").ConnectionString
             Dim objectSpaceProvider As IObjectSpaceProvider = New SecuredObjectSpaceProvider(security, connectionString, Nothing)
 
-            DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = True
-            DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = False
-
             Application.EnableVisualStyles()
             Application.SetCompatibleTextRenderingDefault(False)
             Dim mainForm As New MainForm(security, objectSpaceProvider)

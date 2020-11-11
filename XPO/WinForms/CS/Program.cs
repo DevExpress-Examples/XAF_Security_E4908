@@ -23,9 +23,6 @@ namespace WindowsFormsApplication {
 			string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 			IObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 
-			DevExpress.Persistent.Base.PasswordCryptographer.EnableRfc2898 = true;
-			DevExpress.Persistent.Base.PasswordCryptographer.SupportLegacySha512 = false;
-
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			MainForm mainForm = new MainForm(security, objectSpaceProvider);
