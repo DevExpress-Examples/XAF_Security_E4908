@@ -21,9 +21,6 @@ namespace ConsoleApplication {
 			string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 			SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 
-			PasswordCryptographer.EnableRfc2898 = true;
-			PasswordCryptographer.SupportLegacySha512 = false;
-
 			string userName = "User";
 			string password = string.Empty;
 			authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName, password));

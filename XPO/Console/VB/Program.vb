@@ -21,9 +21,6 @@ Namespace ConsoleApplication
             Dim connectionString As String = ConfigurationManager.ConnectionStrings("ConnectionString").ConnectionString
             Dim objectSpaceProvider As New SecuredObjectSpaceProvider(security, connectionString, Nothing)
 
-            PasswordCryptographer.EnableRfc2898 = True
-            PasswordCryptographer.SupportLegacySha512 = False
-
             Dim userName As String = "User"
             Dim password As String = String.Empty
             authentication.SetLogonParameters(New AuthenticationStandardLogonParameters(userName, password))
