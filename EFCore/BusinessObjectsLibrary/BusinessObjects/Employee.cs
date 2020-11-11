@@ -1,4 +1,5 @@
 ﻿using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl.EF;
 
 namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
     [DefaultClassOptions]

@@ -19,9 +19,9 @@
     <EmbeddedResource Remove="MainForm.resx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
-    <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.1.5-ctp" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.0-rc.2.20475.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0-rc.2.20475.6" />
+    <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.2.3-ctp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj" />

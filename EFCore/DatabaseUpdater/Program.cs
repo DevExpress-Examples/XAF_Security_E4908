@@ -13,9 +13,6 @@ namespace DatabaseUpdater.EFCore {
             EFCoreObjectSpaceProvider objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext),
                 (builder, _) => builder.UseSqlServer(connectionString));
 
-            PasswordCryptographer.EnableRfc2898 = true;
-            PasswordCryptographer.SupportLegacySha512 = false;
-
             Console.WriteLine("Starting database update...");
 
             using(IObjectSpace objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {

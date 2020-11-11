@@ -16,8 +16,6 @@ Namespace ConsoleApplication
 	Friend Class Program
 		Shared Sub Main()
 			' ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
-			PasswordCryptographer.EnableRfc2898 = True
-			PasswordCryptographer.SupportLegacySha512 = False
 			Dim authentication As New AuthenticationStandard()
 			Dim security As New SecurityStrategyComplex(GetType(PermissionPolicyUser), GetType(PermissionPolicyRole), authentication)
 			Dim connectionString As String = ConfigurationManager.ConnectionStrings("ConnectionString").ConnectionString

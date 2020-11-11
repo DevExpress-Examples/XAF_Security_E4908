@@ -18,8 +18,6 @@ namespace ConsoleApplication {
     class Program {
         static void Main() {
             // ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
-            PasswordCryptographer.EnableRfc2898 = true;
-            PasswordCryptographer.SupportLegacySha512 = false;
             AuthenticationStandard authentication = new AuthenticationStandard();
             SecurityStrategyComplex security = new SecurityStrategyComplex(
                 typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),

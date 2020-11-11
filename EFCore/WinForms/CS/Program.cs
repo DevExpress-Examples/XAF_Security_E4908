@@ -16,8 +16,6 @@ namespace WindowsFormsApplication {
         /// </summary>
         [STAThread]
         static void Main() {
-            PasswordCryptographer.EnableRfc2898 = true;
-            PasswordCryptographer.SupportLegacySha512 = false;
             AuthenticationStandard authentication = new AuthenticationStandard();
             SecurityStrategyComplex security = new SecurityStrategyComplex(
                 typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),

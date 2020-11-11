@@ -1,12 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.2.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0-rc.2.20475.6" />
+    <PackageReference Include="DevExpress.Persistent.Base" Version="20.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="20.2.3" />
   </ItemGroup>
 
 </Project>
