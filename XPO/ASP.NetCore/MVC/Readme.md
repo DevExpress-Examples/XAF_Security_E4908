@@ -15,6 +15,10 @@ This example demonstrates how to protect your data with the [XAF Security System
 
 ***
 
+## Known Issue
+If you are using Visual Studio v.16.8.0 you may face a [RazorTagHelper - DOTNET_HOST_PATH is not set](https://github.com/dotnet/sdk/issues/14497) issue.
+***
+
 ## Step 1: Configure the ASP.NET Core Server App Services
 For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-2.2&tabs=windows).
 
