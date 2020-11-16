@@ -60,7 +60,7 @@
                 <CellTemplate>
                     @if (SecurityProvider.Security.CanWrite(context))
                     {
-                        <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit</a>
+                        <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
                     }
                     @if (SecurityProvider.Security.CanDelete(context))
                     {
