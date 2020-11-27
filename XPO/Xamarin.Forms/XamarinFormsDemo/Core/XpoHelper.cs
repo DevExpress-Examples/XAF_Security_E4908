@@ -16,13 +16,11 @@ namespace XamarinFormsDemo {
         public static SecuredObjectSpaceProvider objectSpaceProvider;
         public static AuthenticationStandard authentication; 
         public static SecurityStrategyComplex security;
-        static IDataStore dataStore;
         
         public static void InitXpo(string connectionString, string login, string password) {
-            GetDataStore(connectionString);
             RegisterEntities();
-            GetSecurity();
-            objectSpaceProvider = new SecuredObjectSpaceProvider(security, new WebApiDataStoreProvider());
+            InitSecurity();
+            objectSpaceProvider = new SecuredObjectSpaceProvider(security, new WebApiDataStoreProvider(connectionString));
             LogIn(login, password);
             XpoDefault.Session = null;
         }
@@ -35,21 +33,11 @@ namespace XamarinFormsDemo {
             IObjectSpace loginObjectSpace = objectSpaceProvider.CreateObjectSpace();
             security.Logon(loginObjectSpace);
         }
-        static HttpClientHandler GetInsecureHandler() {
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            return handler;
-        }
-        static void GetSecurity() {
+        
+        static void InitSecurity() {
             authentication = new AuthenticationStandard();
             security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
             security.RegisterXPOAdapterProviders();
-        }
-        static void GetDataStore(string connectionString) {
-            HttpClient httpClient = new HttpClient(GetInsecureHandler());
-            Uri uri = new Uri(connectionString);
-            httpClient.BaseAddress = uri;
-            dataStore =  new WebApiDataStoreClient(httpClient, AutoCreateOption.SchemaAlreadyExists);   
         }
         private static void RegisterEntities() {
             XpoTypesInfoHelper.GetXpoTypeInfoSource();
@@ -59,25 +47,33 @@ namespace XamarinFormsDemo {
         }
 
         private class WebApiDataStoreProvider : IXpoDataStoreProvider {
+            string fConnectionString;
             public string ConnectionString {
-                get {
-                    throw new NotImplementedException();
-                }
+                get => fConnectionString;
+            }
+            HttpClientHandler GetInsecureHandler() {
+                HttpClientHandler handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+                return handler;
+            }
+            public WebApiDataStoreProvider(string connectionString) {
+                fConnectionString = connectionString;
             }
 
             public IDataStore CreateSchemaCheckingStore(out IDisposable[] disposableObjects) {
-                disposableObjects =null; 
-                return dataStore;
+                throw new NotImplementedException();
             }
 
             public IDataStore CreateUpdatingStore(bool allowUpdateSchema, out IDisposable[] disposableObjects) {
-                disposableObjects = null;
-                return dataStore;
+                throw new NotImplementedException();
             }
 
             public IDataStore CreateWorkingStore(out IDisposable[] disposableObjects) {
-                disposableObjects = null;
-                return dataStore;
+                HttpClient httpClient = new HttpClient(GetInsecureHandler());
+                Uri uri = new Uri(ConnectionString);
+                httpClient.BaseAddress = uri;
+                disposableObjects = new[] { httpClient };
+                return WebApiDataStoreClient(httpClient, AutoCreateOption.SchemaAlreadyExists);
             }
         }
     }
