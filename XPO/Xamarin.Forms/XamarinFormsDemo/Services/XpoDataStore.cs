@@ -11,13 +11,12 @@ namespace XamarinFormsDemo {
     public class XpoDataStore : IDataStore<Employee> {
         public async Task<bool> AddItemAsync(Employee item) {
             try {
-                using(var uow = XpoHelper.CreateUnitOfWork()) {
-                    Guid.NewGuid().ToString();
+                using(var uow = item.Session as UnitOfWork) {
                     uow.Save(item);
                     await uow.CommitChangesAsync();
                     return true;
                 }
-            } catch(Exception) {
+            } catch(Exception ex ) {
                 return false;
             }
         }

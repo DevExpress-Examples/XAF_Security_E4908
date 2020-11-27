@@ -18,9 +18,9 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Label Text="Text" FontSize="Medium" Grid.Row="0" Grid.Column="0" />
-            <Entry Text="{Binding Item.Text}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0" />
+            <Entry Text="{Binding Item.FirstName}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0" />
             <Label Text="Description" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
-            <Editor Text="{Binding Item.Description}" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0" />
+            <Editor Text="{Binding Item.LastName}" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>
