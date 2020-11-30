@@ -5,9 +5,7 @@ using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DevExpress.Xpo;
 using DevExpress.Xpo.DB;
-using DevExpress.Xpo.Metadata;
 using System;
-using System.Linq;
 using System.Net.Http;
 using XafSolution.Module.BusinessObjects;
 
@@ -73,7 +71,7 @@ namespace XamarinFormsDemo {
                 Uri uri = new Uri(ConnectionString);
                 httpClient.BaseAddress = uri;
                 disposableObjects = new[] { httpClient };
-                return WebApiDataStoreClient(httpClient, AutoCreateOption.SchemaAlreadyExists);
+                return new WebApiDataStoreClient(httpClient, AutoCreateOption.SchemaAlreadyExists);
             }
         }
     }

@@ -16,13 +16,10 @@ namespace XamarinFormsDemo {
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             Tracing.UseConfigurationManager = false;
             Tracing.Initialize(3);
-            // Connect to SQLite
-            var filePath = Path.Combine(documentsPath, "xpoXamarinDemo.db");
-            string connectionString = SQLiteConnectionProvider.GetConnectionString(filePath) + ";Cache=Shared;";
-            connectionString = "https://10.0.2.2:5001/xpo/";
+            string WebApiServiceUrl = "https://10.0.2.2:5001/xpo/";
             string login = "User";
             string password = "";
-            XpoHelper.InitXpo(connectionString, login, password);
+            XpoHelper.InitXpo(WebApiServiceUrl, login, password);
 
             if(Device.RuntimePlatform == Device.iOS)
                 MainPage = new MainPage();
