@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DevExpress.ExpressApp.Security;
+using DevExpress.Xpo;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -12,8 +14,11 @@ namespace XamarinFormsDemo.ViewModels {
     public class ItemsViewModel : BaseViewModel {
         public ObservableCollection<Employee> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
+        public static UnitOfWork UnitOfWork { get; set; }
+        public bool CheckCreate { get => XpoHelper.security.CanCreate(typeof(Employee)); }
 
         public ItemsViewModel() {
+            UnitOfWork = XpoHelper.CreateUnitOfWork();
             Title = "Browse";
             Items = new ObservableCollection<Employee>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());

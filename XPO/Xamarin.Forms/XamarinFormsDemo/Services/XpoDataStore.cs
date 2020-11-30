@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using XafSolution.Module.BusinessObjects;
 using XamarinFormsDemo.Services;
+using XamarinFormsDemo.ViewModels;
 
 [assembly: Xamarin.Forms.Dependency(typeof(XamarinFormsDemo.XpoDataStore))]
 namespace XamarinFormsDemo {
@@ -16,7 +17,7 @@ namespace XamarinFormsDemo {
                     await uow.CommitChangesAsync();
                     return true;
                 }
-            } catch(Exception ex ) {
+            } catch(Exception) {
                 return false;
             }
         }
@@ -43,10 +44,10 @@ namespace XamarinFormsDemo {
         }
 
         public async Task<IEnumerable<Employee>> GetItemsAsync(bool forceRefresh = false) {
-            using(var uow = XpoHelper.CreateUnitOfWork()) {
-                var res = await uow.Query<Employee>().OrderBy(i => i.FirstName).ToListAsync();
-                return res;
-            }
+            var uow = ItemsViewModel.UnitOfWork;
+            var res = await uow.Query<Employee>().OrderBy(i => i.FirstName).ToListAsync();
+            return res;
+        
         }
 
         public async Task<bool> UpdateItemAsync(Employee item) {

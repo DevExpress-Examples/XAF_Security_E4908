@@ -31,5 +31,14 @@ namespace XamarinFormsDemo.Views {
             MessagingCenter.Send(this, "UpdateItem", viewModel.Item);
             await Navigation.PopToRootAsync();
         }
+        async void Delete_Clicked(object sender, EventArgs e) {
+            if(viewModel.Item != null) {
+                var result = await DisplayAlert("Delete", $"Are you sure you want to delete the \"{viewModel.Item.FullName}\" item?", "Yes", "No");
+                if(result) {
+                    MessagingCenter.Send(this, "DeleteItem", viewModel.Item);
+                    await Navigation.PopToRootAsync();
+                }
+            }
+        }
     }
 }

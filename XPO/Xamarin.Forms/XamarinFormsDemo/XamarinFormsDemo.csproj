@@ -11,7 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="1" Version="1.0.0" />
     <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.2.3" />
     <PackageReference Include="DevExpress.ExpressApp.Validation" Version="20.2.3" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.2.3" />

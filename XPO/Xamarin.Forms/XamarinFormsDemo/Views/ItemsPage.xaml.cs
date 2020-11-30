@@ -29,16 +29,7 @@ namespace XamarinFormsDemo.Views {
             await Navigation.PushAsync(new NewItemPage());
         }
 
-        async void Delete_Clicked(object sender, EventArgs e) {
-            Button button = (Button)sender;
-            Employee item = button.BindingContext as Employee;
-            if(item != null) {
-                var result = await DisplayAlert("Delete", $"Are you sure you want to delete the \"{item.FullName}\" item?", "Yes", "No");
-                if(result) {
-                    MessagingCenter.Send(this, "DeleteItem", item);
-                }
-            }
-        }
+        
 
         protected override async void OnAppearing() {
             base.OnAppearing();

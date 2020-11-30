@@ -4,11 +4,15 @@
              x:Class="XamarinFormsDemo.Views.ItemDetailPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Update" Clicked="Update_Clicked" />
+        <ToolbarItem Text="Delete" Clicked="Delete_Clicked" Command="{Binding TempCommandDelete}"  IsEnabled="{Binding CheckDelete}" />
+        <ToolbarItem Text="Update" Clicked="Update_Clicked" Command="{Binding TempCommandUpdate}"  IsEnabled="{Binding CheckUpdate}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid ColumnSpacing="20" Padding="15">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -17,10 +21,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Text="Text" FontSize="Medium" Grid.Row="0" Grid.Column="0" />
-            <Entry Text="{Binding Item.FullName}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0" />
-            <Label Text="Description" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
-            <Editor Text="{Binding Item.Department}" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0" />
+            <Label Text="FirstName" FontSize="Medium" Grid.Row="0" Grid.Column="0" />
+            <Entry Text="{Binding Item.FirstName}" IsReadOnly="{Binding  !CheckUpdate}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
+            <Label Text="LastName" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
+            <Entry Text="{Binding Item.LastName}" IsReadOnly="{Binding  !CheckUpdate}" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
+            <Label Text="Department" FontSize="Medium" Grid.Row="4" Grid.Column="0" />
+            <Editor Text="{Binding Item.Department}"   IsReadOnly="{Binding  !CheckUpdate}" FontSize="Small" Margin="0" Grid.Row="5" Grid.Column="0" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>
