@@ -20,21 +20,26 @@ namespace XamarinFormsDemo.ViewModels {
         }
         List<Department> departments;
 
-        public ItemDetailViewModel(Employee item = null) {
-            Title = item?.FullName;
-            Item = item;
+        public ItemDetailViewModel(UnitOfWork unitOfWork, Guid Oid) {
+            Item = uow.GetObjectByKey<Employee>(Oid);
+            Title = Item?.FullName;
+            
             TempCommandDelete = new Command(() => {
+                unitOfWork.Delete(Item);
+                unitOfWork.CommitChanges();
+                unitOfWork.Dispose();
             },
         () => CheckDelete);
             TempCommandUpdate = new Command(() => {
+                unitOfWork.Save(Item);
+                unitOfWork.CommitChanges();
+                unitOfWork.Dispose();
             },
         () => CheckUpdate);
             CheckDelete = XpoHelper.security.CanDelete(Item);
             CheckUpdate = XpoHelper.security.CanWrite(Item);
             if(Item.Department != null) {
-                Task<List<Department>> myTask = Task.Run(() => task());
-                myTask.Wait();
-                Departments = myTask.Result;
+                Departments = ItemsViewModel.Departments;
                 Department = Departments.IndexOf((Department)Item.Department);
             }
         }
@@ -51,8 +56,5 @@ namespace XamarinFormsDemo.ViewModels {
         public Command TempCommandDelete { get; private set; }
         public Command TempCommandUpdate { get; private set; }
 
-        async Task<List<Department>> task() {
-            return await ((UnitOfWork)Item.Session).Query<Department>().ToListAsync();
-        }
     }
 }

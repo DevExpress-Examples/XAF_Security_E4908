@@ -18,8 +18,8 @@ namespace XamarinFormsDemo.Views {
             var item = args.SelectedItem as Employee;
             if(item == null)
                 return;
-
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
+            UnitOfWork unitOfWork = XpoHelper.CreateUnitOfWork();
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(unitOfWork, item.Oid)));
 
             // Manually deselect item
             ItemsListView.SelectedItem = null;

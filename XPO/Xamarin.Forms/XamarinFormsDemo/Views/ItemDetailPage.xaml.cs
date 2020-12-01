@@ -28,14 +28,14 @@ namespace XamarinFormsDemo.Views {
             BindingContext = this.viewModel = viewModel;
         }
         async void Update_Clicked(object sender, EventArgs e) {
-            MessagingCenter.Send(this, "UpdateItem", viewModel.Item);
+            //MessagingCenter.Send(this, "UpdateItem", viewModel.Item);
             await Navigation.PopToRootAsync();
         }
         async void Delete_Clicked(object sender, EventArgs e) {
             if(viewModel.Item != null) {
-                var result = await DisplayAlert("Delete", $"Are you sure you want to delete the \"{viewModel.Item.FullName}\" item?", "Yes", "No");
+                var result = true;// await DisplayAlert("Delete", $"Are you sure you want to delete the \"{viewModel.Item.FullName}\" item?", "Yes", "No");
                 if(result) {
-                    MessagingCenter.Send(this, "DeleteItem", viewModel.Item);
+                    //MessagingCenter.Send(this, "DeleteItem", viewModel.Item);
                     await Navigation.PopToRootAsync();
                 }
             }
