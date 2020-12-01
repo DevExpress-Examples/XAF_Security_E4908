@@ -13,12 +13,7 @@ namespace XamarinFormsDemo.Views {
         public ItemDetailPage() {
             InitializeComponent();
 
-            var item = new Employee(XpoDefault.Session) {
-                FirstName = "Item 1",
-                LastName = "This is an item description."
-            };
-
-            viewModel = new ItemDetailViewModel(item);
+            viewModel = new ItemDetailViewModel(new Guid());
             BindingContext = viewModel;
         }
 

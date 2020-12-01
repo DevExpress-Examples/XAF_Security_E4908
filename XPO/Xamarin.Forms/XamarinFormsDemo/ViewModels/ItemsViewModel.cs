@@ -1,6 +1,7 @@
 ﻿using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -12,55 +13,61 @@ using XamarinFormsDemo.Views;
 
 namespace XamarinFormsDemo.ViewModels {
     public class ItemsViewModel : BaseViewModel {
-        public static ObservableCollection<Employee> Items { get; set; }
+        public ObservableCollection<Employee> Items { get; set; }
         public static List<Department> Departments { get; set; }
-        public Command LoadItemsCommand { get; set; }
+        public Command LoadDataCommand { get; set; }
         public bool CheckCreate { get => XpoHelper.security.CanCreate(typeof(Employee)); }
 
         public ItemsViewModel() {
-            UnitOfWork = XpoHelper.CreateUnitOfWork();
             Title = "Browse";
+            Departments = new List<Department>();
             Items = new ObservableCollection<Employee>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
-            MessagingCenter.Subscribe<NewItemPage, Employee>(this, "AddItem", async (obj, item) => {
-                var _item = item as Employee;
-                Items.Add(_item);
-                await DataStore.AddItemAsync(_item);
-            });
-            MessagingCenter.Subscribe<ItemsPage, Employee>(this, "DeleteItem", async (obj, item) => {
-                var _item = item as Employee;
-                Items.Remove(_item);
-                await DataStore.DeleteItemAsync(_item.Oid);
-            });
-            MessagingCenter.Subscribe<ItemDetailPage, Employee>(this, "UpdateItem", async (obj, item) => {
-                var _item = item as Employee;
-                Items.Remove(Items.Single(i => i.Oid == _item.Oid));
-                Items.Add(_item);
-                await DataStore.UpdateItemAsync(_item);
+            LoadDataCommand = new Command(async () => { 
+                await ExecuteLoadEmployeesCommand(); 
+                await ExecuteLoadDepartmentsCommand();
             });
         }
 
-        async Task ExecuteLoadItemsCommand() {
+        async Task ExecuteLoadEmployeesCommand() {
             if(IsBusy)
                 return;
 
             IsBusy = true;
-            await LoadItemsAsync();
+            await LoadEmployeesAsync();
             IsBusy = false;
         }
+        async Task ExecuteLoadDepartmentsCommand() {
+            if(IsBusy)
+                return;
 
+            IsBusy = true;
+            await LoadDepartmentsAsync();
+            IsBusy = false;
+        }
         public void UpdateItems() {
             OnPropertyChanged(nameof(Items));
         }
 
-        public async Task LoadItemsAsync() {
+        public async Task LoadEmployeesAsync() {
             try {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
+                var items = await DataStore.GetEmployeesAsync(uow, true);
                 foreach(var item in items) {
                     Items.Add(item);
                 }
+                OnPropertyChanged(nameof(Items));
+            } catch(Exception ex) {
+                Debug.WriteLine(ex);
+            }
+        }
+        public async Task LoadDepartmentsAsync() {
+            try {
+                Departments.Clear();
+                var items = await DataStore.GetDepartmentsAsync(uow, true);
+                foreach(var item in items) {
+                    Departments.Add(item);
+                }
+                OnPropertyChanged(nameof(Departments));
             } catch(Exception ex) {
                 Debug.WriteLine(ex);
             }

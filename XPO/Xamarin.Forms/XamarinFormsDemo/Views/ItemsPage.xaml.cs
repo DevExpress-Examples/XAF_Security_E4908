@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpo;
+using System;
 using XafSolution.Module.BusinessObjects;
 using Xamarin.Forms;
 
@@ -19,7 +20,7 @@ namespace XamarinFormsDemo.Views {
             if(item == null)
                 return;
             UnitOfWork unitOfWork = XpoHelper.CreateUnitOfWork();
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(unitOfWork, item.Oid)));
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel( item.Oid)));
 
             // Manually deselect item
             ItemsListView.SelectedItem = null;
@@ -29,13 +30,13 @@ namespace XamarinFormsDemo.Views {
             await Navigation.PushAsync(new NewItemPage());
         }
 
-        
+
 
         protected override async void OnAppearing() {
             base.OnAppearing();
-
             if(viewModel.Items.Count == 0) {
-                await viewModel.LoadItemsAsync();
+                await viewModel.LoadEmployeesAsync();
+                await viewModel.LoadDepartmentsAsync();
             } else {
                 viewModel.UpdateItems();
             }

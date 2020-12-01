@@ -1,6 +1,7 @@
 ﻿using DevExpress.Data.Extensions;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XafSolution.Module.BusinessObjects;
@@ -20,20 +21,20 @@ namespace XamarinFormsDemo.ViewModels {
         }
         List<Department> departments;
 
-        public ItemDetailViewModel(UnitOfWork unitOfWork, Guid Oid) {
+        public ItemDetailViewModel(Guid Oid) {
             Item = uow.GetObjectByKey<Employee>(Oid);
             Title = Item?.FullName;
-            
-            TempCommandDelete = new Command(() => {
-                unitOfWork.Delete(Item);
-                unitOfWork.CommitChanges();
-                unitOfWork.Dispose();
+
+            TempCommandDelete = new Command(async () => {
+                uow.Delete(Item);
+                await uow.CommitChangesAsync();
+                uow.Dispose();
             },
         () => CheckDelete);
-            TempCommandUpdate = new Command(() => {
-                unitOfWork.Save(Item);
-                unitOfWork.CommitChanges();
-                unitOfWork.Dispose();
+            TempCommandUpdate = new Command(async () => {
+                uow.Save(Item);
+                await uow.CommitChangesAsync();
+                uow.Dispose();
             },
         () => CheckUpdate);
             CheckDelete = XpoHelper.security.CanDelete(Item);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpo;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,8 +10,8 @@ using XamarinFormsDemo.Services;
 
 namespace XamarinFormsDemo.ViewModels {
     public class BaseViewModel : INotifyPropertyChanged {
-        public IDataStore<Employee> DataStore => DependencyService.Get<IDataStore<Employee>>() ?? new XpoDataStore();
-
+        public XpoDataStore DataStore =  new XpoDataStore();
+        public UnitOfWork uow = XpoHelper.CreateUnitOfWork();
         bool isBusy = false;
         public bool IsBusy {
             get { return isBusy; }
