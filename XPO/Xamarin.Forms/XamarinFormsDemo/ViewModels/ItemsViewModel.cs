@@ -14,7 +14,7 @@ using XamarinFormsDemo.Views;
 namespace XamarinFormsDemo.ViewModels {
     public class ItemsViewModel : BaseViewModel {
         public ObservableCollection<Employee> Items { get; set; }
-        public static List<Department> Departments { get; set; }
+        public List<Department> Departments { get; set; }
         public Command LoadDataCommand { get; set; }
         public bool CheckCreate { get => XpoHelper.security.CanCreate(typeof(Employee)); }
 

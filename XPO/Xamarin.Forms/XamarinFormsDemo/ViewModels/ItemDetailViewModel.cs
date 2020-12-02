@@ -40,8 +40,15 @@ namespace XamarinFormsDemo.ViewModels {
             CheckDelete = XpoHelper.security.CanDelete(Item);
             CheckUpdate = XpoHelper.security.CanWrite(Item);
             if(Item.Department != null) {
-                Departments = ItemsViewModel.Departments;
-                Department = Departments.IndexOf((Department)Item.Department);
+                Departments = Task.Run(async () => await GetDepartments()).GetAwaiter().GetResult();
+                Department = -1;
+                for(int i = 0; i < Departments.Count; i++)  {
+                    if(Departments[i].Oid == Item.Department.Oid) {
+                        Department = i;
+                        break;
+                    }
+                }
+                //Department = Departments.((Department)Item.Department);
             }
         }
         public bool CheckDelete {
@@ -52,6 +59,10 @@ namespace XamarinFormsDemo.ViewModels {
             get { return checkUpdate; }
             set { SetProperty(ref checkUpdate, value); TempCommandUpdate.ChangeCanExecute(); }
         }
+        async Task<List<Department>> GetDepartments() {
+            return await uow.Query<Department>().ToListAsync();
+        }
+
         bool checkUpdate;
         bool checkDelete;
         public Command TempCommandDelete { get; private set; }
