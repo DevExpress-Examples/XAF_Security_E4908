@@ -37,7 +37,13 @@ namespace XamarinFormsDemo.Views {
             int selectedIndex = picker.SelectedIndex;
             if(selectedIndex != -1) {
                 await viewModel.LoadEmployeesAsync();
-                viewModel.Items= (ObservableCollection<Employee>)viewModel.Items.Where(w=> w.Department == viewModel.Departments[selectedIndex] );
+                var items = viewModel.Items.Where(w => w.Department == viewModel.Departments[selectedIndex]).ToList();
+                viewModel.Items.Clear();
+                foreach(var item in items) {
+                    viewModel.Items.Add(item);
+                };
+            } else {
+                await viewModel.LoadEmployeesAsync();
             }
         }
 

@@ -30,4 +30,10 @@
       <HintPath>..\..\XafSolution\XafSolution.Module\bin_NetCore\netstandard2.0\XafSolution.Module.NetCore.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

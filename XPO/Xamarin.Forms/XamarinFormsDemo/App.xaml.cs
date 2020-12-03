@@ -16,15 +16,13 @@ namespace XamarinFormsDemo {
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             Tracing.UseConfigurationManager = false;
             Tracing.Initialize(3);
-            string WebApiServiceUrl = "https://10.0.2.2:5001/xpo/";
-            string login = "User";
-            string password = "";
-            XpoHelper.InitXpo(WebApiServiceUrl, login, password);
+            //string WebApiServiceUrl = "https://10.0.2.2:5001/xpo/";
+            //XpoHelper.InitXpo(WebApiServiceUrl, login, password);
 
             if(Device.RuntimePlatform == Device.iOS)
-                MainPage = new MainPage();
+                MainPage = new LoginPage();
             else
-                MainPage = new NavigationPage(new MainPage());
+                MainPage = new NavigationPage(new LoginPage());
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {

@@ -13,14 +13,22 @@ using XamarinFormsDemo.Views;
 
 namespace XamarinFormsDemo.ViewModels {
     public class ItemsViewModel : BaseViewModel {
-        public ObservableCollection<Employee> Items { get; set; }
-        public List<Department> Departments { get; set; }
+        public ObservableCollection<Employee> Items {
+            get { return items; }
+            set { SetProperty(ref items, value); }
+        }
+        public ObservableCollection<Department> Departments {
+            get { return departments; }
+            set { SetProperty(ref departments, value); }
+        }
+        ObservableCollection<Employee> items;
+        ObservableCollection<Department> departments;
         public Command LoadDataCommand { get; set; }
         public bool CheckCreate { get => XpoHelper.security.CanCreate(typeof(Employee)); }
 
         public ItemsViewModel() {
             Title = "Browse";
-            Departments = new List<Department>();
+            Departments = new ObservableCollection<Department>();
             Items = new ObservableCollection<Employee>();
             LoadDataCommand = new Command(async () => { 
                 await ExecuteLoadEmployeesCommand(); 

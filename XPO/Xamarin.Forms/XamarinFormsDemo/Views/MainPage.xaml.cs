@@ -6,22 +6,22 @@ using Xamarin.Forms;
 namespace XamarinFormsDemo.Views {
      public partial class MainPage : TabbedPage {
         public MainPage() {
-            Page itemsPage, aboutPage = null;
+            Page ItemsPage, aboutPage = null;
 
             switch(Device.RuntimePlatform) {
                 case Device.iOS:
-                    itemsPage = new NavigationPage(new ItemsPage()) {
+                    ItemsPage = new NavigationPage(new ItemsPage()) {
                         Title = "Browse"
                     };
 
                     aboutPage = new NavigationPage(new AboutPage()) {
                         Title = "About"
                     };
-                    itemsPage.IconImageSource = "tab_feed.png";
+                    ItemsPage.IconImageSource = "tab_feed.png";
                     aboutPage.IconImageSource = "tab_about.png";
                     break;
                 default:
-                    itemsPage = new ItemsPage() {
+                    ItemsPage = new ItemsPage() {
                         Title = "Browse"
                     };
 
@@ -31,7 +31,7 @@ namespace XamarinFormsDemo.Views {
                     break;
             }
 
-            Children.Add(itemsPage);
+            Children.Add(ItemsPage);
             Children.Add(aboutPage);
 
             Title = Children[0].Title;
