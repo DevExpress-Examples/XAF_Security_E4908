@@ -9,6 +9,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
+            <Picker ItemsSource="{Binding Departments}" SelectedIndexChanged="FilterByDepartment"/>
             <ListView x:Name="ItemsListView" 
                 ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"

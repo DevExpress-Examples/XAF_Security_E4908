@@ -1,5 +1,7 @@
 ﻿using DevExpress.Xpo;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using XafSolution.Module.BusinessObjects;
 using Xamarin.Forms;
 
@@ -30,7 +32,14 @@ namespace XamarinFormsDemo.Views {
             await Navigation.PushAsync(new NewItemPage());
         }
 
-
+        async void FilterByDepartment(object sender, EventArgs e) {
+            var picker = (Picker)sender;
+            int selectedIndex = picker.SelectedIndex;
+            if(selectedIndex != -1) {
+                await viewModel.LoadEmployeesAsync();
+                viewModel.Items= (ObservableCollection<Employee>)viewModel.Items.Where(w=> w.Department == viewModel.Departments[selectedIndex] );
+            }
+        }
 
         protected override async void OnAppearing() {
             base.OnAppearing();
