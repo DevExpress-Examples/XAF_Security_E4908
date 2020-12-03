@@ -4,8 +4,8 @@
              x:Class="XamarinFormsDemo.Views.ItemDetailPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Delete" Clicked="Delete_Clicked" Command="{Binding TempCommandDelete}"  IsEnabled="{Binding CheckDelete}" />
-        <ToolbarItem Text="Update" Clicked="Update_Clicked" Command="{Binding TempCommandUpdate}"  IsEnabled="{Binding CheckUpdate}"/>
+        <ToolbarItem Text="Delete" Command="{Binding CommandDelete}" />
+        <ToolbarItem Text="Save" Command="{Binding CommandUpdate}"  />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid ColumnSpacing="20" Padding="15">
@@ -22,11 +22,11 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Label Text="FirstName" FontSize="Medium" Grid.Row="0" Grid.Column="0" />
-            <Entry Text="{Binding Item.FirstName}" IsReadOnly="{Binding  !CheckUpdate}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
+            <Entry Text="{Binding Item.FirstName}" IsReadOnly="{Binding  !CanUpdate}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
             <Label Text="LastName" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
-            <Entry Text="{Binding Item.LastName}" IsReadOnly="{Binding  !CheckUpdate}" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
+            <Entry Text="{Binding Item.LastName}" IsReadOnly="{Binding  !CanUpdate}" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
             <Label Text="Department" FontSize="Medium" Grid.Row="4" Grid.Column="0" />
-            <Picker ItemsSource="{Binding Departments}" SelectedIndex="{Binding Department}" SelectedIndexChanged="OnPickerSelectedIndexChanged"  FontSize="Small" Margin="0" Grid.Row="5" Grid.Column="0"/>
+            <Picker IsEnabled="{Binding CanReadDepartment}" ItemsSource="{Binding Departments}" SelectedIndex="{Binding Department}" SelectedIndexChanged="OnPickerSelectedIndexChanged"  FontSize="Small" Margin="0" Grid.Row="5" Grid.Column="0"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

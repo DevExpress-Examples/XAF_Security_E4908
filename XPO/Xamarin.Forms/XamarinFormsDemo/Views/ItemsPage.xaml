@@ -5,11 +5,11 @@
               Title="{Binding Title}"
              x:Name="BrowseItemsPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Clicked="AddItem_Clicked" />
+        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Picker ItemsSource="{Binding Departments}" SelectedIndexChanged="FilterByDepartment"/>
+            <Picker Title="Filter" ItemsSource="{Binding Departments}" SelectedIndexChanged="FilterByDepartment"/>
             <ListView x:Name="ItemsListView" 
                 ItemsSource="{Binding Items}"
                 VerticalOptions="FillAndExpand"

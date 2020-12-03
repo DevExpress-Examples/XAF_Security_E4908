@@ -27,7 +27,7 @@ namespace XamarinFormsDemo.ViewModels {
         string password;
 
         public LoginViewModel() {
-            Title = "Login";
+            Title = "DevExpress XAF Security Demo";
         }
         bool isBusy = false;
         public bool IsBusy {

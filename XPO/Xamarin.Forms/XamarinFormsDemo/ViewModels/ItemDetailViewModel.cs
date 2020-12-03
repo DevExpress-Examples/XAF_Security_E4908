@@ -9,64 +9,109 @@ using Xamarin.Forms;
 
 namespace XamarinFormsDemo.ViewModels {
     public class ItemDetailViewModel : BaseViewModel {
-        public Employee Item { get; set; }
-        public int Department {
-            get { return department; }
-            set { SetProperty(ref department, value);  }
-        }
+        bool canUpdate;
+        bool canDelete;
+        bool canReadDepartment;
         int department;
-        public List<Department> Departments {
-            get { return departments; }
-            set { SetProperty(ref departments, value); }
-        }
         List<Department> departments;
+        bool isNewItem;
+        INavigation navigation;
+
+        public ItemDetailViewModel() {
+            IsNewItem = true;
+            Departments = Task.Run(async () => await GetDepartments()).GetAwaiter().GetResult();
+            Department = -1;
+            CommandUpdate = new Command(async () => {
+                await SaveItemAndGoBack();
+            },
+        () => CanUpdate);
+            CommandDelete = new Command(async () => {
+                await DeleteItemAndGoBack();
+            },
+        () => true);
+            Item = new Employee(uow) { FirstName = "First name", LastName = "Last Name"};
+            Title = "New Employee";
+            CanDelete = XpoHelper.Security.CanDelete(Item);
+            CanUpdate = XpoHelper.Security.CanWrite(Item);
+            CanReadDepartment = XpoHelper.Security.CanRead(Item, "Department");
+        }
+
 
         public ItemDetailViewModel(Guid Oid) {
+            IsNewItem = false;
             Item = uow.GetObjectByKey<Employee>(Oid);
             Title = Item?.FullName;
 
-            TempCommandDelete = new Command(async () => {
-                uow.Delete(Item);
-                await uow.CommitChangesAsync();
-                uow.Dispose();
+            CommandDelete = new Command(async () => {
+                await DeleteItemAndGoBack();
             },
-        () => CheckDelete);
-            TempCommandUpdate = new Command(async () => {
-                uow.Save(Item);
-                await uow.CommitChangesAsync();
-                uow.Dispose();
+        () => CanDelete);
+            CommandUpdate = new Command(async () => {
+                await SaveItemAndGoBack();
             },
-        () => CheckUpdate);
-            CheckDelete = XpoHelper.security.CanDelete(Item);
-            CheckUpdate = XpoHelper.security.CanWrite(Item);
-            if(Item.Department != null) {
+        () => CanUpdate);
+            CanDelete = XpoHelper.Security.CanDelete(Item);
+            CanUpdate = XpoHelper.Security.CanWrite(Item);
+            CanReadDepartment = XpoHelper.Security.CanRead(Item, "Department");
+            if(Item.Department != null && CanReadDepartment) {
                 Departments = Task.Run(async () => await GetDepartments()).GetAwaiter().GetResult();
                 Department = -1;
-                for(int i = 0; i < Departments.Count; i++)  {
+                for(int i = 0; i < Departments.Count; i++) {
                     if(Departments[i].Oid == Item.Department.Oid) {
                         Department = i;
                         break;
                     }
                 }
-                //Department = Departments.((Department)Item.Department);
             }
         }
-        public bool CheckDelete {
-            get { return checkDelete; }
-            set { SetProperty(ref checkDelete, value); TempCommandDelete.ChangeCanExecute(); }
+
+        private async Task DeleteItemAndGoBack() {
+            uow.Delete(Item);
+            await uow.CommitChangesAsync();
+            uow.Dispose();
+            await navigation.PopToRootAsync();
         }
-        public bool CheckUpdate {
-            get { return checkUpdate; }
-            set { SetProperty(ref checkUpdate, value); TempCommandUpdate.ChangeCanExecute(); }
+
+        private async Task SaveItemAndGoBack() {
+            uow.Save(Item);
+            await uow.CommitChangesAsync();
+            uow.Dispose();
+            await navigation.PopToRootAsync();
+        }
+        public INavigation Navigation {
+            get { return navigation; }
+            set { SetProperty(ref navigation, value); }
+        }
+        public bool CanDelete {
+            get { return canDelete; }
+            set { SetProperty(ref canDelete, value); CommandDelete.ChangeCanExecute(); }
+        }
+        public bool CanReadDepartment {
+            get { return canReadDepartment; }
+            set { SetProperty(ref canReadDepartment, value); }
+        }
+        public bool CanUpdate {
+            get { return canUpdate; }
+            set { SetProperty(ref canUpdate, value); CommandUpdate.ChangeCanExecute(); }
         }
         async Task<List<Department>> GetDepartments() {
             return await uow.Query<Department>().ToListAsync();
         }
-
-        bool checkUpdate;
-        bool checkDelete;
-        public Command TempCommandDelete { get; private set; }
-        public Command TempCommandUpdate { get; private set; }
+        public Employee Item { get; set; }
+        public int Department {
+            get { return department; }
+            set { SetProperty(ref department, value); }
+        }
+        public List<Department> Departments {
+            get { return departments; }
+            set { SetProperty(ref departments, value); }
+        }
+        public bool IsNewItem {
+            get { return isNewItem; }
+            set { SetProperty(ref isNewItem, value); }
+        }
+        public Command CommandDelete { get; private set; }
+        public Command CommandUpdate { get; private set; }
 
     }
 }

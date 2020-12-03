@@ -11,31 +11,31 @@ using XafSolution.Module.BusinessObjects;
 
 namespace XamarinFormsDemo {
     public static class XpoHelper {
-        public static SecuredObjectSpaceProvider objectSpaceProvider;
-        public static AuthenticationStandard authentication; 
-        public static SecurityStrategyComplex security;
+        public static SecuredObjectSpaceProvider ObjectSpaceProvider;
+        public static AuthenticationStandard Authentication; 
+        public static SecurityStrategyComplex Security;
         
         public static void InitXpo(string connectionString, string login, string password) {
             RegisterEntities();
             InitSecurity();
-            objectSpaceProvider = new SecuredObjectSpaceProvider(security, new WebApiDataStoreProvider(connectionString));
+            ObjectSpaceProvider = new SecuredObjectSpaceProvider(Security, new WebApiDataStoreProvider(connectionString));
             LogIn(login, password);
             XpoDefault.Session = null;
         }
         public static UnitOfWork CreateUnitOfWork() {
-            var space = objectSpaceProvider.CreateObjectSpace() as XPObjectSpace;
-            return space.Session as UnitOfWork;
+            var space = (XPObjectSpace)ObjectSpaceProvider.CreateObjectSpace();
+            return (UnitOfWork)space.Session;
         }
         static void LogIn(string login, string password) {
-            authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(login, password));
-            IObjectSpace loginObjectSpace = objectSpaceProvider.CreateObjectSpace();
-            security.Logon(loginObjectSpace);
+            Authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(login, password));
+            IObjectSpace loginObjectSpace = ObjectSpaceProvider.CreateObjectSpace();
+            Security.Logon(loginObjectSpace);
         }
         
         static void InitSecurity() {
-            authentication = new AuthenticationStandard();
-            security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-            security.RegisterXPOAdapterProviders();
+            Authentication = new AuthenticationStandard();
+            Security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), Authentication);
+            Security.RegisterXPOAdapterProviders();
         }
         private static void RegisterEntities() {
             XpoTypesInfoHelper.GetXpoTypeInfoSource();

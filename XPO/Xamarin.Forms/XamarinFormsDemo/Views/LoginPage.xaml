@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="{Binding Title}"
              x:Class="XamarinFormsDemo.Views.LoginPage">
     <ContentPage.Content>
         <Grid ColumnSpacing="20" Padding="15">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -18,7 +20,7 @@
             <Entry Text="{Binding Login}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
             <Label Text="Password" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
             <Entry Text="{Binding Password}" IsPassword="True" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
-            <Button Text="Login" Clicked="OnLoginClicked" FontSize="Medium" Margin="0" Grid.Row="4" Grid.Column="0"/>
+            <Button Text="Log In" Clicked="OnLoginClicked" BackgroundColor="#ff7200" TextColor="White" FontSize="Medium" Margin="0" Grid.Row="4" Grid.Column="0"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

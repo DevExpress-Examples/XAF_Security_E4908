@@ -13,18 +13,10 @@ using XamarinFormsDemo.Views;
 
 namespace XamarinFormsDemo.ViewModels {
     public class ItemsViewModel : BaseViewModel {
-        public ObservableCollection<Employee> Items {
-            get { return items; }
-            set { SetProperty(ref items, value); }
-        }
-        public ObservableCollection<Department> Departments {
-            get { return departments; }
-            set { SetProperty(ref departments, value); }
-        }
+        
         ObservableCollection<Employee> items;
         ObservableCollection<Department> departments;
-        public Command LoadDataCommand { get; set; }
-        public bool CheckCreate { get => XpoHelper.security.CanCreate(typeof(Employee)); }
+        INavigation navigation;
 
         public ItemsViewModel() {
             Title = "Browse";
@@ -34,6 +26,9 @@ namespace XamarinFormsDemo.ViewModels {
                 await ExecuteLoadEmployeesCommand(); 
                 await ExecuteLoadDepartmentsCommand();
             });
+            AddItemCommand = new Command(async () => {
+                await ExecuteAddItemCommand();
+            }, ()=> XpoHelper.Security.CanCreate<Employee>());
         }
 
         async Task ExecuteLoadEmployeesCommand() {
@@ -54,6 +49,9 @@ namespace XamarinFormsDemo.ViewModels {
         }
         public void UpdateItems() {
             OnPropertyChanged(nameof(Items));
+        }
+        async Task ExecuteAddItemCommand() {
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel()));
         }
 
         public async Task LoadEmployeesAsync() {
@@ -79,6 +77,21 @@ namespace XamarinFormsDemo.ViewModels {
             } catch(Exception ex) {
                 Debug.WriteLine(ex);
             }
+        }
+        public INavigation Navigation {
+            get { return navigation; }
+            set { SetProperty(ref navigation, value); }
+        }
+        
+        public Command AddItemCommand { get; set; }
+        public Command LoadDataCommand { get; set; }
+        public ObservableCollection<Employee> Items {
+            get { return items; }
+            set { SetProperty(ref items, value); }
+        }
+        public ObservableCollection<Department> Departments {
+            get { return departments; }
+            set { SetProperty(ref departments, value); }
         }
     }
 }

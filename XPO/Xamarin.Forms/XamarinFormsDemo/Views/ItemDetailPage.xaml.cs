@@ -18,28 +18,15 @@ namespace XamarinFormsDemo.Views {
         }
 
         public ItemDetailPage(ItemDetailViewModel viewModel) {
+            viewModel.Navigation = Navigation;
             InitializeComponent();
-
             BindingContext = this.viewModel = viewModel;
-        }
-        async void Update_Clicked(object sender, EventArgs e) {
-            //MessagingCenter.Send(this, "UpdateItem", viewModel.Item);
-            await Navigation.PopToRootAsync();
         }
         void OnPickerSelectedIndexChanged(object sender, EventArgs e) {
             var picker = (Picker)sender;
             int selectedIndex = picker.SelectedIndex;
             if(selectedIndex != -1) {
                 viewModel.Item.Department = viewModel.Departments[selectedIndex];
-            }
-        }
-        async void Delete_Clicked(object sender, EventArgs e) {
-            if(viewModel.Item != null) {
-                var result = true;// await DisplayAlert("Delete", $"Are you sure you want to delete the \"{viewModel.Item.FullName}\" item?", "Yes", "No");
-                if(result) {
-                    //MessagingCenter.Send(this, "DeleteItem", viewModel.Item);
-                    await Navigation.PopToRootAsync();
-                }
             }
         }
     }

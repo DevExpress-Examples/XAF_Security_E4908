@@ -21,16 +21,13 @@ namespace XamarinFormsDemo.Views {
             var item = args.SelectedItem as Employee;
             if(item == null)
                 return;
-            UnitOfWork unitOfWork = XpoHelper.CreateUnitOfWork();
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel( item.Oid)));
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item.Oid)));
 
             // Manually deselect item
             ItemsListView.SelectedItem = null;
         }
 
-        async void AddItem_Clicked(object sender, EventArgs e) {
-            await Navigation.PushAsync(new NewItemPage());
-        }
+        
 
         async void FilterByDepartment(object sender, EventArgs e) {
             var picker = (Picker)sender;
