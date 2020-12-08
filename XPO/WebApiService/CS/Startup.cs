@@ -26,7 +26,7 @@ namespace WebApiService {
             services.AddControllers();
 
             string connectionString = MSSqlConnectionProvider.GetConnectionString(@"(localdb)\mssqllocaldb", "XafSolution");
-            IDataStore dataStore = XpoDefault.GetConnectionProvider(connectionString, AutoCreateOption.SchemaAlreadyExists);
+            IDataStore dataStore = XpoDefault.GetConnectionProvider(connectionString, AutoCreateOption.DatabaseAndSchema);
             services.AddSingleton(new WebApiDataStoreService(dataStore));
 
             // add XML Serializer formatters

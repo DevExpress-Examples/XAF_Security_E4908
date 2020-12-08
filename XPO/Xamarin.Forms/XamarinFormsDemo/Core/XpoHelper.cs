@@ -11,17 +11,25 @@ using XafSolution.Module.BusinessObjects;
 
 namespace XamarinFormsDemo {
     public static class XpoHelper {
-        public static SecuredObjectSpaceProvider ObjectSpaceProvider;
-        public static AuthenticationStandard Authentication; 
+        static SecuredObjectSpaceProvider ObjectSpaceProvider;
+        static AuthenticationStandard Authentication; 
         public static SecurityStrategyComplex Security;
         
         public static void InitXpo(string connectionString, string login, string password) {
             RegisterEntities();
             InitSecurity();
             ObjectSpaceProvider = new SecuredObjectSpaceProvider(Security, new WebApiDataStoreProvider(connectionString));
+            UpdateDataBase();
             LogIn(login, password);
             XpoDefault.Session = null;
         }
+
+        static void UpdateDataBase() {
+            var space = ObjectSpaceProvider.CreateUpdatingObjectSpace(true);
+            Updater updater = new Updater(space);
+            updater.UpdateDatabase();
+        }
+
         public static UnitOfWork CreateUnitOfWork() {
             var space = (XPObjectSpace)ObjectSpaceProvider.CreateObjectSpace();
             return (UnitOfWork)space.Session;
@@ -63,7 +71,11 @@ namespace XamarinFormsDemo {
             }
 
             public IDataStore CreateUpdatingStore(bool allowUpdateSchema, out IDisposable[] disposableObjects) {
-                throw new NotImplementedException();
+                HttpClient httpClient = new HttpClient(GetInsecureHandler());
+                Uri uri = new Uri(ConnectionString);
+                httpClient.BaseAddress = uri;
+                disposableObjects = new[] { httpClient };
+                return new WebApiDataStoreClient(httpClient, AutoCreateOption.DatabaseAndSchema);
             }
 
             public IDataStore CreateWorkingStore(out IDisposable[] disposableObjects) {
