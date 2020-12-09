@@ -16,36 +16,19 @@ namespace XamarinFormsDemo.ViewModels {
         List<Department> departments;
         bool isNewItem;
         
-
-        public ItemDetailViewModel() {
-            IsNewItem = true;
-            Departments = Task.Run(async () => await GetDepartments()).GetAwaiter().GetResult();
-            Department = -1;
-            CommandUpdate = new Command(async () => {
-                await SaveItemAndGoBack();
-            },
-        () => CanUpdate);
-            CommandDelete = new Command(async () => {
-                await DeleteItemAndGoBack();
-            },
-        () => true);
-            Item = new Employee(uow) { FirstName = "First name", LastName = "Last Name"};
-            Title = "New Employee";
-            CanDelete = XpoHelper.Security.CanDelete(Item);
-            CanUpdate = XpoHelper.Security.CanWrite(Item);
-            CanReadDepartment = XpoHelper.Security.CanRead(Item, "Department");
-        }
-
-
-        public ItemDetailViewModel(Guid Oid) {
-            IsNewItem = false;
-            Item = uow.GetObjectByKey<Employee>(Oid);
+        public ItemDetailViewModel(Guid? Oid) {
+            IsNewItem = (Oid == null);
+            if(isNewItem) {
+                Item = new Employee(uow) { FirstName = "First name", LastName = "Last Name" };
+            } else {
+                Item = uow.GetObjectByKey<Employee>(Oid);
+            }
             Title = Item?.FullName;
 
             CommandDelete = new Command(async () => {
                 await DeleteItemAndGoBack();
             },
-        () => CanDelete);
+        () => CanDelete && !isNewItem);
             CommandUpdate = new Command(async () => {
                 await SaveItemAndGoBack();
             },
@@ -53,29 +36,21 @@ namespace XamarinFormsDemo.ViewModels {
             CanDelete = XpoHelper.Security.CanDelete(Item);
             CanUpdate = XpoHelper.Security.CanWrite(Item);
             CanReadDepartment = XpoHelper.Security.CanRead(Item, "Department");
-            if(Item.Department != null && CanReadDepartment) {
-                Departments = Task.Run(async () => await GetDepartments()).GetAwaiter().GetResult();
-                Department = -1;
-                for(int i = 0; i < Departments.Count; i++) {
-                    if(Departments[i].Oid == Item.Department.Oid) {
-                        Department = i;
-                        break;
-                    }
-                }
+            Departments = uow.Query<Department>().ToListAsync().GetAwaiter().GetResult();
+            if (isNewItem && CanReadDepartment) {
+                Item.Department = Departments?[0];
             }
         }
 
         private async Task DeleteItemAndGoBack() {
             uow.Delete(Item);
             await uow.CommitChangesAsync();
-            uow.Dispose();
             await Navigation.PopToRootAsync();
         }
 
         private async Task SaveItemAndGoBack() {
             uow.Save(Item);
             await uow.CommitChangesAsync();
-            uow.Dispose();
             await Navigation.PopToRootAsync();
         }
         public bool CanDelete {

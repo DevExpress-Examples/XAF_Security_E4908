@@ -50,16 +50,13 @@ namespace XamarinFormsDemo.ViewModels {
             OnPropertyChanged(nameof(Items));
         }
         async Task ExecuteAddItemCommand() {
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel()));
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(null)));
         }
 
         public async Task LoadEmployeesAsync() {
             try {
-                Items.Clear();
                 var items = await uow.Query<Employee>().OrderBy(i => i.FirstName).ToListAsync();
-                foreach(var item in items) {
-                    Items.Add(item);
-                }
+                Items = new ObservableCollection<Employee>(items);
                 OnPropertyChanged(nameof(Items));
             } catch(Exception ex) {
                 Debug.WriteLine(ex);
@@ -67,11 +64,8 @@ namespace XamarinFormsDemo.ViewModels {
         }
         public async Task LoadDepartmentsAsync() {
             try {
-                Departments.Clear();
                 var items = await uow.Query<Department>().ToListAsync();
-                foreach(var item in items) {
-                    Departments.Add(item);
-                }
+                Departments = new ObservableCollection<Department>(items);
                 OnPropertyChanged(nameof(Departments));
             } catch(Exception ex) {
                 Debug.WriteLine(ex);

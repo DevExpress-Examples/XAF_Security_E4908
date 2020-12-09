@@ -13,7 +13,6 @@ namespace XamarinFormsDemo.Views {
 
         public ItemsPage() {
             InitializeComponent();
-
             BindingContext = viewModel = new ItemsViewModel();
         }
 
@@ -34,11 +33,8 @@ namespace XamarinFormsDemo.Views {
             int selectedIndex = picker.SelectedIndex;
             if(selectedIndex != -1) {
                 await viewModel.LoadEmployeesAsync();
-                var items = viewModel.Items.Where(w => w.Department == viewModel.Departments[selectedIndex]).ToList();
-                viewModel.Items.Clear();
-                foreach(var item in items) {
-                    viewModel.Items.Add(item);
-                };
+                var items = viewModel.Items.Where(w => w.Department == viewModel.Departments[selectedIndex]);
+                viewModel.Items = new ObservableCollection<Employee>(items);
             } else {
                 await viewModel.LoadEmployeesAsync();
             }
