@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="XafSolution.Module.NetCore">
       <HintPath>..\..\XafSolution\XafSolution.Module\bin_NetCore\netstandard2.0\XafSolution.Module.NetCore.dll</HintPath>
     </Reference>

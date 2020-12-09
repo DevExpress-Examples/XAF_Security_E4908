@@ -26,7 +26,7 @@
             <Label Text="LastName" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
             <Entry Text="{Binding Item.LastName}" IsReadOnly="{Binding  !CanUpdate}" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
             <Label Text="Department" FontSize="Medium" Grid.Row="4" Grid.Column="0" />
-            <Picker IsEnabled="{Binding CanReadDepartment}" ItemsSource="{Binding Departments}" SelectedItem="{Binding Item.Department}" FontSize="Small" Margin="0" Grid.Row="5" Grid.Column="0"/>
+            <Picker IsEnabled="{Binding CanReadDepartment}" ItemsSource="{Binding Departments}" SelectedIndex="{Binding Department}" SelectedIndexChanged="OnPickerSelectedIndexChanged"  FontSize="Small" Margin="0" Grid.Row="5" Grid.Column="0"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
