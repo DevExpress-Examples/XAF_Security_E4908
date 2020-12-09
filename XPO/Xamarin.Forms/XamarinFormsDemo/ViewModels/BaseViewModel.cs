@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using XafSolution.Module.BusinessObjects;
 using Xamarin.Forms;
-
-using XamarinFormsDemo.Services;
 
 namespace XamarinFormsDemo.ViewModels {
     public class BaseViewModel : INotifyPropertyChanged {
-        public XpoDataStore DataStore =  new XpoDataStore();
         public UnitOfWork uow = XpoHelper.CreateUnitOfWork();
+        INavigation navigation;
+        public INavigation Navigation {
+            get { return navigation; }
+            set { SetProperty(ref navigation, value); }
+        }
         bool isBusy = false;
         public bool IsBusy {
             get { return isBusy; }

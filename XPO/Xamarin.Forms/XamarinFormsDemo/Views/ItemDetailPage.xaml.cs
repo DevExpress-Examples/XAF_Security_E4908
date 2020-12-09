@@ -7,20 +7,19 @@ using XamarinFormsDemo.ViewModels;
 
 namespace XamarinFormsDemo.Views {
     public partial class ItemDetailPage : ContentPage {
-        ItemDetailViewModel viewModel;
+        
 
         // Note - The Xamarin.Forms Previewer requires a default, parameterless constructor to render a page.
         public ItemDetailPage() {
             InitializeComponent();
-
             viewModel = new ItemDetailViewModel(new Guid());
             BindingContext = viewModel;
         }
-
+        ItemDetailViewModel viewModel;
         public ItemDetailPage(ItemDetailViewModel viewModel) {
-            viewModel.Navigation = Navigation;
             InitializeComponent();
             BindingContext = this.viewModel = viewModel;
+            viewModel.Navigation = Navigation;
         }
         void OnPickerSelectedIndexChanged(object sender, EventArgs e) {
             var picker = (Picker)sender;

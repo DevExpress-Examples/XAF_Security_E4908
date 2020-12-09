@@ -13,37 +13,9 @@ namespace XamarinFormsDemo.Views {
 
         public ItemsPage() {
             InitializeComponent();
-
             BindingContext = viewModel = new ItemsViewModel();
+            viewModel.Navigation = Navigation;
         }
-
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args) {
-            var item = args.SelectedItem as Employee;
-            if(item == null)
-                return;
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item.Oid)));
-
-            // Manually deselect item
-            ItemsListView.SelectedItem = null;
-        }
-
-        
-
-        async void FilterByDepartment(object sender, EventArgs e) {
-            var picker = (Picker)sender;
-            int selectedIndex = picker.SelectedIndex;
-            if(selectedIndex != -1) {
-                await viewModel.LoadEmployeesAsync();
-                var items = viewModel.Items.Where(w => w.Department == viewModel.Departments[selectedIndex]).ToList();
-                viewModel.Items.Clear();
-                foreach(var item in items) {
-                    viewModel.Items.Add(item);
-                };
-            } else {
-                await viewModel.LoadEmployeesAsync();
-            }
-        }
-
         protected override async void OnAppearing() {
             base.OnAppearing();
             if(viewModel.Items.Count == 0) {

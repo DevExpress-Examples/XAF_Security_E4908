@@ -16,8 +16,8 @@ namespace XamarinFormsDemo.ViewModels {
         
         ObservableCollection<Employee> items;
         ObservableCollection<Department> departments;
-        INavigation navigation;
 
+        ListView
         public ItemsViewModel() {
             Title = "Browse";
             Departments = new ObservableCollection<Department>();
@@ -51,13 +51,13 @@ namespace XamarinFormsDemo.ViewModels {
             OnPropertyChanged(nameof(Items));
         }
         async Task ExecuteAddItemCommand() {
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel()));
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(null)));
         }
 
         public async Task LoadEmployeesAsync() {
             try {
                 Items.Clear();
-                var items = await DataStore.GetEmployeesAsync(uow, true);
+                var items = await uow.Query<Employee>().OrderBy(i => i.FirstName).ToListAsync();
                 foreach(var item in items) {
                     Items.Add(item);
                 }
@@ -69,7 +69,7 @@ namespace XamarinFormsDemo.ViewModels {
         public async Task LoadDepartmentsAsync() {
             try {
                 Departments.Clear();
-                var items = await DataStore.GetDepartmentsAsync(uow, true);
+                var items = await uow.Query<Department>().ToListAsync();
                 foreach(var item in items) {
                     Departments.Add(item);
                 }
@@ -78,11 +78,28 @@ namespace XamarinFormsDemo.ViewModels {
                 Debug.WriteLine(ex);
             }
         }
-        public INavigation Navigation {
-            get { return navigation; }
-            set { SetProperty(ref navigation, value); }
+        async void OnItemSelected() {
+            Employee item = ItemsListView.SelectedItem;
+            if(item == null)
+                return;
+            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item.Oid)));
+            // Manually deselect item
+            ItemsListView.SelectedItem = null;
         }
-        
+        async void FilterByDepartment() {
+            var picker = (Picker)sender;
+            int selectedIndex = picker.SelectedIndex;
+            if(selectedIndex != -1) {
+                await LoadEmployeesAsync();
+                var items = Items.Where(w => w.Department == Departments[selectedIndex]).ToList();
+                Items.Clear();
+                foreach(var item in items) {
+                    Items.Add(item);
+                };
+            } else {
+                await LoadEmployeesAsync();
+            }
+        }
         public Command AddItemCommand { get; set; }
         public Command LoadDataCommand { get; set; }
         public ObservableCollection<Employee> Items {
