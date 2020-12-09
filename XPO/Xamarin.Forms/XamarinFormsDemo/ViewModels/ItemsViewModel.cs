@@ -16,7 +16,6 @@ namespace XamarinFormsDemo.ViewModels {
         
         ObservableCollection<Employee> items;
         ObservableCollection<Department> departments;
-        INavigation navigation;
 
         public ItemsViewModel() {
             Title = "Browse";
@@ -57,7 +56,7 @@ namespace XamarinFormsDemo.ViewModels {
         public async Task LoadEmployeesAsync() {
             try {
                 Items.Clear();
-                var items = await DataStore.GetEmployeesAsync(uow, true);
+                var items = await uow.Query<Employee>().OrderBy(i => i.FirstName).ToListAsync();
                 foreach(var item in items) {
                     Items.Add(item);
                 }
@@ -69,7 +68,7 @@ namespace XamarinFormsDemo.ViewModels {
         public async Task LoadDepartmentsAsync() {
             try {
                 Departments.Clear();
-                var items = await DataStore.GetDepartmentsAsync(uow, true);
+                var items = await uow.Query<Department>().ToListAsync();
                 foreach(var item in items) {
                     Departments.Add(item);
                 }
@@ -78,10 +77,7 @@ namespace XamarinFormsDemo.ViewModels {
                 Debug.WriteLine(ex);
             }
         }
-        public INavigation Navigation {
-            get { return navigation; }
-            set { SetProperty(ref navigation, value); }
-        }
+        
         
         public Command AddItemCommand { get; set; }
         public Command LoadDataCommand { get; set; }

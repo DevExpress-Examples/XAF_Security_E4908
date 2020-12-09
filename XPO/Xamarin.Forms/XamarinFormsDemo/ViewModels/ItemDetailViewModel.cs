@@ -15,7 +15,7 @@ namespace XamarinFormsDemo.ViewModels {
         int department;
         List<Department> departments;
         bool isNewItem;
-        INavigation navigation;
+        
 
         public ItemDetailViewModel() {
             IsNewItem = true;
@@ -69,18 +69,14 @@ namespace XamarinFormsDemo.ViewModels {
             uow.Delete(Item);
             await uow.CommitChangesAsync();
             uow.Dispose();
-            await navigation.PopToRootAsync();
+            await Navigation.PopToRootAsync();
         }
 
         private async Task SaveItemAndGoBack() {
             uow.Save(Item);
             await uow.CommitChangesAsync();
             uow.Dispose();
-            await navigation.PopToRootAsync();
-        }
-        public INavigation Navigation {
-            get { return navigation; }
-            set { SetProperty(ref navigation, value); }
+            await Navigation.PopToRootAsync();
         }
         public bool CanDelete {
             get { return canDelete; }

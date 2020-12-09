@@ -6,12 +6,11 @@ using System.Runtime.CompilerServices;
 using XafSolution.Module.BusinessObjects;
 using Xamarin.Forms;
 
-using XamarinFormsDemo.Services;
 
 namespace XamarinFormsDemo.ViewModels {
     public class BaseViewModel : INotifyPropertyChanged {
-        public XpoDataStore DataStore =  new XpoDataStore();
         public UnitOfWork uow = XpoHelper.CreateUnitOfWork();
+
         bool isBusy = false;
         public bool IsBusy {
             get { return isBusy; }
@@ -24,6 +23,11 @@ namespace XamarinFormsDemo.ViewModels {
             set { SetProperty(ref title, value); }
         }
 
+        INavigation navigation;
+        public INavigation Navigation {
+            get { return navigation; }
+            set { SetProperty(ref navigation, value); }
+        }
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
             Action onChanged = null) {

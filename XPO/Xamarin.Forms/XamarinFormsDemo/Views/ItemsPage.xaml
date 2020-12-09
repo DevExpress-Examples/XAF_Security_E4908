@@ -11,8 +11,8 @@
         <StackLayout>
             <Picker Title="Filter" ItemsSource="{Binding Departments}" SelectedIndexChanged="FilterByDepartment"/>
             <ListView x:Name="ItemsListView" 
-                ItemsSource="{Binding Items}"
-                VerticalOptions="FillAndExpand"
+                 ItemsSource="{Binding Items}"
+                 VerticalOptions="FillAndExpand"
                  HasUnevenRows="true"
                  RefreshCommand="{Binding LoadDataCommand}"
                  IsPullToRefreshEnabled="true"
