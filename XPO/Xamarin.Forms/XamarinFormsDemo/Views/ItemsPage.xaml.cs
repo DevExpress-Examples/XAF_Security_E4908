@@ -27,8 +27,6 @@ namespace XamarinFormsDemo.Views {
             ItemsListView.SelectedItem = null;
         }
 
-        
-
         async void FilterByDepartment(object sender, EventArgs e) {
             var picker = (Picker)sender;
             int selectedIndex = picker.SelectedIndex;

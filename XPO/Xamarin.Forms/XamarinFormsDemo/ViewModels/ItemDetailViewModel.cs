@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace XamarinFormsDemo.ViewModels {
     public class ItemDetailViewModel : BaseViewModel {
-        bool canUpdate;
+        bool readOnly;
         bool canDelete;
         bool canReadDepartment;
         List<Department> departments;
@@ -32,9 +32,9 @@ namespace XamarinFormsDemo.ViewModels {
             CommandUpdate = new Command(async () => {
                 await SaveItemAndGoBack();
             },
-        () => !CanUpdate);
+        () => !ReadOnly);
             CanDelete = XpoHelper.Security.CanDelete(Item);
-            CanUpdate = !XpoHelper.Security.CanWrite(Item);
+            ReadOnly = !XpoHelper.Security.CanWrite(Item);
             CanReadDepartment = XpoHelper.Security.CanRead(Item, "Department");
             if (isNewItem && CanReadDepartment) {
                 Item.Department = Departments?[0];
@@ -59,9 +59,9 @@ namespace XamarinFormsDemo.ViewModels {
             get { return canReadDepartment; }
             set { SetProperty(ref canReadDepartment, value); }
         }
-        public bool CanUpdate {
-            get { return canUpdate; }
-            set { SetProperty(ref canUpdate, value); CommandUpdate.ChangeCanExecute(); }
+        public bool ReadOnly {
+            get { return readOnly; }
+            set { SetProperty(ref readOnly, value); CommandUpdate.ChangeCanExecute(); }
         }
         public Employee Item { get; set; }
         public List<Department> Departments {

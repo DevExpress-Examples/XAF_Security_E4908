@@ -22,9 +22,9 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Label Text="FirstName" FontSize="Medium" Grid.Row="0" Grid.Column="0" />
-            <Entry Text="{Binding Item.FirstName}" IsReadOnly="{Binding  CanUpdate}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
+            <Entry Text="{Binding Item.FirstName}" IsReadOnly="{Binding  ReadOnly}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
             <Label Text="LastName" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
-            <Entry Text="{Binding Item.LastName}" IsReadOnly="{Binding  CanUpdate}" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
+            <Entry Text="{Binding Item.LastName}" IsReadOnly="{Binding  ReadOnly}" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
             <Label Text="Department" IsVisible="{Binding CanReadDepartment}"  FontSize="Medium" Grid.Row="4" Grid.Column="0" />
             <Picker IsVisible="{Binding CanReadDepartment}" IsEnabled="{Binding CanReadDepartment}" ItemsSource="{Binding Departments}" ItemDisplayBinding="{Binding Title}" SelectedItem="{Binding Item.Department}" FontSize="Small" Margin="0" Grid.Row="5" Grid.Column="0"/>
         </Grid>

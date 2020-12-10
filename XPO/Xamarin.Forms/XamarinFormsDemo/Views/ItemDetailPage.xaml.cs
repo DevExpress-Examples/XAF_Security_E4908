@@ -21,6 +21,5 @@ namespace XamarinFormsDemo.Views {
             BindingContext = this.viewModel = viewModel;
             viewModel.Navigation = Navigation;
         }
-        
     }
 }
