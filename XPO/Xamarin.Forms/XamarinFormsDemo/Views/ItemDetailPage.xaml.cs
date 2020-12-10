@@ -17,9 +17,9 @@ namespace XamarinFormsDemo.Views {
         }
 
         public ItemDetailPage(ItemDetailViewModel viewModel) {
-            viewModel.Navigation = Navigation;
             InitializeComponent();
             BindingContext = this.viewModel = viewModel;
+            viewModel.Navigation = Navigation;
         }
         
     }

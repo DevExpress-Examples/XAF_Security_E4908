@@ -73,7 +73,6 @@ namespace XamarinFormsDemo.ViewModels {
             }
         }
         
-        
         public Command AddItemCommand { get; set; }
         public Command LoadDataCommand { get; set; }
         public ObservableCollection<Employee> Items {

@@ -3,6 +3,7 @@ using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using XafSolution.Module.BusinessObjects;
 using Xamarin.Forms;
@@ -23,7 +24,7 @@ namespace XamarinFormsDemo.ViewModels {
                 Item = uow.GetObjectByKey<Employee>(Oid);
             }
             Title = Item?.FullName;
-
+            Departments = uow.Query<Department>().ToList();
             CommandDelete = new Command(async () => {
                 await DeleteItemAndGoBack();
             },
@@ -40,13 +41,12 @@ namespace XamarinFormsDemo.ViewModels {
             }
         }
 
-        private async Task DeleteItemAndGoBack() {
+        async Task DeleteItemAndGoBack() {
             uow.Delete(Item);
             await uow.CommitChangesAsync();
             await Navigation.PopToRootAsync();
         }
-
-        private async Task SaveItemAndGoBack() {
+        async Task SaveItemAndGoBack() {
             uow.Save(Item);
             await uow.CommitChangesAsync();
             await Navigation.PopToRootAsync();
@@ -62,9 +62,6 @@ namespace XamarinFormsDemo.ViewModels {
         public bool CanUpdate {
             get { return canUpdate; }
             set { SetProperty(ref canUpdate, value); CommandUpdate.ChangeCanExecute(); }
-        }
-        async Task<List<Department>> GetDepartments() {
-            return await uow.Query<Department>().ToListAsync();
         }
         public Employee Item { get; set; }
         public List<Department> Departments {
