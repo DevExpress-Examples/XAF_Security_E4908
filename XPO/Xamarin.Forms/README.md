@@ -310,16 +310,40 @@ To create Items Page we have to implement ListView with the list of items, filte
 - In the `Views` folder create new xaml page and call it `ItemDetailPage.xaml`. 
 - In the `ViewModels` folder create new class and call it `ItemDetailViewModel`
 
-We have same Page and ViewModel for both editing existing items and creating new. The page will have delete and save toolbar items and listview to display item's data, featuring picker to select department.
+We have same Page and ViewModel for both editing existing items and creating new items. The page will have `delete` and `save` toolbar items and `ListView` to display item's data, featuring `Picker` to select department.
 - Buttons
-  
-    description
+  `Save` and `Delete` buttons availability depends on security. We will bind them to commands, so we can control is button active or not.
+
+  In the `ItemDetailViewModel` class add commands and security properties
+  ```csharp
+
+  ```
+  In the `ItemDetailPage.xaml` add Toolbar items with following parameters
+  ```xaml
+
+  ```
 - ListView
-  
-    description
+  `Save` and `Delete` buttons availability depends on security. We will bind them to commands, so we can control is button active or not.
+
+  In the `ItemDetailViewModel` class add commands and security properties
+  ```csharp
+
+  ```
+  In the `ItemDetailPage.xaml` add Toolbar items with following parameters
+  ```xaml
+
 - Picker
-  
-    description
+  `Save` and `Delete` buttons availability depends on security. We will bind them to commands, so we can control is button active or not.
+
+  In the `ItemDetailViewModel` class add commands and security properties
+  ```csharp
+
+  ```
+  In the `ItemDetailPage.xaml` add Toolbar items with following parameters
+  ```xaml
+- Finally add constructor to the `ItemsDetailPage.xaml.cs` class to bind ViewModel and Page together.
+  ```csharp
+  ```
 ## Step 4: Run and Test the App
  - Log in under 'User' with an empty password.
    
