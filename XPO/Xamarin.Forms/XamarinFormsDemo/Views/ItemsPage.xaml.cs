@@ -14,6 +14,7 @@ namespace XamarinFormsDemo.Views {
         public ItemsPage() {
             InitializeComponent();
             BindingContext = viewModel = new ItemsViewModel();
+            viewModel.Navigation = Navigation;
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args) {

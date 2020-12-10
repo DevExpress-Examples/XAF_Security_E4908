@@ -21,9 +21,6 @@ namespace XamarinFormsDemo.Views {
             InitializeComponent();
             BindingContext = this.viewModel = viewModel;
         }
-        protected override async void OnAppearing() {
-            base.OnAppearing();
-            viewModel.Departments = await viewModel.uow.Query<Department>().ToListAsync().ConfigureAwait(false);
-        }
+        
     }
 }
