@@ -12,7 +12,6 @@ namespace XamarinFormsDemo.ViewModels {
         bool canUpdate;
         bool canDelete;
         bool canReadDepartment;
-        int department;
         List<Department> departments;
         bool isNewItem;
         
@@ -32,11 +31,10 @@ namespace XamarinFormsDemo.ViewModels {
             CommandUpdate = new Command(async () => {
                 await SaveItemAndGoBack();
             },
-        () => CanUpdate);
+        () => !CanUpdate);
             CanDelete = XpoHelper.Security.CanDelete(Item);
-            CanUpdate = XpoHelper.Security.CanWrite(Item);
+            CanUpdate = !XpoHelper.Security.CanWrite(Item);
             CanReadDepartment = XpoHelper.Security.CanRead(Item, "Department");
-            Departments = uow.Query<Department>().ToListAsync().GetAwaiter().GetResult();
             if (isNewItem && CanReadDepartment) {
                 Item.Department = Departments?[0];
             }
@@ -69,10 +67,6 @@ namespace XamarinFormsDemo.ViewModels {
             return await uow.Query<Department>().ToListAsync();
         }
         public Employee Item { get; set; }
-        public int Department {
-            get { return department; }
-            set { SetProperty(ref department, value); }
-        }
         public List<Department> Departments {
             get { return departments; }
             set { SetProperty(ref departments, value); }

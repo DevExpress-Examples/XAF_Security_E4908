@@ -17,6 +17,7 @@ namespace XamarinFormsDemo.ViewModels {
         ObservableCollection<Employee> items;
         ObservableCollection<Department> departments;
 
+
         public ItemsViewModel() {
             Title = "Browse";
             Departments = new ObservableCollection<Department>();

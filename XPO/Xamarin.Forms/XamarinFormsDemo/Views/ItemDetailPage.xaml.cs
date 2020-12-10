@@ -12,7 +12,6 @@ namespace XamarinFormsDemo.Views {
         // Note - The Xamarin.Forms Previewer requires a default, parameterless constructor to render a page.
         public ItemDetailPage() {
             InitializeComponent();
-
             viewModel = new ItemDetailViewModel(new Guid());
             BindingContext = viewModel;
         }
@@ -22,12 +21,9 @@ namespace XamarinFormsDemo.Views {
             InitializeComponent();
             BindingContext = this.viewModel = viewModel;
         }
-        void OnPickerSelectedIndexChanged(object sender, EventArgs e) {
-            var picker = (Picker)sender;
-            int selectedIndex = picker.SelectedIndex;
-            if(selectedIndex != -1) {
-                viewModel.Item.Department = viewModel.Departments[selectedIndex];
-            }
+        protected override async void OnAppearing() {
+            base.OnAppearing();
+            viewModel.Departments = await viewModel.uow.Query<Department>().ToListAsync().ConfigureAwait(false);
         }
     }
 }
