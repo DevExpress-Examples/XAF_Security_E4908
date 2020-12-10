@@ -198,30 +198,33 @@ protected void OnPropertyChanged([CallerMemberName] string propertyName = "") {
 ## Step 4. Items Page and ViewModel implemetation
 - In the `Views` folder create new xaml page and call it `ItemsPage.xaml`. 
 - In the `ViewModels` folder create new class and call it `ItemsViewModel`
-- In the `ItemsViewModel` class:
-  - Add Employees Observable Collection 
+  
+To create Items Page we have to implement ListView with the list of items, filter for the ListView, and Add button in the Toolbar
+- ListView
+    
+    To implement ListView we will place data and commands in the `ItemsViewModel` class. 
     ```csharp
+
+    public ItemsViewModel() {
+          Title = "Browse";
+          Items = new ObservableCollection<Employee>();
+          LoadDataCommand = new Command(async () => { 
+              await ExecuteLoadEmployeesCommand(); 
+              //..
+          });
+          //..
+    }
     ObservableCollection<Employee> items;
     public ObservableCollection<Employee> Items {
         get { return items; }
         set { SetProperty(ref items, value); }
     }
-    ```
-  - Add Departments Observable Collection
-    ```csharp
     ObservableCollection<Department> departments;
     public ObservableCollection<Department> Departments {
         get { return departments; }
         set { SetProperty(ref departments, value); }
     }
-    ```
-  - Add `AddItemCommand` and `LoadDataCommand`
-    ```csharp
-    public Command AddItemCommand { get; set; }
     public Command LoadDataCommand { get; set; }
-    ```
-  - Add LoadDataCommand logic
-     ```csharp
     async Task ExecuteLoadEmployeesCommand() {
         if(IsBusy)
             return;
@@ -243,74 +246,80 @@ protected void OnPropertyChanged([CallerMemberName] string propertyName = "") {
         }
     }
     ```
-   - Add AddItemsCommand logic
-      ```csharp
-      async Task ExecuteAddItemCommand() {
-          await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel()));
-      }
-      ```
-  - Add constructor
-      ```csharp
+    In the `ItemsPage.xaml` file use following format and bindings
+
+    ```xaml
+
+    ```
+
+    In the corresponding `ItemsPage.xaml.cs` file add OnItemSelected method and override OnAppearing method
+    ```csharp
+
+    ```
+    
+
+
+- Add item button
+    
+    If button or action availability depends on security rights, that button will be binded to command, otherwise it will be binded to Clicked event.
+    In this example only `Admin` can add new items to the data.
+    
+    In the `ItemsViewModel` class 
+    Add AddItemsCommand  and its logic
+
+    ```csharp
       public ItemsViewModel() {
-          Title = "Browse";
-          Items = new ObservableCollection<Employee>();
-          LoadDataCommand = new Command(async () => { 
-              await ExecuteLoadEmployeesCommand(); 
-          });
+          //...
           AddItemCommand = new Command(async () => {
               await ExecuteAddItemCommand();
           }, ()=> XpoHelper.Security.CanCreate<Employee>());
       }
-      ```
-- In the `ItemsPage` xaml page
-    - Copy structure and bindings from corresponding `ItemsPage.xaml` file
-- In the `ItemsPage.xaml.cs` class
-    - Bind the `ItemsVievModel` to the `ItemsPage` and Pass `Navigation` to `ItemsViewModel`
-      ```csharp
-      ItemsViewModel viewModel;
-      public ItemsPage() {
-          InitializeComponent();
-          BindingContext = viewModel = new ItemsViewModel();
-          viewModel.Navigation = Navigation;
+      public Command AddItemCommand { get; set; }
+      async Task ExecuteAddItemCommand() {
+          await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel()));
       }
-      ```
-    - Override `OnAppearing` method
-      ```csharp
-      protected override async void OnAppearing() {
-          base.OnAppearing();
-          if(viewModel.Items.Count == 0) {
-              await viewModel.LoadEmployeesAsync();
-              await viewModel.LoadDepartmentsAsync();
-          } else {
-              viewModel.UpdateItems();
-          }
-      }
-      ```
+    ```
+    In the `ItemsPage` xaml page add ToolBar item with following text and binding
+    ```xaml
+
+    ```
+- Add Department filter
+
+    Since Departments are конкретные значения, а не вписываемые поля, we need to load list of departments. To apply filter we will use `Picker`. 
+
+    
+    In the `ItemsViewModel` class add Observable collection of departments and add load logic to LoadData command
+    ```csharp
+      
+    ```
+    In the `ItemsPage.xaml` file add picker item on top of the `ListView` with the following parameters
+    ```xaml
+
+    ```
+    In the corresponding `ItemsPage.xaml.cs` class add `FilterByDepartmnent` method
+
+    ```csharp
+    
+    ```
+
+- Finally bind the `ItemsViewModel` class to the `ItemsPage` xaml using the constructor in the `ItemsPage.xaml.cs` class
+  ```csharp
+
+  ```
 ## Step 5. Item Detail page and ViewModel implementation
 - In the `Views` folder create new xaml page and call it `ItemDetailPage.xaml`. 
 - In the `ViewModels` folder create new class and call it `ItemDetailViewModel`
-- In the `ItemDetailViewModel` class:
-    - dddd
-- In the `ItemDetailPage` xaml page
-    - Copy structure and bindings from corresponding `ItemDetailPage.xaml` file
-- In the `ItemDetailPage.xaml.cs` class
-    - Bind the `ItemDetailViewModel` to the `ItemDetailPage` and Pass `Navigation` to `ItemDetailViewModel`
-      ```csharp
-      ItemDetailViewModel viewModel;
-      public ItemDetailPage(ItemDetailViewModel viewModel) {
-          InitializeComponent();
-          BindingContext = this.viewModel = viewModel;
-          viewModel.Navigation = Navigation;
-      }
-      ```
-    - Add parameter-less constructor requered by Xamarin previewer
-      ```csharp
-      public ItemsPage() {
-          InitializeComponent();
-          BindingContext = viewModel = new ItemsViewModel();
-          viewModel.Navigation = Navigation;
-      }
-      ```
+
+We have same Page and ViewModel for both editing existing items and creating new. The page will have delete and save toolbar items and listview to display item's data, featuring picker to select department.
+- Buttons
+  
+    description
+- ListView
+  
+    description
+- Picker
+  
+    description
 ## Step 4: Run and Test the App
  - Log in under 'User' with an empty password.
    
