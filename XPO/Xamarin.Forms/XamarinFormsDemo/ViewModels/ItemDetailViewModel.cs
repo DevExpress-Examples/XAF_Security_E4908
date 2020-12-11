@@ -15,6 +15,7 @@ namespace XamarinFormsDemo.ViewModels {
         bool canReadDepartment;
         List<Department> departments;
         bool isNewItem;
+        bool canWriteDepartment;
         
         public ItemDetailViewModel(Guid? Oid,INavigation navigation):base(navigation) {
             IsNewItem = (Oid == null);
@@ -36,11 +37,11 @@ namespace XamarinFormsDemo.ViewModels {
             CanDelete = XpoHelper.Security.CanDelete(Item);
             ReadOnly = !XpoHelper.Security.CanWrite(Item);
             CanReadDepartment = XpoHelper.Security.CanRead(Item, "Department");
-            if (isNewItem && CanReadDepartment) {
+            CanWriteDepartment = XpoHelper.Security.CanWrite(Item, "Department");
+            if (isNewItem && CanWriteDepartment) {
                 Item.Department = Departments?[0];
             }
         }
-
         async Task DeleteItemAndGoBack() {
             uow.Delete(Item);
             await uow.CommitChangesAsync();
@@ -59,6 +60,10 @@ namespace XamarinFormsDemo.ViewModels {
             get { return canReadDepartment; }
             set { SetProperty(ref canReadDepartment, value); }
         }
+        public bool CanWriteDepartment {
+            get { return canWriteDepartment; }
+            set { SetProperty(ref canWriteDepartment, value); }
+        }
         public bool ReadOnly {
             get { return readOnly; }
             set { SetProperty(ref readOnly, value); CommandUpdate.ChangeCanExecute(); }
@@ -74,6 +79,5 @@ namespace XamarinFormsDemo.ViewModels {
         }
         public Command CommandDelete { get; private set; }
         public Command CommandUpdate { get; private set; }
-
     }
 }

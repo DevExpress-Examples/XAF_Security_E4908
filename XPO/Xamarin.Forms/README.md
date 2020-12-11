@@ -85,40 +85,24 @@ public static UnitOfWork CreateUnitOfWork() {
 
   ```
 
-####  Implement `WebApiDataStoreProvider` Class
+####  Implement `CreateWebApiDataStoreFromString` Method
 *Explanation TODO*
  ```csharp
-private class WebApiDataStoreProvider : IXpoDataStoreProvider {
-    string fConnectionString;
-    public string ConnectionString {
-        get => fConnectionString;
-    }
-    HttpClientHandler GetInsecureHandler() {
-        HttpClientHandler handler = new HttpClientHandler();
-        handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-        return handler;
-    }
-    public WebApiDataStoreProvider(string connectionString) {
-        fConnectionString = connectionString;
-    }
-
-    public IDataStore CreateSchemaCheckingStore(out IDisposable[] disposableObjects) {
-        throw new NotImplementedException();
-    }
-
-    public IDataStore CreateUpdatingStore(bool allowUpdateSchema, out IDisposable[] disposableObjects) {
-        throw new NotImplementedException();
-    }
-
-    public IDataStore CreateWorkingStore(out IDisposable[] disposableObjects) {
-        HttpClient httpClient = new HttpClient(GetInsecureHandler());
-        Uri uri = new Uri(ConnectionString);
-        httpClient.BaseAddress = uri;
-        disposableObjects = new[] { httpClient };
-        return WebApiDataStoreClient(httpClient, AutoCreateOption.SchemaAlreadyExists);
-  }
+static IDataStore CreateWebApiDataStoreFromString(string connectionString, AutoCreateOption autoCreateOption, out IDisposable[] objectsToDisposeOnDisconnect) {
+    ConnectionStringParser parser = new ConnectionStringParser(connectionString);
+    if(!parser.PartExists("uri"))
+        throw new ArgumentException("Connection string does not contain the 'uri' part.");
+    string uri = parser.GetPartByName("uri");
+    HttpClient client = new HttpClient(GetInsecureHandler());
+    client.BaseAddress = new Uri(uri);
+    objectsToDisposeOnDisconnect = new IDisposable[] { client };
+    return new WebApiDataStoreClient(client, autoCreateOption);
 }
-
+static HttpClientHandler GetInsecureHandler() {
+    HttpClientHandler handler = new HttpClientHandler();
+    handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+    return handler;
+}
   ```
 ####  Add `InitXpo` Method
 
@@ -204,12 +188,12 @@ To create Items Page we have to implement ListView with the list of items, filte
     
     To implement ListView we will place data and commands in the `ItemsViewModel` class. 
     ```csharp
-
-    public ItemsViewModel() {
+    public ItemsViewModel(INavigation _navigation):base(_navigation) {
           Title = "Browse";
           Items = new ObservableCollection<Employee>();
-          LoadDataCommand = new Command(async () => { 
-              await ExecuteLoadEmployeesCommand(); 
+          ExecuteLoadEmployeesCommand();
+          LoadDataCommand = new Command(() => { 
+              ExecuteLoadEmployeesCommand(); 
               //..
           });
           //..
@@ -219,50 +203,87 @@ To create Items Page we have to implement ListView with the list of items, filte
         get { return items; }
         set { SetProperty(ref items, value); }
     }
-    ObservableCollection<Department> departments;
-    public ObservableCollection<Department> Departments {
-        get { return departments; }
-        set { SetProperty(ref departments, value); }
-    }
     public Command LoadDataCommand { get; set; }
-    async Task ExecuteLoadEmployeesCommand() {
+    void ExecuteLoadEmployeesCommand() {
         if(IsBusy)
             return;
 
         IsBusy = true;
-        await LoadEmployeesAsync();
+        LoadEmployees();
         IsBusy = false;
     }
-    public async Task LoadEmployeesAsync() {
+    public void LoadEmployees() {
         try {
-            Items.Clear();
-            var items = await XpoDataStore.GetEmployeesAsync(uow, true);
-            foreach(var item in items) {
-                Items.Add(item);
-            }
-            OnPropertyChanged(nameof(Items));
+            var items = uow.Query<Employee>().OrderBy(i => i.FirstName).ToList();
+            Items = new ObservableCollection<Employee>(items);
         } catch(Exception ex) {
             Debug.WriteLine(ex);
         }
     }
+    
+    Employee selectedItem;
+    public Employee SelectedItem {
+            get { return selectedItem; }
+            set { 
+                SetProperty(ref selectedItem, value); 
+                if(value != null) ExecuteSelectItem(); 
+            }
+        }
+    void ExecuteSelectItem() {
+            if(SelectedItem == null)
+                return;
+            var tempGuid = SelectedItem.Oid;
+            SelectedItem = null;
+            Navigation.PushAsync(new ItemDetailPage(tempGuid));
+        }
     ```
     In the `ItemsPage.xaml` file use following format and bindings
 
     ```xaml
-
+    <ListView x:Name="ItemsListView" 
+            ItemsSource="{Binding Items}"
+            VerticalOptions="FillAndExpand"
+            HasUnevenRows="true"
+            RefreshCommand="{Binding LoadDataCommand}"
+            IsPullToRefreshEnabled="true"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            CachingStrategy="RecycleElement"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal">
+                        <StackLayout Padding="10" HorizontalOptions="FillAndExpand">
+                            <Label Text="{Binding FullName}" 
+                    LineBreakMode="NoWrap" 
+                    Style="{DynamicResource ListItemTextStyle}" 
+                    FontSize="16" />
+                            <Label Text="{Binding Department}" 
+                    LineBreakMode="NoWrap"
+                    Style="{DynamicResource ListItemDetailTextStyle}"
+                    FontSize="13" />
+                        </StackLayout>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
     ```
 
-    In the corresponding `ItemsPage.xaml.cs` file add OnItemSelected method and override OnAppearing method
+    In the corresponding `ItemsPage.xaml.cs` file add Constructor
     ```csharp
-
+    public ItemsPage() {
+        InitializeComponent();
+        BindingContext  = new ItemsViewModel(Navigation);
+    } 
     ```
     
 
 
 - Add item button
     
-    If button or action availability depends on security rights, that button will be binded to command, otherwise it will be binded to Clicked event.
-    In this example only `Admin` can add new items to the data.
+    If button or action availability depends on security rights, that button will be binded to command with `canExecute` parameneter, which depends on user's security rights.
+    In this example only `Admin` can add new items to the data. `AddItemCommand` executability is determined by `Security.CanCreate()` method.
     
     In the `ItemsViewModel` class 
     Add AddItemsCommand  and its logic
@@ -281,7 +302,9 @@ To create Items Page we have to implement ListView with the list of items, filte
     ```
     In the `ItemsPage` xaml page add ToolBar item with following text and binding
     ```xaml
-
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
+    </ContentPage.ToolbarItems>
     ```
 - Add Department filter
 
@@ -290,60 +313,206 @@ To create Items Page we have to implement ListView with the list of items, filte
     
     In the `ItemsViewModel` class add Observable collection of departments and add load logic to LoadData command
     ```csharp
-      
+    ObservableCollection<Department> departments;
+    public ObservableCollection<Department> Departments {
+        get { return departments; }
+        set { SetProperty(ref departments, value); }
+    }
+    
+    Department selectedDepartment;
+    public Department SelectedDepartment {
+        get { return selectedDepartment; }
+        set { SetProperty(ref selectedDepartment, value); FilterByDepartment(); }
+    }
+
+    void FilterByDepartment() {
+        if(SelectedDepartment != null) {
+            LoadEmployees();
+            var items = Items.Where(w => w.Department == SelectedDepartment);
+            Items = new ObservableCollection<Employee>(items);
+        } else {
+            LoadEmployees();
+        }
+    }
+
+    public ItemsViewModel(INavigation _navigation):base(_navigation) {
+        //..
+        Departments = new ObservableCollection<Department>();
+        //..
+        ExecuteLoadDepartmentsCommand();
+        LoadDataCommand = new Command(() => { 
+            //..
+            ExecuteLoadDepartmentsCommand();
+        });
+        //..
+    }
+
+    public void LoadDepartments() {
+        try {
+            var items = uow.Query<Department>().ToList();
+            Departments = new ObservableCollection<Department>(items);
+        } catch(Exception ex) {
+            Debug.WriteLine(ex);
+        }
+    }
+
+    void ExecuteLoadDepartmentsCommand() {
+        if(IsBusy)
+            return;
+
+        IsBusy = true;
+        LoadDepartments();
+        IsBusy = false;
+    }
     ```
     In the `ItemsPage.xaml` file add picker item on top of the `ListView` with the following parameters
     ```xaml
-
-    ```
-    In the corresponding `ItemsPage.xaml.cs` class add `FilterByDepartmnent` method
-
-    ```csharp
-    
+    <Picker Title="Filter" ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}"/>
     ```
 
-- Finally bind the `ItemsViewModel` class to the `ItemsPage` xaml using the constructor in the `ItemsPage.xaml.cs` class
-  ```csharp
 
-  ```
 ## Step 5. Item Detail page and ViewModel implementation
 - In the `Views` folder create new xaml page and call it `ItemDetailPage.xaml`. 
 - In the `ViewModels` folder create new class and call it `ItemDetailViewModel`
 
-We have same Page and ViewModel for both editing existing items and creating new items. The page will have `delete` and `save` toolbar items and `ListView` to display item's data, featuring `Picker` to select department.
-- Buttons
-  `Save` and `Delete` buttons availability depends on security. We will bind them to commands, so we can control is button active or not.
+We have same Page and ViewModel for both editing existing items and creating new items. The page will have `Delete` and `Save` toolbar items and `Grid` to display item's data, featuring `Picker` to select department.
 
-  In the `ItemDetailViewModel` class add commands and security properties
-  ```csharp
+- `Grid`
 
-  ```
-  In the `ItemDetailPage.xaml` add Toolbar items with following parameters
-  ```xaml
+    In the `ItemDetailViewModel` class add 
 
-  ```
-- ListView
-  `Save` and `Delete` buttons availability depends on security. We will bind them to commands, so we can control is button active or not.
+    ```csharp
+    public Employee Item { get; set; }
 
-  In the `ItemDetailViewModel` class add commands and security properties
-  ```csharp
 
-  ```
-  In the `ItemDetailPage.xaml` add Toolbar items with following parameters
-  ```xaml
-
+    bool isNewItem;
+    public bool IsNewItem {
+        get { return isNewItem; }
+        set { SetProperty(ref isNewItem, value); }
+    }
+    public ItemDetailViewModel(Guid? Oid,INavigation navigation):base(navigation) {
+        IsNewItem = (Oid == null);
+        if(isNewItem) {
+            Item = new Employee(uow) { FirstName = "First name", LastName = "Last Name" };
+        } else {
+            Item = uow.GetObjectByKey<Employee>(Oid);
+        }
+        Title = Item?.FullName;
+        
+        //..
+    }
+    ```
+    In the `ItemDetailPage.xaml` add `Grid` with following parameters
+    ```
+    <Grid ColumnSpacing="20" Padding="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Text="FirstName" FontSize="Medium" Grid.Row="0" Grid.Column="0" />
+        <Entry Text="{Binding Item.FirstName}" IsReadOnly="{Binding  ReadOnly}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
+        <Label Text="LastName" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
+        <Entry Text="{Binding Item.LastName}" IsReadOnly="{Binding  ReadOnly}" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
+        <Label Text="Department" IsVisible="{Binding CanReadDepartment}"  FontSize="Medium" Grid.Row="4" Grid.Column="0" />
+        <Picker IsVisible="{Binding CanReadDepartment}" IsEnabled="{Binding CanReadDepartment}" ItemsSource="{Binding Departments}" ItemDisplayBinding="{Binding Title}" SelectedItem="{Binding Item.Department}" FontSize="Small" Margin="0" Grid.Row="5" Grid.Column="0"/>
+    </Grid>
+    ```
 - Picker
-  `Save` and `Delete` buttons availability depends on security. We will bind them to commands, so we can control is button active or not.
 
-  In the `ItemDetailViewModel` class add commands and security properties
-  ```csharp
+    If user's rights allow to modify the `Department` property, `Picker` with selectable options is shown. In the `ItemDetailVeiwModel` class add following code
+    ```csharp
+    
+    List<Department> departments;
+    public List<Department> Departments {
+        get { return departments; }
+        set { SetProperty(ref departments, value); }
+    }
+    
+    bool canReadDepartment;
+    public bool CanReadDepartment {
+        get { return canReadDepartment; }
+        set { SetProperty(ref canReadDepartment, value); }
+    }
+    public ItemDetailViewModel(Guid? Oid,INavigation navigation):base(navigation) {
+        //..
+        Departments = uow.Query<Department>().ToList();
+        CanReadDepartment = XpoHelper.Security.CanRead(Item, "Department");
+        CanWriteDepartment = XpoHelper.Security.CanWrite(Item, "Department");
+        if (isNewItem && CanWriteDepartment) {
+            Item.Department = Departments?[0];
+        }
+    }
+    ```
 
-  ```
-  In the `ItemDetailPage.xaml` add Toolbar items with following parameters
-  ```xaml
-- Finally add constructor to the `ItemsDetailPage.xaml.cs` class to bind ViewModel and Page together.
-  ```csharp
-  ```
+- Buttons
+
+    `Save` and `Delete` buttons availability depends on security. We will bind them to commands, so we can control is button active or not.
+
+    In the `ItemDetailViewModel` class add commands and security properties
+    ```csharp
+    bool readOnly;
+    public bool ReadOnly {
+            get { return readOnly; }
+            set { SetProperty(ref readOnly, value); CommandUpdate.ChangeCanExecute(); }
+        }
+    bool canDelete;
+    public bool CanDelete {
+            get { return canDelete; }
+            set { SetProperty(ref canDelete, value); CommandDelete.ChangeCanExecute(); }
+        }
+    public Command CommandDelete { get; private set; }
+    public Command CommandUpdate { get; private set; }
+
+    public ItemDetailViewModel(Guid? Oid,INavigation navigation):base(navigation) {
+        //..
+        CommandDelete = new Command(async () => {
+            await DeleteItemAndGoBack();
+        },
+    () => CanDelete && !isNewItem);
+        CommandUpdate = new Command(async () => {
+            await SaveItemAndGoBack();
+        },
+    () => !ReadOnly);
+        CanDelete = XpoHelper.Security.CanDelete(Item);
+        ReadOnly = !XpoHelper.Security.CanWrite(Item);
+        //..
+    }
+    async Task DeleteItemAndGoBack() {
+        uow.Delete(Item);
+        await uow.CommitChangesAsync();
+        await Navigation.PopToRootAsync();
+    }
+    async Task SaveItemAndGoBack() {
+        uow.Save(Item);
+        await uow.CommitChangesAsync();
+        await Navigation.PopToRootAsync();
+    }
+    ```
+    In the `ItemDetailPage.xaml` add Toolbar items with following parameters
+    ```xaml
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Delete" Command="{Binding CommandDelete}" />
+        <ToolbarItem Text="Save" Command="{Binding CommandUpdate}"  />
+    </ContentPage.ToolbarItems>
+    ```
+
+
+
+    Finally add constructor to the `ItemsDetailPage.xaml.cs` class to bind ViewModel and Page together.
+    ```csharp
+    public ItemDetailPage(Guid? Oid) {
+        InitializeComponent();
+        BindingContext = new ItemDetailViewModel(Oid, Navigation);
+    }
+    ```
 ## Step 4: Run and Test the App
  - Log in under 'User' with an empty password.
    

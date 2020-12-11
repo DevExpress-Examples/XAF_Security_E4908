@@ -32,7 +32,6 @@ namespace XamarinFormsDemo.ViewModels {
             AddItemCommand = new Command(async () => {
                 await ExecuteAddItemCommand();
             }, ()=> XpoHelper.Security.CanCreate<Employee>());
-            SelectItemCommand = new Command(() => ExecuteSelectItemCommand());
         }
         void FilterByDepartment() {
             if(SelectedDepartment != null) {
@@ -43,7 +42,7 @@ namespace XamarinFormsDemo.ViewModels {
                 LoadEmployees();
             }
         }
-        void ExecuteSelectItemCommand() {
+        void ExecuteSelectItem() {
             if(SelectedItem == null)
                 return;
             var tempGuid = SelectedItem.Oid;
@@ -58,7 +57,7 @@ namespace XamarinFormsDemo.ViewModels {
             get { return selectedItem; }
             set { 
                 SetProperty(ref selectedItem, value); 
-                if(value != null) ExecuteSelectItemCommand(); 
+                if(value != null) ExecuteSelectItem(); 
             }
         }
         void ExecuteLoadEmployeesCommand() {
@@ -76,9 +75,6 @@ namespace XamarinFormsDemo.ViewModels {
             IsBusy = true;
             LoadDepartments();
             IsBusy = false;
-        }
-        public void UpdateItems() {
-            OnPropertyChanged(nameof(Items));
         }
         async Task ExecuteAddItemCommand() {
             await Navigation.PushAsync(new ItemDetailPage(null));
@@ -100,7 +96,6 @@ namespace XamarinFormsDemo.ViewModels {
                 Debug.WriteLine(ex);
             }
         }
-        public Command SelectItemCommand { get; set; }
         public Command AddItemCommand { get; set; }
         public Command LoadDataCommand { get; set; }
         public ObservableCollection<Employee> Items {

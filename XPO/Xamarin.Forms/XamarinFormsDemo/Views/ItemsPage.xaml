@@ -33,7 +33,6 @@
                            Style="{DynamicResource ListItemDetailTextStyle}"
                            FontSize="13" />
                                 </StackLayout>
-                                
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
