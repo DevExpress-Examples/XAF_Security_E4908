@@ -9,7 +9,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Picker Title="Filter" ItemsSource="{Binding Departments}" SelectedIndexChanged="FilterByDepartment"/>
+            <Picker Title="Filter" ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}"/>
             <ListView x:Name="ItemsListView" 
                  ItemsSource="{Binding Items}"
                  VerticalOptions="FillAndExpand"
@@ -18,7 +18,7 @@
                  IsPullToRefreshEnabled="true"
                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                  CachingStrategy="RecycleElement"
-                 ItemSelected="OnItemSelected">
+                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

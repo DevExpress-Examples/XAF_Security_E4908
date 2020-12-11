@@ -20,7 +20,7 @@
             <Entry Text="{Binding Login}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
             <Label Text="Password" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
             <Entry Text="{Binding Password}" IsPassword="True" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
-            <Button Text="Log In" Clicked="OnLoginClicked" BackgroundColor="#ff7200" TextColor="White" FontSize="Medium" Margin="0" Grid.Row="4" Grid.Column="0"/>
+            <Button Text="Log In" Command="{Binding LogInCommand}" BackgroundColor="#ff7200" TextColor="White" FontSize="Medium" Margin="0" Grid.Row="4" Grid.Column="0"/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

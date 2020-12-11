@@ -16,63 +16,91 @@ namespace XamarinFormsDemo.ViewModels {
         
         ObservableCollection<Employee> items;
         ObservableCollection<Department> departments;
-
-
-        public ItemsViewModel() {
+        Department selectedDepartment;
+        Employee selectedItem;
+        public ItemsViewModel(INavigation _navigation):base(_navigation) {
             Title = "Browse";
             Departments = new ObservableCollection<Department>();
             Items = new ObservableCollection<Employee>();
-            LoadDataCommand = new Command(async () => { 
-                await ExecuteLoadEmployeesCommand(); 
-                await ExecuteLoadDepartmentsCommand();
+
+            ExecuteLoadEmployeesCommand();
+            ExecuteLoadDepartmentsCommand();
+            LoadDataCommand = new Command(() => { 
+                ExecuteLoadEmployeesCommand(); 
+                ExecuteLoadDepartmentsCommand();
             });
             AddItemCommand = new Command(async () => {
                 await ExecuteAddItemCommand();
             }, ()=> XpoHelper.Security.CanCreate<Employee>());
+            SelectItemCommand = new Command(() => ExecuteSelectItemCommand());
         }
-
-        async Task ExecuteLoadEmployeesCommand() {
+        void FilterByDepartment() {
+            if(SelectedDepartment != null) {
+                LoadEmployees();
+                var items = Items.Where(w => w.Department == SelectedDepartment);
+                Items = new ObservableCollection<Employee>(items);
+            } else {
+                LoadEmployees();
+            }
+        }
+        void ExecuteSelectItemCommand() {
+            if(SelectedItem == null)
+                return;
+            var tempGuid = SelectedItem.Oid;
+            SelectedItem = null;
+            Navigation.PushAsync(new ItemDetailPage(tempGuid));
+        }
+        public Department SelectedDepartment {
+            get { return selectedDepartment; }
+            set { SetProperty(ref selectedDepartment, value); FilterByDepartment(); }
+        }
+        public Employee SelectedItem {
+            get { return selectedItem; }
+            set { 
+                SetProperty(ref selectedItem, value); 
+                if(value != null) ExecuteSelectItemCommand(); 
+            }
+        }
+        void ExecuteLoadEmployeesCommand() {
             if(IsBusy)
                 return;
 
             IsBusy = true;
-            await LoadEmployeesAsync();
+            LoadEmployees();
             IsBusy = false;
         }
-        async Task ExecuteLoadDepartmentsCommand() {
+        void ExecuteLoadDepartmentsCommand() {
             if(IsBusy)
                 return;
 
             IsBusy = true;
-            await LoadDepartmentsAsync();
+            LoadDepartments();
             IsBusy = false;
         }
         public void UpdateItems() {
             OnPropertyChanged(nameof(Items));
         }
         async Task ExecuteAddItemCommand() {
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(null)));
+            await Navigation.PushAsync(new ItemDetailPage(null));
         }
 
-        public async Task LoadEmployeesAsync() {
+        public void LoadEmployees() {
             try {
-                var items = await uow.Query<Employee>().OrderBy(i => i.FirstName).ToListAsync();
+                var items = uow.Query<Employee>().OrderBy(i => i.FirstName).ToList();
                 Items = new ObservableCollection<Employee>(items);
-                OnPropertyChanged(nameof(Items));
             } catch(Exception ex) {
                 Debug.WriteLine(ex);
             }
         }
-        public async Task LoadDepartmentsAsync() {
+        public void LoadDepartments() {
             try {
-                var items = await uow.Query<Department>().ToListAsync();
+                var items = uow.Query<Department>().ToList();
                 Departments = new ObservableCollection<Department>(items);
-                OnPropertyChanged(nameof(Departments));
             } catch(Exception ex) {
                 Debug.WriteLine(ex);
             }
         }
-        
+        public Command SelectItemCommand { get; set; }
         public Command AddItemCommand { get; set; }
         public Command LoadDataCommand { get; set; }
         public ObservableCollection<Employee> Items {

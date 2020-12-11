@@ -10,7 +10,9 @@ using Xamarin.Forms;
 namespace XamarinFormsDemo.ViewModels {
     public class BaseViewModel : INotifyPropertyChanged {
         public UnitOfWork uow = XpoHelper.CreateUnitOfWork();
-
+        public BaseViewModel(INavigation _navigation) {
+            Navigation = _navigation;
+        }
         bool isBusy = false;
         public bool IsBusy {
             get { return isBusy; }

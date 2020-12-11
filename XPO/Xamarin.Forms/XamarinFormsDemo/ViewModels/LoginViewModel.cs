@@ -1,5 +1,6 @@
 ﻿using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
+using DevExpress.Xpo.DB;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +18,7 @@ namespace XamarinFormsDemo.ViewModels {
     public class LoginViewModel : INotifyPropertyChanged {
         public string Login {
             get { return login; }
-            set { SetProperty(ref login, value); }
+            set { SetProperty(ref login, value); LogInCommand.ChangeCanExecute(); }
         }
         string login;
         public string Password {
@@ -26,9 +27,26 @@ namespace XamarinFormsDemo.ViewModels {
         }
         string password;
 
+        public Command LogInCommand { get; private set; }
+        void ExecuteLogInCommand() {
+            try {
+                if (IsBusy) {
+                    return;
+                }
+                IsBusy = true;
+                XpoHelper.InitXpo(WebApiDataStoreClient.GetConnectionString("https://10.0.2.2:5001/xpo/"), Login, Password);
+                IsBusy = false;
+                Application.Current.MainPage = new NavigationPage(new MainPage());
+            } catch(Exception ex) {
+                Application.Current.MainPage.DisplayAlert("Login failed", ex.Message, "Try again");
+            }
+        }
+
         public LoginViewModel() {
             Title = "DevExpress XAF Security Demo";
+            LogInCommand = new Command(() => ExecuteLogInCommand(), ()=>Login?.Length>0);
         }
+
         bool isBusy = false;
         public bool IsBusy {
             get { return isBusy; }

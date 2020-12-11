@@ -7,19 +7,9 @@ using XamarinFormsDemo.ViewModels;
 
 namespace XamarinFormsDemo.Views {
     public partial class ItemDetailPage : ContentPage {
-        ItemDetailViewModel viewModel;
-
-        // Note - The Xamarin.Forms Previewer requires a default, parameterless constructor to render a page.
-        public ItemDetailPage() {
+        public ItemDetailPage(Guid? Oid) {
             InitializeComponent();
-            viewModel = new ItemDetailViewModel(new Guid());
-            BindingContext = viewModel;
-        }
-
-        public ItemDetailPage(ItemDetailViewModel viewModel) {
-            InitializeComponent();
-            BindingContext = this.viewModel = viewModel;
-            viewModel.Navigation = Navigation;
+            BindingContext = new ItemDetailViewModel(Oid, Navigation);
         }
     }
 }

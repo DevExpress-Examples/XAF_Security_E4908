@@ -8,6 +8,7 @@ using DevExpress.Xpo.DB;
 using DevExpress.Xpo.DB.Helpers;
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using XafSolution.Module.BusinessObjects;
 
 namespace XamarinFormsDemo {
@@ -54,26 +55,26 @@ namespace XamarinFormsDemo {
             XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
             XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
         }
-        
 
- 
 
-static IDataStore CreateWebApiDataStoreFromString(string connectionString, AutoCreateOption autoCreateOption, out IDisposable[] objectsToDisposeOnDisconnect) {
+
+
+        static IDataStore CreateWebApiDataStoreFromString(string connectionString, AutoCreateOption autoCreateOption, out IDisposable[] objectsToDisposeOnDisconnect) {
             ConnectionStringParser parser = new ConnectionStringParser(connectionString);
             if(!parser.PartExists("uri"))
                 throw new ArgumentException("Connection string does not contain the 'uri' part.");
             string uri = parser.GetPartByName("uri");
-            HttpClient client = new HttpClient();
+            HttpClient client = new HttpClient(GetInsecureHandler());
             client.BaseAddress = new Uri(uri);
             objectsToDisposeOnDisconnect = new IDisposable[] { client };
             return new WebApiDataStoreClient(client, autoCreateOption);
         }
-static HttpClientHandler GetInsecureHandler() {
-                HttpClientHandler handler = new HttpClientHandler();
-                handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-                return handler;
-            }
-           
-        
+        static HttpClientHandler GetInsecureHandler() {
+            HttpClientHandler handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            return handler;
+        }
+
+
     }
 }

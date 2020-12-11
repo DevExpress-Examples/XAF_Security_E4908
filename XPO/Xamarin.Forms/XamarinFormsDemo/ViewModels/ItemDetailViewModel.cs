@@ -16,7 +16,7 @@ namespace XamarinFormsDemo.ViewModels {
         List<Department> departments;
         bool isNewItem;
         
-        public ItemDetailViewModel(Guid? Oid) {
+        public ItemDetailViewModel(Guid? Oid,INavigation navigation):base(navigation) {
             IsNewItem = (Oid == null);
             if(isNewItem) {
                 Item = new Employee(uow) { FirstName = "First name", LastName = "Last Name" };
