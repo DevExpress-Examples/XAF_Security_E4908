@@ -19,7 +19,7 @@ namespace XamarinFormsDemo.Views {
                 await Navigation.PopAsync();
                 Application.Current.MainPage = new NavigationPage(new MainPage());
             } catch (Exception ex){
-                await DisplayAlert("Login failed", ex.Message, "Try again");
+                await Application.Current.MainPage.DisplayAlert("Login failed", ex.Message, "Try again");
             }
         }
     }

@@ -5,6 +5,7 @@ using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DevExpress.Xpo;
 using DevExpress.Xpo.DB;
+using DevExpress.Xpo.DB.Helpers;
 using System;
 using System.Net.Http;
 using XafSolution.Module.BusinessObjects;
@@ -18,7 +19,9 @@ namespace XamarinFormsDemo {
         public static void InitXpo(string connectionString, string login, string password) {
             RegisterEntities();
             InitSecurity();
-            ObjectSpaceProvider = new SecuredObjectSpaceProvider(Security, new WebApiDataStoreProvider(connectionString));
+            XpoDefault.RegisterBonusProviders();
+            DataStoreBase.RegisterDataStoreProvider(WebApiDataStoreClient.XpoProviderTypeString, CreateWebApiDataStoreFromString);
+            ObjectSpaceProvider = new SecuredObjectSpaceProvider(Security, connectionString, null);
             UpdateDataBase();
             LogIn(login, password);
             XpoDefault.Session = null;
@@ -51,40 +54,26 @@ namespace XamarinFormsDemo {
             XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
             XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
         }
+        
 
-        private class WebApiDataStoreProvider : IXpoDataStoreProvider {
-            string fConnectionString;
-            public string ConnectionString {
-                get => fConnectionString;
-            }
-            HttpClientHandler GetInsecureHandler() {
+ 
+
+static IDataStore CreateWebApiDataStoreFromString(string connectionString, AutoCreateOption autoCreateOption, out IDisposable[] objectsToDisposeOnDisconnect) {
+            ConnectionStringParser parser = new ConnectionStringParser(connectionString);
+            if(!parser.PartExists("uri"))
+                throw new ArgumentException("Connection string does not contain the 'uri' part.");
+            string uri = parser.GetPartByName("uri");
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(uri);
+            objectsToDisposeOnDisconnect = new IDisposable[] { client };
+            return new WebApiDataStoreClient(client, autoCreateOption);
+        }
+static HttpClientHandler GetInsecureHandler() {
                 HttpClientHandler handler = new HttpClientHandler();
                 handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
                 return handler;
             }
-            public WebApiDataStoreProvider(string connectionString) {
-                fConnectionString = connectionString;
-            }
-
-            public IDataStore CreateSchemaCheckingStore(out IDisposable[] disposableObjects) {
-                throw new NotImplementedException();
-            }
-
-            public IDataStore CreateUpdatingStore(bool allowUpdateSchema, out IDisposable[] disposableObjects) {
-                HttpClient httpClient = new HttpClient(GetInsecureHandler());
-                Uri uri = new Uri(ConnectionString);
-                httpClient.BaseAddress = uri;
-                disposableObjects = new[] { httpClient };
-                return new WebApiDataStoreClient(httpClient, AutoCreateOption.DatabaseAndSchema);
-            }
-
-            public IDataStore CreateWorkingStore(out IDisposable[] disposableObjects) {
-                HttpClient httpClient = new HttpClient(GetInsecureHandler());
-                Uri uri = new Uri(ConnectionString);
-                httpClient.BaseAddress = uri;
-                disposableObjects = new[] { httpClient };
-                return new WebApiDataStoreClient(httpClient, AutoCreateOption.SchemaAlreadyExists);
-            }
-        }
+           
+        
     }
 }
