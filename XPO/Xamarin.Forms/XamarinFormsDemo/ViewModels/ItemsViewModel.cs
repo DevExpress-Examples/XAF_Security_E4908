@@ -32,7 +32,7 @@ namespace XamarinFormsDemo.ViewModels {
             AddItemCommand = new Command(async () => {
                 await ExecuteAddItemCommand();
             }, ()=> XpoHelper.Security.CanCreate<Employee>());
-            LogOutCommand = new Command(() => Application.Current.MainPage = new LoginPage());
+            LogOutCommand = new Command(() => ExecuteLogOutCommand());
         }
         void FilterByDepartment() {
             if(SelectedDepartment != null) {
@@ -76,6 +76,12 @@ namespace XamarinFormsDemo.ViewModels {
             IsBusy = true;
             LoadDepartments();
             IsBusy = false;
+        }
+        void ExecuteLogOutCommand() {
+            if(Device.RuntimePlatform == Device.iOS)
+                Application.Current.MainPage = new LoginPage();
+            else
+                Application.Current.MainPage = new NavigationPage(new LoginPage());
         }
         async Task ExecuteAddItemCommand() {
             await Navigation.PushAsync(new ItemDetailPage(null));

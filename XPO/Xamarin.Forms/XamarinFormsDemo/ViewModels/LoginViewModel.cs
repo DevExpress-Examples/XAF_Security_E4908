@@ -36,7 +36,10 @@ namespace XamarinFormsDemo.ViewModels {
                 IsBusy = true;
                 XpoHelper.InitXpo(WebApiDataStoreClient.GetConnectionString("https://10.0.2.2:5001/xpo/"), Login, Password);
                 IsBusy = false;
-                Application.Current.MainPage = new NavigationPage(new MainPage());
+                if(Device.RuntimePlatform == Device.iOS)
+                    Application.Current.MainPage = new MainPage();
+                else
+                    Application.Current.MainPage = new NavigationPage(new MainPage());
             } catch(Exception ex) {
                 Application.Current.MainPage.DisplayAlert("Login failed", ex.Message, "Try again");
             }
