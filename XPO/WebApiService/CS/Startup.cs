@@ -9,18 +9,28 @@ using Microsoft.Extensions.Hosting;
 
 namespace WebApiService {
     public class Startup {
-        public Startup(IConfiguration configuration) {
+        public Startup(IConfiguration configuration, IWebHostEnvironment env) {
             Configuration = configuration;
+            HostingEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment HostingEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.AddControllers();
 
-            string connectionString = MSSqlConnectionProvider.GetConnectionString(@"(localdb)\mssqllocaldb", "XafSolution");
-            IDataStore dataStore = XpoDefault.GetConnectionProvider(connectionString, AutoCreateOption.DatabaseAndSchema);
+            string connectionString;
+            AutoCreateOption autoCreateOption = AutoCreateOption.SchemaAlreadyExists;
+            if(HostingEnvironment.IsDevelopment()) {
+                connectionString = Configuration.GetConnectionString("Dev");
+                autoCreateOption = AutoCreateOption.DatabaseAndSchema;
+            } else {
+                connectionString = Configuration.GetConnectionString("Prod");
+                connectionString = XpoDefault.GetConnectionPoolString(connectionString);
+            }
+            IDataStore dataStore = XpoDefault.GetConnectionProvider(connectionString, autoCreateOption);
             services.AddSingleton(new WebApiDataStoreService(dataStore));
 
             // add XML Serializer formatters
