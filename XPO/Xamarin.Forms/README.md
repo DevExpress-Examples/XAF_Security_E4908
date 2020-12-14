@@ -33,20 +33,26 @@ For more information, see the following:
 
 The application you build in this tutorial requires the following NuGet Packages:
 
-- DevExpress.Xpo
-- Microsoft.Data.Sqlite
+- DevExpress.ExpressApp.Security.Xpo
+- DevExpress.ExpressApp.Validation
+- DevExpress.Persistent.BaseImpl
+- Microsoft.Data.SqlClient
 
 From Visual Studio's **Tools** menu, select **NuGet Package Manager > Package Manager Console**.
 
 Make sure **Package source** is set to **All** or **nuget.org** and run the following commands: 
 
 ```console
-Install-Package DevExpress.Xpo
+Install-Package DevExpress.ExpressApp.Security.Xpo
 ```
-
-
 ```console
-Install-Package Microsoft.Data.Sqlite
+Install-Package DevExpress.ExpressApp.Validation
+```
+```console
+Install-Package Persistent.BaseImpl
+```
+```console
+Install-Package Microsoft.Data.SqlClient
 ```
 ## Step 3. Database Connection and Security System Initialization
 - In this example we will use WebApi DataStore, which requires server-side API alongside Xamarin application. Read more on how to set-up RESTFull API using XPO here: (Link)
@@ -66,8 +72,8 @@ Tracing.Initialize(3);
  ```csharp
 
 public static class XpoHelper {
-    static SecuredObjectSpaceProvider objectSpaceProvider;
-    static AuthenticationStandard authentication; 
+    static SecuredObjectSpaceProvider ObjectSpaceProvider;
+    static AuthenticationStandard Authentication; 
     public static SecurityStrategyComplex Security;
     //...
 }
@@ -114,8 +120,8 @@ static void LogIn(string login, string password) {
  ```csharp
 
 public static UnitOfWork CreateUnitOfWork() {
-   var space = objectSpaceProvider.CreateObjectSpace() as XPObjectSpace;
-   return space.Session as UnitOfWork;
+    var space = (XPObjectSpace)ObjectSpaceProvider.CreateObjectSpace();
+    return (UnitOfWork)space.Session;
 }
 
   ```
@@ -147,7 +153,9 @@ public static void InitXpo(string connectionString, string login, string passwor
     GetDataStore(connectionString);
     RegisterEntities();
     GetSecurity();
-    objectSpaceProvider = new SecuredObjectSpaceProvider(Security, new WebApiDataStoreProvider());
+    XpoDefault.RegisterBonusProviders();
+    DataStoreBase.RegisterDataStoreProvider(WebApiDataStoreClient.XpoProviderTypeString, CreateWebApiDataStoreFromString);
+    ObjectSpaceProvider = new SecuredObjectSpaceProvider(Security, connectionString, null);
     LogIn(login, password);
     XpoDefault.Session = null;
 }
@@ -157,9 +165,10 @@ public static void InitXpo(string connectionString, string login, string passwor
 
 - In the `Views` folder create XAML Page and give it `LoginPage` name. 
 - In the `ViewModels` folder create add new class file `LoginViewModel.cs`.
-- Insert the code into these files from corresponding sources: `LoginPage.xaml`, `LoginViewModel.cs`
+- Insert the code into these files from corresponding sources: [LoginPage.xaml](XamarinFormsDemo/Views/LoginPage.xaml), [LoginViewModel.cs](XamarinFormsDemo/ViewModels/LoginViewModel.cs)
 
 Login Page and ViewModel collect Log In information and pass it to the `InitXpo` method from the `XpoHelper` class.  
+
 ## Step 5. Base ViewModel implementation
 Every other ViewModel will inherit Base ViewModel.
 
@@ -545,7 +554,21 @@ We have same Page and ViewModel for both editing existing items and creating new
     }
     ```
 ## Step 8. Populate the Databse
-To seed data in the database, Add `Database` method, call it in the `InitXpo` method. Also add correspongding files into `Core` folder:
+To seed the data in the database, Add `UpdateDataBase` method, call it in the `InitXpo` method. Also add correspongding files into the `Core` folder: [Employees.xml](XamarinFormsDemo/Core/Employees.xml) , [DBUpdater.cs](XamarinFormsDemo/Core/DBUpdater.cs)
+
+```csharp
+public static void InitXpo(string connectionString, string login, string password) {
+    //..
+    UpdateDataBase();
+    LogIn(login, password);
+    //..
+}
+static void UpdateDataBase() {
+    var space = ObjectSpaceProvider.CreateUpdatingObjectSpace(true);
+    Updater updater = new Updater(space);
+    updater.UpdateDatabase();
+}
+```
 ## Step 9. Run and Test the App
  - Log in under 'User' with an empty password.
    
