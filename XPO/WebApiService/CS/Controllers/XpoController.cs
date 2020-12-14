@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DevExpress.Xpo.DB;
+﻿using DevExpress.Xpo.DB;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+
+using System.Threading.Tasks;
 
 namespace WebApiService.Controllers {
     [ApiController]
@@ -13,6 +11,10 @@ namespace WebApiService.Controllers {
         readonly WebApiDataStoreService DataStoreService;
         public XpoController(WebApiDataStoreService dataStoreService) {
             this.DataStoreService = dataStoreService;
+        }
+        [HttpGet]
+        public string Hello() {
+            return "Use WebApiDataStoreClient to connect to this service. See also: https://docs.devexpress.com/XPO/402182/connect-to-a-data-store/transfer-data-via-rest-api";
         }
         [HttpPost]
         public Task<OperationResult<UpdateSchemaResult>> UpdateSchema([FromQuery] bool doNotCreateIfFirstTableNotExist, [FromBody] DBTable[] tables) {

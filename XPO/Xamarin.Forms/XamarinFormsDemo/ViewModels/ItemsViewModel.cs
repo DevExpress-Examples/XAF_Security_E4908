@@ -1,10 +1,10 @@
 ﻿using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
+
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using XafSolution.Module.BusinessObjects;
 using Xamarin.Forms;
@@ -36,9 +36,7 @@ namespace XamarinFormsDemo.ViewModels {
         }
         void FilterByDepartment() {
             if(SelectedDepartment != null) {
-                LoadEmployees();
-                var items = Items.Where(w => w.Department == SelectedDepartment);
-                Items = new ObservableCollection<Employee>(items);
+                LoadEmployees(w => w.Department == SelectedDepartment);
             } else {
                 LoadEmployees();
             }
@@ -87,21 +85,15 @@ namespace XamarinFormsDemo.ViewModels {
             await Navigation.PushAsync(new ItemDetailPage(null));
         }
 
-        public void LoadEmployees() {
-            try {
-                var items = uow.Query<Employee>().OrderBy(i => i.FirstName).ToList();
-                Items = new ObservableCollection<Employee>(items);
-            } catch(Exception ex) {
-                Debug.WriteLine(ex);
-            }
+        public void LoadEmployees(Expression<Func<Employee, bool>> predicate = null) {
+            IQueryable<Employee> items = uow.Query<Employee>().OrderBy(i => i.FirstName);
+            if(predicate != null)
+                items = items.Where(predicate);
+            Items = new ObservableCollection<Employee>(items);
         }
         public void LoadDepartments() {
-            try {
-                var items = uow.Query<Department>().ToList();
-                Departments = new ObservableCollection<Department>(items);
-            } catch(Exception ex) {
-                Debug.WriteLine(ex);
-            }
+            var items = uow.Query<Department>().ToList();
+            Departments = new ObservableCollection<Department>(items);
         }
         public Command LogOutCommand { get; set; }
         public Command AddItemCommand { get; set; }

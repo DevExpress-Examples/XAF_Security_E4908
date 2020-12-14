@@ -8,7 +8,6 @@ using DevExpress.Xpo.DB;
 using DevExpress.Xpo.DB.Helpers;
 using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 using XafSolution.Module.BusinessObjects;
 
 namespace XamarinFormsDemo {
@@ -56,15 +55,16 @@ namespace XamarinFormsDemo {
             XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
         }
 
-
-
-
         static IDataStore CreateWebApiDataStoreFromString(string connectionString, AutoCreateOption autoCreateOption, out IDisposable[] objectsToDisposeOnDisconnect) {
             ConnectionStringParser parser = new ConnectionStringParser(connectionString);
             if(!parser.PartExists("uri"))
                 throw new ArgumentException("Connection string does not contain the 'uri' part.");
             string uri = parser.GetPartByName("uri");
+#if DEBUG
             HttpClient client = new HttpClient(GetInsecureHandler());
+#else
+            HttpClient client = new HttpClient();
+#endif
             client.BaseAddress = new Uri(uri);
             objectsToDisposeOnDisconnect = new IDisposable[] { client };
             return new WebApiDataStoreClient(client, autoCreateOption);
@@ -74,7 +74,5 @@ namespace XamarinFormsDemo {
             handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
             return handler;
         }
-
-
     }
 }
