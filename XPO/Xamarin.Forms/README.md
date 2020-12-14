@@ -271,7 +271,7 @@ To create Items Page we have to implement ListView with the list of items, filte
             Navigation.PushAsync(new ItemDetailPage(tempGuid));
         }
     ```
-    In the `ItemsPage.xaml` file use following format and bindings
+    In the `ItemsPage.xaml` file use following format and bindings. Please note that the order of the  paramenters matters.
 
     ```xaml
     <ListView x:Name="ItemsListView" 
