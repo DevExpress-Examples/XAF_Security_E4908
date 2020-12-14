@@ -323,7 +323,7 @@ To create Items Page we have to implement ListView with the list of items, filte
     
 
 
-- Add item button
+- Add AddItem and LogOut buttons
     
     If button or action availability depends on security rights, that button will be binded to command with `canExecute` parameneter, which depends on user's security rights.
     In this example only `Admin` can add new items to the data. `AddItemCommand` executability is determined by `Security.CanCreate()` method.
@@ -332,21 +332,31 @@ To create Items Page we have to implement ListView with the list of items, filte
     Add AddItemsCommand  and its logic
 
     ```csharp
-      public ItemsViewModel() {
-          //...
-          AddItemCommand = new Command(async () => {
-              await ExecuteAddItemCommand();
-          }, ()=> XpoHelper.Security.CanCreate<Employee>());
-      }
-      public Command AddItemCommand { get; set; }
-      async Task ExecuteAddItemCommand() {
-          await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel()));
-      }
+    public ItemsViewModel() {
+        //...
+        AddItemCommand = new Command(async () => {
+            await ExecuteAddItemCommand();
+        }, ()=> XpoHelper.Security.CanCreate<Employee>());
+        LogOutCommand = new Command(() => ExecuteLogOutCommand());
+    }
+    public Command AddItemCommand { get; set; }
+    async Task ExecuteAddItemCommand() {
+        await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel()));
+    }
+    public Command LogOutCommand { get; set; }
+    void ExecuteLogOutCommand() {
+        if(Device.RuntimePlatform == Device.iOS)
+            Application.Current.MainPage = new LoginPage();
+        else
+            Application.Current.MainPage = new NavigationPage(new LoginPage());
+    }
+    
     ```
     In the `ItemsPage` xaml page add ToolBar item with following text and binding
     ```xaml
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
+        <ToolbarItem Text="LogOut" Command="{Binding LogOutCommand}" />
     </ContentPage.ToolbarItems>
     ```
 - Add Department filter
