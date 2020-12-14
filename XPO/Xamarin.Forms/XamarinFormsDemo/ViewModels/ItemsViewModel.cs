@@ -32,6 +32,7 @@ namespace XamarinFormsDemo.ViewModels {
             AddItemCommand = new Command(async () => {
                 await ExecuteAddItemCommand();
             }, ()=> XpoHelper.Security.CanCreate<Employee>());
+            LogOutCommand = new Command(() => Application.Current.MainPage = new LoginPage());
         }
         void FilterByDepartment() {
             if(SelectedDepartment != null) {
@@ -96,6 +97,7 @@ namespace XamarinFormsDemo.ViewModels {
                 Debug.WriteLine(ex);
             }
         }
+        public Command LogOutCommand { get; set; }
         public Command AddItemCommand { get; set; }
         public Command LoadDataCommand { get; set; }
         public ObservableCollection<Employee> Items {

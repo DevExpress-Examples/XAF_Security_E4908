@@ -16,8 +16,6 @@ namespace XamarinFormsDemo {
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             Tracing.UseConfigurationManager = false;
             Tracing.Initialize(3);
-            //string WebApiServiceUrl = "https://10.0.2.2:5001/xpo/";
-            //XpoHelper.InitXpo(WebApiServiceUrl, login, password);
 
             if(Device.RuntimePlatform == Device.iOS)
                 MainPage = new LoginPage();
