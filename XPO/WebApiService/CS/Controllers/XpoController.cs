@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DevExpress.Xpo.DB;
+﻿using DevExpress.Xpo.DB;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+
+using System.Threading.Tasks;
 
 namespace WebApiService.Controllers {
     [ApiController]
