@@ -1,5 +1,4 @@
-﻿using DevExpress.Data.Extensions;
-using DevExpress.ExpressApp.Security;
+﻿using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;

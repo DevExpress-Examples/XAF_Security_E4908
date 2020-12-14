@@ -2,7 +2,6 @@
 using DevExpress.Xpo.DB;
 using System;
 using System.Diagnostics;
-using System.IO;
 using Xamarin.Forms;
 using XamarinFormsDemo.Views;
 
