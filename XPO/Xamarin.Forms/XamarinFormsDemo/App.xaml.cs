@@ -1,7 +1,5 @@
 ﻿using DevExpress.Persistent.Base;
-using DevExpress.Xpo.DB;
 using System;
-using System.Diagnostics;
 using Xamarin.Forms;
 using XamarinFormsDemo.Views;
 
@@ -9,8 +7,6 @@ namespace XamarinFormsDemo {
     public partial class App : Application {
         public App() {
             InitializeComponent();
-
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             Tracing.UseConfigurationManager = false;
@@ -20,10 +16,6 @@ namespace XamarinFormsDemo {
                 MainPage = new LoginPage();
             else
                 MainPage = new NavigationPage(new LoginPage());
-        }
-
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
-            Debug.WriteLine(e.ExceptionObject);
         }
     }
 }
