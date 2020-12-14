@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ViewModels\AboutViewModel.cs~RFe40b5243.TMP" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.2.3" />
     <PackageReference Include="DevExpress.ExpressApp.Validation" Version="20.2.3" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.2.3" />
