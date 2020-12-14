@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="devexpress.xpo" Version="20.2.3" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.0" />
     <PackageReference Include="System.configuration.configurationmanager" Version="5.0.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
 
