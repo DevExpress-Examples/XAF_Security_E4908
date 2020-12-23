@@ -35,7 +35,7 @@ The application you build in this tutorial requires the following NuGet Packages
 
 From Visual Studio's **Tools** menu, select **NuGet Package Manager > Package Manager Console**.
 
-Make sure **Package source** is set to **All** or **nuget.org** and run the following commands: 
+Make sure **Package source** is set to **All** or **nuget.org**, project is set to class library and run the following commands: 
 
 ```console
 Install-Package DevExpress.ExpressApp.Security.Xpo
@@ -61,15 +61,6 @@ To create a new data model, use [XPO Data Model Wizard](https://docs.devexpress.
 
 A mobile application does not have direct access to server-based resources, such as a database. In this demo, we will use an intermediate Web API service to communicate with a remote database server. Add an [ASP.NET Core WebApi](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api) application to your project and follow this tutorial: [Transfer Data via REST API](https://docs.devexpress.com/XPO/402182/connect-to-a-data-store/transfer-data-via-rest-api).
 
-
-- Turn off Configuration Manager in App.xaml.cs before calling InitXpo method. Configuration Manager is not supported by Xamarin
-
-```csharp
-//..
-Tracing.UseConfigurationManager = false; 
-Tracing.Initialize(3); 
-//..
-```
 
 ### Implement the XpoHelper class
 
@@ -123,13 +114,15 @@ The static XpoHelper class exposes the following members:
     }
     static SecurityStrategyComplex InitSecuritySystem() {
         AuthenticationStandard authentication = new AuthenticationStandard();
-        return new SecurityStrategyComplex(
+        var security = new SecurityStrategyComplex(
             typeof(PermissionPolicyUser),
             typeof(PermissionPolicyRole),
             authentication);
+        security.RegisterXPOAdapterProviders();
+        return security;
     }
     ```
-3. Add the following lines to the static constructor to configure XAF Tracing System.
+3. Add the following lines to the static constructor to configure XAF Tracing System and disable configuration manager, which is not supported by xamarin.
     ```csharp
     using DevExpress.Persistent.Base;
     // ...
@@ -278,7 +271,7 @@ namespace XamarinFormsDemo.ViewModels {
     private async void OnLoginClicked(object obj) {
         try {
             XpoHelper.Logon(UserName, Password);
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+            await Shell.Current.GoToAsync($"{nameof(ItemsPage)}");
         } catch(Exception ex) {
             await Shell.Current.DisplayAlert("Login failed", ex.Message, "Try again");
         }
@@ -300,10 +293,10 @@ namespace XamarinFormsDemo.ViewModels {
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Label Text="Login" FontSize="Medium" Grid.Row="0" Grid.Column="0" />
-            <Entry Text="{Binding Login}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
+            <Entry Text="{Binding UserName}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
             <Label Text="Password" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
             <Entry Text="{Binding Password}" IsPassword="True" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
-            <Button Text="Log In" Command="{Binding LogInCommand}" BackgroundColor="#ff7200" TextColor="White" FontSize="Medium" Margin="0" Grid.Row="4" Grid.Column="0"/>
+            <Button Text="Log In" Command="{Binding LoginCommand}" BackgroundColor="#ff7200" TextColor="White" FontSize="Medium" Margin="0" Grid.Row="4" Grid.Column="0"/>
         </Grid>
     </ContentPage.Content>
     ```  
@@ -313,7 +306,7 @@ Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to i
 
 1. Create the properties and commands in the `ItemsViewModel` class. 
     ```csharp
-    public ItemsViewModel(INavigation _navigation):base(_navigation) {
+    public ItemsViewModel() {
           Title = "Browse";
           Items = new ObservableCollection<Employee>();
           ExecuteLoadEmployeesCommand();
@@ -339,7 +332,7 @@ Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to i
     }
     public void LoadEmployees() {
         try {
-            var items = uow.Query<Employee>().OrderBy(i => i.FirstName).ToList();
+            var items = UnitOfWork.Query<Employee>().OrderBy(i => i.FirstName).ToList();
             Items = new ObservableCollection<Employee>(items);
         } catch(Exception ex) {
             Debug.WriteLine(ex);
@@ -359,10 +352,10 @@ Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to i
                 return;
             var tempGuid = SelectedItem.Oid;
             SelectedItem = null;
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.Oid)}={tempGuid}");
         }
     ```
-    In the `ItemsPage.xaml` file, add the ListView component with a custom DataTemplate. 
+    In the `ItemsPage.xaml` file, add the ListView component with a custom DataTemplate instead of refreshing collection. 
 
     ```xaml
     <ListView x:Name="ItemsListView" 
@@ -412,8 +405,8 @@ Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to i
     }
     public Command LogOutCommand { get; set; }
     async Task ExecuteLogOutCommand() {
-        XpoHelper.Logout();
-        await await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+        XpoHelper.Logoff();
+        await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
     }
     
     ```
@@ -451,7 +444,7 @@ Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to i
         }
     }
 
-    public ItemsViewModel(INavigation _navigation):base(_navigation) {
+    public ItemsViewModel() {
         //..
         Departments = new ObservableCollection<Department>();
         //..
@@ -465,7 +458,7 @@ Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to i
 
     public void LoadDepartments() {
         try {
-            var items = uow.Query<Department>().ToList();
+            var items = UnitOfWork.Query<Department>().ToList();
             Departments = new ObservableCollection<Department>(items);
         } catch(Exception ex) {
             Debug.WriteLine(ex);
@@ -482,7 +475,10 @@ Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to i
     }
     ```
     ```xaml
-    <Picker Title="Filter" ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}"/>
+    <StackLayout>
+        <Picker Title="Filter" ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}"/>
+        <ListView />
+    </StackLayout>
     ```
 
 
@@ -490,9 +486,7 @@ Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to i
 
 Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml files as shown below.
 
-- 
-
-    In the `ItemDetailViewModel` class add 
+- In the `ItemDetailViewModel` class add 
 
     ```csharp
     public Employee Item { get; set; }
@@ -503,12 +497,17 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
         get { return isNewItem; }
         set { SetProperty(ref isNewItem, value); }
     }
-    public ItemDetailViewModel(Guid? Oid,INavigation navigation):base(navigation) {
+    Guid? oid;
+    public Guid? Oid {
+        get { return Oid; }
+        set { SetProperty(ref Oid, value); }
+    }
+    public ItemDetailViewModel() {
         IsNewItem = (Oid == null);
         if(isNewItem) {
-            Item = new Employee(uow) { FirstName = "First name", LastName = "Last Name" };
+            Item = new Employee(UnitOfWork) { FirstName = "First name", LastName = "Last Name" };
         } else {
-            Item = uow.GetObjectByKey<Employee>(Oid);
+            Item = UnitOfWork.GetObjectByKey<Employee>(Oid);
         }
         Title = Item?.FullName;
         
@@ -554,9 +553,9 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
         get { return canReadDepartment; }
         set { SetProperty(ref canReadDepartment, value); }
     }
-    public ItemDetailViewModel(Guid? Oid,INavigation navigation):base(navigation) {
+    public ItemDetailViewModel() {
         //..
-        Departments = uow.Query<Department>().ToList();
+        Departments = UnitOfWork.Query<Department>().ToList();
         CanReadDepartment = XpoHelper.Security.CanRead(Item, "Department");
         CanWriteDepartment = XpoHelper.Security.CanWrite(Item, "Department");
         if (isNewItem && CanWriteDepartment) {
@@ -584,7 +583,7 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
     public Command CommandDelete { get; private set; }
     public Command CommandUpdate { get; private set; }
 
-    public ItemDetailViewModel(Guid? Oid,INavigation navigation):base(navigation) {
+    public ItemDetailViewModel() {
         //..
         CommandDelete = new Command(async () => {
             await DeleteItemAndGoBack();
@@ -599,14 +598,14 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
         //..
     }
     async Task DeleteItemAndGoBack() {
-        uow.Delete(Item);
-        await uow.CommitChangesAsync();
-        await Navigation.PopToRootAsync();
+        UnitOfWork.Delete(Item);
+        await UnitOfWork.CommitChangesAsync();
+        //add correct navigation
     }
     async Task SaveItemAndGoBack() {
-        uow.Save(Item);
-        await uow.CommitChangesAsync();
-        await Navigation.PopToRootAsync();
+        UnitOfWork.Save(Item);
+        await UnitOfWork.CommitChangesAsync();
+        //add correct navigation
     }
     ```
     In the `ItemDetailPage.xaml` add Toolbar items with following parameters
@@ -618,9 +617,9 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
     ```
     Finally add constructor to the `ItemsDetailPage.xaml.cs` class to bind ViewModel and Page together.
     ```csharp
-    public ItemDetailPage(Guid? Oid) {
+    public ItemDetailPage() {
         InitializeComponent();
-        BindingContext = new ItemDetailViewModel(Oid, Navigation);
+        BindingContext = new ItemDetailViewModel();
     }
     ```
 ## Step 8. Populate the Databse
