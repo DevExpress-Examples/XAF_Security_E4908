@@ -5,7 +5,8 @@ You will also learn how to execute Create, Write and Delete data operations taki
 
 
 ### Prerequisites
-- Add the *XafSolution.Module* assembly reference to your application.
+- [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) with the **Mobile development with .NET** workload.
+- (Optional) A paired Mac to build the application on iOS.
 
 > **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
@@ -14,13 +15,8 @@ You will also learn how to execute Create, Write and Delete data operations taki
 
 1. Open Visual Studio and create a new project.
 2. Search for the **Mobile App (Xamarin Forms)** template. 
-3. Set the project name to **XamarinFormsDemo** and click **Create**.
-4. Select the **Master-Detail** application template and click **OK**.
-5. In the **Solution Explorer**, remove the unnecessary files:
-
-    * *Models\HomeMenuItem.cs*
-    * *Services\MockDataStore.cs*
-    * *Views\MenuPage.xaml*
+3. Set the project name (we use **XamarinFormsDemo** in this demo project) and click **Create**.
+4. Select an application template (we use the **Tabbed** template in this demo project) and click **OK**.
 
 For more information, see the following:
 
@@ -36,7 +32,6 @@ The application you build in this tutorial requires the following NuGet Packages
 - DevExpress.ExpressApp.Security.Xpo
 - DevExpress.ExpressApp.Validation
 - DevExpress.Persistent.BaseImpl
-- Microsoft.Data.SqlClient
 
 From Visual Studio's **Tools** menu, select **NuGet Package Manager > Package Manager Console**.
 
@@ -51,11 +46,21 @@ Install-Package DevExpress.ExpressApp.Validation
 ```console
 Install-Package Persistent.BaseImpl
 ```
-```console
-Install-Package Microsoft.Data.SqlClient
-```
-## Step 3. Database Connection and Security System Initialization
-- In this example we will use WebApi DataStore, which requires server-side API alongside Xamarin application. Read more on how to set-up RESTFull API using XPO here: (Link)
+
+## Step 3. Add XPO Model
+
+### Scenario #1
+To reuse existing data models and Security System settings (users, roles and permissions) stored in an XAF application database, add a reference to the [YourXafProject].Module.NetCore project. We use the following project in this tutorial: [XafSolution.Module.NetCore](https://github.com/DevExpress-Examples/XAF_Security_E4908/blob/master/XPO/XafSolution/XafSolution.Module/XafSolution.Module.NetCore.csproj). See also: [Port an Existing XAF Application to .NET Core 3.0+](https://docs.devexpress.com/eXpressAppFramework/401264/net-core-3-0-support-in-winforms-application/port-an-application-to-net-core?p=netcore).
+
+### Scenario #2
+To create a new data model, use [XPO Data Model Wizard](https://docs.devexpress.com/XPO/14810/design-time-features/data-model-wizard). In this scenario, you can re-use built-in classes (PersissionPolicyUser, PermissionPolicyRole) or create custom security objects. Refer to the following help topics for additional information:
+  - [How to: Implement a Custom Security System User Based on an Existing Business Class](https://docs.devexpress.com/eXpressAppFramework/113452/task-based-help/security/how-to-implement-a-custom-security-system-user-based-on-an-existing-business-class).
+  - [How to: Implement Custom Security Objects (Users, Roles, Operation Permissions)](https://docs.devexpress.com/eXpressAppFramework/113384/task-based-help/security/how-to-implement-custom-security-objects-users-roles-operation-permissions).
+
+## Step 4. Database Connection and Security System Initialization
+
+A mobile application does not have direct access to server-based resources, such as a database. In this demo, we will use an intermediate Web API service to communicate with a remote database server. Add an [ASP.NET Core WebApi](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api) application to your project and follow this tutorial: [Transfer Data via REST API](https://docs.devexpress.com/XPO/402182/connect-to-a-data-store/transfer-data-via-rest-api).
+
 
 - Turn off Configuration Manager in App.xaml.cs before calling InitXpo method. Configuration Manager is not supported by Xamarin
 
@@ -68,168 +73,245 @@ Tracing.Initialize(3);
 
 ### Implement the XpoHelper class
 
+The static XpoHelper class exposes the following members:
+  - The CreateUnitOfWork method - returns a new [UnitOfWork](https://docs.devexpress.com/XPO/DevExpress.Xpo.UnitOfWork) instance connected to a secured [Object Access Layer](https://docs.devexpress.com/XPO/2123/connect-to-a-data-store#object-access-layer).
+  - The SecuritySystem property - returns a [SecurityStrategyComplex](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategyComplex) object. Use this object with the following extension methods to check user permissions: [IsGrantedExtensions Methods](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.IsGrantedExtensions._methods).
 
- ```csharp
+#### Add the XpoHelper class
+1. Remove the following line in the App.xaml.cs file:
+    ```csharp
+    DependencyService.Register<MockDataStore>();
+    ```
+2. Replace the IDataStore.cs and MockDataStore.cs files in the Services folder with the XpoHelper.cs file.
+    ```csharp
+    using DevExpress.ExpressApp.Security;
+    using DevExpress.Xpo;
 
-public static class XpoHelper {
-    static SecuredObjectSpaceProvider ObjectSpaceProvider;
-    static AuthenticationStandard Authentication; 
-    public static SecurityStrategyComplex Security;
-    //...
-}
-
-  ```
-
-#### Add `RegisterEnteties` Method
-  
-  The `RegisterEntities` method needs to initialize the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) 
-  system and register the business objects, which you will access from your code.
-
-  ```csharp
-
-private static void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
-   objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-   objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-   objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
-}
-
-  ```
-####  Add `InitSecurity` Method
-The GetSecurity method initializes the Security System instance and registers authentication providers.
- ```csharp
-
-static void InitSecurity() {
-   authentication = new AuthenticationStandard();
-   Security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-   Security.RegisterXPOAdapterProviders();
-}
-
-  ```
-####  Add `LogIn` Method
-
- ```csharp
-static void LogIn(string login, string password) {
-   authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(login, password));
-   IObjectSpace loginObjectSpace = objectSpaceProvider.CreateObjectSpace();
-   Security.Logon(loginObjectSpace);
-}
-```
-
-####  Add `CreateUnitOfWork` Method
-
- ```csharp
-
-public static UnitOfWork CreateUnitOfWork() {
-    var space = (XPObjectSpace)ObjectSpaceProvider.CreateObjectSpace();
-    return (UnitOfWork)space.Session;
-}
-
-  ```
-
-####  Implement `CreateWebApiDataStoreFromString` Method
-When working with Android or IOS, SSL configuration is required. Currently `ObjectSpaceProvider` doesn't have parameters, provided alongside with Connection string, to configure HttpClient. Because of that we need to register custom `CreateDataStoreFromString` method. To work with self signed sertificate during debugging, using of `InsecureHandler` is required.
- ```csharp
-static IDataStore CreateWebApiDataStoreFromString(string connectionString, AutoCreateOption autoCreateOption, out IDisposable[] objectsToDisposeOnDisconnect) {
-    ConnectionStringParser parser = new ConnectionStringParser(connectionString);
-    if(!parser.PartExists("uri"))
-        throw new ArgumentException("Connection string does not contain the 'uri' part.");
-    string uri = parser.GetPartByName("uri");
-    HttpClient client = new HttpClient(GetInsecureHandler());
-    client.BaseAddress = new Uri(uri);
-    objectsToDisposeOnDisconnect = new IDisposable[] { client };
-    return new WebApiDataStoreClient(client, autoCreateOption);
-}
-static HttpClientHandler GetInsecureHandler() {
-    HttpClientHandler handler = new HttpClientHandler();
-    handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-    return handler;
-}
-  ```
-####  Add `InitXpo` Method
-
- ```csharp
-
-public static void InitXpo(string connectionString, string login, string password) {
-    GetDataStore(connectionString);
-    RegisterEntities();
-    GetSecurity();
-    XpoDefault.RegisterBonusProviders();
-    DataStoreBase.RegisterDataStoreProvider(WebApiDataStoreClient.XpoProviderTypeString, CreateWebApiDataStoreFromString);
-    ObjectSpaceProvider = new SecuredObjectSpaceProvider(Security, connectionString, null);
-    LogIn(login, password);
-    XpoDefault.Session = null;
-}
-
-```
-## Step 4. Login Page and ViewModel implementation
-
-- In the `Views` folder create XAML Page and give it `LoginPage` name. 
-- In the `ViewModels` folder create add new class file `LoginViewModel.cs`.
-- Insert the code into these files from corresponding sources: [LoginPage.xaml](XamarinFormsDemo/Views/LoginPage.xaml), [LoginViewModel.cs](XamarinFormsDemo/ViewModels/LoginViewModel.cs)
-
-Login Page and ViewModel collect Log In information and pass it to the `InitXpo` method from the `XpoHelper` class.  
-
+    namespace XamarinFormsDemo.Services {
+        public static class XpoHelper {
+            static readonly SecurityStrategyComplex fSecurity;
+            public static SecurityStrategyComplex Security {
+                get {
+                    if(fSecurity == null) {
+                        throw new InvalidOperationException("The security system is not initialized. Call the InitSecuritySystem method first.");
+                    }
+                    return fSecurity; 
+                }
+            }
+            public static UnitOfWork CreateUnitOfWork() {
+                throw new System.NotImplementedException();
+            }
+        }
+    }
+    ```
+2. Add a static constructor and initialize XAF Security System.
+    ```csharp
+    using DevExpress.ExpressApp.Xpo;
+    using DevExpress.ExpressApp;
+    using XafSolution.Module.BusinessObjects;
+    using DevExpress.Persistent.BaseImpl.PermissionPolicy;
+    // ...
+    static XpoHelper() {
+        RegisterEntities();
+        fSecurity = InitSecuritySystem();
+    }
+    static void RegisterEntities() {
+        XpoTypesInfoHelper.GetXpoTypeInfoSource();
+        XafTypesInfo.Instance.RegisterEntity(typeof(Employee));
+        XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
+        XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
+    }
+    static SecurityStrategyComplex InitSecuritySystem() {
+        AuthenticationStandard authentication = new AuthenticationStandard();
+        return new SecurityStrategyComplex(
+            typeof(PermissionPolicyUser),
+            typeof(PermissionPolicyRole),
+            authentication);
+    }
+    ```
+3. Add the following lines to the static constructor to configure XAF Tracing System.
+    ```csharp
+    using DevExpress.Persistent.Base;
+    // ...
+    Tracing.UseConfigurationManager = false;
+    Tracing.Initialize(3);
+    ```
+4. To use a self-signed SSL certificate for development, add the following methiod and call it in the static constructor.
+    ```csharp
+    using DevExpress.Xpo.DB;
+    using System;
+    using DevExpress.Xpo.DB.Helpers;
+    using System.Net.Http;
+    // ...
+    #if DEBUG
+    ConfigureXpoForDevEnvironment();
+    #endif
+    // ...
+    static void ConfigureXpoForDevEnvironment() {
+        XpoDefault.RegisterBonusProviders();
+        DataStoreBase.RegisterDataStoreProvider(WebApiDataStoreClient.XpoProviderTypeString, CreateWebApiDataStoreFromString);
+    }
+    static IDataStore CreateWebApiDataStoreFromString(string connectionString, AutoCreateOption autoCreateOption, out IDisposable[] objectsToDisposeOnDisconnect) {
+        ConnectionStringParser parser = new ConnectionStringParser(connectionString);
+        if(!parser.PartExists("uri"))
+            throw new ArgumentException("The connection string does not contain the 'uri' part.");
+        string uri = parser.GetPartByName("uri");
+        HttpClient client = new HttpClient(GetInsecureHandler());
+        client.BaseAddress = new Uri(uri);
+        objectsToDisposeOnDisconnect = new IDisposable[] { client };
+        return new WebApiDataStoreClient(client, autoCreateOption);
+    }
+    /// <summary>
+    /// Disables an SSL sertificate validation to support self-signed developer certificates.
+    /// </summary>
+    /// <returns></returns>
+    static HttpClientHandler GetInsecureHandler() {
+        HttpClientHandler handler = new HttpClientHandler();
+        handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
+        return handler;
+    }
+5. Add the GetObjectSpaceProvider, Logon, and Logoff methods.
+    ```csharp
+    using DevExpress.ExpressApp.Security.ClientServer;
+    // ...
+    const string ConnectionString = @"XpoProvider=WebApi;uri=https://localhost:5001/xpo/";
+    static IObjectSpaceProvider ObjectSpaceProvider;
+    static IObjectSpaceProvider GetObjectSpaceProvider() {
+        if(ObjectSpaceProvider == null) {
+            ObjectSpaceProvider = new SecuredObjectSpaceProvider(Security, ConnectionString, null);
+        }
+        return ObjectSpaceProvider;
+    }
+    public static void Logon(string userName, string password) {
+        var logonParameters = new AuthenticationStandardLogonParameters(userName, password);
+        Security.Authentication.SetLogonParameters(logonParameters);
+        IObjectSpace logonObjectSpace = GetObjectSpaceProvider().CreateObjectSpace();
+        Security.Logon(logonObjectSpace);
+    }
+    public static void Logoff() {
+        Security.Logoff();
+    }
+    ```
+6. Implement the CreateUnitOfWork method.
+    ```csharp
+    public static UnitOfWork CreateUnitOfWork() {
+        var space = (XPObjectSpace)GetObjectSpaceProvider().CreateObjectSpace();
+        return (UnitOfWork)space.Session;
+    }
+    ```
 ## Step 5. Base ViewModel implementation
-Every other ViewModel will inherit Base ViewModel.
-
-- Make every ViewModel use it's own UnitOfWork
+Change the ViewModels\BaseViewModel.cs file as follows.
 ```csharp
-public UnitOfWork uow = XpoHelper.CreateUnitOfWork();
-```
-- Add INavigation property for navigation purposes
-```csharp
-INavigation navigation;
-public INavigation Navigation {
-    get { return navigation; }
-    set { SetProperty(ref navigation, value); }
-}
-```
-- Implement standart ViewModel features
-```csharp
-bool isBusy = false;
-public bool IsBusy {
-    get { return isBusy; }
-    set { SetProperty(ref isBusy, value); }
-}
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
-string title = string.Empty;
-public string Title {
-    get { return title; }
-    set { SetProperty(ref title, value); }
-}
+using DevExpress.Xpo;
 
-protected bool SetProperty<T>(ref T backingStore, T value,
-    [CallerMemberName] string propertyName = "",
-    Action onChanged = null) {
-    if(EqualityComparer<T>.Default.Equals(backingStore, value))
-        return false;
+using XamarinFormsDemo.Services;
 
-    backingStore = value;
-    onChanged?.Invoke();
-    OnPropertyChanged(propertyName);
-    return true;
-}
+namespace XamarinFormsDemo.ViewModels {
+    public class BaseViewModel : INotifyPropertyChanged {
+        UnitOfWork unitOfWork;
+        protected UnitOfWork UnitOfWork {
+            get {
+                if(unitOfWork == null) {
+                    unitOfWork = XpoHelper.CreateUnitOfWork();
+                }
+                return unitOfWork;
+            }
+        }
+        bool isBusy = false;
+        public bool IsBusy {
+            get { return isBusy; }
+            set { SetProperty(ref isBusy, value); }
+        }
 
-#region INotifyPropertyChanged
-public event PropertyChangedEventHandler PropertyChanged;
-protected void OnPropertyChanged([CallerMemberName] string propertyName = "") {
-    var changed = PropertyChanged;
-    if(changed == null)
-        return;
+        string title = string.Empty;
+        public string Title {
+            get { return title; }
+            set { SetProperty(ref title, value); }
+        }
 
-    changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected bool SetProperty<T>(ref T backingStore, T value,
+            [CallerMemberName] string propertyName = "",
+            Action onChanged = null) {
+            if(EqualityComparer<T>.Default.Equals(backingStore, value))
+                return false;
+
+            backingStore = value;
+            onChanged?.Invoke();
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "") {
+            var changed = PropertyChanged;
+            if(changed == null)
+                return;
+
+            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
+    }
 }
 ```  
+## Step 6. Login Page and ViewModel implementation
 
-  
+1. In the ViewModels/LoginViewModel.cs file, add the UserName and Password properties, and change the OnLoginClicked method.
+    ```csharp
+    string userName;
+    public string UserName {
+        get { return userName; }
+        set { SetProperty(ref userName, value); }
+    }
+
+    string password;
+    public string Password {
+        get { return password; }
+        set { SetProperty(ref password, value); }
+    }
+
+    private async void OnLoginClicked(object obj) {
+        try {
+            XpoHelper.Logon(UserName, Password);
+            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+        } catch(Exception ex) {
+            await Shell.Current.DisplayAlert("Login failed", ex.Message, "Try again");
+        }
+    }
+    ```
+2. In the Views/LoginPage.xaml file, add the UserName and Password fields.
+    ```xaml
+    <ContentPage.Content>
+        <Grid ColumnSpacing="20" Padding="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Text="Login" FontSize="Medium" Grid.Row="0" Grid.Column="0" />
+            <Entry Text="{Binding Login}" FontSize="Small" Margin="0" Grid.Row="1" Grid.Column="0"  />
+            <Label Text="Password" FontSize="Medium" Grid.Row="2" Grid.Column="0" />
+            <Entry Text="{Binding Password}" IsPassword="True" FontSize="Small" Margin="0" Grid.Row="3" Grid.Column="0"  />
+            <Button Text="Log In" Command="{Binding LogInCommand}" BackgroundColor="#ff7200" TextColor="White" FontSize="Medium" Margin="0" Grid.Row="4" Grid.Column="0"/>
+        </Grid>
+    </ContentPage.Content>
+    ```  
 ## Step 6. Items Page and ViewModel implemetation
-- In the `Views` folder create new xaml page and call it `ItemsPage.xaml`. 
-- In the `ViewModels` folder create new class and call it `ItemsViewModel`
-  
-To create Items Page we have to implement ListView with the list of items, filter for the ListView, and Add button in the Toolbar
-- ListView
-    
-    To implement ListView we will place data and commands in the `ItemsViewModel` class. 
+
+Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to implement a ListView with the list of items, a filter bar, and Toolbar items.
+
+1. Create the properties and commands in the `ItemsViewModel` class. 
     ```csharp
     public ItemsViewModel(INavigation _navigation):base(_navigation) {
           Title = "Browse";
@@ -272,15 +354,15 @@ To create Items Page we have to implement ListView with the list of items, filte
                 if(value != null) ExecuteSelectItem(); 
             }
         }
-    void ExecuteSelectItem() {
+    async Task ExecuteSelectItem() {
             if(SelectedItem == null)
                 return;
             var tempGuid = SelectedItem.Oid;
             SelectedItem = null;
-            Navigation.PushAsync(new ItemDetailPage(tempGuid));
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
         }
     ```
-    In the `ItemsPage.xaml` file use following format and bindings. Please note that the order of the  paramenters matters.
+    In the `ItemsPage.xaml` file, add the ListView component with a custom DataTemplate. 
 
     ```xaml
     <ListView x:Name="ItemsListView" 
@@ -312,24 +394,9 @@ To create Items Page we have to implement ListView with the list of items, filte
         </ListView.ItemTemplate>
     </ListView>
     ```
-
-    In the corresponding `ItemsPage.xaml.cs` file modify Constructor to add `BindingContext`
-    ```csharp
-    public ItemsPage() {
-        InitializeComponent();
-        BindingContext  = new ItemsViewModel(Navigation);
-    } 
-    ```
+- Add the AddItem and LogOut buttons.
     
-
-
-- Add AddItem and LogOut buttons
-    
-    If button or action availability depends on security rights, that button will be binded to command with `canExecute` parameneter, which depends on user's security rights.
-    In this example only `Admin` can add new items to the data. `AddItemCommand` executability is determined by `Security.CanCreate()` method.
-    
-    In the `ItemsViewModel` class 
-    Add AddItemsCommand  and its logic
+    Note: In the command's `canExecute` function, you can use the [IsGrantedExtensions Methods](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.IsGrantedExtensions._methods) to disable a command if the current user is not authorized to do the corresponding opeation.
 
     ```csharp
     public ItemsViewModel() {
@@ -341,30 +408,26 @@ To create Items Page we have to implement ListView with the list of items, filte
     }
     public Command AddItemCommand { get; set; }
     async Task ExecuteAddItemCommand() {
-        await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel()));
+        await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)");
     }
     public Command LogOutCommand { get; set; }
-    void ExecuteLogOutCommand() {
-        if(Device.RuntimePlatform == Device.iOS)
-            Application.Current.MainPage = new LoginPage();
-        else
-            Application.Current.MainPage = new NavigationPage(new LoginPage());
+    async Task ExecuteLogOutCommand() {
+        XpoHelper.Logout();
+        await await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
     }
     
     ```
-    In the `ItemsPage` xaml page add ToolBar item with following text and binding
+    In the ItemsPage.xaml file, add the following ToolBar items.
     ```xaml
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
         <ToolbarItem Text="LogOut" Command="{Binding LogOutCommand}" />
     </ContentPage.ToolbarItems>
     ```
-- Add Department filter
+- Implement the filter bar.
 
-    Since Departments are specific values, we need to load list of departments. To apply filter we will use `Picker`. 
+    A user may want to see a list of employees from a specific depertment. To implement this, put a Picker control and bind it to the Department and SelectedDepartments ViewModel properties.
 
-    
-    In the `ItemsViewModel` class add Observable collection of departments and add load logic to LoadData command
     ```csharp
     ObservableCollection<Department> departments;
     public ObservableCollection<Department> Departments {
@@ -418,19 +481,16 @@ To create Items Page we have to implement ListView with the list of items, filte
         IsBusy = false;
     }
     ```
-    In the `ItemsPage.xaml` file add picker item on top of the `ListView` with the following parameters
     ```xaml
     <Picker Title="Filter" ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}"/>
     ```
 
 
 ## Step 7. Item Detail page and ViewModel implementation
-- In the `Views` folder create new xaml page and call it `ItemDetailPage.xaml`. 
-- In the `ViewModels` folder create new class and call it `ItemDetailViewModel`
 
-We have same Page and ViewModel for both editing existing items and creating new items. The page will have `Delete` and `Save` toolbar items and `Grid` to display item's data, featuring `Picker` to select department.
+Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml files as shown below.
 
-- `Grid`
+- 
 
     In the `ItemDetailViewModel` class add 
 
