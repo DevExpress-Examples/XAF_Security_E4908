@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinFormsDemo.Views.ItemsPage"
+              Title="{Binding Title}"
+             x:Name="BrowseItemsPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
+        <ToolbarItem Text="LogOut" Command="{Binding LogOutCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <Picker Title="Filter" ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}"/>
+            <ListView x:Name="ItemsListView" 
+                 ItemsSource="{Binding Items}"
+                 VerticalOptions="FillAndExpand"
+                 HasUnevenRows="true"
+                 RefreshCommand="{Binding LoadDataCommand}"
+                 IsPullToRefreshEnabled="true"
+                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                 CachingStrategy="RecycleElement"
+                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout Padding="10" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding FullName}" 
+                           LineBreakMode="NoWrap" 
+                           Style="{DynamicResource ListItemTextStyle}" 
+                           FontSize="16" />
+                                    <Label Text="{Binding Department}" 
+                           LineBreakMode="NoWrap"
+                           Style="{DynamicResource ListItemDetailTextStyle}"
+                           FontSize="13" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="devexpress.xpo" Version="20.2.3" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.0" />
+    <PackageReference Include="System.configuration.configurationmanager" Version="5.0.0" />
+  </ItemGroup>
+
+
+</Project>
