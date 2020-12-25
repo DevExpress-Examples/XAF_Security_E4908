@@ -329,7 +329,11 @@ public static Task ResetMainPage() {
     return Shell.Current.GoToAsync("//LoginPage");
 }
 ``` 
-- call `ResetMainPage()` in the `App` class constructor instad of `MainPage = new AppShell();`
+- Call `ResetMainPage()` in the `App` class constructor instad of `MainPage = new AppShell();`
+- In the `AppShell.xaml` file add routing parameter to the `Browse` shell content
+```xaml
+<ShellContent Title="Browse" Icon="icon_feed.png" Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
+```
 
 ## Step 6. Items Page and ViewModel implemetation
 
@@ -548,8 +552,6 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
                 Item = UnitOfWork.GetObjectByKey<Employee>(Oid);
                 Title = Item?.FullName;
             }
-            
-            
             //..
         }
     }
