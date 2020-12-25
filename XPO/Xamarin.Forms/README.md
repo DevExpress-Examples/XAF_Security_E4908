@@ -192,7 +192,7 @@ The static XpoHelper class exposes the following members:
         return (UnitOfWork)space.Session;
     }
     ```
-## Step 5. Base ViewModel implementation
+## Step 5. Base ViewModel and XPO view model implementation  
 Change the ViewModels\BaseViewModel.cs file as follows.
 ```csharp
 using System;
@@ -206,15 +206,7 @@ using XamarinFormsDemo.Services;
 
 namespace XamarinFormsDemo.ViewModels {
     public class BaseViewModel : INotifyPropertyChanged {
-        UnitOfWork unitOfWork;
-        protected UnitOfWork UnitOfWork {
-            get {
-                if(unitOfWork == null) {
-                    unitOfWork = XpoHelper.CreateUnitOfWork();
-                }
-                return unitOfWork;
-            }
-        }
+        
         bool isBusy = false;
         public bool IsBusy {
             get { return isBusy; }
@@ -252,6 +244,34 @@ namespace XamarinFormsDemo.ViewModels {
     }
 }
 ```  
+add new class to the `ViewModels` folder, name it `XpoViewModel` and change it accordingly:
+```csharp
+using DevExpress.Xpo;
+using Xamarin.Forms;
+using XamarinFormsDemo.Services;
+using XamarinFormsDemo.Views;
+
+namespace XamarinFormsDemo.ViewModels {
+    public class XpoViewModel : BaseViewModel {
+        UnitOfWork unitOfWork;
+        protected UnitOfWork UnitOfWork {
+            get {
+                if(unitOfWork == null) {
+                    unitOfWork = XpoHelper.CreateUnitOfWork();
+                }
+                return unitOfWork;
+            }
+        }
+        public XpoViewModel() {
+            if(!XpoHelper.Security.IsAuthenticated) {
+                App.ResetMainPage();
+            }
+        }
+    }
+}
+```
+
+Make every other ViewModel, except LogIn one, inherit `XpoViewModel` instead of `BaseViewModel`.
 ## Step 6. Login Page and ViewModel implementation
 
 1. In the ViewModels/LoginViewModel.cs file, add the UserName and Password properties, and change the OnLoginClicked method.
@@ -300,6 +320,17 @@ namespace XamarinFormsDemo.ViewModels {
         </Grid>
     </ContentPage.Content>
     ```  
+3. In the `App.xaml.cs` change shell creation accordingly:
+
+- add `ResetMainPage` method
+```csharp
+public static Task ResetMainPage() {
+    Current.MainPage = new AppShell();
+    return Shell.Current.GoToAsync("//LoginPage");
+}
+``` 
+- call `ResetMainPage()` in the `App` class constructor instad of `MainPage = new AppShell();`
+
 ## Step 6. Items Page and ViewModel implemetation
 
 Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to implement a ListView with the list of items, a filter bar, and Toolbar items.
@@ -352,7 +383,7 @@ Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to i
                 return;
             var tempGuid = SelectedItem.Oid;
             SelectedItem = null;
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.Oid)}={tempGuid}");
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?itemGuid={tempGuid.Tostring()}");
         }
     ```
     In the `ItemsPage.xaml` file, add the ListView component with a custom DataTemplate instead of refreshing collection. 
@@ -401,7 +432,7 @@ Change the ViewModels\ItemsViewModel.cs and ViewModels\ItemsPage.xaml files to i
     }
     public Command AddItemCommand { get; set; }
     async Task ExecuteAddItemCommand() {
-        await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)");
+        await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?itemGuid=");
     }
     public Command LogOutCommand { get; set; }
     async Task ExecuteLogOutCommand() {
@@ -489,29 +520,38 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
 - In the `ItemDetailViewModel` class add 
 
     ```csharp
-    public Employee Item { get; set; }
-
-
-    bool isNewItem;
-    public bool IsNewItem {
-        get { return isNewItem; }
-        set { SetProperty(ref isNewItem, value); }
-    }
-    Guid? oid;
-    public Guid? Oid {
-        get { return Oid; }
-        set { SetProperty(ref Oid, value); }
-    }
-    public ItemDetailViewModel() {
-        IsNewItem = (Oid == null);
-        if(isNewItem) {
-            Item = new Employee(UnitOfWork) { FirstName = "First name", LastName = "Last Name" };
-        } else {
-            Item = UnitOfWork.GetObjectByKey<Employee>(Oid);
+    [QueryProperty(nameof(ItemGuid), "itemGuid")]
+    public class ItemDetailViewModel : XpoViewModel {
+        Employee item;
+        public Employee Item {
+            get { return item; }
+            set { SetProperty(ref item, value); }
         }
-        Title = Item?.FullName;
-        
-        //..
+
+        bool isNewItem;
+        public bool IsNewItem {
+            get { return isNewItem; }
+            set { SetProperty(ref isNewItem, value); }
+        }
+        Guid? oid;
+        public Guid? Oid {
+            get { return Oid; }
+            set { SetProperty(ref Oid, value); Load();}
+        }
+        public Load() {
+            //..
+            IsNewItem = (Oid == null);
+            if(isNewItem) {
+                Item = new Employee(UnitOfWork) { FirstName = "First name", LastName = "Last Name" };
+                Title = "New employee";
+            } else {
+                Item = UnitOfWork.GetObjectByKey<Employee>(Oid);
+                Title = Item?.FullName;
+            }
+            
+            
+            //..
+        }
     }
     ```
     In the `ItemDetailPage.xaml` add `Grid` with following parameters
@@ -553,9 +593,9 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
         get { return canReadDepartment; }
         set { SetProperty(ref canReadDepartment, value); }
     }
-    public ItemDetailViewModel() {
+    public Load() {
+        Departments = UnitOfWork.Query<Department>().ToList(); //Has to be the first line;
         //..
-        Departments = UnitOfWork.Query<Department>().ToList();
         CanReadDepartment = XpoHelper.Security.CanRead(Item, "Department");
         CanWriteDepartment = XpoHelper.Security.CanWrite(Item, "Department");
         if (isNewItem && CanWriteDepartment) {
@@ -584,7 +624,6 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
     public Command CommandUpdate { get; private set; }
 
     public ItemDetailViewModel() {
-        //..
         CommandDelete = new Command(async () => {
             await DeleteItemAndGoBack();
         },
@@ -593,6 +632,9 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
             await SaveItemAndGoBack();
         },
     () => !ReadOnly);
+    }
+    public Load(){
+        //..
         CanDelete = XpoHelper.Security.CanDelete(Item);
         ReadOnly = !XpoHelper.Security.CanWrite(Item);
         //..
@@ -600,12 +642,12 @@ Change the ViewModels\ItemDetailViewModel.cs and ViewModels\ItemDetailPage.xaml 
     async Task DeleteItemAndGoBack() {
         UnitOfWork.Delete(Item);
         await UnitOfWork.CommitChangesAsync();
-        //add correct navigation
+        await Shell.Current.Navigation.PopAsync();
     }
     async Task SaveItemAndGoBack() {
         UnitOfWork.Save(Item);
         await UnitOfWork.CommitChangesAsync();
-        //add correct navigation
+        await Shell.Current.Navigation.PopAsync();
     }
     ```
     In the `ItemDetailPage.xaml` add Toolbar items with following parameters
