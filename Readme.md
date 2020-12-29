@@ -4,7 +4,7 @@
 
 For general information on XAF's Security System API, please review [our landing page](https://www.devexpress.com/products/net/application_framework/security.xml) or watch [the overview video](https://youtu.be/sIhWOXRWlOw).
 
-## Demos and Step-By-Step Tutorials for .NET Framework and .NET Core
+## Demos and Step-By-Step Tutorials for  .NET 5, .NET Core 3 and .NET Framework
 Please research the information below, because additional prerequisites may apply to certain platforms. If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
 
 #### DevExpress XPO
@@ -13,6 +13,7 @@ Please research the information below, because additional prerequisites may appl
  - [ASP.NET WebForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
  - [ASP.NET Core MVC App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_5_MVC_Core.aspx)
  - [Blazor Server App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_6_Blazor_ServerSide.aspx)
+ - [Xamarin Forms](https://www.devexpress.com/go/XAF_Security_NonXAF_Xamarin.aspx)
  - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
 
 #### Microsoft Entity Framework Core
@@ -22,7 +23,7 @@ Please research the information below, because additional prerequisites may appl
 We detailed the main integration steps for any .NET Core application in [this video](https://youtu.be/o1q4GqFgSFE).
 
 #### Coming Next
-Other Apps with EF Core and Xamarin, Blazor WebAssembly, WPF with XPO. To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using this **[short survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx)**.
+Other CRUD UI apps with EF Core, Blazor WebAssembly with XPO. To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using this **[short survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx)**.
 
 ## Prerequisites
 - [Visual Studio 2017 or 2019 v16.4+ (for .NET Core 3.1 examples)](https://visualstudio.microsoft.com/vs/) with the following workloads:
