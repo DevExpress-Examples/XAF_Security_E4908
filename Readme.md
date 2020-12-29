@@ -13,7 +13,7 @@ Please research the information below, because additional prerequisites may appl
  - [ASP.NET WebForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
  - [ASP.NET Core MVC App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_5_MVC_Core.aspx)
  - [Blazor Server App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_6_Blazor_ServerSide.aspx)
- - [Xamarin Forms](https://www.devexpress.com/go/XAF_Security_NonXAF_Xamarin.aspx)
+ - [Xamarin Forms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Xamarin.aspx)
  - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
 
 #### Microsoft Entity Framework Core
