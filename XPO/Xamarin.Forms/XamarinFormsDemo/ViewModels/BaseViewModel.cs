@@ -1,17 +1,16 @@
-﻿using DevExpress.Xpo;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Xamarin.Forms;
 
+using DevExpress.Xpo;
+using Xamarin.Forms;
+using XamarinFormsDemo.Services;
+using XamarinFormsDemo.Views;
 
 namespace XamarinFormsDemo.ViewModels {
     public class BaseViewModel : INotifyPropertyChanged {
-        public UnitOfWork uow = XpoHelper.CreateUnitOfWork();
-        public BaseViewModel(INavigation _navigation) {
-            Navigation = _navigation;
-        }
+        
         bool isBusy = false;
         public bool IsBusy {
             get { return isBusy; }
@@ -24,11 +23,6 @@ namespace XamarinFormsDemo.ViewModels {
             set { SetProperty(ref title, value); }
         }
 
-        INavigation navigation;
-        public INavigation Navigation {
-            get { return navigation; }
-            set { SetProperty(ref navigation, value); }
-        }
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
             Action onChanged = null) {
@@ -44,8 +38,13 @@ namespace XamarinFormsDemo.ViewModels {
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "") {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            var changed = PropertyChanged;
+            if(changed == null)
+                return;
+
+            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        
         #endregion
     }
 }

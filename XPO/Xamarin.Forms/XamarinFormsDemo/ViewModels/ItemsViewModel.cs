@@ -3,108 +3,92 @@ using DevExpress.Xpo;
 
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
+
 using XafSolution.Module.BusinessObjects;
+
 using Xamarin.Forms;
 
+using XamarinFormsDemo.Services;
 using XamarinFormsDemo.Views;
 
 namespace XamarinFormsDemo.ViewModels {
-    public class ItemsViewModel : BaseViewModel {
-        
-        ObservableCollection<Employee> items;
-        ObservableCollection<Department> departments;
-        Department selectedDepartment;
-        Employee selectedItem;
-        public ItemsViewModel(INavigation _navigation):base(_navigation) {
+    public class ItemsViewModel : XpoViewModel {
+        public ItemsViewModel() {
             Title = "Browse";
-            Departments = new ObservableCollection<Department>();
             Items = new ObservableCollection<Employee>();
-
-            ExecuteLoadEmployeesCommand();
-            ExecuteLoadDepartmentsCommand();
-            LoadDataCommand = new Command(() => { 
-                ExecuteLoadEmployeesCommand(); 
-                ExecuteLoadDepartmentsCommand();
-            });
-            AddItemCommand = new Command(async () => {
-                await ExecuteAddItemCommand();
-            }, ()=> XpoHelper.Security.CanCreate<Employee>());
-            LogOutCommand = new Command(() => ExecuteLogOutCommand());
+            Departments = new ObservableCollection<Department>();
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            AddItemCommand = new Command(async () => await ExecuteAddItemCommand(),
+                () => XpoHelper.Security.CanCreate<Employee>());
+            LogOutCommand = new Command(async () => await ExecuteLogOutCommand());
+            ItemTapped = new Command<Employee>(OnItemSelected);
         }
-        void FilterByDepartment() {
-            if(SelectedDepartment != null) {
-                LoadEmployees(w => w.Department == SelectedDepartment);
-            } else {
-                LoadEmployees();
-            }
-        }
-        void ExecuteSelectItem() {
-            if(SelectedItem == null)
-                return;
-            var tempGuid = SelectedItem.Oid;
-            SelectedItem = null;
-            Navigation.PushAsync(new ItemDetailPage(tempGuid));
-        }
-        public Department SelectedDepartment {
-            get { return selectedDepartment; }
-            set { SetProperty(ref selectedDepartment, value); FilterByDepartment(); }
-        }
-        public Employee SelectedItem {
-            get { return selectedItem; }
-            set { 
-                SetProperty(ref selectedItem, value); 
-                if(value != null) ExecuteSelectItem(); 
-            }
-        }
-        void ExecuteLoadEmployeesCommand() {
-            if(IsBusy)
-                return;
-
-            IsBusy = true;
-            LoadEmployees();
-            IsBusy = false;
-        }
-        void ExecuteLoadDepartmentsCommand() {
-            if(IsBusy)
-                return;
-
-            IsBusy = true;
-            LoadDepartments();
-            IsBusy = false;
-        }
-        void ExecuteLogOutCommand() {
-            if(Device.RuntimePlatform == Device.iOS)
-                Application.Current.MainPage = new LoginPage();
-            else
-                Application.Current.MainPage = new NavigationPage(new LoginPage());
-        }
-        async Task ExecuteAddItemCommand() {
-            await Navigation.PushAsync(new ItemDetailPage(null));
-        }
-
-        public void LoadEmployees(Expression<Func<Employee, bool>> predicate = null) {
-            IQueryable<Employee> items = uow.Query<Employee>().OrderBy(i => i.FirstName);
-            if(predicate != null)
-                items = items.Where(predicate);
-            Items = new ObservableCollection<Employee>(items);
-        }
-        public void LoadDepartments() {
-            var items = uow.Query<Department>().ToList();
-            Departments = new ObservableCollection<Department>(items);
-        }
+        public Command LoadItemsCommand { get; }
+        public Command AddItemCommand { get; }
         public Command LogOutCommand { get; set; }
-        public Command AddItemCommand { get; set; }
-        public Command LoadDataCommand { get; set; }
+        public Command<Employee> ItemTapped { get; }
+        ObservableCollection<Department> departments;
+        public ObservableCollection<Department> Departments {
+            get { return departments; }
+            set { SetProperty(ref departments, value); }
+        }
+        ObservableCollection<Employee> items;
         public ObservableCollection<Employee> Items {
             get { return items; }
             set { SetProperty(ref items, value); }
         }
-        public ObservableCollection<Department> Departments {
-            get { return departments; }
-            set { SetProperty(ref departments, value); }
+        public Command LoadDataCommand { get; set; }
+
+        Department selectedDepartment;
+        public Department SelectedDepartment {
+            get { return selectedDepartment; }
+            set { 
+                SetProperty(ref selectedDepartment, value);
+                _ = LoadEmployees(); 
+            }
+        }
+        async Task ExecuteLoadItemsCommand() {
+            IsBusy = true;
+            try {
+                Departments = new ObservableCollection<Department>(await UnitOfWork.Query<Department>().ToListAsync());
+                await LoadEmployees();
+            } catch(Exception ex) {
+                await Shell.Current.DisplayAlert("Loading failed", ex.Message, "OK");
+            } finally {
+                IsBusy = false;
+            }
+        }
+        async Task ExecuteAddItemCommand() {
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?itemGuid=");
+        }
+        async Task ExecuteLogOutCommand() {
+            XpoHelper.Logoff();
+            await App.ResetMainPage();
+        }
+        async Task LoadEmployees() {
+            try {
+                IQueryable<Employee> items = UnitOfWork.Query<Employee>().OrderBy(i => i.FirstName);
+                if(SelectedDepartment != null) {
+                    items = items.Where(i => i.Department == SelectedDepartment);
+                }
+                Items = new ObservableCollection<Employee>(await items.ToListAsync());
+            } catch(Exception ex) {
+                Debug.WriteLine(ex);
+            }
+        }
+
+        async void OnItemSelected(Employee item) {
+            if(item == null)
+                return;
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?itemGuid={item.Oid.ToString()}");
+        }
+
+
+        public void OnAppearing() {
+            IsBusy = true;
         }
     }
 }
