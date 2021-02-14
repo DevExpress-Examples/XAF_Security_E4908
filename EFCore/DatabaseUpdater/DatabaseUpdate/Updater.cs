@@ -59,18 +59,13 @@ namespace DatabaseUpdater.EFCore {
                 userRole.Name = DefaultUserRoleName;
                 // Allow users to read departments only if their title contains 'Development'. 
                 const string protectedDepartment = "Development";
-                CriteriaOperator departmentCriteria = new FunctionOperator(FunctionOperatorType.Contains,
-                    new OperandProperty(nameof(Department.Title)), new OperandValue(protectedDepartment)
-                );
-                userRole.AddObjectPermission<Department>(SecurityOperations.Read, (!departmentCriteria).ToString() /*"!Contains(Title, 'Development')"*/, SecurityPermissionState.Deny);
+                userRole.AddObjectPermissionFromLambda<Department>(SecurityOperations.Read, t => !t.Title.Contains(protectedDepartment), SecurityPermissionState.Deny);
                 // Allow users to read and modify employee records and their fields by criteria.
                 userRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
                 userRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
-                CriteriaOperator employeeCriteria = new FunctionOperator(FunctionOperatorType.Contains, 
-                    new OperandProperty(nameof(Employee.Department) + "." + nameof(Department.Title)), new OperandValue(protectedDepartment)
-                );
-                userRole.AddObjectPermission<Employee>(SecurityOperations.Delete, employeeCriteria.ToString()/*"Contains(Department.Title, 'Development')"*/, SecurityPermissionState.Allow);
-                userRole.AddMemberPermission<Employee>(SecurityOperations.Write, nameof(Employee.LastName), (!employeeCriteria).ToString() /*"!Contains(Department.Title, 'Development')"*/, SecurityPermissionState.Deny);
+     
+                userRole.AddObjectPermissionFromLambda<Employee>(SecurityOperations.Delete, t => t.Department.Title.Contains(protectedDepartment) , SecurityPermissionState.Allow);
+                userRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Write, nameof(Employee.LastName), t => !t.Department.Title.Contains(protectedDepartment), SecurityPermissionState.Deny);
                 // For more information on criteria language syntax (both string and strongly-typed formats), see https://docs.devexpress.com/CoreLibraries/4928/.
             }
             return userRole;
