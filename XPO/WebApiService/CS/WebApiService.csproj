@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="devexpress.xpo" Version="20.2.3" />
+    <PackageReference Include="devexpress.xpo" Version="21.1.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.0" />
     <PackageReference Include="System.configuration.configurationmanager" Version="5.0.0" />
   </ItemGroup>

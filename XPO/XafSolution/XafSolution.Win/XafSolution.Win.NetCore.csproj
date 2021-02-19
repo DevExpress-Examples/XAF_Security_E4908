@@ -36,14 +36,14 @@
     <EmbeddedResource Include="Images\SplashScreenImage.svg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.WindowsDesktop.RichEdit.Export" Version="20.2.3" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp" Version="20.2.3-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp.Win" Version="20.2.3-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.Base" Version="20.2.3-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="20.2.3-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="20.2.3-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Validation.Win" Version="20.2.3-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Xpo" Version="20.2.3-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.RichEdit.Export" Version="21.1.0" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp" Version="21.1.0-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.ExpressApp.Win" Version="21.1.0-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.Base" Version="21.1.0-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="21.1.0-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="21.1.0-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Validation.Win" Version="21.1.0-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Xpo" Version="21.1.0-ctp" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

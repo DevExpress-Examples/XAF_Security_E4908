@@ -7,8 +7,8 @@
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.2.3" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.0" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.3.0" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.6.2" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.0.96" />

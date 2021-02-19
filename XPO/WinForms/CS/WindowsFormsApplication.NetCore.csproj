@@ -19,9 +19,9 @@
     <EmbeddedResource Remove="MainForm.resx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.2.3-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="20.2.3-ctp" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="20.2.3-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="21.1.0-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="21.1.0-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="21.1.0-ctp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XafSolution\XafSolution.Module\XafSolution.Module.NetCore.csproj" />

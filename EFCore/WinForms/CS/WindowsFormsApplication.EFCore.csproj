@@ -21,7 +21,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
-    <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.2.3-ctp" />
+    <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="21.1.0-ctp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj" />
