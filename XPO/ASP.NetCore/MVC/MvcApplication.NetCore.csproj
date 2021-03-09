@@ -8,8 +8,8 @@
     <OutputPath>bin_NetCore\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.0" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.0" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="[21.1.2-pre-21064, 21.2)" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="[21.1.2-pre-21064, 21.2)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
@@ -18,7 +18,7 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.3" />
     <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="21.1.0" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="[21.1.2-pre-21064, 21.2)" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.0.96" />
   </ItemGroup>
   

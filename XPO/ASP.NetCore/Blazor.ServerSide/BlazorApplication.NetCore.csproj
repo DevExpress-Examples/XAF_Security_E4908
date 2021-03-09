@@ -4,9 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Blazor" Version="21.1.0" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.0" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.0" />
+    <PackageReference Include="DevExpress.Blazor" Version="[21.1.2-pre-21064, 21.2)" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="[21.1.2-pre-21064, 21.2)" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="[21.1.2-pre-21064, 21.2)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
   </ItemGroup>
