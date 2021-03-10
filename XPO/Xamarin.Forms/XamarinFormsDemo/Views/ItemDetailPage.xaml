@@ -7,7 +7,7 @@
         <ToolbarItem Text="Delete" Command="{Binding CommandDelete}" />
         <ToolbarItem Text="Save" Command="{Binding CommandUpdate}"  />
     </ContentPage.ToolbarItems>
-    <ContentPage.Content>
+    <StackLayout Spacing="20" Padding="15">
         <Grid ColumnSpacing="20" Padding="15">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -28,5 +28,6 @@
             <Label Text="Department" IsVisible="{Binding CanReadDepartment}"  FontSize="Medium" Grid.Row="4" Grid.Column="0" />
             <Picker IsVisible="{Binding CanReadDepartment}" IsEnabled="{Binding CanWriteDepartment}" ItemsSource="{Binding Departments}" ItemDisplayBinding="{Binding Title}" SelectedItem="{Binding Item.Department}" FontSize="Small" Margin="0" Grid.Row="5" Grid.Column="0"/>
         </Grid>
-    </ContentPage.Content>
+    </StackLayout>
+    
 </ContentPage>

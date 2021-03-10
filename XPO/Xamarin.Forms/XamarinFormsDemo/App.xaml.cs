@@ -1,21 +1,40 @@
 ﻿using DevExpress.Persistent.Base;
+
 using System;
+using System.Threading.Tasks;
+
 using Xamarin.Forms;
-using XamarinFormsDemo.Views;
+
+using XamarinFormsDemo.Services;
 
 namespace XamarinFormsDemo {
     public partial class App : Application {
+
         public App() {
             InitializeComponent();
 
-            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            //..
             Tracing.UseConfigurationManager = false;
             Tracing.Initialize(3);
+            //..
+            if(!XpoHelper.Security.IsAuthenticated) {
+                ResetMainPage();
+            } else {
+                MainPage = new AppShell();
+            }
+        }
 
-            if(Device.RuntimePlatform == Device.iOS)
-                MainPage = new LoginPage();
-            else
-                MainPage = new NavigationPage(new LoginPage());
+        protected override void OnStart() {
+        }
+
+        protected override void OnSleep() {
+        }
+
+        protected override void OnResume() {
+        }
+        public static Task ResetMainPage() {
+            Current.MainPage = new AppShell();
+            return Shell.Current.GoToAsync("//LoginPage");
         }
     }
 }

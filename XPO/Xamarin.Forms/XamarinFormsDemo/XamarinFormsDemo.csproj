@@ -28,15 +28,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="XafSolution.Module.NetCore">
-      <HintPath>..\..\XafSolution\XafSolution.Module\bin_NetCore\netstandard2.0\XafSolution.Module.NetCore.dll</HintPath>
-    </Reference>
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="20.2.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="20.2.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="20.2.4" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Core\Employees.xml" />
-    <EmbeddedResource Update="Views\LoginPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
+    <ProjectReference Include="..\..\XafSolution\XafSolution.Module\XafSolution.Module.NetCore.csproj" />
   </ItemGroup>
 </Project>

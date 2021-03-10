@@ -1,17 +1,26 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using XafSolution.Module.BusinessObjects;
+using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
-
+using Xamarin.Forms.Xaml;
 using XamarinFormsDemo.ViewModels;
+using XamarinFormsDemo.Views;
 
 namespace XamarinFormsDemo.Views {
     public partial class ItemsPage : ContentPage {
+        ItemsViewModel _viewModel;
 
         public ItemsPage() {
             InitializeComponent();
-            BindingContext  = new ItemsViewModel(Navigation);
-        } 
+            BindingContext = _viewModel = new ItemsViewModel();
+        }
+
+        protected override void OnAppearing() {
+            base.OnAppearing();
+            _viewModel.OnAppearing();
+        }
     }
 }
