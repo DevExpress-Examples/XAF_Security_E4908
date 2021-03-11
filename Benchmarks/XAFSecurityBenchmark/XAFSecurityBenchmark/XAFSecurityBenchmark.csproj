@@ -1,0 +1,112 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Base\**" />
+    <Compile Remove="Models\EFCore\Entities\General\**" />
+    <Compile Remove="Models\XPO\General\**" />
+    <Compile Remove="Models\XPO\PermissionPolicy\**" />
+    <EmbeddedResource Remove="Models\Base\**" />
+    <EmbeddedResource Remove="Models\EFCore\Entities\General\**" />
+    <EmbeddedResource Remove="Models\XPO\General\**" />
+    <EmbeddedResource Remove="Models\XPO\PermissionPolicy\**" />
+    <None Remove="Models\Base\**" />
+    <None Remove="Models\EFCore\Entities\General\**" />
+    <None Remove="Models\XPO\General\**" />
+    <None Remove="Models\XPO\PermissionPolicy\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Models\Base\IContact.cs" />
+    <Compile Include="Models\Base\ICustomPermissionPolicyUser.cs" />
+    <Compile Include="Models\Base\IDemoTask.cs" />
+    <Compile Include="Models\Base\IDepartment.cs" />
+    <Compile Include="Models\Base\Enums\Priority.cs" />
+    <Compile Include="Models\Base\Enums\TitleOfCourtesy.cs" />
+    <Compile Include="Models\Base\IPosition.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.0" />
+    <PackageReference Include="EntityFramework" Version="6.4.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+  <!--<ItemGroup>
+    <Reference Include="DevExpress.ExpressApp.Security.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.ExpressApp.Security.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Security.Xpo.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.ExpressApp.Security.Xpo.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Xpo.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.ExpressApp.Xpo.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.Data.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.ExpressApp.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.Base.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.Persistent.Base.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.BaseImpl.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.Persistent.BaseImpl.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.Xpo.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.EFCore.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.ExpressApp.EFCore.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.BaseImpl.EFCore.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.Persistent.BaseImpl.EFCore.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.EntityFrameworkCore.Security.v20.2">
+      <HintPath>d:\work\DXSource\2020.2\XAF\Bin\Standard\DevExpress.EntityFrameworkCore.Security.v20.2.dll</HintPath>
+    </Reference>
+  </ItemGroup>-->
+  <ItemGroup>
+    <Reference Include="DevExpress.ExpressApp.Security.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.ExpressApp.Security.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Security.Xpo.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.ExpressApp.Security.Xpo.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Xpo.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.ExpressApp.Xpo.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.Data.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.ExpressApp.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.Base.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.Persistent.Base.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.BaseImpl.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.Persistent.BaseImpl.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.Xpo.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.EFCore.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.ExpressApp.EFCore.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.BaseImpl.EFCore.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.Persistent.BaseImpl.EFCore.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.EntityFrameworkCore.Security.v20.2">
+      <HintPath>..\..\ReseaseDLL\DevExpress.EntityFrameworkCore.Security.v20.2.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
