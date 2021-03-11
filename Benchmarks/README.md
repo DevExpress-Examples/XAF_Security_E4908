@@ -21,7 +21,7 @@ Feel free to make data model and test case modifications to cover additional usa
 
 |                    Small Data Set                    |                    Large Data Set                    |
 | ---------------------------------------------------- | ---------------------------------------------------- |
-| ![](/Benchmarks/images/getContacts_smallDataSet.png) | ![](/Benchmarks/images/getContacts_largeDataSet.png) |
+| ![](/Benchmarks/images/getContacts_smallDataSet.svg) | ![](/Benchmarks/images/getContacts_largeDataSet.svg) |
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|----------------------------|-------------------------|----------------------|-------------------|
@@ -42,7 +42,7 @@ Feel free to make data model and test case modifications to cover additional usa
 
 |                    Small Data Set                    |                    Large Data Set                    |
 | ---------------------------------------------------- | ---------------------------------------------------- |
-| ![](/Benchmarks/images/getTasks_smallDataSet.png) | ![](/Benchmarks/images/getTasks_largeDataSet.svg) |
+| ![](/Benchmarks/images/getTasks_smallDataSet.svg) | ![](/Benchmarks/images/getTasks_largeDataSet.svg) |
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|--------------------------|---------------------------|----------------------|-----------------------|
