@@ -21,13 +21,9 @@ Feel free to make data model and test case modifications to cover additional usa
 
 
 <p float="left">
-  <img src="/Benchmarks/images/getContacts_smallDataSet.svg" width="100" height="100" />
-  <img src="/images/getContacts_largeDataSet.svg" width="100" height="100" /> 
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getContacts_smallDataSet.svg" />
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getContacts_largeDataSet.svg" /> 
 </p>
-
-|                                                      |                                                      |
-| ---------------------------------------------------- | ---------------------------------------------------- |
-| ![](/images/getContacts_smallDataSet.svg) | ![](/images/getContacts_largeDataSet.svg) |
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|----------------------------|-------------------------|----------------------|-------------------|
@@ -46,9 +42,10 @@ Feel free to make data model and test case modifications to cover additional usa
 
 ## Load Tasks
 
-|                                                      |                                                      |
-| ---------------------------------------------------- | ---------------------------------------------------- |
-| ![](/Benchmarks/images/getTasks_smallDataSet.svg) | ![](/Benchmarks/images/getTasks_largeDataSet.svg) |
+<p float="left">
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getTasks_smallDataSet.svg" />
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getTasks_largeDataSet.svg" /> 
+</p>
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|--------------------------|---------------------------|----------------------|-----------------------|
