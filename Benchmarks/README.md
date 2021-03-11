@@ -19,6 +19,12 @@ Feel free to make data model and test case modifications to cover additional usa
 
 ## Load Contacts
 
+
+<p float="left">
+  <img src="/Benchmarks/images/getContacts_smallDataSet.svg" width="100" height="100" />
+  <img src="/images/getContacts_largeDataSet.svg" width="100" height="100" /> 
+</p>
+
 |                                                      |                                                      |
 | ---------------------------------------------------- | ---------------------------------------------------- |
 | ![](/images/getContacts_smallDataSet.svg) | ![](/images/getContacts_largeDataSet.svg) |
