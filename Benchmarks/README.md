@@ -21,7 +21,7 @@ Feel free to make data model and test case modifications to cover additional usa
 
 |                    Small Data Set                    |                    Large Data Set                    |
 | ---------------------------------------------------- | ---------------------------------------------------- |
-| ![](/images/getContacts_smallDataSet.png) | ![](/images/getContacts_largeDataSet.png) |
+| ![](/Benchmarks/images/getContacts_smallDataSet.png) | ![](/Benchmarks/images/getContacts_largeDataSet.png) |
 
 |Items Count |EF Core 5 (No Security) ms|EF Core 5 (Security) ms|XPO (No Security) ms|XPO (Security) ms|
 |------------|--------------------------|-----------------------|-----------------------|-----------------------|
