@@ -23,23 +23,41 @@ Feel free to make data model and test case modifications to cover additional usa
 | ---------------------------------------------------- | ---------------------------------------------------- |
 | ![](/Benchmarks/images/getContacts_smallDataSet.png) | ![](/Benchmarks/images/getContacts_largeDataSet.png) |
 
-|Items Count |EF Core 5 (No Security) ms|EF Core 5 (Security) ms|XPO (No Security) ms|XPO (Security) ms|
-|------------|--------------------------|-----------------------|-----------------------|-----------------------|
-|10          |1.370                     |12.734                 |2.781                       |7.149             |
-|20          |1.415                     |17.683                 |3.760                       |7.304             |
-|50          |1.708                     |26.966                 |5.051                       |12.335            |
-|100         |2.017                     |44.743                 |7.246                       |20.567            |
-|250         |3.065                     |101.844                |15.311                      |48.055            |
-|500         |4.741                     |196.163                |26.649                      |94.178            |
-|1000        |8.098                     |407.876                |53.689                      |188.849           |
-|2500        |18.643                    |1,139.486              |154.995                     |474.939           |
-|5000        |19.457                    |2,847.249              |268.775                     |967.130           |
+|Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
+|------------|----------------------------|-------------------------|----------------------|-------------------|
+|10          |1.370                       |12.734                   |2.781                 |7.149              |
+|20          |1.415                       |17.683                   |3.760                 |7.304              |
+|50          |1.708                       |26.966                   |5.051                 |12.335             |
+|100         |2.017                       |44.743                   |7.246                 |20.567             |
+|250         |3.065                       |101.844                  |15.311                |48.055             |
+|500         |4.741                       |196.163                  |26.649                |94.178             |
+|1000        |8.098                       |407.876                  |53.689                |188.849            |
+|2500        |18.643                      |1,139.486                |154.995               |474.939            |
+|5000        |19.457                      |2,847.249                |268.775               |967.130            |
 
-<!-- **Source:** [ORMBenchmark.PerformanceTests.InsertOne](/Benchmarks/ORMBenchmark/PerformanceTests/PerformanceTestSet.cs#L79-L81) -->
+**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetContacts](Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L87-L89)
 
+## Load Tasks
 
+|                    Small Data Set                    |                    Large Data Set                    |
+| ---------------------------------------------------- | ---------------------------------------------------- |
+| ![](/Benchmarks/images/getTasks_smallDataSet.png) | ![](/Benchmarks/images/getTasks_largeDataSet.png) |
 
-<!-- |Items Count |EF Core 5 (No Security) ms|EF Core 5 (Security) ms|XPO (No Security) ms|XPO (Security) ms|
+|Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
+|------------|--------------------------|---------------------------|----------------------|-----------------------|
+|10          |1.581                     |26.763                     |4.184                 |38.900                 |
+|20          |1.865                     |37.863                     |6.792                 |88.789                 |
+|50          |2.449                     |75.082                     |12.080                |202.839                |
+|100         |3.284                     |134.820                    |21.896                |416.492                |
+|250         |19.132                    |325.692                    |44.621                |1,069.608              |
+|500         |22.137                    |634.178                    |79.334                |2,084.031              |
+|1000        |28.301                    |1,253.319                  |153.552               |4,192.824              |
+|2500        |47.406                    |3,105.556                  |304.600               |10,222.239             |
+|5000        |78.365                    |6,198.760                  |558.145               |20,674.707             | 
+
+**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetTasks](Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L91-L93)
+
+<!-- |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|--------------------------|-----------------------|-----------------------|-----------------------|
 |10          |                          |                       |                       |                       |
 |20          |                          |                       |                       |                       |
