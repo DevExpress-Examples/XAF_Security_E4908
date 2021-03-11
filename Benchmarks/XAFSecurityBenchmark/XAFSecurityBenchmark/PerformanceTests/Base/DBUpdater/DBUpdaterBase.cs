@@ -29,7 +29,6 @@ namespace XAFSecurityBenchmark.PerformanceTests.DBUpdater {
         where TaskType : class, ITask
         where DepartmentType : class, IDepartment {
 
-        //private IObjectSpace updatingObjectSpace;
         private IObjectSpaceProvider updatingObjectSpaceProvider;
         private string keyPropertyName;
 
