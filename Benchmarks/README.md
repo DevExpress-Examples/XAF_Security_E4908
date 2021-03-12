@@ -25,29 +25,33 @@ Each test user has a Department object link, every Contact which is created for 
 Using this statement we have the following security rules to load Contact and Tasks objects:
 
 ```csharp
-        Expression<Func<Contact, bool>> ContactsFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
-            contact => contact.Department == currentUser.Department;
+    Expression<Func<Contact, bool>> ContactsFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
+        contact => contact.Department == currentUser.Department;
 
-        Expression<Func<DemoTask, bool>> TasksFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
-           task => task.Contacts.Any(contact => contact.Department.Users.Any(user => user == currentUser)) ||
-            ((Contact)task.AssignedTo).Department == currentUser.Department;
+    Expression<Func<DemoTask, bool>> TasksFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
+        task => task.Contacts.Any(contact => contact.Department.Users.Any(user => user == currentUser)) ||
+        ((Contact)task.AssignedTo).Department == currentUser.Department;
 ```
 We are using these filter predicates to load objects for XPO and EF Core tests without security to simulate how it could be done without integrated security to comparison.
 
 For the Security System we create the similar rules for Contact and Task types:
 ```csharp
-                userRole.AddTypePermission<ContactType>(SecurityOperations.FullObjectAccess, SecurityPermissionState.Deny);
-                userRole.AddObjectPermission<ContactType>(SecurityOperations.FullObjectAccess, $"[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()", SecurityPermissionState.Allow);
+    userRole.AddTypePermission<ContactType>(SecurityOperations.FullObjectAccess, SecurityPermissionState.Deny);
+    userRole.AddObjectPermission<ContactType>(SecurityOperations.FullObjectAccess,
+      $"[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()", SecurityPermissionState.Allow);
 
-                userRole.AddTypePermission<TaskType>(SecurityOperations.FullObjectAccess, SecurityPermissionState.Deny);
-                userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess, $"[Contacts][[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()]", SecurityPermissionState.Allow);
+    userRole.AddTypePermission<TaskType>(SecurityOperations.FullObjectAccess, SecurityPermissionState.Deny);
+    userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess,
+      $"[Contacts][[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()]", SecurityPermissionState.Allow);
 
-                if(typeof(TaskType).IsSubclassOf(typeof(DevExpress.Persistent.BaseImpl.Task))) {
-                    userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess, $"[AssignedTo].<Contact>[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()", SecurityPermissionState.Allow);
-                }
-                else {
-                    userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess, "Upcast(AssignedTo, 'XAFSecurityBenchmark.Models.EFCore.Contact', 'Department') == CurrentUserDepartment()", SecurityPermissionState.Allow);
-                }
+    if(typeof(TaskType).IsSubclassOf(typeof(DevExpress.Persistent.BaseImpl.Task))) {
+        userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess,
+          $"[AssignedTo].<Contact>[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()", SecurityPermissionState.Allow);
+    }
+    else {
+        userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess,
+          "Upcast(AssignedTo, 'XAFSecurityBenchmark.Models.EFCore.Contact', 'Department') == CurrentUserDepartment()", SecurityPermissionState.Allow);
+    }
 ```
  **Source:** [DBUpdaterBase.CreateSecurityObjects](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/DBUpdaterBase.cs#L114-131)
 
