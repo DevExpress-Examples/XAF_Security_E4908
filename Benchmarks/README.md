@@ -12,15 +12,45 @@ If you download the project to run benchmark tests in your environment, edit the
 Feel free to make data model and test case modifications to cover additional usage scenarios. For instance,  measure memory consumption, include scenarios with BLOBs, reference and collection properties, etc. We'd love to hear your feedback about this project. Drop us a line in this [blog post](blog link here), thanks.
 
 **See Also:**<br/>
+[How to: Use the Integrated Mode of the Security System in Non-XAF Applications](https://supportcenter.devexpress.com/internal/ticket/details/E4908)(example)<br/>
 [XPO ORM Library – Available Free-of-Charge in v18.1!](https://community.devexpress.com/blogs/xpo/archive/2018/05/21/xpo-free-of-charge-in-v18-1.aspx) (blog)<br/>
 [How to: Connect to a Data Store](https://documentation.devexpress.com/CoreLibraries/2123/DevExpress-ORM-Tool/Concepts/How-to-Connect-to-a-Data-Store) (online documentation)<br/>
 [Getting Started with \.NET Core](https://documentation.devexpress.com/CoreLibraries/119377/DevExpress-ORM-Tool/Getting-Started/Getting-Started-with-NET-Core) (online documentation)
 
+## Test data setup
+### Security Users and Rules creation:
+Each test user has a Department object link, every Contact which is created for user is assigned with the same Department object accordingly. Using this statement we have the following security rules to load Contact and Tasks objects:
+
+```csharp
+        Expression<Func<Contact, bool>> ContactsFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
+            contact => contact.Department == currentUser.Department;
+
+        Expression<Func<DemoTask, bool>> TasksFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
+           task => task.Contacts.Any(contact => contact.Department.Users.Any(user => user == currentUser)) || ((Contact)task.AssignedTo).Department == currentUser.Department;
+```
+We are using these filter predicates to load objects for XPO and EF Core tests without security to simulate how it could be done without integrated security.
+
+
+
+
+
+### Test objects creation:
+1) The insert tests are executed on the empty DB. The DB is cleaned after every test iteration cycle.
+
+2) The load collections and modify data tests work with the follow data: 
+ - The DB updater creates five test users, the [TestSetConfig.Users](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L20) array is used.
+ - For every user is created as many contacts objects as it necessary for the biggest test iteration by the [TestSetConfig.ContactCountPerUserToCreate](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L21) value.
+ - For every Contact object is created [TestSetConfig.TasksAssigedWithContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L22) and [TestSetConfig.TasksLinkedWithContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L23) tasks amount objects which are assigned and linked with contact object accordingly.
+ - The Contact object is also filled with PhoneNumber, Position and Address objects.
+
+The logic of test objects creation are located in the [TemporaryTestObjectsHelper](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/TempDataCreationHelpers/TemporaryTestObjectsHelper.cs) class.
 
 ## Load Contacts
 
-| [![](https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getContacts_smallDataSet.svg)](http://videoblocks.com)  | [![](https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getContacts_largeDataSet.svg)]() |
-|:---:|:---:|
+<p float="left">
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getContacts_smallDataSet.svg" width="100%"/>
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getContacts_largeDataSet.svg" width="100%" /> 
+</p>
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|----------------------------|-------------------------|----------------------|-------------------|
