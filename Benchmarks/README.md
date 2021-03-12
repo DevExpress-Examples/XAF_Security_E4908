@@ -1,5 +1,5 @@
 # .NET XAF Security Benchmark
-This project is a [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)-based benchmark. We used it to test the performance of the following Object-Relational Mapping (ORM) libraries for .NET Core 5.0:<br/>
+This project is a [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)-based benchmark. We used it to test the performance of the following Object-Relational Mapping (ORM) libraries for .NET Core 5.0 with XAF Security System:<br/>
  - [Entity Framework Core 5.0](https://docs.microsoft.com/en-us/ef/core/) (EF Core);<br/>
  - [eXpress Persistent Objects™ 20.2.5](https://www.devexpress.com/Products/NET/ORM/) (XPO).<br/>
  
