@@ -66,7 +66,10 @@ For the Security System we create the similar rules for Contact and Task types:
 
 The logic of test objects creation are located in the [TemporaryTestObjectsHelper](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/TempDataCreationHelpers/TemporaryTestObjectsHelper.cs) class.
 
-## Load Contacts benchmark
+
+## Test results
+
+### Load Contacts benchmark
 Load a 'Items Count' number of Contact objects for a specific user. 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getContacts_smallDataSet.svg" width="100%" /> 
@@ -88,7 +91,7 @@ Load a 'Items Count' number of Contact objects for a specific user.
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetContacts](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L87-L89)
 
 
-## Load Tasks benchmark
+### Load Tasks benchmark
 Load a 'Items Count' number of Task objects for a specific user.
 
 <p float="left">
@@ -113,7 +116,7 @@ Load a 'Items Count' number of Task objects for a specific user.
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetTasks](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L91-L93)
 
 
-## Add new Contact with Tasks benchmark
+### Add new Contact with Tasks benchmark
 Create the new Contact object, create 20 new Tasks which are assigned and linked with the Contact, add new PhoneNumber, Position and Address objects to contact and save. The items count represents how many Contacts are created in a test iteration.
 
 <p float="left">
@@ -137,7 +140,7 @@ Create the new Contact object, create 20 new Tasks which are assigned and linked
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L75-L77)
 
 
-## Add new Contact without ref objects benchmark
+### Add new Contact without ref objects benchmark
 Create the new Contact object, no Tasks. The items count represents how many Contacts are created in a test iteration.
 
 <p float="left">
@@ -161,7 +164,7 @@ Create the new Contact object, no Tasks. The items count represents how many Con
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertEmptyContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L71-L73)
 
 
-## Load Contact, update and save benchmark
+### Load Contact, update and save benchmark
 Load a 'Items Count' number of Contact objects for a specific user, modify and save.
 
 <p float="left">
@@ -185,7 +188,7 @@ Load a 'Items Count' number of Contact objects for a specific user, modify and s
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateContacts](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L79-L81)
 
 
-## Load Task, update and save benchmark
+### Load Task, update and save benchmark
 Load a 'Items Count' number of Task objects for a specific user, modify and save.
 
 <p float="left">
