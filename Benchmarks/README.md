@@ -19,7 +19,10 @@ Feel free to make data model and test case modifications to cover additional usa
 
 ## Test data setup
 ### Security Users and Rules creation:
-Each test user has a Department object link, every Contact which is created for the user is assigned with the same Department object accordingly. Using this statement we have the following security rules to load Contact and Tasks objects:
+Each test user has a Department object link, every Contact which is created for the user is assigned with the same Department object accordingly. **Source:** [DBUpdaterBase.CreateSecurityObjects](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/DBUpdaterBase.cs#L80)
+
+
+Using this statement we have the following security rules to load Contact and Tasks objects:
 
 ```csharp
         Expression<Func<Contact, bool>> ContactsFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
@@ -29,7 +32,24 @@ Each test user has a Department object link, every Contact which is created for 
            task => task.Contacts.Any(contact => contact.Department.Users.Any(user => user == currentUser)) ||
             ((Contact)task.AssignedTo).Department == currentUser.Department;
 ```
-We are using these filter predicates to load objects for XPO and EF Core tests without security to simulate how it could be done without integrated security.
+We are using these filter predicates to load objects for XPO and EF Core tests without security to simulate how it could be done without integrated security to comparison.
+
+For the Security System we create the similar rules for Contact and Task types:
+```csharp
+                userRole.AddTypePermission<ContactType>(SecurityOperations.FullObjectAccess, SecurityPermissionState.Deny);
+                userRole.AddObjectPermission<ContactType>(SecurityOperations.FullObjectAccess, $"[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()", SecurityPermissionState.Allow);
+
+                userRole.AddTypePermission<TaskType>(SecurityOperations.FullObjectAccess, SecurityPermissionState.Deny);
+                userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess, $"[Contacts][[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()]", SecurityPermissionState.Allow);
+
+                if(typeof(TaskType).IsSubclassOf(typeof(DevExpress.Persistent.BaseImpl.Task))) {
+                    userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess, $"[AssignedTo].<Contact>[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()", SecurityPermissionState.Allow);
+                }
+                else {
+                    userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess, "Upcast(AssignedTo, 'XAFSecurityBenchmark.Models.EFCore.Contact', 'Department') == CurrentUserDepartment()", SecurityPermissionState.Allow);
+                }
+```
+ **Source:** [DBUpdaterBase.CreateSecurityObjects](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/DBUpdaterBase.cs#L114-131)
 
 ### Test objects creation:
 1) The insert tests are executed on the empty DB. The DB is cleaned after every test iteration cycle.
@@ -37,16 +57,16 @@ We are using these filter predicates to load objects for XPO and EF Core tests w
 2) The load collections and modify data tests work with the follow data: 
  - The DB updater creates five test users, the [TestSetConfig.Users](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L20) array is used.
  - For every user is created as many contacts objects as it necessary for the biggest test iteration by the [TestSetConfig.ContactCountPerUserToCreate](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L21) value.
- - For every Contact object is created [TestSetConfig.TasksAssigedWithContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L22) and [TestSetConfig.TasksLinkedWithContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L23) tasks amount objects which are assigned and linked with contact object accordingly.
+ - For every Contact object is created [TestSetConfig.TasksAssigedWithContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L22) and [TestSetConfig.TasksLinkedWithContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L23) amount of Task objects which are assigned and linked with the Contact object accordingly. The total amount Contact records 25 000 and 500 000 Task records in the DB.
  - The Contact object is also filled with PhoneNumber, Position and Address objects.
 
 The logic of test objects creation are located in the [TemporaryTestObjectsHelper](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/TempDataCreationHelpers/TemporaryTestObjectsHelper.cs) class.
 
-## Load Contacts
-
+## Load Contacts benchmark
+Load a 'Items Count' number of Contact objects for a specific user. 
 <p float="left">
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getContacts_smallDataSet.svg" width="100%" /> 
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getContacts_largeDataSet.svg" width="100%"/>
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getContacts_largeDataSet.svg" width="100%" /> 
 </p>
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
@@ -64,11 +84,13 @@ The logic of test objects creation are located in the [TemporaryTestObjectsHelpe
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetContacts](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L87-L89)
 
 
-## Load Tasks
+## Load Tasks benchmark
+Load a 'Items Count' number of Task objects for a specific user.
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getTasks_smallDataSet.svg" />
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getTasks_largeDataSet.svg" /> 
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getTasks_smallDataSet.svg" width="100%"/>
+  
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getTasks_largeDataSet.svg" width="100%"/> 
 </p>
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
@@ -87,11 +109,14 @@ The logic of test objects creation are located in the [TemporaryTestObjectsHelpe
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetTasks](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L91-L93)
 
 
-## Add new Contacts with 20 Tasks for each and other content
+## Add new Contact with Tasks benchmark
+Create the new Contact object, create 20 new Tasks which are assigned and linked with the Contact, add new PhoneNumber, Position and Address objects to contact and save. The items count represents how many Contacts are created in a test iteration.
 
-<!-- |                    Small Data Set                    |                    Large Data Set                    |
-| ---------------------------------------------------- | ---------------------------------------------------- |
-| ![](/Benchmarks/images/getTasks_smallDataSet.png) | ![](/Benchmarks/images/getTasks_largeDataSet.png) | -->
+<p float="left">
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertContact_smallDataSet.svg" width="100%"/>
+  
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertContact_largeDataSet.svg" width="100%"/> 
+</p>
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|----------------------------|-------------------------|----------------------|-----------------------|
@@ -108,11 +133,14 @@ The logic of test objects creation are located in the [TemporaryTestObjectsHelpe
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L75-L77)
 
 
-## Add new Contacts without ref objects
+## Add new Contact without ref objects benchmark
+Create the new Contact object, no Tasks. The items count represents how many Contacts are created in a test iteration.
 
-<!-- |                    Small Data Set                    |                    Large Data Set                    |
-| ---------------------------------------------------- | ---------------------------------------------------- |
-| ![](/Benchmarks/images/getTasks_smallDataSet.png) | ![](/Benchmarks/images/getTasks_largeDataSet.png) | -->
+<p float="left">
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertEmptyContact_smallDataSet.svg" width="100%"/>
+  
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertEmptyContact_largeDataSet.svg" width="100%"/> 
+</p>
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|----------------------------|-------------------------|----------------------|-----------------------|
@@ -129,11 +157,14 @@ The logic of test objects creation are located in the [TemporaryTestObjectsHelpe
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertEmptyContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L71-L73)
 
 
-## Load Contacts, update and save
+## Load Contact, update and save benchmark
+Load a 'Items Count' number of Contact objects for a specific user, modify and save.
 
-<!-- |                    Small Data Set                    |                    Large Data Set                    |
-| ---------------------------------------------------- | ---------------------------------------------------- |
-| ![](/Benchmarks/images/getTasks_smallDataSet.png) | ![](/Benchmarks/images/getTasks_largeDataSet.png) | -->
+<p float="left">
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateContact_smallDataSet.svg" width="100%"/>
+  
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateContact_largeDataSet.svg" width="100%"/> 
+</p>
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|----------------------------|-------------------------|----------------------|-----------------------|
@@ -150,11 +181,14 @@ The logic of test objects creation are located in the [TemporaryTestObjectsHelpe
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateContacts](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L79-L81)
 
 
-## Load Tasks, update and save
+## Load Task, update and save benchmark
+Load a 'Items Count' number of Task objects for a specific user, modify and save.
 
-<!-- |                    Small Data Set                    |                    Large Data Set                    |
-| ---------------------------------------------------- | ---------------------------------------------------- |
-| ![](/Benchmarks/images/getTasks_smallDataSet.png) | ![](/Benchmarks/images/getTasks_largeDataSet.png) | -->
+<p float="left">
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateTask_smallDataSet.svg" width="100%"/>
+  
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateTask_largeDataSet.svg" width="100%"/> 
+</p>
 
 |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|----------------------------|-------------------------|----------------------|-----------------------|
