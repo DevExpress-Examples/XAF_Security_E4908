@@ -14,21 +14,21 @@
    class="dxc dxc-chart"
    style="line-height:normal;display:block;overflow:hidden"
    width="690"
-   height="329.67371"
+   height="338.28214"
    direction="ltr"
    pointer-events="none"
-   id="svg435"
-   sodipodi:docname="getTasks_smallDataSet.svg"
+   id="svg423"
+   sodipodi:docname="updateContact_smallDataSet.svg"
    inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)">
   <metadata
-     id="metadata439">
+     id="metadata427">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -43,7 +43,7 @@
      inkscape:pageshadow="2"
      inkscape:window-width="2560"
      inkscape:window-height="1377"
-     id="namedview437"
+     id="namedview425"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -51,16 +51,15 @@
      fit-margin-bottom="0"
      inkscape:zoom="1.5101449"
      inkscape:cx="345"
-     inkscape:cy="149.67371"
+     inkscape:cy="158.28215"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg435"
-     inkscape:document-rotation="0" />
+     inkscape:current-layer="svg423" />
   <defs
      id="defs25">
     <filter
-       id="DevExpress_7"
+       id="DevExpress_25"
        x="-0.5"
        y="-0.5"
        width="2"
@@ -95,7 +94,7 @@
          id="feComposite10" />
     </filter>
     <clipPath
-       id="DevExpress_8">
+       id="DevExpress_26">
       <rect
          x="0"
          y="0"
@@ -104,29 +103,29 @@
          id="rect13" />
     </clipPath>
     <clipPath
-       id="DevExpress_10">
+       id="DevExpress_28">
       <rect
-         x="-60"
+         x="-104"
          y="-10"
          width="635"
          height="58"
          id="rect16" />
     </clipPath>
     <clipPath
-       id="DevExpress_11">
+       id="DevExpress_29">
       <rect
-         x="62"
+         x="58"
          y="60"
-         width="467"
+         width="471"
          height="265"
          id="rect19" />
     </clipPath>
     <clipPath
-       id="DevExpress_12">
+       id="DevExpress_30">
       <rect
-         x="62"
+         x="58"
          y="60"
-         width="467"
+         width="471"
          height="265"
          id="rect22" />
     </clipPath>
@@ -135,7 +134,7 @@
      x="0"
      y="0"
      width="690"
-     height="330"
+     height="338.28214"
      fill="#808080"
      opacity="9.99899e-05"
      id="rect27"
@@ -143,79 +142,78 @@
   <g
      class="dxc-background"
      id="g29"
-     transform="translate(0,-50.326294)" />
+     transform="translate(0,-41.71785)" />
   <g
      class="dxc-strips-group"
      id="g39"
-     transform="translate(0,-50.326294)">
+     transform="translate(0,-41.71785)">
     <g
        class="dxc-val-strips"
-       clip-path="url(#DevExpress_11)"
+       clip-path="url(#DevExpress_29)"
        id="g35" />
     <g
        class="dxc-arg-strips"
-       clip-path="url(#DevExpress_11)"
+       clip-path="url(#DevExpress_29)"
        id="g37" />
   </g>
   <g
      class="dxc-grids-group"
-     id="g139"
-     transform="translate(0,-50.326294)">
+     id="g123"
+     transform="translate(0,-41.71785)">
     <g
        class="dxc-val-grid"
-       id="g83">
+       id="g67">
       <path
-         d="M 62,325 H 529"
+         d="M 58,325 H 529"
          transform="translate(0,-0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
          id="path41" />
       <path
-         d="M 62,272 H 529"
+         d="M 58,281 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
          id="path43" />
       <path
-         d="M 62,219 H 529"
+         d="M 58,237 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
          id="path45" />
       <path
-         d="M 62,166 H 529"
+         d="M 58,192 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
          id="path47" />
       <path
-         d="M 62,113 H 529"
+         d="M 58,148 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
          id="path49" />
       <path
-         d="M 62,60 H 529"
+         d="M 58,104 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
          id="path51" />
       <path
-         d="M 62,312 H 529"
+         d="M 58,60 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
-         stroke-opacity="0.3"
          opacity="1"
          id="path53" />
       <path
-         d="M 62,299 H 529"
+         d="M 58,303 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -223,7 +221,7 @@
          opacity="1"
          id="path55" />
       <path
-         d="M 62,285 H 529"
+         d="M 58,259 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -231,7 +229,7 @@
          opacity="1"
          id="path57" />
       <path
-         d="M 62,259 H 529"
+         d="M 58,214 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -239,7 +237,7 @@
          opacity="1"
          id="path59" />
       <path
-         d="M 62,246 H 529"
+         d="M 58,170 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -247,7 +245,7 @@
          opacity="1"
          id="path61" />
       <path
-         d="M 62,232 H 529"
+         d="M 58,126 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -255,125 +253,125 @@
          opacity="1"
          id="path63" />
       <path
-         d="M 62,206 H 529"
+         d="M 58,82 H 529"
          transform="translate(0,0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          stroke-opacity="0.3"
          opacity="1"
          id="path65" />
-      <path
-         d="M 62,193 H 529"
-         transform="translate(0,0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path67" />
-      <path
-         d="M 62,179 H 529"
-         transform="translate(0,0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path69" />
-      <path
-         d="M 62,153 H 529"
-         transform="translate(0,0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path71" />
-      <path
-         d="M 62,140 H 529"
-         transform="translate(0,0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path73" />
-      <path
-         d="M 62,126 H 529"
-         transform="translate(0,0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path75" />
-      <path
-         d="M 62,100 H 529"
-         transform="translate(0,0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path77" />
-      <path
-         d="M 62,87 H 529"
-         transform="translate(0,0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path79" />
-      <path
-         d="M 62,73 H 529"
-         transform="translate(0,0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path81" />
     </g>
     <g
        class="dxc-arg-grid"
-       id="g137">
+       id="g121">
       <path
-         d="M 63,60 V 325"
+         d="M 59,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
-         id="path85" />
+         id="path69" />
       <path
-         d="M 154,60 V 325"
+         d="M 151,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
-         id="path87" />
+         id="path71" />
       <path
-         d="M 245,60 V 325"
+         d="M 243,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
-         id="path89" />
+         id="path73" />
       <path
-         d="M 337,60 V 325"
+         d="M 335,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
-         id="path91" />
+         id="path75" />
       <path
-         d="M 428,60 V 325"
+         d="M 427,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
-         id="path93" />
+         id="path77" />
       <path
          d="M 519,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          opacity="1"
+         id="path79" />
+      <path
+         d="M 77,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path81" />
+      <path
+         d="M 96,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path83" />
+      <path
+         d="M 114,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path85" />
+      <path
+         d="M 132,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path87" />
+      <path
+         d="M 169,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path89" />
+      <path
+         d="M 188,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path91" />
+      <path
+         d="M 206,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path93" />
+      <path
+         d="M 224,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
          id="path95" />
       <path
-         d="M 81,60 V 325"
+         d="M 261,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -381,7 +379,7 @@
          opacity="1"
          id="path97" />
       <path
-         d="M 99,60 V 325"
+         d="M 280,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -389,7 +387,7 @@
          opacity="1"
          id="path99" />
       <path
-         d="M 118,60 V 325"
+         d="M 298,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -397,7 +395,7 @@
          opacity="1"
          id="path101" />
       <path
-         d="M 136,60 V 325"
+         d="M 317,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -405,7 +403,7 @@
          opacity="1"
          id="path103" />
       <path
-         d="M 172,60 V 325"
+         d="M 353,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -413,7 +411,7 @@
          opacity="1"
          id="path105" />
       <path
-         d="M 191,60 V 325"
+         d="M 372,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -421,7 +419,7 @@
          opacity="1"
          id="path107" />
       <path
-         d="M 209,60 V 325"
+         d="M 390,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -429,7 +427,7 @@
          opacity="1"
          id="path109" />
       <path
-         d="M 227,60 V 325"
+         d="M 409,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -437,7 +435,7 @@
          opacity="1"
          id="path111" />
       <path
-         d="M 264,60 V 325"
+         d="M 445,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -445,7 +443,7 @@
          opacity="1"
          id="path113" />
       <path
-         d="M 282,60 V 325"
+         d="M 464,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -453,7 +451,7 @@
          opacity="1"
          id="path115" />
       <path
-         d="M 300,60 V 325"
+         d="M 482,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
@@ -461,367 +459,317 @@
          opacity="1"
          id="path117" />
       <path
-         d="M 318,60 V 325"
-         transform="translate(0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path119" />
-      <path
-         d="M 355,60 V 325"
-         transform="translate(0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path121" />
-      <path
-         d="M 373,60 V 325"
-         transform="translate(0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path123" />
-      <path
-         d="M 391,60 V 325"
-         transform="translate(0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path125" />
-      <path
-         d="M 410,60 V 325"
-         transform="translate(0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path127" />
-      <path
-         d="M 446,60 V 325"
-         transform="translate(0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path129" />
-      <path
-         d="M 464,60 V 325"
-         transform="translate(0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path131" />
-      <path
-         d="M 483,60 V 325"
-         transform="translate(0.5)"
-         stroke="#d3d3d3"
-         stroke-width="1"
-         stroke-opacity="0.3"
-         opacity="1"
-         id="path133" />
-      <path
          d="M 501,60 V 325"
          transform="translate(0.5)"
          stroke="#d3d3d3"
          stroke-width="1"
          stroke-opacity="0.3"
          opacity="1"
-         id="path135" />
+         id="path119" />
     </g>
   </g>
   <g
      class="dxc-border"
-     id="g141"
-     transform="translate(0,-50.326294)" />
+     id="g125"
+     transform="translate(0,-41.71785)" />
   <g
      class="dxc-axes-group"
-     id="g215"
-     transform="translate(0,-50.326294)">
+     id="g203"
+     transform="translate(0,-41.71785)">
     <g
        class="dxc-val-axis"
-       clip-path="url(#DevExpress_8)"
-       id="g177">
+       clip-path="url(#DevExpress_26)"
+       id="g165">
       <g
          class="dxc-val-elements"
-         id="g155">
+         id="g141">
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="62"
+           x="58"
            y="325"
            transform="translate(-14,4.5)"
            text-anchor="middle"
-           id="text143">0</text>
+           id="text127">0</text>
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="62"
-           y="272"
+           x="58"
+           y="281"
+           transform="translate(-17,4.5)"
+           text-anchor="middle"
+           id="text129">50</text>
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="58"
+           y="237"
            transform="translate(-20,4.5)"
            text-anchor="middle"
-           id="text145">500</text>
+           id="text131">100</text>
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="62"
-           y="219"
-           transform="translate(-22,4.5)"
+           x="58"
+           y="192"
+           transform="translate(-20,4.5)"
            text-anchor="middle"
-           id="text147">1.0K</text>
+           id="text133">150</text>
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="62"
-           y="166"
-           transform="translate(-22,4.5)"
+           x="58"
+           y="148"
+           transform="translate(-20,4.5)"
            text-anchor="middle"
-           id="text149">1.5K</text>
+           id="text135">200</text>
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="62"
-           y="113"
-           transform="translate(-22,4.5)"
+           x="58"
+           y="104"
+           transform="translate(-20,4.5)"
            text-anchor="middle"
-           id="text151">2.0K</text>
+           id="text137">250</text>
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="62"
+           x="58"
            y="60"
-           transform="translate(-22,4.5)"
+           transform="translate(-20,4.5)"
            text-anchor="middle"
-           id="text153">2.5K</text>
+           id="text139">300</text>
       </g>
       <g
          class="dxc-val-line"
-         id="g171">
+         id="g159">
         <path
-           d="M 62,325 V 60"
+           d="M 58,325 V 60"
            transform="translate(0.5)"
            stroke-width="1"
            stroke="#767676"
-           id="path157" />
+           id="path143" />
         <path
-           d="m 56,325 h 7"
+           d="m 52,325 h 7"
            transform="translate(0,-0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path159" />
+           id="path145" />
         <path
-           d="m 56,272 h 7"
+           d="m 52,281 h 7"
            transform="translate(0,0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path161" />
+           id="path147" />
         <path
-           d="m 56,219 h 7"
+           d="m 52,237 h 7"
            transform="translate(0,0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path163" />
+           id="path149" />
         <path
-           d="m 56,166 h 7"
+           d="m 52,192 h 7"
            transform="translate(0,0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path165" />
+           id="path151" />
         <path
-           d="m 56,113 h 7"
+           d="m 52,148 h 7"
            transform="translate(0,0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path167" />
+           id="path153" />
         <path
-           d="m 56,60 h 7"
+           d="m 52,104 h 7"
            transform="translate(0,0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path169" />
+           id="path155" />
+        <path
+           d="m 52,60 h 7"
+           transform="translate(0,0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path157" />
       </g>
       <g
          class="dxc-val-title"
-         id="g175">
+         id="g163">
         <text
            style="font-weight:400;font-size:16px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="62"
+           x="58"
            y="192.5"
-           transform="rotate(-90,40,214.5)"
+           transform="rotate(-90,38,212.5)"
            text-anchor="middle"
-           id="text173">Time, milliseconds</text>
+           id="text161">Time, milliseconds</text>
       </g>
     </g>
     <g
        class="dxc-arg-axis"
-       clip-path="url(#DevExpress_8)"
-       id="g213">
+       clip-path="url(#DevExpress_26)"
+       id="g201">
       <g
          class="dxc-arg-elements"
-         id="g191">
+         id="g179">
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="63"
+           x="59"
            y="325"
            transform="translate(0,23)"
            text-anchor="middle"
-           id="text179">0</text>
+           id="text167">0</text>
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="154"
+           x="151"
            y="325"
            transform="translate(0,23)"
            text-anchor="middle"
-           id="text181">100</text>
+           id="text169">100</text>
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="245"
+           x="243"
            y="325"
            transform="translate(0,23)"
            text-anchor="middle"
-           id="text183">200</text>
+           id="text171">200</text>
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="337"
+           x="335"
            y="325"
            transform="translate(0,23)"
            text-anchor="middle"
-           id="text185">300</text>
+           id="text173">300</text>
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="428"
+           x="427"
            y="325"
            transform="translate(0.5,23)"
            text-anchor="middle"
-           id="text187">400</text>
+           id="text175">400</text>
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
            x="519"
            y="325"
            transform="translate(0,23)"
            text-anchor="middle"
-           id="text189">500</text>
+           id="text177">500</text>
       </g>
       <g
          class="dxc-arg-line"
-         id="g207">
+         id="g195">
         <path
-           d="M 62,325 H 529"
+           d="M 58,325 H 529"
            transform="translate(0,-0.5)"
            stroke-width="1"
            stroke="#767676"
-           id="path193" />
+           id="path181" />
         <path
-           d="m 63,324 v 7"
+           d="m 59,324 v 7"
            transform="translate(0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path195" />
+           id="path183" />
         <path
-           d="m 154,324 v 7"
+           d="m 151,324 v 7"
            transform="translate(0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path197" />
+           id="path185" />
         <path
-           d="m 245,324 v 7"
+           d="m 243,324 v 7"
            transform="translate(0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path199" />
+           id="path187" />
         <path
-           d="m 337,324 v 7"
+           d="m 335,324 v 7"
            transform="translate(0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path201" />
+           id="path189" />
         <path
-           d="m 428,324 v 7"
+           d="m 427,324 v 7"
            transform="translate(0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path203" />
+           id="path191" />
         <path
            d="m 519,324 v 7"
            transform="translate(0.5)"
            stroke="#767676"
            stroke-width="1"
            opacity="1"
-           id="path205" />
+           id="path193" />
       </g>
       <g
          class="dxc-arg-title"
-         id="g211">
+         id="g199">
         <text
            style="font-weight:400;font-size:16px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
-           x="295.5"
+           x="293.5"
            y="325"
            transform="translate(0,51)"
            text-anchor="middle"
-           id="text209">Items count</text>
+           id="text197">Items count</text>
       </g>
     </g>
   </g>
   <g
      class="dxc-strips-labels-group"
-     id="g221"
-     transform="translate(0,-50.326294)">
+     id="g209"
+     transform="translate(0,-41.71785)">
     <g
        class="dxc-val-axis-labels"
-       id="g217" />
+       id="g205" />
     <g
        class="dxc-arg-axis-labels"
-       id="g219" />
+       id="g207" />
   </g>
   <g
      class="dxc-constant-lines-group"
-     id="g235"
-     transform="translate(0,-50.326294)">
+     id="g223"
+     transform="translate(0,-41.71785)">
     <g
        class="dxc-val-constant-lines"
-       id="g223" />
+       id="g211" />
     <g
        class="dxc-val-constant-lines"
-       id="g225" />
+       id="g213" />
     <g
        class="dxc-val-constant-lines"
-       id="g227" />
+       id="g215" />
     <g
        class="dxc-arg-constant-lines"
-       id="g229" />
+       id="g217" />
     <g
        class="dxc-arg-constant-lines"
-       id="g231" />
+       id="g219" />
     <g
        class="dxc-arg-constant-lines"
-       id="g233" />
+       id="g221" />
   </g>
   <g
      class="dxc-series-group"
-     id="g333"
-     transform="translate(0,-50.326294)">
+     id="g321"
+     transform="translate(0,-41.71785)">
     <g
        class="dxc-series"
-       id="g259">
+       id="g247">
       <g
          class="dxc-elements"
          stroke="#000000"
          stroke-width="2"
-         clip-path="url(#DevExpress_12)"
-         id="g239">
+         clip-path="url(#DevExpress_30)"
+         id="g227">
         <path
-           d="m 72,325 h 9 27 46 l 137,-2 h 228"
+           d="m 68,323 9,-1 28,-2 46,-4 138,-11 230,-16"
            stroke-width="2"
-           id="path237" />
+           id="path225" />
       </g>
       <g
          fill="#000000"
@@ -831,80 +779,80 @@
          visibility="visible"
          class="dxc-markers"
          opacity="1"
-         id="g253">
+         id="g241">
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(72,325)"
-           id="circle241" />
+           transform="translate(68,323)"
+           id="circle229" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(81,325)"
-           id="circle243" />
+           transform="translate(77,322)"
+           id="circle231" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(108,325)"
-           id="circle245" />
+           transform="translate(105,320)"
+           id="circle233" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(154,325)"
-           id="circle247" />
+           transform="translate(151,316)"
+           id="circle235" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(291,323)"
-           id="circle249" />
+           transform="translate(289,305)"
+           id="circle237" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(519,323)"
+           transform="translate(519,289)"
            visibility="visible"
            fill="#000000"
            stroke="#000000"
-           id="circle251" />
+           id="circle239" />
       </g>
       <g
          fill="#808080"
          opacity="0.00100002"
          stroke="#808080"
          class="dxc-trackers"
-         clip-path="url(#DevExpress_12)"
-         id="g257">
+         clip-path="url(#DevExpress_30)"
+         id="g245">
         <path
-           d="m 72,325 h 9 27 46 l 137,-2 h 228"
+           d="m 68,323 9,-1 28,-2 46,-4 138,-11 230,-16"
            stroke-width="12"
            fill="none"
-           id="path255" />
+           id="path243" />
       </g>
     </g>
     <g
        class="dxc-series"
-       id="g283">
+       id="g271">
       <g
          class="dxc-elements"
          stroke="#0000ff"
          stroke-width="2"
-         clip-path="url(#DevExpress_12)"
-         id="g263">
+         clip-path="url(#DevExpress_30)"
+         id="g251">
         <path
-           d="m 72,322 9,-1 27,-4 46,-6 137,-20 228,-33"
+           d="m 68,312 9,-7 28,-11 46,-24 138,-68 230,-118"
            stroke-width="2"
-           id="path261" />
+           id="path249" />
       </g>
       <g
          fill="#0000ff"
@@ -914,80 +862,80 @@
          visibility="visible"
          class="dxc-markers"
          opacity="1"
-         id="g277">
+         id="g265">
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(72,322)"
-           id="circle265" />
+           transform="translate(68,312)"
+           id="circle253" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(81,321)"
-           id="circle267" />
+           transform="translate(77,305)"
+           id="circle255" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(108,317)"
-           id="circle269" />
+           transform="translate(105,294)"
+           id="circle257" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(154,311)"
-           id="circle271" />
+           transform="translate(151,270)"
+           id="circle259" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(291,291)"
-           id="circle273" />
+           transform="translate(289,202)"
+           id="circle261" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(519,258)"
+           transform="translate(519,84)"
            visibility="visible"
            fill="#0000ff"
            stroke="#0000ff"
-           id="circle275" />
+           id="circle263" />
       </g>
       <g
          fill="#808080"
          opacity="0.00100002"
          stroke="#808080"
          class="dxc-trackers"
-         clip-path="url(#DevExpress_12)"
-         id="g281">
+         clip-path="url(#DevExpress_30)"
+         id="g269">
         <path
-           d="m 72,322 9,-1 27,-4 46,-6 137,-20 228,-33"
+           d="m 68,312 9,-7 28,-11 46,-24 138,-68 230,-118"
            stroke-width="12"
            fill="none"
-           id="path279" />
+           id="path267" />
       </g>
     </g>
     <g
        class="dxc-series"
-       id="g307">
+       id="g295">
       <g
          class="dxc-elements"
          stroke="#008000"
          stroke-width="2"
-         clip-path="url(#DevExpress_12)"
-         id="g287">
+         clip-path="url(#DevExpress_30)"
+         id="g275">
         <path
-           d="m 72,325 9,-1 h 27 l 46,-1 137,-3 228,-3"
+           d="m 68,320 9,-2 28,-6 46,-11 138,-33 230,-59"
            stroke-width="2"
-           id="path285" />
+           id="path273" />
       </g>
       <g
          fill="#008000"
@@ -997,80 +945,80 @@
          visibility="visible"
          class="dxc-markers"
          opacity="1"
-         id="g301">
+         id="g289">
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(72,325)"
-           id="circle289" />
+           transform="translate(68,320)"
+           id="circle277" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(81,324)"
-           id="circle291" />
+           transform="translate(77,318)"
+           id="circle279" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(108,324)"
-           id="circle293" />
+           transform="translate(105,312)"
+           id="circle281" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(154,323)"
-           id="circle295" />
+           transform="translate(151,301)"
+           id="circle283" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(291,320)"
-           id="circle297" />
+           transform="translate(289,268)"
+           id="circle285" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(519,317)"
+           transform="translate(519,209)"
            visibility="visible"
            fill="#008000"
            stroke="#008000"
-           id="circle299" />
+           id="circle287" />
       </g>
       <g
          fill="#808080"
          opacity="0.00100002"
          stroke="#808080"
          class="dxc-trackers"
-         clip-path="url(#DevExpress_12)"
-         id="g305">
+         clip-path="url(#DevExpress_30)"
+         id="g293">
         <path
-           d="m 72,325 9,-1 h 27 l 46,-1 137,-3 228,-3"
+           d="m 68,320 9,-2 28,-6 46,-11 138,-33 230,-59"
            stroke-width="12"
            fill="none"
-           id="path303" />
+           id="path291" />
       </g>
     </g>
     <g
        class="dxc-series"
-       id="g331">
+       id="g319">
       <g
          class="dxc-elements"
          stroke="#ff0000"
          stroke-width="2"
-         clip-path="url(#DevExpress_12)"
-         id="g311">
+         clip-path="url(#DevExpress_30)"
+         id="g299">
         <path
-           d="m 72,321 9,-5 27,-12 46,-23 137,-69 228,-108"
+           d="m 68,316 9,-5 28,-17 46,-22 138,-71 230,-128"
            stroke-width="2"
-           id="path309" />
+           id="path297" />
       </g>
       <g
          fill="#ff0000"
@@ -1080,138 +1028,137 @@
          visibility="visible"
          class="dxc-markers"
          opacity="1"
-         id="g325">
+         id="g313">
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(72,321)"
-           id="circle313" />
+           transform="translate(68,316)"
+           id="circle301" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(81,316)"
-           id="circle315" />
+           transform="translate(77,311)"
+           id="circle303" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(108,304)"
-           id="circle317" />
+           transform="translate(105,294)"
+           id="circle305" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(154,281)"
-           id="circle319" />
+           transform="translate(151,272)"
+           id="circle307" />
         <circle
            cx="0"
            cy="0"
            r="6"
            stroke-width="0"
-           transform="translate(291,212)"
-           id="circle321" />
+           transform="translate(289,201)"
+           id="circle309" />
         <circle
            cx="0"
            cy="0"
            r="6"
-           stroke-width="0"
-           transform="translate(519,104)"
-           visibility="visible"
            fill="#ff0000"
            stroke="#ff0000"
-           id="circle323" />
+           stroke-width="0"
+           transform="translate(519,73)"
+           visibility="visible"
+           id="circle311" />
       </g>
       <g
          fill="#808080"
          opacity="0.00100002"
          stroke="#808080"
          class="dxc-trackers"
-         clip-path="url(#DevExpress_12)"
-         id="g329">
+         clip-path="url(#DevExpress_30)"
+         id="g317">
         <path
-           d="m 72,321 9,-5 27,-12 46,-23 137,-69 228,-108"
+           d="m 68,316 9,-5 28,-17 46,-22 138,-71 230,-128"
            stroke-width="12"
            fill="none"
-           id="path327" />
+           id="path315" />
       </g>
     </g>
   </g>
   <g
      class="dxc-constant-lines-group"
-     id="g347"
-     transform="translate(0,-50.326294)">
+     id="g335"
+     transform="translate(0,-41.71785)">
     <g
        class="dxc-val-constant-lines"
-       id="g335" />
+       id="g323" />
     <g
        class="dxc-val-constant-lines"
-       id="g337" />
+       id="g325" />
     <g
        class="dxc-val-constant-lines"
-       id="g339" />
+       id="g327" />
     <g
        class="dxc-arg-constant-lines"
-       id="g341" />
+       id="g329" />
     <g
        class="dxc-arg-constant-lines"
-       id="g343" />
+       id="g331" />
     <g
        class="dxc-arg-constant-lines"
-       id="g345" />
+       id="g333" />
   </g>
   <g
      class="dxc-scale-breaks"
-     id="g349"
-     transform="translate(0,-50.326294)" />
+     id="g337"
+     transform="translate(0,-41.71785)" />
   <g
      class="dxc-labels"
      pointer-events="none"
-     clip-path="url(#DevExpress_12)"
-     id="g359"
-     transform="translate(29,-19.826294)">
+     clip-path="url(#DevExpress_30)"
+     id="g347"
+     transform="translate(-10,-25.71785)">
     <g
        visibility="visible"
-       id="g357">
+       id="g345">
       <g
-         transform="translate(508,299)"
-         id="g355">
+         transform="translate(508,265)"
+         id="g343">
         <rect
-           x="-8"
+           x="-9"
            y="-17"
-           width="29"
+           width="30"
            height="25"
            fill="#000000"
            stroke-width="0"
            stroke="none"
            isEmpty="false"
-           id="rect351" />
+           id="rect339" />
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#ffffff"
            x="0"
            y="0"
-           id="text353">22</text>
+           id="text341">41</text>
       </g>
     </g>
   </g>
   <g
      class="dxc-labels"
      pointer-events="none"
-     clip-path="url(#DevExpress_12)"
-     id="g369"
-     transform="translate(0,-50.326294)">
+     clip-path="url(#DevExpress_30)"
+     id="g357"
+     transform="translate(-9.5,-42.71785)">
     <g
        visibility="visible"
-       id="g367"
-       transform="translate(-9.2706334,2.6487524)">
+       id="g355">
       <g
-         transform="translate(501,234)"
-         id="g365">
+         transform="translate(501,117)"
+         id="g353">
         <rect
            x="-8"
            y="-17"
@@ -1221,98 +1168,98 @@
            stroke-width="0"
            stroke="none"
            isEmpty="false"
-           id="rect361" />
+           id="rect349" />
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#ffffff"
            x="0"
            y="0"
-           id="text363">634</text>
+           id="text351">273</text>
       </g>
     </g>
   </g>
   <g
      class="dxc-labels"
      pointer-events="none"
-     clip-path="url(#DevExpress_12)"
-     id="g379"
-     transform="translate(-9.5,-44.326294)">
+     clip-path="url(#DevExpress_30)"
+     id="g367"
+     transform="translate(-10,-25.71785)">
     <g
        visibility="visible"
-       id="g377">
+       id="g365">
       <g
-         transform="translate(507,293)"
-         id="g375">
+         transform="translate(501,185)"
+         id="g363">
         <rect
            x="-8"
            y="-17"
-           width="30"
+           width="36"
            height="25"
            fill="#008000"
            stroke-width="0"
            stroke="none"
            isEmpty="false"
-           id="rect371" />
+           id="rect359" />
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#ffffff"
            x="0"
            y="0"
-           id="text373">79</text>
+           id="text361">131</text>
       </g>
     </g>
   </g>
   <g
      class="dxc-labels"
      pointer-events="none"
-     clip-path="url(#DevExpress_12)"
-     id="g389"
-     transform="translate(-9.5,-44.326294)">
+     clip-path="url(#DevExpress_30)"
+     transform="translate(-10,-82.71785)"
+     id="g377">
     <g
        visibility="visible"
-       id="g387">
+       id="g375">
       <g
-         transform="translate(494,80)"
-         id="g385">
+         transform="translate(501,106)"
+         id="g373">
         <rect
            x="-8"
            y="-17"
-           width="43"
+           width="36"
            height="25"
            fill="#ff0000"
            stroke-width="0"
            stroke="none"
            isEmpty="false"
-           id="rect381" />
+           id="rect369" />
         <text
            style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#ffffff"
            x="0"
            y="0"
-           id="text383">2084</text>
+           id="text371">285</text>
       </g>
     </g>
   </g>
   <g
      class="dxc-crosshair-cursor"
-     id="g393"
-     transform="translate(0,-50.326294)" />
+     id="g381"
+     transform="translate(0,-41.71785)" />
   <g
      class="dxc-legend"
-     clip-path="url(#DevExpress_8)"
-     id="g431"
-     transform="translate(0,-50.326294)">
+     clip-path="url(#DevExpress_26)"
+     id="g419"
+     transform="translate(0,-41.71785)">
     <g
        transform="translate(539,61)"
-       id="g429">
+       id="g417">
       <g
          class="dxc-item"
          style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;fill:#767676"
-         id="g427">
+         id="g415">
         <g
-           id="g401">
+           id="g389">
           <g
              class="dxl-marker"
              transform="translate(0,3)"
              visibility="visible"
-             id="g397">
+             id="g385">
             <rect
                x="0"
                y="0"
@@ -1320,7 +1267,7 @@
                height="12"
                fill="#000000"
                opacity="1"
-               id="rect395" />
+               id="rect383" />
           </g>
           <text
              style="white-space:pre"
@@ -1328,15 +1275,15 @@
              y="0"
              transform="translate(19,13)"
              text-anchor="start"
-             id="text399">EF Core 5 (No Security)</text>
+             id="text387">EF Core 5 (No Security)</text>
         </g>
         <g
-           id="g409">
+           id="g397">
           <g
              class="dxl-marker"
              transform="translate(0,28)"
              visibility="visible"
-             id="g405">
+             id="g393">
             <rect
                x="0"
                y="0"
@@ -1344,7 +1291,7 @@
                height="12"
                fill="#0000ff"
                opacity="1"
-               id="rect403" />
+               id="rect391" />
           </g>
           <text
              style="white-space:pre"
@@ -1352,15 +1299,15 @@
              y="0"
              transform="translate(19,38)"
              text-anchor="start"
-             id="text407">EF Core 5 (Security)</text>
+             id="text395">EF Core 5 (Security)</text>
         </g>
         <g
-           id="g417">
+           id="g405">
           <g
              class="dxl-marker"
              transform="translate(0,53)"
              visibility="visible"
-             id="g413">
+             id="g401">
             <rect
                x="0"
                y="0"
@@ -1368,7 +1315,7 @@
                height="12"
                fill="#008000"
                opacity="1"
-               id="rect411" />
+               id="rect399" />
           </g>
           <text
              style="white-space:pre"
@@ -1376,15 +1323,15 @@
              y="0"
              transform="translate(20,63)"
              text-anchor="start"
-             id="text415">XPO (No Security)</text>
+             id="text403">XPO (No Security)</text>
         </g>
         <g
-           id="g425">
+           id="g413">
           <g
              class="dxl-marker"
              transform="translate(0,78)"
              visibility="visible"
-             id="g421">
+             id="g409">
             <rect
                x="0"
                y="0"
@@ -1392,7 +1339,7 @@
                height="12"
                fill="#ff0000"
                opacity="1"
-               id="rect419" />
+               id="rect407" />
           </g>
           <text
              style="white-space:pre"
@@ -1400,13 +1347,13 @@
              y="0"
              transform="translate(20,88)"
              text-anchor="start"
-             id="text423">XPO (Security)</text>
+             id="text411">XPO (Security)</text>
         </g>
       </g>
     </g>
   </g>
   <g
      class="dxc-annotations"
-     id="g433"
-     transform="translate(0,-50.326294)" />
+     id="g421"
+     transform="translate(0,-41.71785)" />
 </svg>
