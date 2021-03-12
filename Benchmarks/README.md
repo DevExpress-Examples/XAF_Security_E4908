@@ -49,7 +49,7 @@ The logic of test objects creation are located in the [TemporaryTestObjectsHelpe
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/fc2a7bf077a96e63bfd10d29efac8591e2634adc/Benchmarks/images/getContacts_largeDataSet.svg" width="100%" /> 
 </p>
 
-<!-- |Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
+|Items Count | EF Core 5 (No Security) ms | EF Core 5 (Security) ms | XPO (No Security) ms | XPO (Security) ms |
 |------------|----------------------------|-------------------------|----------------------|-------------------|
 |10          |1.370                       |12.734                   |2.781                 |7.149              |
 |20          |1.415                       |17.683                   |3.760                 |7.304              |
@@ -59,84 +59,7 @@ The logic of test objects creation are located in the [TemporaryTestObjectsHelpe
 |500         |4.741                       |196.163                  |26.649                |94.178             |
 |1000        |8.098                       |407.876                  |53.689                |188.849            |
 |2500        |18.643                      |1,139.486                |154.995               |474.939            |
-|5000        |19.457                      |2,847.249                |268.775               |967.130            | -->
-
-<table width="100%">
-<thead>
-<tr>
-<th>Items Count</th>
-<th>EF Core 5 (No Security) ms</th>
-<th>EF Core 5 (Security) ms</th>
-<th>XPO (No Security) ms</th>
-<th>XPO (Security) ms</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10</td>
-<td>1.370</td>
-<td>12.734</td>
-<td>2.781</td>
-<td>7.149</td>
-</tr>
-<tr>
-<td>20</td>
-<td>1.415</td>
-<td>17.683</td>
-<td>3.760</td>
-<td>7.304</td>
-</tr>
-<tr>
-<td>50</td>
-<td>1.708</td>
-<td>26.966</td>
-<td>5.051</td>
-<td>12.335</td>
-</tr>
-<tr>
-<td>100</td>
-<td>2.017</td>
-<td>44.743</td>
-<td>7.246</td>
-<td>20.567</td>
-</tr>
-<tr>
-<td>250</td>
-<td>3.065</td>
-<td>101.844</td>
-<td>15.311</td>
-<td>48.055</td>
-</tr>
-<tr>
-<td>500</td>
-<td>4.741</td>
-<td>196.163</td>
-<td>26.649</td>
-<td>94.178</td>
-</tr>
-<tr>
-<td>1000</td>
-<td>8.098</td>
-<td>407.876</td>
-<td>53.689</td>
-<td>188.849</td>
-</tr>
-<tr>
-<td>2500</td>
-<td>18.643</td>
-<td>1,139.486</td>
-<td>154.995</td>
-<td>474.939</td>
-</tr>
-<tr>
-<td>5000</td>
-<td>19.457</td>
-<td>2,847.249</td>
-<td>268.775</td>
-<td>967.130</td>
-</tr>
-</tbody>
-</table>
+|5000        |19.457                      |2,847.249                |268.775               |967.130            |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetContacts](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L87-L89)
 
