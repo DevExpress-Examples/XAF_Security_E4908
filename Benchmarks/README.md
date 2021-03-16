@@ -22,7 +22,7 @@ Feel free to make data model and test case modifications to cover additional usa
 This project uses the following business objects:
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/ClassDiagram.png" width="100%" /> 
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/ClassDiagram.png"  /> 
 </p>
 
 ### Security Users and Rules
