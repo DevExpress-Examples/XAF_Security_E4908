@@ -82,8 +82,8 @@ For more information, see the logic of test object creation in the [TemporaryTes
 
 ## Test Results
 
-### Scenario #1. Load Contacts
-Loads different numbers of Contacts for a specific User.
+### Scenario #1. Load Contacts for a specific User
+
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getContacts_smallDataSet.svg" width="100%" /> 
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getContacts_largeDataSet.svg" width="100%"/>
@@ -104,8 +104,7 @@ Loads different numbers of Contacts for a specific User.
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetContacts](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L87-L89)
 
 
-### Scenario #2. Load Tasks
-Loads different numbers of Tasks for a specific User.
+### Scenario #2. Load Tasks for a specific User
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getTasks_smallDataSet.svg" width="100%"/>
@@ -129,8 +128,7 @@ Loads different numbers of Tasks for a specific User.
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetTasks](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L91-L93)
 
 
-### Scenario #3. Create a new Contact with Tasks
-Creates a new Contact. Creates new PhoneNumbers, Positions, Addresses, and 20 Tasks and links them to the Contact.
+### Scenario #3. Create a Contact with related data (20 Tasks, PhoneNumbers, Positions, Addresses)
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertContact_smallDataSet.svg" width="100%"/>
@@ -153,8 +151,7 @@ Creates a new Contact. Creates new PhoneNumbers, Positions, Addresses, and 20 Ta
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L75-L77)
 
 
-### Scenario #4. Create a new Contact without reference objects
-Creates a new Contact without Tasks.
+### Scenario #4. Create a Contact without related data
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertEmptyContact_smallDataSet.svg" width="100%"/>
@@ -177,8 +174,7 @@ Creates a new Contact without Tasks.
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertEmptyContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L71-L73)
 
 
-### Scenario #5. Load, update, and save Contacts
-Loads different numbers of Contacts for a specific User, modifies them, and saves.
+### Scenario #5. Load, update, and save Contacts for a specific User
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateContact_smallDataSet.svg" width="100%"/>
@@ -201,8 +197,7 @@ Loads different numbers of Contacts for a specific User, modifies them, and save
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateContacts](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L79-L81)
 
 
-### Scenario #6. Load, update, and save Tasks
-Loads different numbers of Tasks for a specific User, modifies them, and saves.
+### Scenario #6. Load, update, and save Tasks for a specific User
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateTask_smallDataSet.svg" width="100%"/>
