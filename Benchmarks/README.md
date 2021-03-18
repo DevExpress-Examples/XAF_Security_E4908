@@ -11,15 +11,15 @@ You can run the benchmarks on your computer or review our test results below.
 
 We used [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) to ... 
 
-
 ## Run Benchmarks in Your Environment
 
-Feel free to make data model and test case modifications to cover additional usage scenarios. You can  measure memory consumption, include scenarios with BLOBs, reference and collection properties, etc. 
+You can download the project and run the benchmarks on a system different from the one listed in our Test Results section. You can also modify the data model and test cases: measure memory consumption, include scenarios with BLOBs, add reference or collection properties, and so on. 
 
-If you download the project to run benchmark tests in your environment, do the following:
+Once you download the project, follow the steps below to run benchmark tests in your environment:
+
 1. Download and run the [DevExpress Unified Component Installer](https://www.devexpress.com/Products/Try/) to add [DevExpress.Xpo](https://www.nuget.org/packages/DevExpress.Xpo/) and other libraries to project references.
-2. Edit the connection string in the [App.config](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/App.config) file;
-3. Optionally update the ORM library and target framework versions, if necessary.
+2. Edit the connection string in [App.config](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/App.config).
+3. Update the ORM library and target framework versions, if necessary.
 
 ## Get Support
 If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
