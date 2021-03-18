@@ -7,7 +7,7 @@ We built this project to test the performance of Object-Relational Mapping (ORM)
  - [Microsoft Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) (EF Core)
  - [DevExpress eXpress Persistent Objects™](https://www.devexpress.com/Products/NET/ORM/) (XPO)
  
-You can the benchmarks on your computer or review our test results below. 
+You can run the benchmarks on your computer or review our test results below. 
 
 We used [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) to ... 
 
