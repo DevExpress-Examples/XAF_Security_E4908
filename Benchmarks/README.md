@@ -14,7 +14,7 @@ We used [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) to ...
 
 ## Run Benchmarks in Your Environment
 
-Feel free to make data model and test case modifications to cover additional usage scenarios. For instance,  measure memory consumption, include scenarios with BLOBs, reference and collection properties, etc. 
+Feel free to make data model and test case modifications to cover additional usage scenarios. You can  measure memory consumption, include scenarios with BLOBs, reference and collection properties, etc. 
 
 If you download the project to run benchmark tests in your environment, do the following:
 1. Download and run the [DevExpress Unified Component Installer](https://www.devexpress.com/Products/Try/) to add [DevExpress.Xpo](https://www.nuget.org/packages/DevExpress.Xpo/) and other libraries to project references.
