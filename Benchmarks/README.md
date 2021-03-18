@@ -1,13 +1,16 @@
 # .NET App Security API Benchmark for EF Core and XPO 
 
-## About
-This project is a [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)-based benchmark. We used it to test the performance of the following Object-Relational Mapping (ORM) libraries for .NET Core 5.0 with [XAF's Security System](https://www.devexpress.com/products/net/application_framework/security.xml):
- - [Microsoft Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) (EF Core);
- - [DevExpress eXpress Persistent Objects™](https://www.devexpress.com/Products/NET/ORM/) (XPO).
- 
-You can run these benchmarks or review our test results below. Needless to say, the lower the execution time the better.
+## About the Project
 
-All benchmarks were executed using .NET Core 5.0, AnyCPU release builds (include warm-up), Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v13.0.4001.0, i7-6700 CPU @4.0GHz / 32GB RAM / SSD. 
+We built this project to test the performance of Object-Relational Mapping (ORM) libraries used with [XAF's Security System](https://www.devexpress.com/products/net/application_framework/security.xml). We tested two libraries:
+
+ - [Microsoft Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) (EF Core)
+ - [DevExpress eXpress Persistent Objects™](https://www.devexpress.com/Products/NET/ORM/) (XPO)
+ 
+You can the benchmarks on your computer or review our test results below. 
+
+We used [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) to ... 
+
 
 ## Run Benchmarks in Your Environment
 
@@ -81,6 +84,8 @@ For more information, see the logic of test object creation in the [TemporaryTes
 
 
 ## Test Results
+
+All benchmarks were executed using .NET Core 5.0, AnyCPU release builds (include warm-up), Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v13.0.4001.0, i7-6700 CPU @4.0GHz / 32GB RAM / SSD. Needless to say, lower numbers are better.
 
 ### Scenario #1. Load Contacts for a specific User
 
