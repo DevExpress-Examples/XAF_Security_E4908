@@ -1,4 +1,4 @@
-# .NET App Security API Benchmark for EF Core and XPO
+# .NET App Security API Benchmark for EF Core and XPO 
 
 ## About
 This project is a [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)-based benchmark. We used it to test the performance of the following Object-Relational Mapping (ORM) libraries for .NET Core 5.0 with [XAF's Security System](https://www.devexpress.com/products/net/application_framework/security.xml):
