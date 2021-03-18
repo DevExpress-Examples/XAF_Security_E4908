@@ -118,9 +118,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="[21.1.2-pre-21064, 21.2)" />
-    <PackageReference Include="DevExpress.ExpressApp.Validation.Win" Version="[21.1.2-pre-21064, 21.2)" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="[21.1.2-pre-21064, 21.2)" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="[21.1.0-pre, 21.2)" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation.Win" Version="[21.1.0-pre, 21.2)" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="[21.1.0-pre, 21.2)" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
