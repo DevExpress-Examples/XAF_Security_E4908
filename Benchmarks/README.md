@@ -32,14 +32,16 @@ This project uses the following business objects:
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/ClassDiagram.png"  /> 
 </p>
 
-### Security Users and Permissions
-To create and load these objects, this benchmark uses the following data access rules:
-1. a user can access only the Contacts that have the same Department as the current user;
-2. a user can access the Tasks only if its Contacts collection contains a user from the same Department or if the AssignedTo Contact is from the same Department
+### Users and Permissions
 
-In code, these rules are implemented in the following manner.
+Our project creates and loads data objects according to the following data access rules:
 
-#### In Apps with No Security System
+1. A user can access a Contact if their Departments match.
+2. A user can access a Task in two cases: a user from the same department is specified in the AssignedTo field, or such a user exists in the task's Contacts collection.
+
+We use the following code to implement these rules.
+
+#### In Apps without the Security System
 
 ```csharp
     Expression<Func<Contact, bool>> ContactsFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
@@ -49,9 +51,11 @@ In code, these rules are implemented in the following manner.
         task => task.Contacts.Any(contact => contact.Department.Users.Any(user => user == currentUser)) ||
         ((Contact)task.AssignedTo).Department == currentUser.Department;
 ```
-We are using these filter predicates to load objects for XPO and EF Core tests without security to simulate how it could be done without integrated security to comparison.
+
+We use these filter predicates to load objects in security-free XPO and EF Core tests. This way we obtain the numbers that we compare to tests with integrated Security System. 
 
 #### In Apps with the Security System
+
 ```csharp
     userRole.AddTypePermission<ContactType>(SecurityOperations.FullObjectAccess, SecurityPermissionState.Deny);
     userRole.AddObjectPermission<ContactType>(SecurityOperations.FullObjectAccess,
@@ -73,7 +77,8 @@ We are using these filter predicates to load objects for XPO and EF Core tests w
  **Source:** [DBUpdaterBase.CreateSecurityObjects](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/DBUpdaterBase.cs#L114-131)
 
 ### Initial Data
-1) Tests that create new objects are executed with an empty database. The database is cleaned after every test iteration cycle.
+
+1) Tests that create new objects start with an empty database. The code cleans the database after every test iteration cycle.
 2) Tests that load collections and modify data work with the following data: 
      - The database updater creates five test users, the [TestSetConfig.Users](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L20) array is used.
      - For every User, Contacts are created based on the item count for each test specified by the [TestSetConfig.ContactCountPerUserToCreate](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L21) value.
