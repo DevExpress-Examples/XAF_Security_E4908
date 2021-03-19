@@ -79,18 +79,20 @@ We use these filter predicates to load objects in security-free XPO and EF Core 
 ### Initial Data
 
 1) Tests that create new objects start with an empty database. The code cleans the database after every test iteration cycle.
-2) Tests that load collections and modify data work with the following data: 
-     - The database updater creates five test users, the [TestSetConfig.Users](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L20) array is used.
-     - For every User, Contacts are created based on the item count for each test specified by the [TestSetConfig.ContactCountPerUserToCreate](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L21) value.
-     - For every Contact, the [TestSetConfig.TasksAssigedWithContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L22) and [TestSetConfig.TasksLinkedWithContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L23) amounts of Tasks is created and linked with the Contact. The database has 25K Contacts and 50OK Tasks.
+2) Tests that load collections and modify data use the following prepared dataset: 
+     - The database updater creates five test users specified by the [TestSetConfig.Users](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L20) array.
+     - For every User, we generate Contacts. The number varies with each test iteration (see graphs below). The [TestSetConfig.ContactCountPerUserToCreate](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L21) array specifies the numbers for each test run.
+     - For every Contact, we generate Tasks. The [TestSetConfig.TasksAssigedWithContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L22) and [TestSetConfig.TasksLinkedWithContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L23) specify the number of Tasks assigned to and linked to the Contact, respectively. The database has 25K Contacts and 50OK Tasks.
     - For every Contact, we initialize its reference data such as PhoneNumber, Position and Address.
 
-For more information, see the logic of test object creation in the [TemporaryTestObjectsHelper](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/TempDataCreationHelpers/TemporaryTestObjectsHelper.cs) class.
+For more information, see the test object creation logic in the [TemporaryTestObjectsHelper](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/TempDataCreationHelpers/TemporaryTestObjectsHelper.cs) class.
 
 
 ## Test Results
 
-All benchmarks were executed using .NET Core 5.0, AnyCPU release builds (include warm-up), Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v13.0.4001.0, i7-6700 CPU @4.0GHz / 32GB RAM / SSD. Needless to say, lower numbers are better.
+We ran all benchmarks against .NET Core 5.0 and used AnyCPU release builds (include warm-up). The test machine had Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v13.0.4001.0, i7-6700 CPU @4.0GHz / 32GB RAM / SSD. 
+
+Needless to say, lower numbers are better.
 
 ### Scenario #1. Load Contacts for a specific User
 
