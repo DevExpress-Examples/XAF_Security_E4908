@@ -74,7 +74,7 @@ namespace XAFSecurityBenchmark.PerformanceTests.DBUpdater {
         }
 
         private int ExpectedTasksCount =>
-            TestSetConfig.ContactCountPerUserToCreate * TestSetConfig.Users.Length * (TestSetConfig.TasksLinkedWithContact + TestSetConfig.TasksAssigedWithContact);
+            TestSetConfig.ContactCountPerUserToCreate * TestSetConfig.Users.Length * (TestSetConfig.TasksLinkedToContact + TestSetConfig.TasksAssigedToContact);
         private int ExpectedContactsCount => TestSetConfig.ContactCountPerUserToCreate * TestSetConfig.Users.Length;
 
         private void CreateSecurityObjects(IObjectSpace updatingObjectSpace) {

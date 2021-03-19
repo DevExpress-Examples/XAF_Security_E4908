@@ -19,8 +19,8 @@ namespace XAFSecurityBenchmark.PerformanceTests {
         public static readonly string TestUser = Users[0];
         public static int[] ItemsForTestIteration = new int[] { 10, 20, 50, 100, 250, 500, 1000, 2500, 5000 };
         public static int ContactCountPerUserToCreate = ItemsForTestIteration.Max();
-        public static readonly int TasksAssigedWithContact = 10;
-        public static readonly int TasksLinkedWithContact = 10;
+        public static readonly int TasksAssigedToContact = 10;
+        public static readonly int TasksLinkedToContact = 10;
 
         public static string XPOConnectionStrings => "XpoProvider=MSSqlServer;" + ConfigurationManager.ConnectionStrings["ConnectionString_XPO"].ConnectionString;
         public static string EFCoreConnectionStrings => ConfigurationManager.ConnectionStrings["ConnectionString_EFCore"].ConnectionString;

@@ -18,10 +18,10 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
                 for(int i = 0; i < TestSetConfig.ContactCountPerUserToCreate; i++) {
                     var contact = objectHelper.CreateContact();
                     objectHelper.FillContact(contact, department, i);
-                    //Tasks are assigned with contact
-                    contact.AddTasks(CreateTasks(objectHelper, null, TestSetConfig.TasksAssigedWithContact));
-                    //Tasks are only linked with contact
-                    _ = CreateTasks(objectHelper, contact, TestSetConfig.TasksLinkedWithContact);
+                    //Tasks are assigned to contact
+                    contact.AddTasks(CreateTasks(objectHelper, null, TestSetConfig.TasksAssigedToContact));
+                    //Tasks are only linked to contact
+                    _ = CreateTasks(objectHelper, contact, TestSetConfig.TasksLinkedToContact);
                 }
                 objectHelper.SaveChanges();
             }
