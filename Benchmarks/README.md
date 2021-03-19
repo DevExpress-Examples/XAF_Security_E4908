@@ -15,7 +15,7 @@ Feel free to make data model and test case modifications to cover additional usa
 
 If you download the project to run benchmark tests in your environment, do the following:
 1. Download and run the [DevExpress Unified Component Installer](https://www.devexpress.com/Products/Try/) to add [DevExpress.Xpo](https://www.nuget.org/packages/DevExpress.Xpo/) and other libraries to project references.
-2. Edit the connection string in the [App.config](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/App.config) file;
+2. Edit the connection string in the [App.config](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/App.config) file;
 3. Optionally update the ORM library and target framework versions, if necessary.
 
 ## Get Support
@@ -67,23 +67,23 @@ We are using these filter predicates to load objects for XPO and EF Core tests w
           "Upcast(AssignedTo, 'XAFSecurityBenchmark.Models.EFCore.Contact', 'Department') == CurrentUserDepartment()", SecurityPermissionState.Allow);
     }
 ```
- **Source:** [DBUpdaterBase.CreateSecurityObjects](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/DBUpdaterBase.cs#L114-131)
+ **Source:** [DBUpdaterBase.CreateSecurityObjects](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/DBUpdaterBase.cs#L114-131)
 
 ### Initial Data
 1) Tests that create new objects are executed with an empty database. The database is cleaned after every test iteration cycle.
 2) Tests that load collections and modify data work with the following data: 
-     - The database updater creates five test users, the [TestSetConfig.Users](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L20) array is used.
-     - For every User, Contacts are created based on the item count for each test specified by the [TestSetConfig.ContactCountPerUserToCreate](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L21) value.
-     - For every Contact, the [TestSetConfig.TasksAssigedWithContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L22) and [TestSetConfig.TasksLinkedWithContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L23) amounts of Tasks is created and linked with the Contact. The database has 25K Contacts and 50OK Tasks.
+     - The database updater creates five test users, the [TestSetConfig.Users](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L20) array is used.
+     - For every User, Contacts are created based on the item count for each test specified by the [TestSetConfig.ContactCountPerUserToCreate](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L21) value.
+     - For every Contact, the [TestSetConfig.TasksAssigedWithContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L22) and [TestSetConfig.TasksLinkedWithContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L23) amounts of Tasks is created and linked with the Contact. The database has 25K Contacts and 50OK Tasks.
     - For every Contact, we initialize its reference data such as PhoneNumber, Position and Address.
 
-For more information, see the logic of test object creation in the [TemporaryTestObjectsHelper](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/TempDataCreationHelpers/TemporaryTestObjectsHelper.cs) class.
+For more information, see the logic of test object creation in the [TemporaryTestObjectsHelper](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/TempDataCreationHelpers/TemporaryTestObjectsHelper.cs) class.
 
 
 ## Test Results
 
-### Scenario #1. Load Contacts
-Loads different numbers of Contacts for a specific User.
+### Scenario #1. Load Contacts for a specific User
+
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getContacts_smallDataSet.svg" width="100%" /> 
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getContacts_largeDataSet.svg" width="100%"/>
@@ -101,11 +101,10 @@ Loads different numbers of Contacts for a specific User.
 |2500        |18.643                      |1,139.486                |154.995               |474.939            |
 |5000        |19.457                      |2,847.249                |268.775               |967.130            |
 
-**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetContacts](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L87-L89)
+**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetContacts](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L87-L89)
 
 
-### Scenario #2. Load Tasks
-Loads different numbers of Tasks for a specific User.
+### Scenario #2. Load Tasks for a specific User
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getTasks_smallDataSet.svg" width="100%"/>
@@ -126,11 +125,10 @@ Loads different numbers of Tasks for a specific User.
 |5000        |78.365                    |6,198.760                  |558.145               |20,674.707             | 
 
 
-**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetTasks](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L91-L93)
+**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetTasks](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L91-L93)
 
 
-### Scenario #3. Create a new Contact with Tasks
-Creates a new Contact. Creates new PhoneNumbers, Positions, Addresses, and 20 Tasks and links them to the Contact.
+### Scenario #3. Create a Contact with related data (20 Tasks, PhoneNumbers, Positions, Addresses)
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertContact_smallDataSet.svg" width="100%"/>
@@ -150,11 +148,10 @@ Creates a new Contact. Creates new PhoneNumbers, Positions, Addresses, and 20 Ta
 |2500        |2,251.004                   |2,706.443                |2,015.533             |3,217.575              |
 |5000        |4,434.771                   |5,261.035                |4,336.850             |6,529.839              |
 
-**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L75-L77)
+**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L75-L77)
 
 
-### Scenario #4. Create a new Contact without reference objects
-Creates a new Contact without Tasks.
+### Scenario #4. Create a Contact without related data
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertEmptyContact_smallDataSet.svg" width="100%"/>
@@ -174,11 +171,10 @@ Creates a new Contact without Tasks.
 |2500        |776.824                     |949.982                  |1,027.423             |1,216.567              |
 |5000        |1,514.629                   |1,864.973                |2,102.060             |2,503.027              |
 
-**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertEmptyContact](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L71-L73)
+**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertEmptyContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L71-L73)
 
 
-### Scenario #5. Load, update, and save Contacts
-Loads different numbers of Contacts for a specific User, modifies them, and saves.
+### Scenario #5. Load, update, and save Contacts for a specific User
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateContact_smallDataSet.svg" width="100%"/>
@@ -198,11 +194,10 @@ Loads different numbers of Contacts for a specific User, modifies them, and save
 |2500        |211.406                     |1,539.082                |647.841               |1,603.247              |
 |5000        |465.541                     |3,636.916                |1,267.308             |3,158.913              |
 
-**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateContacts](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L79-L81)
+**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateContacts](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L79-L81)
 
 
-### Scenario #6. Load, update, and save Tasks
-Loads different numbers of Tasks for a specific User, modifies them, and saves.
+### Scenario #6. Load, update, and save Tasks for a specific User
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateTask_smallDataSet.svg" width="100%"/>
@@ -222,4 +217,4 @@ Loads different numbers of Tasks for a specific User, modifies them, and saves.
 |2500        |49.258                      |3,161.325                |542.876               |19,379.141             |
 |5000        |90.776                      |6,267.947                |1,043.535             |38,638.566             |
 
-**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateTasks](/Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L83-L85)
+**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateTasks](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L83-L85)
