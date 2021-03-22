@@ -1,25 +1,28 @@
-# .NET App Security API Benchmark for EF Core and XPO
+# .NET App Security API Benchmark for EF Core and XPO 
 
-## About
-This project is a [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)-based benchmark. We used it to test the performance of the following Object-Relational Mapping (ORM) libraries for .NET Core 5.0 with [XAF's Security System](https://www.devexpress.com/products/net/application_framework/security.xml):
- - [Microsoft Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) (EF Core);
- - [DevExpress eXpress Persistent Objects™](https://www.devexpress.com/Products/NET/ORM/) (XPO).
+## About the Project
+
+We built this project to test the performance of Object-Relational Mapping (ORM) libraries used with [XAF's Security System](https://www.devexpress.com/products/net/application_framework/security.xml). We tested two libraries:
+
+ - [Microsoft Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) (EF Core)
+ - [DevExpress eXpress Persistent Objects™](https://www.devexpress.com/Products/NET/ORM/) (XPO)
  
-You can run these benchmarks or review our test results below. Needless to say, the lower the execution time the better.
+You can run the benchmarks on your computer or review our test results below. 
 
-All benchmarks were executed using .NET Core 5.0, AnyCPU release builds (include warm-up), Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v13.0.4001.0, i7-6700 CPU @4.0GHz / 32GB RAM / SSD. 
+We used [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) to ... 
 
 ## Run Benchmarks in Your Environment
 
-Feel free to make data model and test case modifications to cover additional usage scenarios. For instance,  measure memory consumption, include scenarios with BLOBs, reference and collection properties, etc. 
+You can download the project and run the benchmarks on a system different from the one listed in our Test Results section. You can also modify the data model and test cases: measure memory consumption, include scenarios with BLOBs, add reference or collection properties, and so on. 
 
-If you download the project to run benchmark tests in your environment, do the following:
+Once you download the project, follow the steps below to run benchmark tests in your environment:
+
 1. Download and run the [DevExpress Unified Component Installer](https://www.devexpress.com/Products/Try/) to add [DevExpress.Xpo](https://www.nuget.org/packages/DevExpress.Xpo/) and other libraries to project references.
-2. Edit the connection string in the [App.config](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/App.config) file;
-3. Optionally update the ORM library and target framework versions, if necessary.
+2. Edit the connection string in [App.config](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/App.config).
+3. Update the ORM library and target framework versions, if necessary.
 
 ## Get Support
-If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
+Contact us if you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality. Submit questions to the DevExpress [Support Center](https://www.devexpress.com/ask) or switch to [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues). We are here to help.
 
 ## Benchmark Configuration
 ### Data Model Structure
@@ -29,14 +32,16 @@ This project uses the following business objects:
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/ClassDiagram.png"  /> 
 </p>
 
-### Security Users and Permissions
-To create and load these objects, this benchmark uses the following data access rules:
-1. a user can access only the Contacts that have the same Department as the current user;
-2. a user can access the Tasks only if its Contacts collection contains a user from the same Department or if the AssignedTo Contact is from the same Department
+### Users and Permissions
 
-In code, these rules are implemented in the following manner.
+Our project creates and loads data objects according to the following data access rules:
 
-#### In Apps with No Security System
+1. A user can access a Contact if their Departments match.
+2. A user can access a Task in two cases: a user from the same department is specified in the AssignedTo field, or such a user exists in the task's Contacts collection.
+
+We use the following code to implement these rules.
+
+#### In Apps without the Security System
 
 ```csharp
     Expression<Func<Contact, bool>> ContactsFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
@@ -46,9 +51,11 @@ In code, these rules are implemented in the following manner.
         task => task.Contacts.Any(contact => contact.Department.Users.Any(user => user == currentUser)) ||
         ((Contact)task.AssignedTo).Department == currentUser.Department;
 ```
-We are using these filter predicates to load objects for XPO and EF Core tests without security to simulate how it could be done without integrated security to comparison.
+
+We use these filter predicates to load objects in security-free XPO and EF Core tests. This way we obtain the numbers that we compare to tests with integrated Security System. 
 
 #### In Apps with the Security System
+
 ```csharp
     userRole.AddTypePermission<ContactType>(SecurityOperations.FullObjectAccess, SecurityPermissionState.Deny);
     userRole.AddObjectPermission<ContactType>(SecurityOperations.FullObjectAccess,
@@ -70,17 +77,22 @@ We are using these filter predicates to load objects for XPO and EF Core tests w
  **Source:** [DBUpdaterBase.CreateSecurityObjects](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/DBUpdaterBase.cs#L114-131)
 
 ### Initial Data
-1) Tests that create new objects are executed with an empty database. The database is cleaned after every test iteration cycle.
-2) Tests that load collections and modify data work with the following data: 
-     - The database updater creates five test users, the [TestSetConfig.Users](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L20) array is used.
-     - For every User, Contacts are created based on the item count for each test specified by the [TestSetConfig.ContactCountPerUserToCreate](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L21) value.
-     - For every Contact, the [TestSetConfig.TasksAssigedWithContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L22) and [TestSetConfig.TasksLinkedWithContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L23) amounts of Tasks is created and linked with the Contact. The database has 25K Contacts and 50OK Tasks.
+
+1) Tests that create new objects start with an empty database. The code cleans the database after every test iteration cycle.
+2) Tests that load collections and modify data use the following prepared dataset: 
+     - The database updater creates five test users specified by the [TestSetConfig.Users](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L20) array.
+     - For every User, we generate Contacts. The number varies with each test iteration (see graphs below). The [TestSetConfig.ContactCountPerUserToCreate](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L21) array specifies the numbers for each test run.
+     - For every Contact, we generate Tasks. The [TestSetConfig.TasksAssigedWithContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L22) and [TestSetConfig.TasksLinkedWithContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/TestSetConfig.cs#L23) specify the number of Tasks assigned to and linked to the Contact, respectively. The database has 25K Contacts and 50OK Tasks.
     - For every Contact, we initialize its reference data such as PhoneNumber, Position and Address.
 
-For more information, see the logic of test object creation in the [TemporaryTestObjectsHelper](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/TempDataCreationHelpers/TemporaryTestObjectsHelper.cs) class.
+For more information, see the test object creation logic in the [TemporaryTestObjectsHelper](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/DBUpdater/TempDataCreationHelpers/TemporaryTestObjectsHelper.cs) class.
 
 
 ## Test Results
+
+We ran all benchmarks against .NET Core 5.0 and used AnyCPU release builds (include warm-up). The test machine had Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v13.0.4001.0, i7-6700 CPU @4.0GHz / 32GB RAM / SSD. 
+
+Needless to say, lower numbers are better.
 
 ### Scenario #1. Load Contacts for a specific User
 
@@ -128,7 +140,7 @@ For more information, see the logic of test object creation in the [TemporaryTes
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetTasks](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L91-L93)
 
 
-### Scenario #3. Create a Contact with related data (20 Tasks, PhoneNumbers, Positions, Addresses)
+### Scenario #3. Create a Contact and its associated data (20 Tasks, PhoneNumbers, Positions, Addresses)
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertContact_smallDataSet.svg" width="100%"/>
@@ -151,7 +163,7 @@ For more information, see the logic of test object creation in the [TemporaryTes
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L75-L77)
 
 
-### Scenario #4. Create a Contact without related data
+### Scenario #4. Create a Contact without associated data
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertEmptyContact_smallDataSet.svg" width="100%"/>
@@ -217,4 +229,4 @@ For more information, see the logic of test object creation in the [TemporaryTes
 |2500        |49.258                      |3,161.325                |542.876               |19,379.141             |
 |5000        |90.776                      |6,267.947                |1,043.535             |38,638.566             |
 
-**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateTasks](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L83-L85)
+**Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateTasks](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L83-L85) 
