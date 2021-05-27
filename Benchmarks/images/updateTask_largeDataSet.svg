@@ -1,0 +1,1249 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   fill="none"
+   stroke="none"
+   stroke-width="0"
+   class="dxc dxc-chart"
+   style="line-height:normal;display:block;overflow:hidden"
+   width="690"
+   height="340"
+   direction="ltr"
+   pointer-events="none"
+   id="svg449"
+   sodipodi:docname="updateTask_largeDataSet.svg"
+   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)">
+  <metadata
+     id="metadata453">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1377"
+     id="namedview451"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="1.5101449"
+     inkscape:cx="345"
+     inkscape:cy="160.26871"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg449" />
+  <defs
+     id="defs25">
+    <filter
+       id="DevExpress_31"
+       x="-0.5"
+       y="-0.5"
+       width="2"
+       height="2"
+       transform="translate(0,0)">
+      <feGaussianBlur
+         in="SourceGraphic"
+         result="gaussianBlurResult"
+         stdDeviation="3"
+         id="feGaussianBlur2" />
+      <feOffset
+         in="gaussianBlurResult"
+         result="offsetResult"
+         dx="2"
+         dy="6"
+         id="feOffset4" />
+      <feFlood
+         result="floodResult"
+         flood-color="#d3d3d3"
+         flood-opacity="0.8"
+         id="feFlood6" />
+      <feComposite
+         in="floodResult"
+         in2="offsetResult"
+         operator="in"
+         result="compositeResult"
+         id="feComposite8" />
+      <feComposite
+         in="SourceGraphic"
+         in2="compositeResult"
+         operator="over"
+         id="feComposite10" />
+    </filter>
+    <clipPath
+       id="DevExpress_32">
+      <rect
+         x="0"
+         y="0"
+         width="690"
+         height="380"
+         id="rect13" />
+    </clipPath>
+    <clipPath
+       id="DevExpress_34">
+      <rect
+         x="-82"
+         y="-10"
+         width="635"
+         height="58"
+         id="rect16" />
+    </clipPath>
+    <clipPath
+       id="DevExpress_35">
+      <rect
+         x="60"
+         y="60"
+         width="469"
+         height="265"
+         id="rect19" />
+    </clipPath>
+    <clipPath
+       id="DevExpress_36">
+      <rect
+         x="60"
+         y="60"
+         width="469"
+         height="265"
+         id="rect22" />
+    </clipPath>
+  </defs>
+  <rect
+     x="0"
+     y="0"
+     width="690"
+     height="340"
+     fill="#808080"
+     opacity="9.99899e-05"
+     id="rect27"
+     style="stroke-width:0" />
+  <g
+     class="dxc-background"
+     id="g29"
+     transform="translate(0,-39.731285)" />
+  <g
+     class="dxc-strips-group"
+     id="g39"
+     transform="translate(0,-39.731285)">
+    <g
+       class="dxc-val-strips"
+       clip-path="url(#DevExpress_35)"
+       id="g35" />
+    <g
+       class="dxc-arg-strips"
+       clip-path="url(#DevExpress_35)"
+       id="g37" />
+  </g>
+  <g
+     class="dxc-grids-group"
+     id="g121"
+     transform="translate(0,-39.731285)">
+    <g
+       class="dxc-val-grid"
+       id="g75">
+      <path
+         d="M 60,325 H 529"
+         transform="translate(0,-0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         opacity="1"
+         id="path41" />
+      <path
+         d="M 60,259 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         opacity="1"
+         id="path43" />
+      <path
+         d="M 60,192 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         opacity="1"
+         id="path45" />
+      <path
+         d="M 60,126 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         opacity="1"
+         id="path47" />
+      <path
+         d="M 60,60 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         opacity="1"
+         id="path49" />
+      <path
+         d="M 60,309 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path51" />
+      <path
+         d="M 60,292 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path53" />
+      <path
+         d="M 60,275 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path55" />
+      <path
+         d="M 60,242 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path57" />
+      <path
+         d="M 60,226 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path59" />
+      <path
+         d="M 60,209 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path61" />
+      <path
+         d="M 60,176 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path63" />
+      <path
+         d="M 60,159 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path65" />
+      <path
+         d="M 60,143 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path67" />
+      <path
+         d="M 60,109 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path69" />
+      <path
+         d="M 60,93 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path71" />
+      <path
+         d="M 60,76 H 529"
+         transform="translate(0,0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path73" />
+    </g>
+    <g
+       class="dxc-arg-grid"
+       id="g119">
+      <path
+         d="M 70,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         opacity="1"
+         id="path77" />
+      <path
+         d="M 182,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         opacity="1"
+         id="path79" />
+      <path
+         d="M 295,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         opacity="1"
+         id="path81" />
+      <path
+         d="M 407,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         opacity="1"
+         id="path83" />
+      <path
+         d="M 519,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         opacity="1"
+         id="path85" />
+      <path
+         d="M 92,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path87" />
+      <path
+         d="M 115,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path89" />
+      <path
+         d="M 137,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path91" />
+      <path
+         d="M 160,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path93" />
+      <path
+         d="M 205,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path95" />
+      <path
+         d="M 227,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path97" />
+      <path
+         d="M 250,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path99" />
+      <path
+         d="M 272,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path101" />
+      <path
+         d="M 317,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path103" />
+      <path
+         d="M 339,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path105" />
+      <path
+         d="M 362,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path107" />
+      <path
+         d="M 384,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path109" />
+      <path
+         d="M 429,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path111" />
+      <path
+         d="M 452,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path113" />
+      <path
+         d="M 474,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path115" />
+      <path
+         d="M 497,60 V 325"
+         transform="translate(0.5)"
+         stroke="#d3d3d3"
+         stroke-width="1"
+         stroke-opacity="0.3"
+         opacity="1"
+         id="path117" />
+    </g>
+  </g>
+  <g
+     class="dxc-border"
+     id="g123"
+     transform="translate(0,-39.731285)" />
+  <g
+     class="dxc-axes-group"
+     id="g189"
+     transform="translate(0,-39.731285)">
+    <g
+       class="dxc-val-axis"
+       clip-path="url(#DevExpress_32)"
+       id="g155">
+      <g
+         class="dxc-val-elements"
+         id="g135">
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="60"
+           y="325"
+           transform="translate(-14,4.5)"
+           text-anchor="middle"
+           id="text125">0</text>
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="60"
+           y="259"
+           transform="translate(-21,4.5)"
+           text-anchor="middle"
+           id="text127">10K</text>
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="60"
+           y="192"
+           transform="translate(-21,4.5)"
+           text-anchor="middle"
+           id="text129">20K</text>
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="60"
+           y="126"
+           transform="translate(-21,4.5)"
+           text-anchor="middle"
+           id="text131">30K</text>
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="60"
+           y="60"
+           transform="translate(-21,4.5)"
+           text-anchor="middle"
+           id="text133">40K</text>
+      </g>
+      <g
+         class="dxc-val-line"
+         id="g149">
+        <path
+           d="M 60,325 V 60"
+           transform="translate(0.5)"
+           stroke-width="1"
+           stroke="#767676"
+           id="path137" />
+        <path
+           d="m 54,325 h 7"
+           transform="translate(0,-0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path139" />
+        <path
+           d="m 54,259 h 7"
+           transform="translate(0,0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path141" />
+        <path
+           d="m 54,192 h 7"
+           transform="translate(0,0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path143" />
+        <path
+           d="m 54,126 h 7"
+           transform="translate(0,0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path145" />
+        <path
+           d="m 54,60 h 7"
+           transform="translate(0,0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path147" />
+      </g>
+      <g
+         class="dxc-val-title"
+         id="g153">
+        <text
+           style="font-weight:400;font-size:16px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="60"
+           y="192.5"
+           transform="rotate(-90,39,213.5)"
+           text-anchor="middle"
+           id="text151">Time, milliseconds</text>
+      </g>
+    </g>
+    <g
+       class="dxc-arg-axis"
+       clip-path="url(#DevExpress_32)"
+       id="g187">
+      <g
+         class="dxc-arg-elements"
+         id="g167">
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="70"
+           y="325"
+           transform="translate(-0.5,23)"
+           text-anchor="middle"
+           id="text157">1K</text>
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="182"
+           y="325"
+           transform="translate(-0.5,23)"
+           text-anchor="middle"
+           id="text159">2K</text>
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="295"
+           y="325"
+           transform="translate(-0.5,23)"
+           text-anchor="middle"
+           id="text161">3K</text>
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="407"
+           y="325"
+           transform="translate(0,23)"
+           text-anchor="middle"
+           id="text163">4K</text>
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="519"
+           y="325"
+           transform="translate(-0.5,23)"
+           text-anchor="middle"
+           id="text165">5K</text>
+      </g>
+      <g
+         class="dxc-arg-line"
+         id="g181">
+        <path
+           d="M 60,325 H 529"
+           transform="translate(0,-0.5)"
+           stroke-width="1"
+           stroke="#767676"
+           id="path169" />
+        <path
+           d="m 70,324 v 7"
+           transform="translate(0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path171" />
+        <path
+           d="m 182,324 v 7"
+           transform="translate(0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path173" />
+        <path
+           d="m 295,324 v 7"
+           transform="translate(0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path175" />
+        <path
+           d="m 407,324 v 7"
+           transform="translate(0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path177" />
+        <path
+           d="m 519,324 v 7"
+           transform="translate(0.5)"
+           stroke="#767676"
+           stroke-width="1"
+           opacity="1"
+           id="path179" />
+      </g>
+      <g
+         class="dxc-arg-title"
+         id="g185">
+        <text
+           style="font-weight:400;font-size:16px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#767676"
+           x="294.5"
+           y="325"
+           transform="translate(0,51)"
+           text-anchor="middle"
+           id="text183">Item Count</text>
+      </g>
+    </g>
+  </g>
+  <g
+     class="dxc-strips-labels-group"
+     id="g195"
+     transform="translate(0,-39.731285)">
+    <g
+       class="dxc-val-axis-labels"
+       id="g191" />
+    <g
+       class="dxc-arg-axis-labels"
+       id="g193" />
+  </g>
+  <g
+     class="dxc-constant-lines-group"
+     id="g209"
+     transform="translate(0,-39.731285)">
+    <g
+       class="dxc-val-constant-lines"
+       id="g197" />
+    <g
+       class="dxc-val-constant-lines"
+       id="g199" />
+    <g
+       class="dxc-val-constant-lines"
+       id="g201" />
+    <g
+       class="dxc-arg-constant-lines"
+       id="g203" />
+    <g
+       class="dxc-arg-constant-lines"
+       id="g205" />
+    <g
+       class="dxc-arg-constant-lines"
+       id="g207" />
+  </g>
+  <g
+     class="dxc-series-group"
+     id="g283"
+     transform="translate(0,-39.731285)">
+    <g
+       class="dxc-series"
+       id="g227">
+      <g
+         class="dxc-elements"
+         stroke="#000000"
+         stroke-width="2"
+         clip-path="url(#DevExpress_36)"
+         id="g213">
+        <path
+           d="M 70,325 H 238 519"
+           stroke-width="2"
+           id="path211" />
+      </g>
+      <g
+         fill="#000000"
+         stroke="#000000"
+         stroke-width="0"
+         r="6"
+         visibility="visible"
+         class="dxc-markers"
+         opacity="1"
+         id="g221">
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           stroke-width="0"
+           transform="translate(70,325)"
+           visibility="visible"
+           fill="#000000"
+           stroke="#000000"
+           id="circle215" />
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           stroke-width="0"
+           transform="translate(238,325)"
+           visibility="visible"
+           fill="#000000"
+           stroke="#000000"
+           id="circle217" />
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           stroke-width="0"
+           transform="translate(519,325)"
+           visibility="visible"
+           fill="#000000"
+           stroke="#000000"
+           id="circle219" />
+      </g>
+      <g
+         fill="#808080"
+         opacity="0.00100002"
+         stroke="#808080"
+         class="dxc-trackers"
+         clip-path="url(#DevExpress_36)"
+         id="g225">
+        <path
+           d="M 70,325 H 238 519"
+           stroke-width="12"
+           fill="none"
+           id="path223" />
+      </g>
+    </g>
+    <g
+       class="dxc-series"
+       id="g245">
+      <g
+         class="dxc-elements"
+         stroke="#0000ff"
+         stroke-width="2"
+         clip-path="url(#DevExpress_36)"
+         id="g231">
+        <path
+           d="M 70,317 238,304 519,284"
+           stroke-width="2"
+           id="path229" />
+      </g>
+      <g
+         fill="#0000ff"
+         stroke="#0000ff"
+         stroke-width="0"
+         r="6"
+         visibility="visible"
+         class="dxc-markers"
+         opacity="1"
+         id="g239">
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           stroke-width="0"
+           transform="translate(70,317)"
+           visibility="visible"
+           fill="#0000ff"
+           stroke="#0000ff"
+           id="circle233" />
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           stroke-width="0"
+           transform="translate(238,304)"
+           visibility="visible"
+           fill="#0000ff"
+           stroke="#0000ff"
+           id="circle235" />
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           stroke-width="0"
+           transform="translate(519,284)"
+           visibility="visible"
+           fill="#0000ff"
+           stroke="#0000ff"
+           id="circle237" />
+      </g>
+      <g
+         fill="#808080"
+         opacity="0.00100002"
+         stroke="#808080"
+         class="dxc-trackers"
+         clip-path="url(#DevExpress_36)"
+         id="g243">
+        <path
+           d="M 70,317 238,304 519,284"
+           stroke-width="12"
+           fill="none"
+           id="path241" />
+      </g>
+    </g>
+    <g
+       class="dxc-series"
+       id="g263">
+      <g
+         class="dxc-elements"
+         stroke="#008000"
+         stroke-width="2"
+         clip-path="url(#DevExpress_36)"
+         id="g249">
+        <path
+           d="m 70,324 168,-2 281,-4"
+           stroke-width="2"
+           id="path247" />
+      </g>
+      <g
+         fill="#008000"
+         stroke="#008000"
+         stroke-width="0"
+         r="6"
+         visibility="visible"
+         class="dxc-markers"
+         opacity="1"
+         id="g257">
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           fill="#008000"
+           stroke="#008000"
+           stroke-width="0"
+           transform="translate(70,324)"
+           visibility="visible"
+           id="circle251" />
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           fill="#008000"
+           stroke="#008000"
+           stroke-width="0"
+           transform="translate(238,322)"
+           visibility="visible"
+           id="circle253" />
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           fill="#008000"
+           stroke="#008000"
+           stroke-width="0"
+           transform="translate(519,318)"
+           visibility="visible"
+           id="circle255" />
+      </g>
+      <g
+         fill="#808080"
+         opacity="0.00100002"
+         stroke="#808080"
+         class="dxc-trackers"
+         clip-path="url(#DevExpress_36)"
+         id="g261">
+        <path
+           d="m 70,324 168,-2 281,-4"
+           stroke-width="12"
+           fill="none"
+           id="path259" />
+      </g>
+    </g>
+    <g
+       class="dxc-series"
+       id="g281">
+      <g
+         class="dxc-elements"
+         stroke="#ff0000"
+         stroke-width="2"
+         clip-path="url(#DevExpress_36)"
+         id="g267">
+        <path
+           d="M 70,273 238,197 519,69"
+           stroke-width="2"
+           id="path265" />
+      </g>
+      <g
+         fill="#ff0000"
+         stroke="#ff0000"
+         stroke-width="0"
+         r="6"
+         visibility="visible"
+         class="dxc-markers"
+         opacity="1"
+         id="g275">
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           fill="#ff0000"
+           stroke="#ff0000"
+           stroke-width="0"
+           transform="translate(70,273)"
+           visibility="visible"
+           id="circle269" />
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           fill="#ff0000"
+           stroke="#ff0000"
+           stroke-width="0"
+           transform="translate(238,197)"
+           visibility="visible"
+           id="circle271" />
+        <circle
+           cx="0"
+           cy="0"
+           r="6"
+           fill="#ff0000"
+           stroke="#ff0000"
+           stroke-width="0"
+           transform="translate(519,69)"
+           visibility="visible"
+           id="circle273" />
+      </g>
+      <g
+         fill="#808080"
+         opacity="0.00100002"
+         stroke="#808080"
+         class="dxc-trackers"
+         clip-path="url(#DevExpress_36)"
+         id="g279">
+        <path
+           d="M 70,273 238,197 519,69"
+           stroke-width="12"
+           fill="none"
+           id="path277" />
+      </g>
+    </g>
+  </g>
+  <g
+     class="dxc-constant-lines-group"
+     id="g297"
+     transform="translate(0,-39.731285)">
+    <g
+       class="dxc-val-constant-lines"
+       id="g285" />
+    <g
+       class="dxc-val-constant-lines"
+       id="g287" />
+    <g
+       class="dxc-val-constant-lines"
+       id="g289" />
+    <g
+       class="dxc-arg-constant-lines"
+       id="g291" />
+    <g
+       class="dxc-arg-constant-lines"
+       id="g293" />
+    <g
+       class="dxc-arg-constant-lines"
+       id="g295" />
+  </g>
+  <g
+     class="dxc-scale-breaks"
+     id="g299"
+     transform="translate(0,-39.731285)" />
+  <g
+     visibility="visible"
+     id="g323"
+     transform="translate(30,0.7687149)">
+    <g
+       transform="translate(507,301)"
+       id="g321">
+      <rect
+         x="-8"
+         y="-17"
+         width="30"
+         height="25"
+         fill="#000000"
+         stroke-width="0"
+         stroke="none"
+         isEmpty="false"
+         id="rect317" />
+      <text
+         style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#ffffff"
+         x="0"
+         y="0"
+         id="text319">90</text>
+    </g>
+  </g>
+  <g
+     class="dxc-labels"
+     pointer-events="none"
+     clip-path="url(#DevExpress_36)"
+     id="g351"
+     transform="translate(-10,-23.731285)">
+    <g
+       visibility="visible"
+       id="g349">
+      <g
+         transform="translate(494,260)"
+         id="g347">
+        <rect
+           x="-8"
+           y="-17"
+           width="43"
+           height="25"
+           fill="#0000ff"
+           stroke-width="0"
+           stroke="none"
+           isEmpty="false"
+           id="rect343" />
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#ffffff"
+           x="0"
+           y="0"
+           id="text345">6267</text>
+      </g>
+    </g>
+  </g>
+  <g
+     class="dxc-labels"
+     pointer-events="none"
+     clip-path="url(#DevExpress_36)"
+     transform="translate(-10,-23.731285)"
+     id="g377">
+    <g
+       visibility="visible"
+       id="g375">
+      <g
+         transform="translate(495,294)"
+         id="g373">
+        <rect
+           x="-8"
+           y="-17"
+           width="42"
+           height="25"
+           fill="#008000"
+           stroke-width="0"
+           stroke="none"
+           isEmpty="false"
+           id="rect369" />
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#ffffff"
+           x="0"
+           y="0"
+           id="text371">1043</text>
+      </g>
+    </g>
+  </g>
+  <g
+     class="dxc-labels"
+     pointer-events="none"
+     clip-path="url(#DevExpress_36)"
+     id="g403"
+     transform="translate(-10,-55.731285)">
+    <g
+       visibility="visible"
+       id="g385" />
+    <g
+       visibility="visible"
+       id="g401">
+      <g
+         transform="translate(488,102)"
+         id="g399">
+        <rect
+           x="-8"
+           y="-17"
+           width="49"
+           height="25"
+           fill="#ff0000"
+           stroke-width="0"
+           stroke="none"
+           isEmpty="false"
+           id="rect395" />
+        <text
+           style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;white-space:pre;fill:#ffffff"
+           x="0"
+           y="0"
+           id="text397">38638</text>
+      </g>
+    </g>
+  </g>
+  <g
+     class="dxc-crosshair-cursor"
+     id="g407"
+     transform="translate(0,-39.731285)" />
+  <g
+     class="dxc-legend"
+     clip-path="url(#DevExpress_32)"
+     id="g445"
+     transform="translate(0,-39.731285)">
+    <g
+       transform="translate(539,61)"
+       id="g443">
+      <g
+         class="dxc-item"
+         style="font-weight:400;font-size:12px;font-family:'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana, sans-serif;fill:#767676"
+         id="g441">
+        <g
+           id="g415">
+          <g
+             class="dxl-marker"
+             transform="translate(0,3)"
+             visibility="visible"
+             id="g411">
+            <rect
+               x="0"
+               y="0"
+               width="12"
+               height="12"
+               fill="#000000"
+               opacity="1"
+               id="rect409" />
+          </g>
+          <text
+             style="white-space:pre"
+             x="0"
+             y="0"
+             transform="translate(19,13)"
+             text-anchor="start"
+             id="text413">EF Core 5 (No Security)</text>
+        </g>
+        <g
+           id="g423">
+          <g
+             class="dxl-marker"
+             transform="translate(0,28)"
+             visibility="visible"
+             id="g419">
+            <rect
+               x="0"
+               y="0"
+               width="12"
+               height="12"
+               fill="#0000ff"
+               opacity="1"
+               id="rect417" />
+          </g>
+          <text
+             style="white-space:pre"
+             x="0"
+             y="0"
+             transform="translate(19,38)"
+             text-anchor="start"
+             id="text421">EF Core 5 (Security)</text>
+        </g>
+        <g
+           id="g431">
+          <g
+             class="dxl-marker"
+             transform="translate(0,53)"
+             visibility="visible"
+             id="g427">
+            <rect
+               x="0"
+               y="0"
+               width="12"
+               height="12"
+               fill="#008000"
+               opacity="1"
+               id="rect425" />
+          </g>
+          <text
+             style="white-space:pre"
+             x="0"
+             y="0"
+             transform="translate(20,63)"
+             text-anchor="start"
+             id="text429">XPO (No Security)</text>
+        </g>
+        <g
+           id="g439">
+          <g
+             class="dxl-marker"
+             transform="translate(0,78)"
+             visibility="visible"
+             id="g435">
+            <rect
+               x="0"
+               y="0"
+               width="12"
+               height="12"
+               fill="#ff0000"
+               opacity="1"
+               id="rect433" />
+          </g>
+          <text
+             style="white-space:pre"
+             x="0"
+             y="0"
+             transform="translate(20,88)"
+             text-anchor="start"
+             id="text437">XPO (Security)</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g
+     class="dxc-annotations"
+     id="g447"
+     transform="translate(0,-39.731285)" />
+</svg>

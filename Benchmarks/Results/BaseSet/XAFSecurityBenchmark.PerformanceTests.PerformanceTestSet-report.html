@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet-20210226-110255</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.18363.1379 (1909/November2018Update/19H2)
+Intel Core i7-6700K CPU 4.00GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.103
+  [Host]     : .NET Core 5.0.3 (CoreCLR 5.0.321.7212, CoreFX 5.0.321.7212), X64 RyuJIT
+  Job-QYLVQV : .NET Core 5.0.3 (CoreCLR 5.0.321.7212, CoreFX 5.0.321.7212), X64 RyuJIT
+</code></pre>
+<pre><code>Runtime=.NET Core 5.0  InvocationCount=1  RunStrategy=Throughput  
+UnrollFactor=1  
+</code></pre>
+
+<table>
+<thead><tr><th>      Method</th><th>ItemsForTestIteration</th><th>  TestProvider</th><th>   Mean</th><th>Error</th><th>StdDev</th><th> Median</th>
+</tr>
+</thead><tbody><tr><td>GetContacts</td><td>10</td><td>EFCore 5.0.0</td><td>1.370 ms</td><td>0.0272 ms</td><td>0.0498 ms</td><td>1.367 ms</td>
+</tr><tr><td>GetContacts</td><td>20</td><td>EFCore 5.0.0</td><td>1.415 ms</td><td>0.0283 ms</td><td>0.0524 ms</td><td>1.393 ms</td>
+</tr><tr><td>GetContacts</td><td>50</td><td>EFCore 5.0.0</td><td>1.708 ms</td><td>0.0315 ms</td><td>0.0295 ms</td><td>1.710 ms</td>
+</tr><tr><td>GetContacts</td><td>100</td><td>EFCore 5.0.0</td><td>2.017 ms</td><td>0.0345 ms</td><td>0.0424 ms</td><td>2.015 ms</td>
+</tr><tr><td>GetContacts</td><td>250</td><td>EFCore 5.0.0</td><td>3.065 ms</td><td>0.0381 ms</td><td>0.0338 ms</td><td>3.054 ms</td>
+</tr><tr><td>GetContacts</td><td>500</td><td>EFCore 5.0.0</td><td>4.741 ms</td><td>0.0935 ms</td><td>0.1973 ms</td><td>4.717 ms</td>
+</tr><tr><td>GetContacts</td><td>1000</td><td>EFCore 5.0.0</td><td>8.098 ms</td><td>0.1454 ms</td><td>0.2307 ms</td><td>8.053 ms</td>
+</tr><tr><td>GetContacts</td><td>2500</td><td>EFCore 5.0.0</td><td>18.643 ms</td><td>0.2498 ms</td><td>0.2337 ms</td><td>18.673 ms</td>
+</tr><tr><td>GetContacts</td><td>5000</td><td>EFCore 5.0.0</td><td>19.457 ms</td><td>0.3092 ms</td><td>0.6915 ms</td><td>19.254 ms</td>
+</tr><tr><td>GetContacts</td><td>10</td><td>EFCore+Security5.0.0</td><td>12.734 ms</td><td>0.1040 ms</td><td>0.0973 ms</td><td>12.761 ms</td>
+</tr><tr><td>GetContacts</td><td>20</td><td>EFCore+Security5.0.0</td><td>17.683 ms</td><td>0.1346 ms</td><td>0.1259 ms</td><td>17.678 ms</td>
+</tr><tr><td>GetContacts</td><td>50</td><td>EFCore+Security5.0.0</td><td>26.966 ms</td><td>0.4772 ms</td><td>0.9640 ms</td><td>26.794 ms</td>
+</tr><tr><td>GetContacts</td><td>100</td><td>EFCore+Security5.0.0</td><td>44.743 ms</td><td>0.8656 ms</td><td>0.8097 ms</td><td>44.615 ms</td>
+</tr><tr><td>GetContacts</td><td>250</td><td>EFCore+Security5.0.0</td><td>101.844 ms</td><td>0.4467 ms</td><td>0.4179 ms</td><td>101.797 ms</td>
+</tr><tr><td>GetContacts</td><td>500</td><td>EFCore+Security5.0.0</td><td>196.163 ms</td><td>0.3518 ms</td><td>0.3291 ms</td><td>196.120 ms</td>
+</tr><tr><td>GetContacts</td><td>1000</td><td>EFCore+Security5.0.0</td><td>407.876 ms</td><td>3.3360 ms</td><td>3.1205 ms</td><td>406.742 ms</td>
+</tr><tr><td>GetContacts</td><td>2500</td><td>EFCore+Security5.0.0</td><td>1,139.486 ms</td><td>3.8188 ms</td><td>3.5721 ms</td><td>1,140.696 ms</td>
+</tr><tr><td>GetContacts</td><td>5000</td><td>EFCore+Security5.0.0</td><td>2,847.249 ms</td><td>6.1887 ms</td><td>5.4862 ms</td><td>2,847.469 ms</td>
+</tr><tr><td>GetContacts</td><td>10</td><td>XPO 20.2.5</td><td>2.781 ms</td><td>0.0553 ms</td><td>0.1437 ms</td><td>2.759 ms</td>
+</tr><tr><td>GetContacts</td><td>20</td><td>XPO 20.2.5</td><td>3.760 ms</td><td>0.0932 ms</td><td>0.2749 ms</td><td>3.750 ms</td>
+</tr><tr><td>GetContacts</td><td>50</td><td>XPO 20.2.5</td><td>5.051 ms</td><td>0.1220 ms</td><td>0.3597 ms</td><td>4.904 ms</td>
+</tr><tr><td>GetContacts</td><td>100</td><td>XPO 20.2.5</td><td>7.246 ms</td><td>0.1395 ms</td><td>0.3934 ms</td><td>7.117 ms</td>
+</tr><tr><td>GetContacts</td><td>250</td><td>XPO 20.2.5</td><td>15.311 ms</td><td>0.1345 ms</td><td>0.1050 ms</td><td>15.317 ms</td>
+</tr><tr><td>GetContacts</td><td>500</td><td>XPO 20.2.5</td><td>26.649 ms</td><td>0.5342 ms</td><td>1.5751 ms</td><td>25.981 ms</td>
+</tr><tr><td>GetContacts</td><td>1000</td><td>XPO 20.2.5</td><td>53.689 ms</td><td>0.6981 ms</td><td>0.6530 ms</td><td>53.650 ms</td>
+</tr><tr><td>GetContacts</td><td>2500</td><td>XPO 20.2.5</td><td>154.995 ms</td><td>1.9742 ms</td><td>1.8467 ms</td><td>155.227 ms</td>
+</tr><tr><td>GetContacts</td><td>5000</td><td>XPO 20.2.5</td><td>268.775 ms</td><td>2.6054 ms</td><td>2.4371 ms</td><td>268.799 ms</td>
+</tr><tr><td>GetContacts</td><td>10</td><td>XPO+Security 20.2.5</td><td>7.149 ms</td><td>0.1164 ms</td><td>0.1032 ms</td><td>7.183 ms</td>
+</tr><tr><td>GetContacts</td><td>20</td><td>XPO+Security 20.2.5</td><td>7.304 ms</td><td>0.1451 ms</td><td>0.3559 ms</td><td>7.148 ms</td>
+</tr><tr><td>GetContacts</td><td>50</td><td>XPO+Security 20.2.5</td><td>12.335 ms</td><td>0.1100 ms</td><td>0.1578 ms</td><td>12.317 ms</td>
+</tr><tr><td>GetContacts</td><td>100</td><td>XPO+Security 20.2.5</td><td>20.567 ms</td><td>0.2113 ms</td><td>0.1650 ms</td><td>20.562 ms</td>
+</tr><tr><td>GetContacts</td><td>250</td><td>XPO+Security 20.2.5</td><td>48.055 ms</td><td>0.5174 ms</td><td>0.4840 ms</td><td>48.007 ms</td>
+</tr><tr><td>GetContacts</td><td>500</td><td>XPO+Security 20.2.5</td><td>94.178 ms</td><td>0.3827 ms</td><td>0.3196 ms</td><td>94.115 ms</td>
+</tr><tr><td>GetContacts</td><td>1000</td><td>XPO+Security 20.2.5</td><td>188.849 ms</td><td>0.5866 ms</td><td>0.5200 ms</td><td>188.686 ms</td>
+</tr><tr><td>GetContacts</td><td>2500</td><td>XPO+Security 20.2.5</td><td>474.939 ms</td><td>4.5721 ms</td><td>4.2767 ms</td><td>475.590 ms</td>
+</tr><tr><td>GetContacts</td><td>5000</td><td>XPO+Security 20.2.5</td><td>967.130 ms</td><td>5.2821 ms</td><td>4.9409 ms</td><td>968.365 ms</td>
+</tr><tr><td>GetTasks</td><td>10</td><td>EFCore 5.0.0</td><td>1.581 ms</td><td>0.0317 ms</td><td>0.0934 ms</td><td>1.561 ms</td>
+</tr><tr><td>GetTasks</td><td>20</td><td>EFCore 5.0.0</td><td>1.865 ms</td><td>0.0283 ms</td><td>0.0265 ms</td><td>1.865 ms</td>
+</tr><tr><td>GetTasks</td><td>50</td><td>EFCore 5.0.0</td><td>2.449 ms</td><td>0.0462 ms</td><td>0.0386 ms</td><td>2.436 ms</td>
+</tr><tr><td>GetTasks</td><td>100</td><td>EFCore 5.0.0</td><td>3.284 ms</td><td>0.0644 ms</td><td>0.0716 ms</td><td>3.268 ms</td>
+</tr><tr><td>GetTasks</td><td>250</td><td>EFCore 5.0.0</td><td>19.132 ms</td><td>0.1968 ms</td><td>0.1841 ms</td><td>19.137 ms</td>
+</tr><tr><td>GetTasks</td><td>500</td><td>EFCore 5.0.0</td><td>22.137 ms</td><td>0.2116 ms</td><td>0.1979 ms</td><td>22.131 ms</td>
+</tr><tr><td>GetTasks</td><td>1000</td><td>EFCore 5.0.0</td><td>28.301 ms</td><td>0.2106 ms</td><td>0.1867 ms</td><td>28.265 ms</td>
+</tr><tr><td>GetTasks</td><td>2500</td><td>EFCore 5.0.0</td><td>47.406 ms</td><td>0.4392 ms</td><td>0.4109 ms</td><td>47.295 ms</td>
+</tr><tr><td>GetTasks</td><td>5000</td><td>EFCore 5.0.0</td><td>78.365 ms</td><td>0.8048 ms</td><td>0.7528 ms</td><td>78.234 ms</td>
+</tr><tr><td>GetTasks</td><td>10</td><td>EFCore+Security5.0.0</td><td>26.763 ms</td><td>0.5098 ms</td><td>0.4769 ms</td><td>26.697 ms</td>
+</tr><tr><td>GetTasks</td><td>20</td><td>EFCore+Security5.0.0</td><td>37.863 ms</td><td>0.7464 ms</td><td>1.5246 ms</td><td>37.429 ms</td>
+</tr><tr><td>GetTasks</td><td>50</td><td>EFCore+Security5.0.0</td><td>75.082 ms</td><td>0.4428 ms</td><td>0.3698 ms</td><td>75.003 ms</td>
+</tr><tr><td>GetTasks</td><td>100</td><td>EFCore+Security5.0.0</td><td>134.820 ms</td><td>0.6038 ms</td><td>0.5352 ms</td><td>134.943 ms</td>
+</tr><tr><td>GetTasks</td><td>250</td><td>EFCore+Security5.0.0</td><td>325.692 ms</td><td>1.0844 ms</td><td>0.8466 ms</td><td>325.931 ms</td>
+</tr><tr><td>GetTasks</td><td>500</td><td>EFCore+Security5.0.0</td><td>634.178 ms</td><td>1.8961 ms</td><td>1.6809 ms</td><td>634.388 ms</td>
+</tr><tr><td>GetTasks</td><td>1000</td><td>EFCore+Security5.0.0</td><td>1,253.319 ms</td><td>3.8308 ms</td><td>3.5833 ms</td><td>1,251.638 ms</td>
+</tr><tr><td>GetTasks</td><td>2500</td><td>EFCore+Security5.0.0</td><td>3,105.556 ms</td><td>6.7522 ms</td><td>5.9856 ms</td><td>3,103.479 ms</td>
+</tr><tr><td>GetTasks</td><td>5000</td><td>EFCore+Security5.0.0</td><td>6,198.760 ms</td><td>5.2770 ms</td><td>4.9361 ms</td><td>6,198.716 ms</td>
+</tr><tr><td>GetTasks</td><td>10</td><td>XPO 20.2.5</td><td>4.184 ms</td><td>0.0938 ms</td><td>0.2735 ms</td><td>4.160 ms</td>
+</tr><tr><td>GetTasks</td><td>20</td><td>XPO 20.2.5</td><td>6.792 ms</td><td>0.1335 ms</td><td>0.1311 ms</td><td>6.790 ms</td>
+</tr><tr><td>GetTasks</td><td>50</td><td>XPO 20.2.5</td><td>12.080 ms</td><td>0.1934 ms</td><td>0.1615 ms</td><td>12.104 ms</td>
+</tr><tr><td>GetTasks</td><td>100</td><td>XPO 20.2.5</td><td>21.896 ms</td><td>0.4320 ms</td><td>0.7098 ms</td><td>21.962 ms</td>
+</tr><tr><td>GetTasks</td><td>250</td><td>XPO 20.2.5</td><td>44.621 ms</td><td>0.8726 ms</td><td>0.8162 ms</td><td>44.471 ms</td>
+</tr><tr><td>GetTasks</td><td>500</td><td>XPO 20.2.5</td><td>79.334 ms</td><td>1.1109 ms</td><td>1.0391 ms</td><td>79.165 ms</td>
+</tr><tr><td>GetTasks</td><td>1000</td><td>XPO 20.2.5</td><td>153.552 ms</td><td>2.9924 ms</td><td>3.8909 ms</td><td>151.268 ms</td>
+</tr><tr><td>GetTasks</td><td>2500</td><td>XPO 20.2.5</td><td>304.600 ms</td><td>1.2659 ms</td><td>1.1221 ms</td><td>304.544 ms</td>
+</tr><tr><td>GetTasks</td><td>5000</td><td>XPO 20.2.5</td><td>558.145 ms</td><td>1.1374 ms</td><td>1.0083 ms</td><td>558.086 ms</td>
+</tr><tr><td>GetTasks</td><td>10</td><td>XPO+Security 20.2.5</td><td>38.900 ms</td><td>0.3062 ms</td><td>0.2715 ms</td><td>38.827 ms</td>
+</tr><tr><td>GetTasks</td><td>20</td><td>XPO+Security 20.2.5</td><td>88.789 ms</td><td>0.7735 ms</td><td>0.7235 ms</td><td>88.897 ms</td>
+</tr><tr><td>GetTasks</td><td>50</td><td>XPO+Security 20.2.5</td><td>202.839 ms</td><td>2.1036 ms</td><td>1.9677 ms</td><td>203.459 ms</td>
+</tr><tr><td>GetTasks</td><td>100</td><td>XPO+Security 20.2.5</td><td>416.492 ms</td><td>1.7631 ms</td><td>1.5629 ms</td><td>416.204 ms</td>
+</tr><tr><td>GetTasks</td><td>250</td><td>XPO+Security 20.2.5</td><td>1,069.608 ms</td><td>7.0982 ms</td><td>6.6397 ms</td><td>1,068.892 ms</td>
+</tr><tr><td>GetTasks</td><td>500</td><td>XPO+Security 20.2.5</td><td>2,084.031 ms</td><td>6.5958 ms</td><td>6.1697 ms</td><td>2,084.276 ms</td>
+</tr><tr><td>GetTasks</td><td>1000</td><td>XPO+Security 20.2.5</td><td>4,192.824 ms</td><td>11.9122 ms</td><td>10.5599 ms</td><td>4,193.358 ms</td>
+</tr><tr><td>GetTasks</td><td>2500</td><td>XPO+Security 20.2.5</td><td>10,222.239 ms</td><td>52.3252 ms</td><td>46.3849 ms</td><td>10,205.081 ms</td>
+</tr><tr><td>GetTasks</td><td>5000</td><td>XPO+Security 20.2.5</td><td>20,674.707 ms</td><td>175.0382 ms</td><td>163.7309 ms</td><td>20,588.573 ms</td>
+</tr><tr><td>InsertContact</td><td>10</td><td>EFCore 5.0.0</td><td>37.689 ms</td><td>0.2679 ms</td><td>0.2237 ms</td><td>37.746 ms</td>
+</tr><tr><td>InsertContact</td><td>20</td><td>EFCore 5.0.0</td><td>48.919 ms</td><td>0.3682 ms</td><td>0.3074 ms</td><td>48.839 ms</td>
+</tr><tr><td>InsertContact</td><td>50</td><td>EFCore 5.0.0</td><td>111.202 ms</td><td>1.8318 ms</td><td>1.7134 ms</td><td>110.659 ms</td>
+</tr><tr><td>InsertContact</td><td>100</td><td>EFCore 5.0.0</td><td>191.713 ms</td><td>2.2066 ms</td><td>2.0640 ms</td><td>192.052 ms</td>
+</tr><tr><td>InsertContact</td><td>250</td><td>EFCore 5.0.0</td><td>323.199 ms</td><td>2.5707 ms</td><td>2.4046 ms</td><td>322.728 ms</td>
+</tr><tr><td>InsertContact</td><td>500</td><td>EFCore 5.0.0</td><td>519.324 ms</td><td>4.0656 ms</td><td>3.8030 ms</td><td>520.393 ms</td>
+</tr><tr><td>InsertContact</td><td>1000</td><td>EFCore 5.0.0</td><td>934.478 ms</td><td>10.2259 ms</td><td>9.5653 ms</td><td>940.046 ms</td>
+</tr><tr><td>InsertContact</td><td>2500</td><td>EFCore 5.0.0</td><td>2,251.004 ms</td><td>9.7588 ms</td><td>9.1284 ms</td><td>2,251.772 ms</td>
+</tr><tr><td>InsertContact</td><td>5000</td><td>EFCore 5.0.0</td><td>4,434.771 ms</td><td>25.8231 ms</td><td>21.5634 ms</td><td>4,434.932 ms</td>
+</tr><tr><td>InsertContact</td><td>10</td><td>EFCore+Security5.0.0</td><td>49.538 ms</td><td>0.7447 ms</td><td>0.6966 ms</td><td>49.625 ms</td>
+</tr><tr><td>InsertContact</td><td>20</td><td>EFCore+Security5.0.0</td><td>63.285 ms</td><td>1.2374 ms</td><td>1.5650 ms</td><td>62.654 ms</td>
+</tr><tr><td>InsertContact</td><td>50</td><td>EFCore+Security5.0.0</td><td>130.787 ms</td><td>2.4338 ms</td><td>2.2766 ms</td><td>131.173 ms</td>
+</tr><tr><td>InsertContact</td><td>100</td><td>EFCore+Security5.0.0</td><td>219.141 ms</td><td>1.8946 ms</td><td>1.6795 ms</td><td>218.968 ms</td>
+</tr><tr><td>InsertContact</td><td>250</td><td>EFCore+Security5.0.0</td><td>377.414 ms</td><td>1.3308 ms</td><td>1.2448 ms</td><td>377.435 ms</td>
+</tr><tr><td>InsertContact</td><td>500</td><td>EFCore+Security5.0.0</td><td>612.042 ms</td><td>3.1113 ms</td><td>2.9103 ms</td><td>611.100 ms</td>
+</tr><tr><td>InsertContact</td><td>1000</td><td>EFCore+Security5.0.0</td><td>1,101.866 ms</td><td>6.5962 ms</td><td>6.1701 ms</td><td>1,100.915 ms</td>
+</tr><tr><td>InsertContact</td><td>2500</td><td>EFCore+Security5.0.0</td><td>2,706.443 ms</td><td>9.3191 ms</td><td>8.2611 ms</td><td>2,706.446 ms</td>
+</tr><tr><td>InsertContact</td><td>5000</td><td>EFCore+Security5.0.0</td><td>5,261.035 ms</td><td>22.6462 ms</td><td>18.9106 ms</td><td>5,258.341 ms</td>
+</tr><tr><td>InsertContact</td><td>10</td><td>XPO 20.2.5</td><td>9.610 ms</td><td>0.1902 ms</td><td>0.5142 ms</td><td>9.407 ms</td>
+</tr><tr><td>InsertContact</td><td>20</td><td>XPO 20.2.5</td><td>16.315 ms</td><td>0.3101 ms</td><td>0.6740 ms</td><td>16.146 ms</td>
+</tr><tr><td>InsertContact</td><td>50</td><td>XPO 20.2.5</td><td>40.767 ms</td><td>1.0831 ms</td><td>3.1936 ms</td><td>39.998 ms</td>
+</tr><tr><td>InsertContact</td><td>100</td><td>XPO 20.2.5</td><td>76.946 ms</td><td>1.5213 ms</td><td>1.4230 ms</td><td>76.544 ms</td>
+</tr><tr><td>InsertContact</td><td>250</td><td>XPO 20.2.5</td><td>188.958 ms</td><td>2.0227 ms</td><td>1.8920 ms</td><td>188.106 ms</td>
+</tr><tr><td>InsertContact</td><td>500</td><td>XPO 20.2.5</td><td>375.124 ms</td><td>7.2184 ms</td><td>7.4128 ms</td><td>372.255 ms</td>
+</tr><tr><td>InsertContact</td><td>1000</td><td>XPO 20.2.5</td><td>762.798 ms</td><td>3.7821 ms</td><td>3.5377 ms</td><td>761.090 ms</td>
+</tr><tr><td>InsertContact</td><td>2500</td><td>XPO 20.2.5</td><td>2,015.533 ms</td><td>12.0223 ms</td><td>10.6574 ms</td><td>2,013.454 ms</td>
+</tr><tr><td>InsertContact</td><td>5000</td><td>XPO 20.2.5</td><td>4,336.850 ms</td><td>33.7860 ms</td><td>31.6035 ms</td><td>4,338.368 ms</td>
+</tr><tr><td>InsertContact</td><td>10</td><td>XPO+Security 20.2.5</td><td>17.945 ms</td><td>0.7682 ms</td><td>2.2650 ms</td><td>18.197 ms</td>
+</tr><tr><td>InsertContact</td><td>20</td><td>XPO+Security 20.2.5</td><td>30.597 ms</td><td>1.0538 ms</td><td>3.1071 ms</td><td>30.735 ms</td>
+</tr><tr><td>InsertContact</td><td>50</td><td>XPO+Security 20.2.5</td><td>62.213 ms</td><td>1.2401 ms</td><td>2.3293 ms</td><td>61.918 ms</td>
+</tr><tr><td>InsertContact</td><td>100</td><td>XPO+Security 20.2.5</td><td>115.297 ms</td><td>2.1233 ms</td><td>2.5276 ms</td><td>115.071 ms</td>
+</tr><tr><td>InsertContact</td><td>250</td><td>XPO+Security 20.2.5</td><td>283.511 ms</td><td>1.8612 ms</td><td>1.5542 ms</td><td>283.665 ms</td>
+</tr><tr><td>InsertContact</td><td>500</td><td>XPO+Security 20.2.5</td><td>558.222 ms</td><td>5.6017 ms</td><td>5.2398 ms</td><td>555.190 ms</td>
+</tr><tr><td>InsertContact</td><td>1000</td><td>XPO+Security 20.2.5</td><td>1,143.385 ms</td><td>8.4557 ms</td><td>7.9095 ms</td><td>1,143.589 ms</td>
+</tr><tr><td>InsertContact</td><td>2500</td><td>XPO+Security 20.2.5</td><td>3,217.575 ms</td><td>38.9534 ms</td><td>36.4371 ms</td><td>3,211.357 ms</td>
+</tr><tr><td>InsertContact</td><td>5000</td><td>XPO+Security 20.2.5</td><td>6,529.839 ms</td><td>58.6152 ms</td><td>51.9608 ms</td><td>6,530.911 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>10</td><td>EFCore 5.0.0</td><td>16.224 ms</td><td>0.3190 ms</td><td>0.3133 ms</td><td>16.316 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>20</td><td>EFCore 5.0.0</td><td>21.386 ms</td><td>0.3499 ms</td><td>0.3273 ms</td><td>21.245 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>50</td><td>EFCore 5.0.0</td><td>49.791 ms</td><td>0.4863 ms</td><td>0.3797 ms</td><td>49.866 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>100</td><td>EFCore 5.0.0</td><td>67.251 ms</td><td>1.3347 ms</td><td>1.8269 ms</td><td>66.439 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>250</td><td>EFCore 5.0.0</td><td>122.076 ms</td><td>0.9954 ms</td><td>0.9311 ms</td><td>122.145 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>500</td><td>EFCore 5.0.0</td><td>191.099 ms</td><td>2.3393 ms</td><td>2.1882 ms</td><td>191.660 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>1000</td><td>EFCore 5.0.0</td><td>333.375 ms</td><td>3.4382 ms</td><td>3.2161 ms</td><td>333.570 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>2500</td><td>EFCore 5.0.0</td><td>776.824 ms</td><td>10.8598 ms</td><td>10.1583 ms</td><td>775.723 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>5000</td><td>EFCore 5.0.0</td><td>1,514.629 ms</td><td>4.9029 ms</td><td>4.5862 ms</td><td>1,514.100 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>10</td><td>EFCore+Security5.0.0</td><td>21.824 ms</td><td>0.4334 ms</td><td>0.7120 ms</td><td>22.194 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>20</td><td>EFCore+Security5.0.0</td><td>28.582 ms</td><td>0.5497 ms</td><td>0.5645 ms</td><td>28.774 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>50</td><td>EFCore+Security5.0.0</td><td>59.096 ms</td><td>0.4521 ms</td><td>0.3530 ms</td><td>59.135 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>100</td><td>EFCore+Security5.0.0</td><td>82.284 ms</td><td>1.6037 ms</td><td>2.2482 ms</td><td>81.504 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>250</td><td>EFCore+Security5.0.0</td><td>148.043 ms</td><td>0.7452 ms</td><td>0.6606 ms</td><td>148.113 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>500</td><td>EFCore+Security5.0.0</td><td>235.686 ms</td><td>1.9234 ms</td><td>1.7051 ms</td><td>235.096 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>1000</td><td>EFCore+Security5.0.0</td><td>413.528 ms</td><td>1.8943 ms</td><td>1.7719 ms</td><td>414.249 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>2500</td><td>EFCore+Security5.0.0</td><td>949.982 ms</td><td>7.2859 ms</td><td>6.8152 ms</td><td>949.438 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>5000</td><td>EFCore+Security5.0.0</td><td>1,864.973 ms</td><td>7.5602 ms</td><td>6.7019 ms</td><td>1,862.080 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>10</td><td>XPO 20.2.5</td><td>6.256 ms</td><td>0.1236 ms</td><td>0.2890 ms</td><td>6.215 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>20</td><td>XPO 20.2.5</td><td>10.476 ms</td><td>0.3202 ms</td><td>0.9136 ms</td><td>10.199 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>50</td><td>XPO 20.2.5</td><td>23.785 ms</td><td>0.4737 ms</td><td>1.2227 ms</td><td>23.794 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>100</td><td>XPO 20.2.5</td><td>44.266 ms</td><td>0.8816 ms</td><td>1.9719 ms</td><td>44.063 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>250</td><td>XPO 20.2.5</td><td>104.173 ms</td><td>1.5000 ms</td><td>1.3297 ms</td><td>104.166 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>500</td><td>XPO 20.2.5</td><td>207.360 ms</td><td>2.4859 ms</td><td>2.0758 ms</td><td>206.602 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>1000</td><td>XPO 20.2.5</td><td>410.068 ms</td><td>7.6594 ms</td><td>7.1646 ms</td><td>406.967 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>2500</td><td>XPO 20.2.5</td><td>1,027.423 ms</td><td>8.3691 ms</td><td>7.4190 ms</td><td>1,026.597 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>5000</td><td>XPO 20.2.5</td><td>2,102.060 ms</td><td>8.1247 ms</td><td>7.2023 ms</td><td>2,101.403 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>10</td><td>XPO+Security 20.2.5</td><td>8.557 ms</td><td>0.1946 ms</td><td>0.5519 ms</td><td>8.377 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>20</td><td>XPO+Security 20.2.5</td><td>12.832 ms</td><td>0.2428 ms</td><td>0.6480 ms</td><td>12.628 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>50</td><td>XPO+Security 20.2.5</td><td>28.845 ms</td><td>0.5762 ms</td><td>1.3806 ms</td><td>28.451 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>100</td><td>XPO+Security 20.2.5</td><td>50.461 ms</td><td>0.9805 ms</td><td>1.0491 ms</td><td>50.215 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>250</td><td>XPO+Security 20.2.5</td><td>123.448 ms</td><td>2.2850 ms</td><td>2.0256 ms</td><td>123.987 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>500</td><td>XPO+Security 20.2.5</td><td>242.628 ms</td><td>2.0732 ms</td><td>1.9393 ms</td><td>242.280 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>1000</td><td>XPO+Security 20.2.5</td><td>475.639 ms</td><td>3.0295 ms</td><td>2.8338 ms</td><td>475.563 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>2500</td><td>XPO+Security 20.2.5</td><td>1,216.567 ms</td><td>10.5440 ms</td><td>9.8629 ms</td><td>1,214.292 ms</td>
+</tr><tr><td>InsertEmptyContact</td><td>5000</td><td>XPO+Security 20.2.5</td><td>2,503.027 ms</td><td>28.3400 ms</td><td>25.1227 ms</td><td>2,501.250 ms</td>
+</tr><tr><td>UpdateContacts</td><td>10</td><td>EFCore 5.0.0</td><td>2.810 ms</td><td>0.0842 ms</td><td>0.2468 ms</td><td>2.801 ms</td>
+</tr><tr><td>UpdateContacts</td><td>20</td><td>EFCore 5.0.0</td><td>3.857 ms</td><td>0.1149 ms</td><td>0.3389 ms</td><td>3.702 ms</td>
+</tr><tr><td>UpdateContacts</td><td>50</td><td>EFCore 5.0.0</td><td>6.304 ms</td><td>0.1915 ms</td><td>0.5241 ms</td><td>6.471 ms</td>
+</tr><tr><td>UpdateContacts</td><td>100</td><td>EFCore 5.0.0</td><td>10.674 ms</td><td>0.5507 ms</td><td>1.6150 ms</td><td>10.505 ms</td>
+</tr><tr><td>UpdateContacts</td><td>250</td><td>EFCore 5.0.0</td><td>22.372 ms</td><td>0.6771 ms</td><td>1.9858 ms</td><td>22.271 ms</td>
+</tr><tr><td>UpdateContacts</td><td>500</td><td>EFCore 5.0.0</td><td>41.286 ms</td><td>0.3394 ms</td><td>0.2834 ms</td><td>41.297 ms</td>
+</tr><tr><td>UpdateContacts</td><td>1000</td><td>EFCore 5.0.0</td><td>83.497 ms</td><td>1.4918 ms</td><td>1.3954 ms</td><td>82.867 ms</td>
+</tr><tr><td>UpdateContacts</td><td>2500</td><td>EFCore 5.0.0</td><td>211.406 ms</td><td>2.4095 ms</td><td>2.0120 ms</td><td>211.277 ms</td>
+</tr><tr><td>UpdateContacts</td><td>5000</td><td>EFCore 5.0.0</td><td>465.541 ms</td><td>7.9612 ms</td><td>7.4469 ms</td><td>466.408 ms</td>
+</tr><tr><td>UpdateContacts</td><td>10</td><td>EFCore+Security5.0.0</td><td>15.952 ms</td><td>0.2740 ms</td><td>0.2563 ms</td><td>15.939 ms</td>
+</tr><tr><td>UpdateContacts</td><td>20</td><td>EFCore+Security5.0.0</td><td>23.704 ms</td><td>0.3459 ms</td><td>0.3235 ms</td><td>23.687 ms</td>
+</tr><tr><td>UpdateContacts</td><td>50</td><td>EFCore+Security5.0.0</td><td>35.559 ms</td><td>0.3953 ms</td><td>0.6818 ms</td><td>35.413 ms</td>
+</tr><tr><td>UpdateContacts</td><td>100</td><td>EFCore+Security5.0.0</td><td>62.368 ms</td><td>0.4284 ms</td><td>0.3798 ms</td><td>62.354 ms</td>
+</tr><tr><td>UpdateContacts</td><td>250</td><td>EFCore+Security5.0.0</td><td>139.360 ms</td><td>0.5316 ms</td><td>0.4973 ms</td><td>139.451 ms</td>
+</tr><tr><td>UpdateContacts</td><td>500</td><td>EFCore+Security5.0.0</td><td>273.831 ms</td><td>2.9285 ms</td><td>2.7393 ms</td><td>273.433 ms</td>
+</tr><tr><td>UpdateContacts</td><td>1000</td><td>EFCore+Security5.0.0</td><td>559.966 ms</td><td>4.5557 ms</td><td>4.2614 ms</td><td>559.522 ms</td>
+</tr><tr><td>UpdateContacts</td><td>2500</td><td>EFCore+Security5.0.0</td><td>1,539.082 ms</td><td>3.2382 ms</td><td>3.0290 ms</td><td>1,538.761 ms</td>
+</tr><tr><td>UpdateContacts</td><td>5000</td><td>EFCore+Security5.0.0</td><td>3,636.916 ms</td><td>9.1964 ms</td><td>7.6794 ms</td><td>3,637.213 ms</td>
+</tr><tr><td>UpdateContacts</td><td>10</td><td>XPO 20.2.5</td><td>5.582 ms</td><td>0.1501 ms</td><td>0.4305 ms</td><td>5.596 ms</td>
+</tr><tr><td>UpdateContacts</td><td>20</td><td>XPO 20.2.5</td><td>8.366 ms</td><td>0.2452 ms</td><td>0.7114 ms</td><td>8.145 ms</td>
+</tr><tr><td>UpdateContacts</td><td>50</td><td>XPO 20.2.5</td><td>15.322 ms</td><td>0.2815 ms</td><td>0.6411 ms</td><td>15.099 ms</td>
+</tr><tr><td>UpdateContacts</td><td>100</td><td>XPO 20.2.5</td><td>27.150 ms</td><td>0.5383 ms</td><td>1.4825 ms</td><td>26.639 ms</td>
+</tr><tr><td>UpdateContacts</td><td>250</td><td>XPO 20.2.5</td><td>64.693 ms</td><td>1.2876 ms</td><td>2.3545 ms</td><td>63.611 ms</td>
+</tr><tr><td>UpdateContacts</td><td>500</td><td>XPO 20.2.5</td><td>131.991 ms</td><td>2.3638 ms</td><td>3.3138 ms</td><td>132.461 ms</td>
+</tr><tr><td>UpdateContacts</td><td>1000</td><td>XPO 20.2.5</td><td>246.728 ms</td><td>2.8060 ms</td><td>2.1907 ms</td><td>246.711 ms</td>
+</tr><tr><td>UpdateContacts</td><td>2500</td><td>XPO 20.2.5</td><td>647.841 ms</td><td>12.7980 ms</td><td>23.4019 ms</td><td>647.425 ms</td>
+</tr><tr><td>UpdateContacts</td><td>5000</td><td>XPO 20.2.5</td><td>1,267.308 ms</td><td>7.1526 ms</td><td>5.9727 ms</td><td>1,268.909 ms</td>
+</tr><tr><td>UpdateContacts</td><td>10</td><td>XPO+Security 20.2.5</td><td>10.709 ms</td><td>0.1556 ms</td><td>0.3698 ms</td><td>10.612 ms</td>
+</tr><tr><td>UpdateContacts</td><td>20</td><td>XPO+Security 20.2.5</td><td>16.588 ms</td><td>0.3277 ms</td><td>0.7851 ms</td><td>16.336 ms</td>
+</tr><tr><td>UpdateContacts</td><td>50</td><td>XPO+Security 20.2.5</td><td>35.404 ms</td><td>0.6334 ms</td><td>1.4167 ms</td><td>35.085 ms</td>
+</tr><tr><td>UpdateContacts</td><td>100</td><td>XPO+Security 20.2.5</td><td>60.569 ms</td><td>1.1959 ms</td><td>1.5125 ms</td><td>61.223 ms</td>
+</tr><tr><td>UpdateContacts</td><td>250</td><td>XPO+Security 20.2.5</td><td>140.151 ms</td><td>1.6140 ms</td><td>1.4307 ms</td><td>139.929 ms</td>
+</tr><tr><td>UpdateContacts</td><td>500</td><td>XPO+Security 20.2.5</td><td>285.815 ms</td><td>3.4659 ms</td><td>2.8942 ms</td><td>285.891 ms</td>
+</tr><tr><td>UpdateContacts</td><td>1000</td><td>XPO+Security 20.2.5</td><td>601.347 ms</td><td>3.6213 ms</td><td>2.8273 ms</td><td>601.644 ms</td>
+</tr><tr><td>UpdateContacts</td><td>2500</td><td>XPO+Security 20.2.5</td><td>1,603.247 ms</td><td>51.9852 ms</td><td>153.2795 ms</td><td>1,610.661 ms</td>
+</tr><tr><td>UpdateContacts</td><td>5000</td><td>XPO+Security 20.2.5</td><td>3,158.913 ms</td><td>12.1084 ms</td><td>11.3262 ms</td><td>3,158.280 ms</td>
+</tr></tbody></table>
+</body>
+</html>
