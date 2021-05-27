@@ -7,7 +7,7 @@ using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using XafSolution.Module.BusinessObjects;
-#if NETCOREAPP3_1
+#if NET5_0
 using System.Text.Json;
 #endif
 
@@ -37,7 +37,7 @@ namespace ASPNETCoreODataService.Controllers {
             return NotFound(); 
 		}
 		[HttpPatch]
-#if NETCOREAPP3_1
+#if NET5_0
 		public ActionResult Patch(Guid key, [FromBody]JsonElement jElement) {
 			JObject jObject = JObject.Parse(jElement.ToString());
 #else
@@ -51,7 +51,7 @@ namespace ASPNETCoreODataService.Controllers {
 			return NotFound();
 		}
 		[HttpPost]
-#if NETCOREAPP3_1
+#if NET5_0
 		public ActionResult Post([FromBody]JsonElement jElement) {
 			JObject jObject = JObject.Parse(jElement.ToString());
 #else

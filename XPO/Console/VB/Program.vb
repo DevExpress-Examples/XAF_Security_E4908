@@ -2,7 +2,6 @@
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.ExpressApp.Security.ClientServer
 Imports DevExpress.ExpressApp.Xpo
-Imports DevExpress.Persistent.Base
 Imports DevExpress.Persistent.BaseImpl.PermissionPolicy
 Imports System
 Imports System.Configuration

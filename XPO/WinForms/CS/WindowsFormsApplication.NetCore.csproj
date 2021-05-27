@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
 	<OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
 	<UseWindowsForms>true</UseWindowsForms>
 	<AssemblyName>WindowsFormsApplication</AssemblyName>
 	<RootNamespace>WindowsFormsApplication</RootNamespace>
@@ -19,9 +19,9 @@
     <EmbeddedResource Remove="MainForm.resx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="[21.1.0-pre, 21.2)" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="[21.1.0-pre, 21.2)" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="[21.1.0-pre, 21.2)" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="21.1.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XafSolution\XafSolution.Module\XafSolution.Module.NetCore.csproj" />

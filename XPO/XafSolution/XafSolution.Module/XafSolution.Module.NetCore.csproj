@@ -1,8 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
-    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <RootNamespace>XafSolution.Module.NetCore</RootNamespace>
     <AssemblyName>XafSolution.Module.NetCore</AssemblyName>
     <Deterministic>false</Deterministic>
@@ -14,15 +12,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin_NetCore</OutputPath>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Security.Xpo" Version="[21.1.0-pre, 21.2)" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Validation" Version="[21.1.0-pre, 21.2)" />
-    <PackageReference Include="DevExpress.WindowsDesktop.XAF.Persistent.BaseImpl" Version="[21.1.0-pre, 21.2)" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="[21.1.0-pre, 21.2)" />
-    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="[21.1.0-pre, 21.2)" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="[21.1.0-pre, 21.2)" />
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="21.1.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.3" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Properties\AssemblyInfo.cs" />

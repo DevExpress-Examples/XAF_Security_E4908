@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-#if NETCOREAPP3_1
+#if NET5_0
 using Microsoft.Extensions.Hosting;
 #else
 using Microsoft.AspNetCore.Mvc; 
@@ -23,7 +23,7 @@ namespace ASPNETCoreODataService {
 		}
 		public void ConfigureServices(IServiceCollection services) {
 			services.AddOData();
-#if NETCOREAPP3_1
+#if NET5_0
 			services.AddControllers(mvcOptions => {
 				mvcOptions.EnableEndpointRouting = false;
 			});
@@ -40,7 +40,7 @@ namespace ASPNETCoreODataService {
 			services.AddScoped<SecurityProvider>();
 		}
 
-#if NETCOREAPP3_1
+#if NET5_0
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 #else
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env) { 
