@@ -687,13 +687,12 @@ Change the _ViewModels\ItemDetailViewModel.cs_ and _ViewModels\ItemDetailPage.xa
 
 ## Step 8. Populate the Data Base
 
-To seed the data in the database, add the `UpdateDataBase` method and call this method from the `InitXpo` method: 
+To seed the data in the database, add the `UpdateDataBase` method and call this method from the `XpoHelper` static constructor: 
 
 ```csharp
-public static void InitXpo(string connectionString, string login, string password) {
+static XpoHelper() {
     //..
     UpdateDataBase();
-    LogIn(login, password);
     //..
 }
 static void UpdateDataBase() {
