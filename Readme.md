@@ -27,9 +27,9 @@ We detailed the main integration steps for any .NET Core application in [this vi
 Other CRUD UI apps with EF Core, Blazor WebAssembly with XPO. To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using this **[short survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx)**.
 
 ## Prerequisites
-- [Visual Studio 2017 or 2019 v16.4+ (for .NET Core 3.1 examples)](https://visualstudio.microsoft.com/vs/) with the following workloads:
+- [Visual Studio 2019 v16.8+](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - *.NET desktop development*  |  *ASP.NET and web development*  |  *.NET Core cross-platform development*
-- [Download and run two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/)
+- [Download and run unified component installer](https://www.devexpress.com/Products/Try/)
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 - Before you run any demo apps, run (F5) the *XafSolution.Win* or *XafSolution.Win.NetCore* app depending on your target framework and log in under 'User' or 'Admin' with an empty password.
   - *This [Database Generation and Permision Management App](./XPO/XafSolution/) will create initial users, roles, permissions and other data in the database.*
