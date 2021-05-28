@@ -29,7 +29,7 @@ Other CRUD UI apps with EF Core, Blazor WebAssembly with XPO. To help us priorit
 ## Prerequisites
 - [Visual Studio 2019 v16.8+](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - *.NET desktop development*  |  *ASP.NET and web development*  |  *.NET Core cross-platform development*
-- [Download and run unified component installer](https://www.devexpress.com/Products/Try/)
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/)
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 - Before you run any demo apps, run (F5) the *XafSolution.Win* or *XafSolution.Win.NetCore* app depending on your target framework and log in under 'User' or 'Admin' with an empty password.
   - *This [Database Generation and Permision Management App](./XPO/XafSolution/) will create initial users, roles, permissions and other data in the database.*
