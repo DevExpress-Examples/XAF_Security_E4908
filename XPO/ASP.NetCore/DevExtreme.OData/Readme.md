@@ -5,10 +5,10 @@ This example demonstrates how to protect your data with the [XAF Security System
 
 ## Prerequisites
 
-- [Visual Studio 2017 or 2019 v16.4+ (for .NET Core 3.1 examples)](https://visualstudio.microsoft.com/vs/) with the following workloads:
+- [Visual Studio 2019 v16.8+](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - **ASP.NET and web development**
   - **.NET Core cross-platform development**
-- [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/)
+- [Unified component installer](https://www.devexpress.com/Products/Try/)
   - We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
 - Build the following solutions or projects depending on your target framework:
   - .NET Framework: *NonXAFSecurityExamples.sln* or *ODataService/XafSolution.Win*.
@@ -20,13 +20,13 @@ This example demonstrates how to protect your data with the [XAF Security System
 
 > In the code snippets below, you will see constructions like:
 > ``` csharp
-> #if NETCOREAPP3_1
+> #if NET5_0
 >			// ...
 > #else
 >			// ...
 > #endif
 > ```
-> They mean that particular code lines will be compiled if the `NETCOREAPP3_1` preprocessor directive is defined. It's defined for .NET Core. The lines after the `#if` statement will be used only for .NET Core. The lines after the `#else` statement will be used for .NET Framework. If your code targets only one of these target frameworks, you can omit these constructions and use only lines relevant for your target framework.
+> They mean that particular code lines will be compiled if the `NET5_0` preprocessor directive is defined. It's defined for .NET Core. The lines after the `#if` statement will be used only for .NET Core. The lines after the `#else` statement will be used for .NET Framework. If your code targets only one of these target frameworks, you can omit these constructions and use only lines relevant for your target framework.
 
 
 ## Step 1: Configure the ASP.NET Core Server App
@@ -36,7 +36,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	``` csharp
   		public void ConfigureServices(IServiceCollection services) {
   			services.AddOData();
-  #if NETCOREAPP3_1
+  #if NET5_0
   			services.AddControllers(mvcOptions => {
   				mvcOptions.EnableEndpointRouting = false;
   			});
@@ -46,7 +46,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
   			}).SetCompatibilityVersion(CompatibilityVersion.Latest);
   #endif
   		}
-  #if NETCOREAPP3_1
+  #if NET5_0
   		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
   #else
   		public void Configure(IApplicationBuilder app, IHostingEnvironment env) { 
@@ -142,7 +142,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	    	services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 	    	  .AddCookie(); // !!!
 	    }
-  #if NETCOREAPP3_1
+  #if NET5_0
   		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
   #else
   		public void Configure(IApplicationBuilder app, IHostingEnvironment env) { 
@@ -356,7 +356,7 @@ A user is identified by the user name and password parameters.
 
 	``` csharp
   		[HttpPatch]
-  #if NETCOREAPP3_1
+  #if NET5_0
   		public ActionResult Patch(Guid key, [FromBody]JsonElement jElement) {
   			JObject jObject = JObject.Parse(jElement.ToString());
   #else
@@ -375,7 +375,7 @@ A user is identified by the user name and password parameters.
 
 	``` csharp
   		[HttpPost]
-  #if NETCOREAPP3_1
+  #if NET5_0
   		public ActionResult Post([FromBody]JsonElement jElement) {
   			JObject jObject = JObject.Parse(jElement.ToString());
   #else

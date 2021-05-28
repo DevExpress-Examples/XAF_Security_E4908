@@ -5,8 +5,8 @@ This example demonstrates how to access data protected by the [Security System](
 For simplicity, the instructions include only C# code snippets. For the complete C# and VB code, see the [CS](CS) and [VB](VB) sub-directories.
 
 ### Prerequisites
-- [.NET Core SDK 3.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/).
+- [.NET Core SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
+- [Unified component installer](https://www.devexpress.com/Products/Try/).
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
 - Build the following solutions or projects depending on your target framework:
   - .NET Framework: *NonXAFSecurityExamples.sln* or *WindowsFormsApplication/XafSolution.Win*.

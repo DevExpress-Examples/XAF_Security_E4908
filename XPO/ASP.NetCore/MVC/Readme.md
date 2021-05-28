@@ -1,11 +1,11 @@
 This example demonstrates how to protect your data with the [XAF Security System](https://docs.devexpress.com/eXpressAppFramework/113366/Concepts/Security-System/Security-System-Overview) in the ASP.NET Core MVC web application with the DevExtreme UI.
  
 ## Prerequisites
-- [Visual Studio 2017 or 2019](https://visualstudio.microsoft.com/vs/) with the following workloads:
+- [Visual Studio 2019 v16.8+](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - **ASP.NET and web development**
   - **.NET Core cross-platform development**
-- [.NET Core SDK 3.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/).
+- [.NET Core SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
+- [Unified component installer](https://www.devexpress.com/Products/Try/).
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
 - Build the following solutions or projects depending on your target framework:
   - .NET Framework: *NonXAFSecurityExamples.sln* or *MvcApplication/XafSolution.Win*.
