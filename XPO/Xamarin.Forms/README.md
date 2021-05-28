@@ -697,13 +697,11 @@ public static void InitXpo(string connectionString, string login, string passwor
     //..
 }
 static void UpdateDataBase() {
-    var space = ObjectSpaceProvider.CreateUpdatingObjectSpace(true);
-    Updater updater = new Updater(space);
-    updater.UpdateDatabase();
+    var space = GetObjectSpaceProvider().CreateUpdatingObjectSpace(true);
+    XafSolution.Module.DatabaseUpdate.Updater updater = new XafSolution.Module.DatabaseUpdate.Updater(space, null);
+    updater.UpdateDatabaseAfterUpdateSchema();
 }
 ```
-
-Add these files into the `Core` folder: [Employees.xml](XamarinFormsDemo/Core/Employees.xml) , [DBUpdater.cs](XamarinFormsDemo/Core/DBUpdater.cs).
 
 ## Step 9. Run and Test the App
 
