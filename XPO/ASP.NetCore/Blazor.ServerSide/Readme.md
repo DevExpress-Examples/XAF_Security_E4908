@@ -4,7 +4,7 @@ You will also see how to execute Create, Write and Delete data operations and ta
 ## Prerequisites
 
 - Make sure that your environment meets [Microsoft Blazor Prerequisites](https://docs.devexpress.com/Blazor/401055/getting-started/prerequisites).
-- [Download and run two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/)
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/)
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 - Build the solution and run the _XafSolution.Win_ project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the _XafSolution.Module_ project.
 - Add the _XafSolution.Module_ assembly reference to your application.

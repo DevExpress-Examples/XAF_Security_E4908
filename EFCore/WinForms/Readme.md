@@ -3,8 +3,8 @@ This example demonstrates how to access data protected by the [Security System](
 > For simplicity, the instructions include only C# code snippets. For the complete C# code, see the [CS](CS) sub-directory.
 
 ## Prerequisites. Create a Database and Populate It with User, Role, Permission and Other Data
-- [.NET Core SDK 3.1+](https://dotnet.microsoft.com/download/dotnet-core) and [EF Core 5.0.0](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/5.0.0).
-- [Download and run two unified installers for .NET Framework and .NET Core 3.1 Desktop Development](https://www.devexpress.com/Products/Try/) or [obtain a DevExpress NuGet Feed URL](https://docs.devexpress.com/GeneralInformation/115912/installation/install-devexpress-controls-using-nuget-packages).  
+- [.NET Core SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core) and [EF Core 5.0.0](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/5.0.0).
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or [obtain a DevExpress NuGet Feed URL](https://docs.devexpress.com/GeneralInformation/115912/installation/install-devexpress-controls-using-nuget-packages).  
     *We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 - Open the *WinFormsApplication.EFCore.sln* solution and edit the [EFCore/DatabaseUpdater/App.config](../DatabaseUpdater/App.config) file so that `DBSERVER` refers to your database server name or its IP address (for a local database server, use `localhost`, `(local)` or `.`):
 	
@@ -22,9 +22,9 @@ This example demonstrates how to access data protected by the [Security System](
 - Create a new **Windows Forms App (.NET Core)** project and add the [EFCore/BusinessObjectsLibrary](../BusinessObjectsLibrary) project reference. *BusinessObjectsLibrary* adds important NuGet dependencies:
     ```xml
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
-	<PackageReference Include="DevExpress.ExpressApp.EFCore" Version="20.2.3" />
-    <PackageReference Include="DevExpress.Persistent.Base" Version="20.2.3" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="20.2.3" />
+	<PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.1.3" />
+    <PackageReference Include="DevExpress.Persistent.Base" Version="21.1.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.1.3" />
     ```
     The `DevExpress.Persistent.BaseImpl.EFCore` NuGet package contains the PermissionPolicyUser, PermissionPolicyRole and other XAF's Security System API.
 
@@ -32,7 +32,7 @@ This example demonstrates how to access data protected by the [Security System](
     ```xml
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
-    <PackageReference Include="DevExpress.WindowsDesktop.Win.Grid" Version="20.2.3-ctp" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="21.1.3" />
     ```
     
 - In *YourWinFormsApplication/Program.cs*, create a `SecurityStrategyComplex` instance using [AuthenticationStandard](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.AuthenticationStandard) (a simple Forms Authentication with a login and password).
