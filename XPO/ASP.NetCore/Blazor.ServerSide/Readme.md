@@ -12,10 +12,6 @@ You will also see how to execute Create, Write and Delete data operations and ta
 
 > If you wish to create a Blazor project with our Blazor Components from scratch, follow the [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application) article.
 
-### Known Issue
-
-Due to [XPO: NRE in a filter by an associated object](https://github.com/DevExpress/DevExtreme.AspNet.Data/issues/486), filtering by the Department property temporarily does not work.
-
 ---
 
 ## Step 1. Configure the Blazor Application
