@@ -174,7 +174,7 @@ The static `XpoHelper` class exposes the following members:
         handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
         return handler;
     }
-5. Add the `GetObjectSpaceProvider`, `Logon`, and `Logoff` methods. Read following article to create working connection string: [Transfer Data via REST API](https://docs.devexpress.com/XPO/402182/connect-to-a-data-store/transfer-data-via-rest-api#connect-a-xamarin-app)
+5. Add the `GetObjectSpaceProvider`, `Logon`, and `Logoff` methods. Refer to the following article for information on how to specify a proper connection string: [Transfer Data via REST API](https://docs.devexpress.com/XPO/402182/connect-to-a-data-store/transfer-data-via-rest-api#connect-a-xamarin-app)
     ```csharp
     using DevExpress.ExpressApp.Security.ClientServer;
     // ...
