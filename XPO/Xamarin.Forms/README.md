@@ -49,7 +49,7 @@ Install-Package DevExpress.ExpressApp.Security.Xpo
 Install-Package DevExpress.ExpressApp.Validation
 ```
 ```console
-Install-Package Persistent.BaseImpl
+Install-Package DevExpress.Persistent.BaseImpl
 ```
 
 ## Step 3. Add XPO Model
