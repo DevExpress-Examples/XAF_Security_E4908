@@ -80,7 +80,7 @@ The static `XpoHelper` class exposes the following members:
     // Remove this line:
     DependencyService.Register<MockDataStore>();
     ```
-2. Replace the IDataStore.cs and MockDataStore.cs files in the Services folder with the XpoHelper.cs file.
+2. Replace the IDataStore.cs and MockDataStore.cs files in the Services folder with the XpoHelper.cs file in a class library project.
     ```csharp
     using DevExpress.ExpressApp.Security;
     using DevExpress.Xpo;
@@ -143,9 +143,13 @@ The static `XpoHelper` class exposes the following members:
     using DevExpress.Xpo.DB.Helpers;
     using System.Net.Http;
     // ...
+    static XpoHelper() {
+        //..
     #if DEBUG
-    ConfigureXpoForDevEnvironment();
+        ConfigureXpoForDevEnvironment();
     #endif
+        //..
+    }
     // ...
     static void ConfigureXpoForDevEnvironment() {
         XpoDefault.RegisterBonusProviders();
@@ -170,7 +174,7 @@ The static `XpoHelper` class exposes the following members:
         handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
         return handler;
     }
-5. Add the `GetObjectSpaceProvider`, `Logon`, and `Logoff` methods.
+5. Add the `GetObjectSpaceProvider`, `Logon`, and `Logoff` methods. Read following article to create working connection string: [Connect to local web services from iOS simulators and Android emulators](https://docs.microsoft.com/en-us/xamarin/cross-platform/deploy-test/connect-to-local-web-services)
     ```csharp
     using DevExpress.ExpressApp.Security.ClientServer;
     // ...
