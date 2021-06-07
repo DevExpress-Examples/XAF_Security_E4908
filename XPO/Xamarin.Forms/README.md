@@ -136,7 +136,7 @@ The static `XpoHelper` class exposes the following members:
     Tracing.UseConfigurationManager = false;
     Tracing.Initialize(3);
     ```
-4. To use a self-signed SSL certificate for development, add the following methiod and call it in the static constructor.
+4. To use a self-signed SSL certificate for development, add the following method and call it in the static constructor.
     ```csharp
     using DevExpress.Xpo.DB;
     using System;
