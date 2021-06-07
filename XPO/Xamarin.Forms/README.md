@@ -49,7 +49,7 @@ Install-Package DevExpress.ExpressApp.Security.Xpo
 Install-Package DevExpress.ExpressApp.Validation
 ```
 ```console
-Install-Package Persistent.BaseImpl
+Install-Package DevExpress.Persistent.BaseImpl
 ```
 
 ## Step 3. Add XPO Model
@@ -80,7 +80,7 @@ The static `XpoHelper` class exposes the following members:
     // Remove this line:
     DependencyService.Register<MockDataStore>();
     ```
-2. Replace the IDataStore.cs and MockDataStore.cs files in the Services folder with the XpoHelper.cs file.
+2. Replace the IDataStore.cs and MockDataStore.cs files in the Services folder with the XpoHelper.cs file in a class library project.
     ```csharp
     using DevExpress.ExpressApp.Security;
     using DevExpress.Xpo;
@@ -136,16 +136,20 @@ The static `XpoHelper` class exposes the following members:
     Tracing.UseConfigurationManager = false;
     Tracing.Initialize(3);
     ```
-4. To use a self-signed SSL certificate for development, add the following methiod and call it in the static constructor.
+4. To use a self-signed SSL certificate for development, add the following method and call it in the static constructor.
     ```csharp
     using DevExpress.Xpo.DB;
     using System;
     using DevExpress.Xpo.DB.Helpers;
     using System.Net.Http;
     // ...
+    static XpoHelper() {
+        //..
     #if DEBUG
-    ConfigureXpoForDevEnvironment();
+        ConfigureXpoForDevEnvironment();
     #endif
+        //..
+    }
     // ...
     static void ConfigureXpoForDevEnvironment() {
         XpoDefault.RegisterBonusProviders();
@@ -170,7 +174,7 @@ The static `XpoHelper` class exposes the following members:
         handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
         return handler;
     }
-5. Add the `GetObjectSpaceProvider`, `Logon`, and `Logoff` methods.
+5. Add the `GetObjectSpaceProvider`, `Logon`, and `Logoff` methods. Refer to the following article for information on how to specify a proper connection string: [Transfer Data via REST API](https://docs.devexpress.com/XPO/402182/connect-to-a-data-store/transfer-data-via-rest-api#connect-a-xamarin-app)
     ```csharp
     using DevExpress.ExpressApp.Security.ClientServer;
     // ...
