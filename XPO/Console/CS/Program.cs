@@ -34,7 +34,7 @@ namespace ConsoleApplication {
 					foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
 						stringBuilder.Append("=========================================\n");
 						stringBuilder.Append($"Full name: {employee.FullName}\n");
-						if(security.CanRead(employee, nameof(Department))) {
+						if(security.CanRead(employee, nameof(Employee.Department))) {
 							stringBuilder.Append($"Department: {employee.Department.Title}\n");
 						}
 						else {
