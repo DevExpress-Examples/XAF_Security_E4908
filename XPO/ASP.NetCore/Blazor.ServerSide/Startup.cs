@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using XafSolution.Module.BusinessObjects;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
+using BusinessObjectsLibrary;
 
 namespace BlazorApplication.NetCore
 {

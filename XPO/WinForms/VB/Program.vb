@@ -1,4 +1,5 @@
-﻿Imports DevExpress.ExpressApp
+﻿Imports BusinessObjectsLibrary
+Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.ExpressApp.Security.ClientServer
 Imports DevExpress.ExpressApp.Xpo
@@ -7,7 +8,6 @@ Imports System
 Imports System.Configuration
 Imports System.Linq
 Imports System.Windows.Forms
-Imports XafSolution.Module.BusinessObjects
 
 Namespace WindowsFormsApplication
     Friend NotInheritable Class Program

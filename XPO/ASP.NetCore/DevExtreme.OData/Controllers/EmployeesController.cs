@@ -6,7 +6,7 @@ using DevExpress.Xpo;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using XafSolution.Module.BusinessObjects;
+using BusinessObjectsLibrary;
 #if NET5_0
 using System.Text.Json;
 #endif

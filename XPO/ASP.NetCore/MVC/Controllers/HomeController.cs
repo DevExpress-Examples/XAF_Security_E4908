@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using DevExpress.ExpressApp.DC;
-using XafSolution.Module.BusinessObjects;
 using DevExpress.ExpressApp;
 using Microsoft.AspNetCore.Authorization;
+using BusinessObjectsLibrary;
 
 namespace MvcApplication.Controllers {
 	[Authorize]

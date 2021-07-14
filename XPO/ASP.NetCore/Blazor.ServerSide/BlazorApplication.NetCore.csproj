@@ -10,7 +10,7 @@
     <PackageReference Include="DevExtreme.AspNet.Data" Version="2.8.5" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XafSolution\XafSolution.Module\XafSolution.Module.NetCore.csproj" />
+    <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="dotnet restore BlazorApplication.NetCore.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">

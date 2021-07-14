@@ -14,7 +14,7 @@
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.0.96" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XafSolution\XafSolution.Module\XafSolution.Module.NetCore.csproj" />
+    <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
   </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties TemplateFeatures="NETCORE CS BASELINE NETCORE_ON_FX" /></VisualStudio></ProjectExtensions>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

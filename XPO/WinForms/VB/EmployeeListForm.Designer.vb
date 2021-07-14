@@ -59,7 +59,7 @@ Namespace WindowsFormsApplication
             ' employeeBindingSource
             ' 
             Me.employeeBindingSource.DisplayableProperties = "FullName;Department.Title"
-            Me.employeeBindingSource.ObjectType = GetType(XafSolution.Module.BusinessObjects.Employee)
+            Me.employeeBindingSource.ObjectType = GetType(BusinessObjectsLibrary.Employee)
             ' 
             ' employeeGridView
             ' 

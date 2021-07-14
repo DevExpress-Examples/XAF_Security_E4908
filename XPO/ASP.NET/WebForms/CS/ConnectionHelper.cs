@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp;
+﻿using BusinessObjectsLibrary;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
@@ -7,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
-using XafSolution.Module.BusinessObjects;
 
 namespace WebFormsApplication {
 	public static class ConnectionHelper {

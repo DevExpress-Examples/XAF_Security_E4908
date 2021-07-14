@@ -1,4 +1,5 @@
-﻿Imports DevExpress.ExpressApp
+﻿Imports BusinessObjectsLibrary
+Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.Xpo
 Imports DevExpress.XtraGrid.Views.Base
@@ -6,7 +7,6 @@ Imports DevExpress.XtraGrid.Views.Grid
 Imports System
 Imports System.Linq
 Imports System.Windows.Forms
-Imports XafSolution.Module.BusinessObjects
 
 Namespace WindowsFormsApplication
     Partial Public Class EmployeeListForm

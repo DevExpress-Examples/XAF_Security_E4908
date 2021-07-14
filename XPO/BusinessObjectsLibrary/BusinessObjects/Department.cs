@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XafSolution.Module.BusinessObjects {
+namespace BusinessObjectsLibrary {
 	[DefaultClassOptions]
 	[System.ComponentModel.DefaultProperty("Title")]
 	public class Department : BaseObject {

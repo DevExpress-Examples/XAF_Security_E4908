@@ -2,13 +2,13 @@
 using DevExpress.Xpo;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.ExpressApp;
-using XafSolution.Module.BusinessObjects;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DevExpress.Xpo.DB;
 using System;
 using DevExpress.Xpo.DB.Helpers;
 using System.Net.Http;
 using DevExpress.ExpressApp.Security.ClientServer;
+using BusinessObjectsLibrary;
 
 namespace XamarinFormsDemo.Services {
     public static class XpoHelper {
@@ -32,7 +32,6 @@ namespace XamarinFormsDemo.Services {
             fSecurity.RegisterXPOAdapterProviders(); 
 #if DEBUG
             ConfigureXpoForDevEnvironment();
-            UpdateDataBase();
 #endif
         }
         static void RegisterEntities() {
@@ -88,11 +87,6 @@ namespace XamarinFormsDemo.Services {
         public static void Logoff() {
             Security.Logoff();
             ObjectSpaceProvider = null;
-        }
-        static void UpdateDataBase() {
-            var space = GetObjectSpaceProvider().CreateUpdatingObjectSpace(true);
-            XafSolution.Module.DatabaseUpdate.Updater updater = new XafSolution.Module.DatabaseUpdate.Updater(space, null);
-            updater.UpdateDatabaseAfterUpdateSchema();
         }
     }
 }
