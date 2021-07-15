@@ -1,4 +1,5 @@
-﻿Imports DevExpress.ExpressApp
+﻿Imports BusinessObjectsLibrary
+Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.ExpressApp.Security.ClientServer
 Imports DevExpress.ExpressApp.Xpo
@@ -7,7 +8,6 @@ Imports System
 Imports System.Configuration
 Imports System.IO
 Imports System.Text
-Imports XafSolution.Module.BusinessObjects
 
 Namespace ConsoleApplication
     Friend Class Program

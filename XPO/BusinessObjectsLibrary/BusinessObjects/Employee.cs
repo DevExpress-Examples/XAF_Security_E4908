@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XafSolution.Module.BusinessObjects {
+namespace BusinessObjectsLibrary {
 	[DefaultClassOptions]
 	public class Employee : Person{
 		public Employee(Session session) :

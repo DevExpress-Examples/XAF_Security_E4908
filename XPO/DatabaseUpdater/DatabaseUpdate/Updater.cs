@@ -1,4 +1,4 @@
-﻿using XafSolution.Module.BusinessObjects;
+﻿using BusinessObjectsLibrary;
 using DevExpress.ExpressApp;
 using DevExpress.Data.Filtering;
 using DevExpress.Persistent.Base;
@@ -10,7 +10,7 @@ using System;
 using System.Data;
 using System.IO;
 
-namespace XafSolution.Module.DatabaseUpdate {
+namespace DatabaseUpdater {
     public class Updater : ModuleUpdater {
         private const string AdministratorUserName = "Admin";
         private const string AdministratorRoleName = "Administrators";

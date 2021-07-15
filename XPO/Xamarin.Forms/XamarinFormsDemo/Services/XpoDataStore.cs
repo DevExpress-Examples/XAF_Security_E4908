@@ -1,9 +1,9 @@
-﻿using DevExpress.Xpo;
+﻿using BusinessObjectsLibrary;
+using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XafSolution.Module.BusinessObjects;
 using XamarinFormsDemo.Services;
 
 [assembly: Xamarin.Forms.Dependency(typeof(XamarinFormsDemo.XpoDataStore))]

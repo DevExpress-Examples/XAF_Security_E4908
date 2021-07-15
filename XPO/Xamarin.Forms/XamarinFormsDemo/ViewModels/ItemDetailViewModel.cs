@@ -1,10 +1,10 @@
-﻿using DevExpress.ExpressApp.Security;
+﻿using BusinessObjectsLibrary;
+using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using XafSolution.Module.BusinessObjects;
 using Xamarin.Forms;
 using XamarinFormsDemo.Services;
 

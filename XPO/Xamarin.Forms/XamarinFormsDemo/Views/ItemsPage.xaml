@@ -4,7 +4,7 @@
              x:Class="XamarinFormsDemo.Views.ItemsPage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:XamarinFormsDemo.ViewModels"  
-             xmlns:model="clr-namespace:XafSolution.Module.BusinessObjects;assembly=XafSolution.Module.NetCore"
+             xmlns:model="clr-namespace:BusinessObjectsLibrary;assembly=BusinessObjectsLibrary"
              x:Name="BrowseItemsPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />

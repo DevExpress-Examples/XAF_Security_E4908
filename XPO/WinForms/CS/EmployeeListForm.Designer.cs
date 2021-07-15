@@ -60,7 +60,7 @@ namespace WindowsFormsApplication {
             // employeeBindingSource
             // 
             this.employeeBindingSource.DisplayableProperties = "FullName;Department.Title";
-            this.employeeBindingSource.ObjectType = typeof(XafSolution.Module.BusinessObjects.Employee);
+            this.employeeBindingSource.ObjectType = typeof(BusinessObjectsLibrary.Employee);
 			// 
 			// employeeGridView
 			// 

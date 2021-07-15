@@ -3,7 +3,7 @@
 
 @using BlazorApplication.NetCore
 @using BlazorApplication.NetCore.Components
-@using XafSolution.Module.BusinessObjects
+@using BusinessObjectsLibrary
 @using DevExpress.ExpressApp
 @using DevExpress.ExpressApp.Utils
 @using DevExpress.ExpressApp.Security
@@ -12,7 +12,7 @@
 @inject SecurityProvider SecurityProvider
 
 <div style="text-align: right; margin: 10px">
-	<a class="ml-md-auto btn btn-primary" href="/logout">Log Out</a>
+    <a class="ml-md-auto btn btn-primary" href="/logout">Log Out</a>
 </div>
 <CascadingValue Value="ObjectSpace">
     <DxDataGrid Data=@employees
@@ -52,18 +52,15 @@
             </DxDataGridComboBoxColumn>
             <DxDataGridCommandColumn Width="100px">
                 <HeaderCellTemplate>
-                    @if (SecurityProvider.Security.CanCreate<Employee>())
-                    {
+                    @if(SecurityProvider.Security.CanCreate<Employee>()) {
                         <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
                     }
                 </HeaderCellTemplate>
                 <CellTemplate>
-                    @if (SecurityProvider.Security.CanWrite(context))
-                    {
+                    @if(SecurityProvider.Security.CanWrite(context)) {
                         <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
                     }
-                    @if (SecurityProvider.Security.CanDelete(context))
-                    {
+                    @if(SecurityProvider.Security.CanDelete(context)) {
                         <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
                     }
                 </CellTemplate>

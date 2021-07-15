@@ -1,6 +1,6 @@
 ﻿using System;
+using BusinessObjectsLibrary;
 using DevExpress.Xpo;
-using XafSolution.Module.BusinessObjects;
 using Xamarin.Forms;
 
 namespace XamarinFormsDemo.Views {

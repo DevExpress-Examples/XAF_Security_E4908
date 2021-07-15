@@ -5,8 +5,8 @@ using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using XafSolution.Module.BusinessObjects;
 using Microsoft.AspNetCore.Authorization;
+using BusinessObjectsLibrary;
 
 namespace MvcApplication.Controllers {
 	[Authorize]

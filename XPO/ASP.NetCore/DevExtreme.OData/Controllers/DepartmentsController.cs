@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using BusinessObjectsLibrary;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.Xpo;
@@ -7,7 +8,6 @@ using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using XafSolution.Module.BusinessObjects;
 
 namespace ASPNETCoreODataService.Controllers {
 	[Route("api/[controller]")]

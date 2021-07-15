@@ -1,4 +1,5 @@
-﻿using DevExpress.Persistent.BaseImpl;
+﻿using BusinessObjectsLibrary;
+using DevExpress.Persistent.BaseImpl;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -13,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 #endif
 using Microsoft.OData.Edm;
 using System.Linq;
-using XafSolution.Module.BusinessObjects;
 
 namespace ASPNETCoreODataService {
 	public class Startup {

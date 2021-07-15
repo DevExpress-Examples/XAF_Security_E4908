@@ -1,4 +1,5 @@
-﻿Imports DevExpress.ExpressApp
+﻿Imports BusinessObjectsLibrary
+Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.DC
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.Xpo
@@ -23,9 +24,9 @@ Namespace WindowsFormsApplication
             InitializeComponent()
             Me.employee = employee
             visibleMembers = New Dictionary(Of String, String)()
-            visibleMembers.Add(nameof(XafSolution.Module.BusinessObjects.Employee.FirstName), "First Name:")
-            visibleMembers.Add(nameof(XafSolution.Module.BusinessObjects.Employee.LastName), "Last Name:")
-            visibleMembers.Add(nameof(XafSolution.Module.BusinessObjects.Employee.Department), "Department:")
+            visibleMembers.Add(NameOf(BusinessObjectsLibrary.Employee.FirstName), "First Name:")
+            visibleMembers.Add(NameOf(BusinessObjectsLibrary.Employee.LastName), "Last Name:")
+            visibleMembers.Add(NameOf(BusinessObjectsLibrary.Employee.Department), "Department:")
         End Sub
         Private Sub EmployeeDetailForm_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
             security = CType(MdiParent, MainForm).Security

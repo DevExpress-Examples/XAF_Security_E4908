@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp;
+﻿using BusinessObjectsLibrary;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.ExpressApp.Xpo;
@@ -7,7 +8,6 @@ using System;
 using System.Configuration;
 using System.IO;
 using System.Text;
-using XafSolution.Module.BusinessObjects;
 
 namespace ConsoleApplication {
 	class Program {
@@ -34,7 +34,7 @@ namespace ConsoleApplication {
 					foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) {
 						stringBuilder.Append("=========================================\n");
 						stringBuilder.Append($"Full name: {employee.FullName}\n");
-						if(security.CanRead(employee, nameof(Department))) {
+						if(security.CanRead(employee, nameof(Employee.Department))) {
 							stringBuilder.Append($"Department: {employee.Department.Title}\n");
 						}
 						else {

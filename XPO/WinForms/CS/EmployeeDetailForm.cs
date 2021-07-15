@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp;
+﻿using BusinessObjectsLibrary;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
@@ -8,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using XafSolution.Module.BusinessObjects;
 
 namespace WindowsFormsApplication {
 	public partial class EmployeeDetailForm : DevExpress.XtraBars.Ribbon.RibbonForm {

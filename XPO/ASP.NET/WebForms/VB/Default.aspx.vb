@@ -1,4 +1,5 @@
-﻿Imports DevExpress.ExpressApp
+﻿Imports BusinessObjectsLibrary
+Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.ExpressApp.Xpo
 Imports DevExpress.Web
@@ -7,7 +8,6 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Web
 Imports System.Web.Security
-Imports XafSolution.Module.BusinessObjects
 
 Namespace WebFormsApplication
     Partial Public Class _Default
@@ -43,8 +43,8 @@ Namespace WebFormsApplication
         End Sub
         Protected Sub EmployeeGrid_CellEditorInitialize(ByVal sender As Object, ByVal e As ASPxGridViewEditorEventArgs)
             Dim employee As Employee = objectSpace.GetObjectByKey(Of Employee)(e.KeyValue)
-			Dim memberName As String = GetMemberName(e.Column)
-			If Not security.CanRead(employee, memberName) Then
+            Dim memberName As String = GetMemberName(e.Column)
+            If Not security.CanRead(employee, memberName) Then
                 e.Editor.Value = "*******"
                 e.Editor.Enabled = False
             ElseIf Not security.CanWrite(employee, memberName) Then
@@ -64,8 +64,8 @@ Namespace WebFormsApplication
         End Sub
         Protected Sub EmployeeGrid_HtmlDataCellPrepared(ByVal sender As Object, ByVal e As ASPxGridViewTableDataCellEventArgs)
             Dim employee As Employee = objectSpace.GetObjectByKey(Of Employee)(e.KeyValue)
-			Dim memberName As String = GetMemberName(e.DataColumn)
-			If Not security.CanRead(employee, memberName) Then
+            Dim memberName As String = GetMemberName(e.DataColumn)
+            If Not security.CanRead(employee, memberName) Then
                 e.Cell.Text = "*******"
             End If
         End Sub
@@ -73,8 +73,8 @@ Namespace WebFormsApplication
             FormsAuthentication.SignOut()
             FormsAuthentication.RedirectToLoginPage()
         End Sub
-		Private Function GetMemberName(ByVal column As GridViewDataColumn) As String
-			Return column?.FieldName.Split("!"c)(0)
-		End Function
-	End Class
+        Private Function GetMemberName(ByVal column As GridViewDataColumn) As String
+            Return column?.FieldName.Split("!"c)(0)
+        End Function
+    End Class
 End Namespace
