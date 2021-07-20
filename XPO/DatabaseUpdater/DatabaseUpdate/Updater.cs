@@ -1,8 +1,6 @@
 ﻿using BusinessObjectsLibrary;
 using DevExpress.ExpressApp;
-using DevExpress.Data.Filtering;
 using DevExpress.Persistent.Base;
-using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.SystemModule;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
@@ -11,16 +9,16 @@ using System.Data;
 using System.IO;
 
 namespace DatabaseUpdater {
-    public class Updater : ModuleUpdater {
+    public class Updater {
         private const string AdministratorUserName = "Admin";
         private const string AdministratorRoleName = "Administrators";
         private const string DefaultUserName = "User";
         private const string DefaultUserRoleName = "Users";
-        public Updater(IObjectSpace objectSpace, Version currentDBVersion) :
-            base(objectSpace, currentDBVersion) {
+        private IObjectSpace ObjectSpace { get; }
+        public Updater(IObjectSpace objectSpace) {
+            this.ObjectSpace = objectSpace;
         }
-        public override void UpdateDatabaseAfterUpdateSchema() {
-            base.UpdateDatabaseAfterUpdateSchema();
+        public void UpdateDatabase() {
             CreateUser();
             CreateAdmin();
             CreateEmployees();
@@ -130,9 +128,6 @@ namespace DatabaseUpdater {
                 seoDepartment.Title = "SEO";
                 seoDepartment.Office = "703";
             }
-        }
-        public override void UpdateDatabaseBeforeUpdateSchema() {
-            base.UpdateDatabaseBeforeUpdateSchema();
         }
     }
 }
