@@ -1,0 +1,11 @@
+<div class="sidebar @StateCssClass">
+<DxTreeView AllowSelectNodes="true" CssClass="app-sidebar">
+    <Nodes>
+        <DxTreeViewNode NavigateUrl="./" Text="Overview"></DxTreeViewNode>
+    </Nodes>
+</DxTreeView>
+</div>
+
+@code {
+    [Parameter] public string StateCssClass { get; set; }
+}
