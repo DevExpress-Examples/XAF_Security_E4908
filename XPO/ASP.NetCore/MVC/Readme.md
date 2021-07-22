@@ -147,7 +147,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
 	In appsettings.json, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
 	``` json
 	"ConnectionStrings": {
-	  "XafApplication": "Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"
+	  "XPOTestDB": "Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"
 	}
 	```
 		
@@ -234,7 +234,7 @@ The `GetObjectSpaceProvider` method initializes the Object Space Provider.
 
 ``` csharp
 private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-	string connectionString = config.GetConnectionString("XafApplication");
+	string connectionString = config.GetConnectionString("XPOTestDB");
 	SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(connectionString, null, true), true);
 	RegisterEntities(objectSpaceProvider);
 	return objectSpaceProvider;
