@@ -2,57 +2,71 @@
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.BaseImpl;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ASPNETCoreODataService {
 	public static class JsonParser {
-		public static void ParseJObject<T>(JObject jObject, object obj, IObjectSpace objectSpace) where T : BaseObject {
+		public static void ParseJObject<T>(JsonElement jElement, object obj, IObjectSpace objectSpace) where T : BaseObject {
 			ITypeInfo typeInfo = objectSpace.TypesInfo.FindTypeInfo(typeof(T));
-			List<string> memberNameList = jObject.Properties().Select(p => p.Name).ToList();
-			foreach(string memberName in memberNameList) {
+			var properties = jElement.EnumerateObject();
+			foreach(JsonProperty property in properties) {
+				string memberName = property.Name;
 				IMemberInfo memberInfo = typeInfo.FindMember(memberName);
 				if(memberInfo.IsAssociation) {
-					ParseAssociationProperty(jObject, obj, memberInfo, objectSpace);
+					ParseAssociationProperty(property.Value, obj, memberInfo, objectSpace);
 				}
 				else {
-					ParseSimpleProperty(jObject, obj, memberInfo);
+					ParseSimpleProperty(property.Value, obj, memberInfo);
 				}
 			}
 			objectSpace.CommitChanges();
 		}
 
-		private static void ParseSimpleProperty(JObject jObject, object obj, IMemberInfo memberInfo) {
-			JValue jValue = (JValue)jObject[memberInfo.Name];
-			object value = ConvertType(jValue, memberInfo);
+		private static void ParseSimpleProperty(JsonElement jElement, object obj, IMemberInfo memberInfo) {
+			object value = GetValue(jElement, memberInfo.MemberType);
 			memberInfo.SetValue(obj, value);
 		}
 
-		private static void ParseAssociationProperty(JObject jObject, object obj, IMemberInfo memberInfo, IObjectSpace objectSpace) {
+        private static object GetValue(JsonElement jsonElement, Type memberType) {
+			if(memberType.IsArray) { 
+				var JsonArray = jsonElement.EnumerateArray();
+				List<object> result = new List<object>();
+				foreach (JsonElement element in JsonArray) {
+					result.Add(GetValue(element, memberType.GetElementType()));
+                }
+				return result;
+			}
+			if(memberType == typeof(Int16)) return jsonElement.GetInt16();
+			if(memberType == typeof(UInt16)) return jsonElement.GetUInt16();
+			if(memberType == typeof(Boolean)) return jsonElement.GetBoolean();
+			if(memberType == typeof(Byte)) return jsonElement.GetByte();
+			if(memberType == typeof(DateTime)) return jsonElement.GetDateTime();
+			if(memberType == typeof(DateTimeOffset)) return jsonElement.GetDateTimeOffset();
+			if(memberType == typeof(Decimal)) return jsonElement.GetDecimal();
+			if(memberType == typeof(Double)) return jsonElement.GetDouble();
+			if(memberType == typeof(Guid)) return jsonElement.GetGuid();
+			if(memberType == typeof(HashCode)) return jsonElement.GetHashCode();
+			if(memberType == typeof(Int32)) return jsonElement.GetInt32();
+			if(memberType == typeof(Int64)) return jsonElement.GetInt64();
+			if(memberType == typeof(SByte)) return jsonElement.GetSByte();
+			if(memberType == typeof(Single)) return jsonElement.GetSingle();
+			if(memberType == typeof(String)) return jsonElement.GetString();
+			if(memberType == typeof(UInt32)) return jsonElement.GetUInt32();
+			if(memberType == typeof(UInt64)) return jsonElement.GetUInt64();
+			throw  new JsonException("Type mismatch during serialization");
+		}
+
+        private static void ParseAssociationProperty(JsonElement jElement, object obj, IMemberInfo memberInfo, IObjectSpace objectSpace) {
 			string keyPropertyName = memberInfo.MemberTypeInfo.KeyMember.Name;
-			JToken keyToken = jObject[memberInfo.Name][keyPropertyName];
-			object keyValue = ConvertType((JValue)keyToken, memberInfo.MemberTypeInfo.KeyMember);
+			var keyProperty = jElement.GetProperty(keyPropertyName);
+			var keyValue = GetValue(keyProperty, memberInfo.MemberTypeInfo.KeyMember.MemberType);
 			object value = objectSpace.GetObjectByKey(memberInfo.MemberType, keyValue);
 			memberInfo.SetValue(obj, value);
-		}
-
-		private static object ConvertType(JValue jValue, IMemberInfo memberInfo) {
-			object value = jValue.Value;
-			if(value != null) {
-				if(value.GetType() != memberInfo.MemberType) {
-					if(value is string && memberInfo.MemberType == typeof(Guid)) {
-						value = Guid.Parse((string)value);
-					}
-					else {
-						value = Convert.ChangeType(value, memberInfo.MemberType, CultureInfo.InvariantCulture);
-					}
-				}
-			}
-			return value;
 		}
 	}
 }
