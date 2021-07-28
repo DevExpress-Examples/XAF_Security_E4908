@@ -23,16 +23,10 @@ namespace ASPNETCoreODataService {
 		}
 		public void ConfigureServices(IServiceCollection services) {
 			
-#if NET5_0
 			services.AddControllers(mvcOptions => {
 				mvcOptions.EnableEndpointRouting = false;
 			}).AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents( GetEdmModel()));
-#else
-			services.AddOData();
-			services.AddMvc(options => {
-				options.EnableEndpointRouting = false;
-			}).SetCompatibilityVersion(CompatibilityVersion.Latest);
-#endif
+
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie();
 			services.AddSingleton<XpoDataStoreProviderService>();
@@ -56,7 +50,7 @@ namespace ASPNETCoreODataService {
 			app.UseODataBatching();
 
 			app.UseRouting();
-			//app.UseCors();
+			app.UseCors();
 			app.UseAuthentication();
 			app.UseMiddleware<UnauthorizedRedirectMiddleware>();
 			app.UseDefaultFiles();
@@ -66,11 +60,6 @@ namespace ASPNETCoreODataService {
 			app.UseEndpoints(endpoints => {
 				endpoints.MapControllers();
 			});
-			//app.UseMvc(routeBuilder => {
-			//	//routeBuilder.EnableDependencyInjection();
-			//	//routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
-			//	routeBuilder.MapRoute("ODataRoutes",null, GetEdmModel());
-			//});
 		}
 		private IEdmModel GetEdmModel() {
 			ODataModelBuilder builder = new ODataConventionModelBuilder();
