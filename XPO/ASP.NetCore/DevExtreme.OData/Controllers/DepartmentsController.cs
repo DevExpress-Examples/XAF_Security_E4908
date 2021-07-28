@@ -4,13 +4,14 @@ using BusinessObjectsLibrary;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.Xpo;
-using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.Extensions.Configuration;
 
 namespace ASPNETCoreODataService.Controllers {
-	[Route("api/[controller]")]
 	public class DepartmentsController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		IObjectSpace objectSpace;

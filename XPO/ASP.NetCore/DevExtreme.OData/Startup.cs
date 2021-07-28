@@ -1,10 +1,9 @@
 ﻿using BusinessObjectsLibrary;
 using DevExpress.Persistent.BaseImpl;
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 #if NET5_0
@@ -13,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc; 
 #endif
 using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 using System.Linq;
 
 namespace ASPNETCoreODataService {
@@ -22,16 +22,11 @@ namespace ASPNETCoreODataService {
 			Configuration = configuration;
 		}
 		public void ConfigureServices(IServiceCollection services) {
-			services.AddOData();
-#if NET5_0
+			
 			services.AddControllers(mvcOptions => {
 				mvcOptions.EnableEndpointRouting = false;
-			});
-#else
-			services.AddMvc(options => {
-				options.EnableEndpointRouting = false;
-			}).SetCompatibilityVersion(CompatibilityVersion.Latest);
-#endif
+			}).AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents( GetEdmModel()));
+
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie();
 			services.AddSingleton<XpoDataStoreProviderService>();
@@ -51,16 +46,19 @@ namespace ASPNETCoreODataService {
 			else {
 				app.UseHsts();
 			}
+			app.UseODataQueryRequest();
+			app.UseODataBatching();
+
+			app.UseRouting();
+			app.UseCors();
 			app.UseAuthentication();
 			app.UseMiddleware<UnauthorizedRedirectMiddleware>();
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
 			app.UseHttpsRedirection();
 			app.UseCookiePolicy();
-			app.UseMvc(routeBuilder => {
-				routeBuilder.EnableDependencyInjection();
-				routeBuilder.Count().Expand().Select().OrderBy().Filter().MaxTop(null);
-				routeBuilder.MapODataServiceRoute("ODataRoutes", null, GetEdmModel());
+			app.UseEndpoints(endpoints => {
+				endpoints.MapControllers();
 			});
 		}
 		private IEdmModel GetEdmModel() {

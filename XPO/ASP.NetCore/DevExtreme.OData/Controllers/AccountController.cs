@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Routing;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.Extensions.Configuration;
 using System;
 
 namespace ASPNETCoreODataService.Controllers {
-	[Route("api/[controller]")]
 	public class AccountController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		public AccountController(SecurityProvider securityProvider) {
 			this.securityProvider = securityProvider;
 		}
-		[HttpPost]
-		[ODataRoute("Login")]
+		[HttpPost("Login")]
 		[AllowAnonymous]
 		public ActionResult Login(string userName, string password) {
 			ActionResult result;
@@ -27,8 +24,7 @@ namespace ASPNETCoreODataService.Controllers {
 			}
 			return result;
 		}
-		[HttpGet]
-		[ODataRoute("Logout()")]
+		[HttpGet("Logout")]
 		public ActionResult Logout() {
 			HttpContext.SignOutAsync();
 			return Ok();
