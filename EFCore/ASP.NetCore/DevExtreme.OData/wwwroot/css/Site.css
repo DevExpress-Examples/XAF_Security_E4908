@@ -1,0 +1,57 @@
+﻿html, body {
+    Display: flex;
+    Flex-direction: column;
+    align-items: center;
+    font-family: 'Helvetica';
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+    color: darkorange;
+}
+
+h2 {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.form-control {
+    margin-bottom: 5px;
+    width: 300px;
+}
+
+.form-signin {
+    padding: 20px;
+}
+
+.dx-button-mode-contained {
+    background-color: #F87C1D;
+    border-color: transparent;
+    color: white;
+    font-family: 'Helvetica';
+}
+
+.dx-button-mode-contained.dx-state-hover {
+    background-color: #DB6307;
+    border-color: #ddd;
+    font-family: 'Helvetica';
+}
+
+.dx-button-mode-contained.dx-state-active {
+    background-color: #F87C1D;
+    border-color: #ddd;
+    color: white;
+    font-family: 'Helvetica';
+}
+
+.dx-button-mode-contained.dx-state-focused {
+    background-color: #F87C1D;
+    border-color: #ddd;
+    font-family: 'Helvetica';
+}
+
+.dx-button-text {
+    text-transform: none;
+}
+
