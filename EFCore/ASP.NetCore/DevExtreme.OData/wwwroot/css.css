@@ -1,0 +1,27 @@
+﻿Body {
+    Display: flex;
+    Flex-direction: column;
+    align-items:center;
+}
+
+h1 {
+    font-size: 19px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 14px;
+    color: gray;
+    text-align: center;
+}
+
+.form-control {
+    margin-bottom: 5px;
+    width: 300px;
+}
+
+.form-signin {
+    padding: 20px;
+}
+
+
