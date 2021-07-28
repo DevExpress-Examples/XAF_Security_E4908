@@ -2,10 +2,10 @@
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Routing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections;
@@ -13,14 +13,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ASPNETCoreODataService.Controllers {
-	[Route("api/[controller]")]
 	public class ActionsController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		public ActionsController(SecurityProvider securityProvider) {
 			this.securityProvider = securityProvider;
 		}
-		[HttpPost]
-		[ODataRoute("GetPermissions")]
+		[HttpPost("/GetPermissions")]
 		public ActionResult GetPermissions(ODataActionParameters parameters) {
 			ActionResult result = NoContent();
 			if(parameters.ContainsKey("keys") && parameters.ContainsKey("typeName")) {
@@ -41,8 +39,7 @@ namespace ASPNETCoreODataService.Controllers {
 			}
 			return result;
 		}
-		[HttpGet]
-		[ODataRoute("GetTypePermissions")]
+		[HttpGet("/GetTypePermissions")]
 		public ActionResult GetTypePermissions(string typeName) {
 			ActionResult result = NoContent();
 			using(IObjectSpace objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace()) {

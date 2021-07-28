@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp;
+﻿using BusinessObjectsLibrary;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
@@ -10,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using XafSolution.Module.BusinessObjects;
 
 namespace ASPNETCoreODataService {
 	public class SecurityProvider : IDisposable {

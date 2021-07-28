@@ -3,16 +3,16 @@ using System.Linq;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.Xpo;
-using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using BusinessObjectsLibrary;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
+using Microsoft.AspNetCore.OData.Query;
 #if NET5_0
 using System.Text.Json;
 #endif
 
 namespace ASPNETCoreODataService.Controllers {
-	[Route("api/[controller]")]
 	public class EmployeesController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		IObjectSpace objectSpace;
