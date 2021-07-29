@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp;
+﻿using BusinessObjectsLibrary;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
@@ -9,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using XafSolution.Module.BusinessObjects;
 
 namespace MvcApplication {
 	public class SecurityProvider: IDisposable {
@@ -63,7 +63,7 @@ namespace MvcApplication {
 			return security;
 		}
 		private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-			string connectionString = config.GetConnectionString("XafApplication");
+			string connectionString = config.GetConnectionString("XPOTestDB");
 			SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(connectionString, null, true), true);
 			RegisterEntities(objectSpaceProvider);
 			return objectSpaceProvider;

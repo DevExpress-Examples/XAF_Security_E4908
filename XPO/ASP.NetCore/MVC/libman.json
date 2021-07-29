@@ -1,40 +1,79 @@
 {
   "version": "1.0",
-  "defaultProvider": "filesystem",
+  "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "C:/Program Files (x86)/DevExpress 21.1/DevExtreme/Sources/Lib/js/",
+      "library": "jquery@3.5.1",
+      "provider": "cdnjs",
       "destination": "wwwroot/js/devextreme",
       "files": [
-        "jquery.js",
-        "dx.all.js"
+        "jquery.js"
       ]
     },
     {
-      "library": "C:/Program Files (x86)/DevExpress 21.1/DevExtreme/Sources/Lib/js/aspnet/",
-      "destination": "wwwroot/js/devextreme/aspnet/",
-      "files": [
-        "dx.aspnet.data.js",
-        "dx.aspnet.mvc.js"
-      ]
+      "library": "cldrjs@0.5.1",
+      "provider": "cdnjs",
+      "destination": "wwwroot/js/devextreme/"
     },
     {
-      "library": "C:/Program Files (x86)/DevExpress 21.1/DevExtreme/Sources/Lib/css/fonts/",
-      "destination": "wwwroot/css/devextreme/fonts"
+      "library": "globalize@1.4.2",
+      "provider": "cdnjs",
+      "destination": "wwwroot/js/devextreme/"
     },
     {
-      "library": "C:/Program Files (x86)/DevExpress 21.1/DevExtreme/Sources/Lib/css/icons/",
+      "library": "jszip@3.2.1",
+      "provider": "cdnjs",
+      "destination": "wwwroot/js/devextreme/"
+    },
+    {
+      "library": "node_modules/devextreme/dist/js/",
+      "provider": "filesystem",
+      "destination": "wwwroot/js/devextreme/"
+    },
+    {
+      "library": "node_modules/devextreme/dist/css/dx.light.css",
+      "provider": "filesystem",
+      "destination": "wwwroot/css/devextreme/"
+    },
+    {
+      "library": "node_modules/devextreme/dist/css/dx.common.css",
+      "provider": "filesystem",
+      "destination": "wwwroot/css/devextreme/"
+    },
+    {
+      "library": "node_modules/devextreme/dist/css/icons/",
+      "provider": "filesystem",
       "destination": "wwwroot/css/devextreme/icons"
     },
     {
-      "library": "C:/Program Files (x86)/DevExpress 21.1/DevExtreme/Sources/Lib/css/",
-      "destination": "wwwroot/css/devextreme/",
-      "files": [
-        "bootstrap.css",
-        "dx.common.css",
-        "dx.light.css",
-        "dx.material.orange.light.css"
-      ]
+      "library": "node_modules/devextreme/dist/css/fonts/",
+      "provider": "filesystem",
+      "destination": "wwwroot/css/devextreme/fonts"
+    },
+    {
+      "library": "node_modules/bootstrap/dist/css/bootstrap.css",
+      "provider": "filesystem",
+      "destination": "wwwroot/css/devextreme"
+    },
+    {
+      "library": "node_modules/bootstrap/dist/js/bootstrap.js",
+      "provider": "filesystem",
+      "destination": "wwwroot/js/devextreme"
+    },
+    {
+      "library": "node_modules/bootstrap/dist/css/bootstrap.css.map",
+      "provider": "filesystem",
+      "destination": "wwwroot/css/devextreme"
+    },
+    {
+      "library": "node_modules/bootstrap/dist/js/bootstrap.js.map",
+      "provider": "filesystem",
+      "destination": "wwwroot/js/devextreme"
+    },
+    {
+      "library": "node_modules/devextreme-aspnet-data/js/dx.aspnet.data.js",
+      "provider": "filesystem",
+      "destination": "wwwroot/js/devextreme"
     }
   ]
 }
