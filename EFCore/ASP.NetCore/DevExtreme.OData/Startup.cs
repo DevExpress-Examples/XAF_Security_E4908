@@ -81,10 +81,10 @@ namespace DevExtreme.OData.EFCore {
             employees.EntityType.HasKey(t => t.ID);
             departments.EntityType.HasKey(t => t.ID);
             parties.EntityType.HasKey(t => t.ID);
-            //departments.EntityType.DerivesFromNothing();
             ActionConfiguration login = builder.Action("Login");
             login.Parameter<string>("userName");
             login.Parameter<string>("password");
+       
 
             builder.Action("Logout");
 

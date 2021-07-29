@@ -24,7 +24,7 @@ namespace ASPNETCoreODataService.Controllers {
 		[HttpGet]
 		[EnableQuery]
 		public ActionResult Get() {
-			IQueryable<Employee> employees = objectSpace.GetObjectsQuery<Employee>();//.Include(prop => prop.Department);
+			IQueryable<Employee> employees = objectSpace.GetObjectsQuery<Employee>();
 			return Ok(employees);
 		}
 		[HttpDelete]
@@ -41,7 +41,7 @@ namespace ASPNETCoreODataService.Controllers {
 		public ActionResult Patch(int key, [FromBody] JsonElement serializedProperties) {
 			Employee employee = objectSpace.FirstOrDefault<Employee>(e => e.ID == key);
 			if(employee != null) {
-				JsonParser.ParseJObject<Employee>(serializedProperties, employee, objectSpace);
+				JsonParser.ParseJson<Employee>(serializedProperties, employee, objectSpace);
 				objectSpace.CommitChanges();
 				return Ok(employee);
 			}
@@ -50,7 +50,7 @@ namespace ASPNETCoreODataService.Controllers {
 		[HttpPost]
 		public ActionResult Post([FromBody] JsonElement serializedProperties) {
 			Employee newEmployee = objectSpace.CreateObject<Employee>();
-			JsonParser.ParseJObject<Employee>(serializedProperties, newEmployee, objectSpace);
+			JsonParser.ParseJson<Employee>(serializedProperties, newEmployee, objectSpace);
 			objectSpace.CommitChanges(); 
 			return Ok(newEmployee);
 		}
