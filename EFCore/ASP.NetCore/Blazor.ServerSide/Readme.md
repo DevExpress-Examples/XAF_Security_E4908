@@ -1,4 +1,6 @@
-This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Blazor application.
+<!-- default file list -->
+
+This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a Blazor Server App with Entity Framework Core.
 You will also see how to execute Create, Write and Delete data operations and take security permissions into account.
 
 ## Prerequisites
@@ -6,11 +8,25 @@ You will also see how to execute Create, Write and Delete data operations and ta
 - Make sure that your environment meets [Microsoft Blazor Prerequisites](https://docs.devexpress.com/Blazor/401055/getting-started/prerequisites).
 - [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/)
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
-- Add the _XafSolution.Module_ assembly reference to your application.
 
+## Create and Configure a New Project
 
-> If you wish to create a Blazor project with our Blazor Components from scratch, follow the [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application) article.
-
+- Follow the [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application) article to create a Blazor project from scratch.
+- Add the [EFCore/BusinessObjectsLibrary](../BusinessObjectsLibrary) project reference. *BusinessObjectsLibrary* adds important NuGet dependencies:
+    ```xml
+	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
+	<PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.1.3" />
+    <PackageReference Include="DevExpress.Persistent.Base" Version="21.1.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.1.3" />
+    ```
+    The `DevExpress.Persistent.BaseImpl.EFCore` NuGet package contains the PermissionPolicyUser, PermissionPolicyRole and other XAF's Security System API.
+	Update package versions if you are using a higher DevExpress.Blazor version in the Blazor Application project.
+- Add NuGet packages for Entity Framework Core with SQL Server:
+    ```xml
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
+    ```
+- Create the Helpers folder and add a new code file to it. Set the file name to SecurityProvider.cs and declare the SecurityProvider class. The SecurityProvider class creates and initializes required XAF components ([SecurityStrategyComplex](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategyComplex), [SecuredEFCoreObjectSpaceProvider](https://docs.devexpress.com/eXpressAppFramework/DevExpress.EntityFrameworkCore.Security.SecuredEFCoreObjectSpaceProvider?p=netstandard)) and calls the SecurityStrategyBase.Logon method.
 ---
 
 ## Step 1. Configure the Blazor Application

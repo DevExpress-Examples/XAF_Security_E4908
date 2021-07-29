@@ -1,0 +1,27 @@
+﻿@page "/Login"
+@namespace Blazor.ServerSide.Pages
+@model LoginModel
+
+<link rel="stylesheet" href="~/css/blazing berry/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
+
+<title>Log In</title>
+
+<h1>Welcome to the XAF's Security in Non-XAF Apps Demo</h1>
+<h2>Enter your user name (<b>Admin</b> or <b>User</b>) to proceed.</h2>
+<div class="login-form">
+    @using(Html.BeginForm()) {
+        @Html.ValidationSummary()
+        <div>
+            @Html.TextBoxFor(m => m.Input.UserName, new { placeholder= "User Name", @class = "login-input" })
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Input.Password, new { placeholder = "Passoword", @class = "login-input" })
+        </div>
+        <h2 style="margin-bottom: 0; color: #bdbdbd;">This demo app does not require</h2>
+        <h2 style="margin-bottom: 10px; color: #bdbdbd;">a password for login.</h2>
+        <button type="submit" class="btn btn-primary">Log In</button>
+    }
+</div>
+@{
+}

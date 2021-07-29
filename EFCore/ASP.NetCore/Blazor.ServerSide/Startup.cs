@@ -1,5 +1,3 @@
-using Blazor.ServerSide.Helpers;
-
 using BusinessObjectsLibrary.EFCore.BusinessObjects;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -9,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace Blazor.ServerSide {
     public class Startup
@@ -35,12 +32,11 @@ namespace Blazor.ServerSide {
             services.AddHttpContextAccessor();
 
             string connectionString = Configuration.GetConnectionString("XafApplication");
-            services.AddXafSecurity()
-                .AddApplicationDbContext<ApplicationDbContext>((builder, _) => builder.UseSqlServer(connectionString));
+            services.AddSecuredObjectSpace<ApplicationDbContext>((builder, _) => builder.UseSqlServer(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<SecurityOptions> securityOptions)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -63,13 +59,15 @@ namespace Blazor.ServerSide {
 
             app.UseRouting();
 
+            app.UseDemoData<ApplicationDbContext>((builder, _) =>
+                builder.UseSqlServer(Configuration.GetConnectionString("XafApplication")));
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
 
-            app.UseXafDemoData(securityOptions);
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿@inject SecuredObjectSpaceService objectSpaceService; 
+
+@if(HasAccess()) {
+    @ChildContent(!objectSpaceService.CanWrite(CurrentObject, PropertyName))
+} else {
+    @if(IsEditor) {
+        <DxTextBox @bind-Text="ProtectedContent" ReadOnly="true"></DxTextBox>
+    } else {
+        @ProtectedContent
+    }
+}
+
+@code {
+    string ProtectedContent = "*******";
+    [Parameter]
+    public object CurrentObject { get; set; }
+    [Parameter]
+    public string PropertyName { get; set; }
+    [Parameter]
+    public bool IsEditor { get; set; }
+    [Parameter]
+    public bool? IsNewObject { get; set; }
+    [Parameter]
+    public RenderFragment<bool> ChildContent { get; set; }
+    bool HasAccess() {
+        if(IsNewObject.HasValue && IsNewObject.Value) {
+            return objectSpaceService.CanWrite(CurrentObject, PropertyName);
+        } else {
+            return objectSpaceService.CanRead(CurrentObject, PropertyName);
+        }
+    }
+}
