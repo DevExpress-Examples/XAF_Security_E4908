@@ -14,7 +14,6 @@ namespace DevExtreme.OData.EFCore {
             Key = Guid.NewGuid();
         }
     }
-    //...
     public class ObjectPermission {
         public IDictionary<string, object> Data { get; set; }
         [Key]
@@ -25,7 +24,6 @@ namespace DevExtreme.OData.EFCore {
             Data = new Dictionary<string, object>();
         }
     }
-    //...
     public class TypePermission {
         public IDictionary<string, object> Data { get; set; }
         [Key]

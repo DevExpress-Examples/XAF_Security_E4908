@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ASPNETCoreODataService {
 	public static class JsonParser {
-		public static void ParseJObject<T>(JsonElement jElement, object obj, IObjectSpace objectSpace)  {
+		public static void ParseJson<T>(JsonElement jElement, object obj, IObjectSpace objectSpace)  {
 			ITypeInfo typeInfo = objectSpace.TypesInfo.FindTypeInfo(typeof(T));
 			var properties = jElement.EnumerateObject();
 			foreach(JsonProperty property in properties) {

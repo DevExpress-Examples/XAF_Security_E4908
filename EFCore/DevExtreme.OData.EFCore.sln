@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary.EFCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevExtreme.OData.EFCore", "ASP.NetCore\DevExtreme.OData\DevExtreme.OData.EFCore.csproj", "{37FE0839-D0DC-49B8-8807-1004E7CB5E24}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater.EFCore", "DatabaseUpdater\DatabaseUpdater.EFCore.csproj", "{E6C8D87E-C5A5-4EAB-A192-FCB41BFC036F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{37FE0839-D0DC-49B8-8807-1004E7CB5E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37FE0839-D0DC-49B8-8807-1004E7CB5E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37FE0839-D0DC-49B8-8807-1004E7CB5E24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6C8D87E-C5A5-4EAB-A192-FCB41BFC036F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6C8D87E-C5A5-4EAB-A192-FCB41BFC036F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6C8D87E-C5A5-4EAB-A192-FCB41BFC036F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6C8D87E-C5A5-4EAB-A192-FCB41BFC036F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
