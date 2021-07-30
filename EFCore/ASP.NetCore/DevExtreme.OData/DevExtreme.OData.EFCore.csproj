@@ -14,31 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="D:\gitforksourcefolder\XAF_Security_E4908\EFCore\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="DevExpress.Data.v21.2">
-      <HintPath>..\..\..\..\..\..\DXVCS\2021.2\Bin\NETCore\DevExpress.Data.v21.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.EntityFrameworkCore.Security.v21.2">
-      <HintPath>..\..\..\..\..\..\DXVCS\2021.2\Bin\NETCore\DevExpress.EntityFrameworkCore.Security.v21.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.ExpressApp.EFCore.v21.2">
-      <HintPath>..\..\..\..\..\..\DXVCS\2021.2\Bin\NETCore\DevExpress.ExpressApp.EFCore.v21.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.ExpressApp.Security.v21.2">
-      <HintPath>..\..\..\..\..\..\DXVCS\2021.2\Bin\NETCore\DevExpress.ExpressApp.Security.v21.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.ExpressApp.v21.2">
-      <HintPath>..\..\..\..\..\..\DXVCS\2021.2\Bin\NETCore\DevExpress.ExpressApp.v21.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Persistent.Base.v21.2">
-      <HintPath>..\..\..\..\..\..\DXVCS\2021.2\Bin\NETCore\DevExpress.Persistent.Base.v21.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Persistent.BaseImpl.EFCore.v21.2">
-      <HintPath>..\..\..\..\..\..\DXVCS\2021.2\Bin\NETCore\DevExpress.Persistent.BaseImpl.EFCore.v21.2.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj" />
   </ItemGroup>
 
 </Project>
