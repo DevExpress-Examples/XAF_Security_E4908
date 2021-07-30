@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <ReferencePath>c:\dxvcs\2021.2\Bin\NETCoreDesktop;c:\dxvcs\2021.2\Bin\Standard</ReferencePath>
   </PropertyGroup>
 
   <ItemGroup>
