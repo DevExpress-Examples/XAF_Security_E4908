@@ -64,7 +64,7 @@ namespace ASPNETCoreODataService {
 			return security;
 		}
 		private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-			string connectionString = config.GetConnectionString("XafApplication");
+			string connectionString = config.GetConnectionString("XPOTestDB");
 			SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(connectionString, null, true), true);
 			RegisterEntities(objectSpaceProvider);
 			return objectSpaceProvider;
