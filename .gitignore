@@ -297,6 +297,8 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+EFCore/ASP.NetCore/DevExtreme.OData/wwwroot/css/devextreme
+EFCore/ASP.NetCore/DevExtreme.OData/wwwroot/js/devextreme
 ASP.NetCore/DevExtreme.OData/wwwroot/css/devextreme
 ASP.NetCore/DevExtreme.OData/wwwroot/js/devextreme
 XPO/ASP.NetCore/DevExtreme.OData/wwwroot/css/devextreme
