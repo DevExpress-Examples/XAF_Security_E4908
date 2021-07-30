@@ -7,7 +7,8 @@
             "provider": "cdnjs",
             "destination": "wwwroot/js/devextreme",
             "files": [
-                "jquery.js"
+                "jquery.js",
+                "jquery.min.js"
             ]
         },
         {
