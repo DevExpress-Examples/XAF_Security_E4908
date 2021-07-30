@@ -12,6 +12,7 @@ using BusinessObjectsLibrary.EFCore.BusinessObjects;
 using DevExpress.ExpressApp.EFCore;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace ASPNETCoreODataService.Controllers {
 	public class EmployeesController : ODataController, IDisposable {
@@ -24,7 +25,7 @@ namespace ASPNETCoreODataService.Controllers {
 		[HttpGet]
 		[EnableQuery]
 		public ActionResult Get() {
-			IQueryable<Employee> employees = objectSpace.GetObjectsQuery<Employee>();
+			IQueryable<Employee> employees = objectSpace.GetObjectsQuery<Employee>().Include(e=>e.Department);
 			return Ok(employees);
 		}
 		[HttpDelete]
