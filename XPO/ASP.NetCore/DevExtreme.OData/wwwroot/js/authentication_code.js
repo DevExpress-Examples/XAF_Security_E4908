@@ -46,7 +46,9 @@
 			complete: function (e) {
 				if (e.status === 200) {
 					document.cookie = "userName=" + userName;
-					document.location.href = "/index.html";
+					document.location.href = "/";
+					window.location = "Index.html";
+					
 				}
 				if (e.status === 401) {
 					alert("User name or password is incorrect");

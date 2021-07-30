@@ -1,0 +1,17 @@
+{
+  "name": "MVC",
+  "version": "1.0.0",
+  "description": "This example demonstrates how to protect your data with the [XAF Security System](https://docs.devexpress.com/eXpressAppFramework/113366/Concepts/Security-System/Security-System-Overview) in the ASP.NET Core MVC web application with the DevExtreme UI.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.0.2",
+    "devextreme": "^21.1.4",
+    "devextreme-aspnet-data": "^2.8.6"
+  }
+}
