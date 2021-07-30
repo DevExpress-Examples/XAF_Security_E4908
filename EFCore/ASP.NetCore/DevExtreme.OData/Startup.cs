@@ -37,8 +37,10 @@ namespace DevExtreme.OData.EFCore {
             services.AddControllers(mvcOptions => {
                 mvcOptions.EnableEndpointRouting = false;
             })
-                .AddJsonOptions(opt => opt.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)
-                .AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents(GetEdmModel()));
+                .AddOData(opt => {
+                    opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents(GetEdmModel());
+                    
+                });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
            .AddCookie();
             services.AddSingleton(Configuration);
