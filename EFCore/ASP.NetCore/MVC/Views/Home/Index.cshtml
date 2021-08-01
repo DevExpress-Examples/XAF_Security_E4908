@@ -1,0 +1,74 @@
+﻿@using BusinessObjectsLibrary.EFCore.BusinessObjects
+@using Newtonsoft.Json
+
+@model MvcApplication.TypePermission
+
+
+<title>Employees</title>
+<script src="~/js/IndexCode.js"></script>
+
+<div style="text-align: right; margin: 10px">
+	@(Html.DevExtreme().Button()
+				.ID("Logout")
+				.Text("Log Out")
+				.Type(ButtonType.Normal)
+				.OnClick("onClick")
+	)
+</div>
+<div>
+	@(Html.DevExtreme().DataGrid<Employee>()
+        .ID("gridContainer")
+            .ShowBorders(true)
+            .Height(900)
+            .RemoteOperations(true)
+            .ColumnAutoWidth(true)
+            .CacheEnabled(false)
+            .FilterRow(filterRow => filterRow.Visible(true))
+            .GroupPanel(groupPanel => groupPanel.Visible(Mode.Auto))
+            .Grouping(grouping => grouping.AutoExpandAll(false))
+            .OnInitialized(string.Format("onInitialized({0})", JsonConvert.SerializeObject(Model.Data)))
+            .OnCellPrepared("onCellPrepared")
+            .OnEditorPreparing("onEditorPreparing")
+            .Editing(editing => editing
+                .Mode(GridEditMode.Form)
+                .AllowAdding(Model.Create)
+                .AllowDeleting(new JS("allowDeleting"))
+                .AllowUpdating(new JS("allowUpdating")))
+            .DataSource(employeesDataSource => employeesDataSource.Mvc().Controller("Employees")
+                .LoadAction("Get")
+                .InsertAction("Add")
+                .UpdateAction("Update")
+                .DeleteAction("Delete")
+                .Key("ID")
+                .OnLoaded("onLoaded")
+            )
+            .Columns(columns => {
+                columns.Add()
+                    .Caption("Employee")
+                    .Columns(employeeColumns => {
+                        employeeColumns.Add()
+                            .Caption("First name")
+                            .DataField("FirstName");
+                        employeeColumns.Add()
+                            .Caption("Last name")
+                            .DataField("LastName");
+                    });
+                columns.Add()
+                    .Caption("Email")
+                    .DataField("Email");
+                columns.Add()
+                    .Caption("Department")
+                    .DataField("Department.ID")
+                    .Lookup(department => {
+                        department.DataSource(departmentDataSource => departmentDataSource.Mvc().Controller("Departments")
+                            .LoadAction("Get")
+                            .InsertAction("Add")
+                            .UpdateAction("Update")
+                            .DeleteAction("Delete")
+                            .Key("ID"))
+                        .ValueExpr("ID")
+                        .DisplayExpr("Title");
+                    });
+            })
+	)
+</div>
