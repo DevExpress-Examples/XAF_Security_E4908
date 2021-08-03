@@ -1,6 +1,7 @@
 ﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
 using DevExpress.EntityFrameworkCore.Security;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.EFCore;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
@@ -9,21 +10,25 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Configuration;
 using System.Diagnostics;
+using DatabaseUpdater.EFCore;
 
 namespace ConsoleApplication {
     // ## Prerequisites. 
     // 1) Add the 'DevExpress.ExpressApp.EFCore' and 'Microsoft.EntityFrameworkCore*' NuGet packages; 
     // 2) Define your ORM data model and DbContext (explore the 'BusinessObjectsLibrary' project);
-    // 3) Create a database with user, role and permission data (run the 'DatabaseUpdater' project).
     class Program {
         static void Main() {
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            // ## Step 0. Preparation. Create or update database
+            CreateDemoData(connectionString);
+
             // ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
             AuthenticationStandard authentication = new AuthenticationStandard();
             SecurityStrategyComplex security = new SecurityStrategyComplex(
                 typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),
                 authentication
             );
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            
             SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
                 (builder, _) => builder.UseSqlServer(connectionString));
 
@@ -57,6 +62,12 @@ namespace ConsoleApplication {
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
+        }
+        private static void CreateDemoData(string connectionString) {
+            using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), (builder, _) => builder.UseSqlServer(connectionString)))
+            using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+                new Updater(objectSpace).UpdateDatabase();
+            }
         }
     }
 }

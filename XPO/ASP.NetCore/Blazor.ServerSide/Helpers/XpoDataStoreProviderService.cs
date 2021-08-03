@@ -7,7 +7,7 @@ namespace BlazorApplication.NetCore {
 		private IXpoDataStoreProvider dataStoreProvider;
 		private string connectionString;
 		public XpoDataStoreProviderService(IConfiguration config) {
-			connectionString = config.GetConnectionString("XPOTestDB");
+			connectionString = config.GetConnectionString("ConnectionString");
 		}
 		public IXpoDataStoreProvider GetDataStoreProvider() {
 			if(dataStoreProvider == null) {

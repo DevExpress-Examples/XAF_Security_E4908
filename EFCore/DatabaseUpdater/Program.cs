@@ -1,7 +1,6 @@
 ﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.EFCore;
-using DevExpress.Persistent.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Configuration;

@@ -98,6 +98,8 @@ namespace MvcApplication {
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseDemoData<ApplicationDbContext>((builder, _) =>
+                builder.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
         }
     }
 }

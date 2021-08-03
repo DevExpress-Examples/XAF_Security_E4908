@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp;
+﻿using BusinessObjectsLibrary;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
@@ -16,11 +17,9 @@ namespace BlazorApplication.NetCore {
 		public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
 		private XpoDataStoreProviderService xpoDataStoreProviderService;
 		private IHttpContextAccessor contextAccessor;
-		private IEnumerable<Type> securedTypes;
-		public SecurityProvider(XpoDataStoreProviderService xpoDataStoreProviderService, IHttpContextAccessor contextAccessor, IOptions<SecurityOptions> securityOptions) {
+		public SecurityProvider(XpoDataStoreProviderService xpoDataStoreProviderService, IHttpContextAccessor contextAccessor) {
 			this.xpoDataStoreProviderService = xpoDataStoreProviderService;
 			this.contextAccessor = contextAccessor;
-			securedTypes = securityOptions.Value.SecuredTypes;
 			if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
 				Initialize();
 			}
@@ -70,36 +69,14 @@ namespace BlazorApplication.NetCore {
 			IObjectSpace objectSpace = objectSpaceProvider.CreateObjectSpace();
 			security.Logon(objectSpace);
 		}
-		private void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
-			if(securedTypes != null) {
-				foreach(Type type in securedTypes) {
-					objectSpaceProvider.TypesInfo.RegisterEntity(type);
-				}
-			}
+		public static void RegisterEntities(IObjectSpaceProvider objectSpaceProvider) {
+			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
+			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
 		}
 		public void Dispose() {
 			Security?.Dispose();
 			((SecuredObjectSpaceProvider)ObjectSpaceProvider)?.Dispose();
-		}
-	}
-
-	public class SecurityOptions {
-		public IEnumerable<Type> SecuredTypes { get; set; }
-	}
-}
-
-namespace Microsoft.Extensions.DependencyInjection {
-	using BlazorApplication.NetCore;
-
-	public static class SecurityProviderExtensions {
-		public static IServiceCollection AddXafSecurity(this IServiceCollection services) {
-			return services.AddSingleton<XpoDataStoreProviderService>()
-				.AddScoped<SecurityProvider>();
-		}
-		public static IServiceCollection AddSecuredTypes(this IServiceCollection service, params Type[] types) {
-			return service.Configure<SecurityOptions>(options => {
-				options.SecuredTypes = types;
-			});
 		}
 	}
 }

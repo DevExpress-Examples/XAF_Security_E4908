@@ -64,7 +64,7 @@ namespace ASPNETCoreODataService {
 			return security;
 		}
 		private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-			string connectionString = config.GetConnectionString("XPOTestDB");
+			string connectionString = config.GetConnectionString("ConnectionString");
 			SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(connectionString, null, true), true);
 			RegisterEntities(objectSpaceProvider);
 			return objectSpaceProvider;
@@ -73,7 +73,7 @@ namespace ASPNETCoreODataService {
 			IObjectSpace objectSpace = objectSpaceProvider.CreateObjectSpace();
 			security.Logon(objectSpace);
 		}
-		private void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
+		public static void RegisterEntities(IObjectSpaceProvider objectSpaceProvider) {
 			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
 			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
 			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));

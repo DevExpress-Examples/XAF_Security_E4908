@@ -70,6 +70,8 @@ namespace DevExtreme.OData.EFCore {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
+            app.UseDemoData<ApplicationDbContext>((builder, _) =>
+                builder.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
         }
         private IEdmModel GetEdmModel() {
             ODataModelBuilder builder = new ODataConventionModelBuilder();

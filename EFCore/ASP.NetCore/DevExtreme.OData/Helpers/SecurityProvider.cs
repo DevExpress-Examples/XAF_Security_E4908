@@ -42,7 +42,7 @@ namespace DevExtreme.OData.EFCore {
 			return security;
 		}
 		private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-			string connectionString = config.GetConnectionString("EFCore");
+			string connectionString = config.GetConnectionString("ConnectionString");
 			SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
 				(builder, _) => builder.UseSqlServer(connectionString));
 			return objectSpaceProvider;

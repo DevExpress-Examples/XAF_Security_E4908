@@ -1,4 +1,5 @@
 ﻿using BusinessObjectsLibrary;
+using DatabaseUpdater;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
@@ -12,12 +13,13 @@ using System.Text;
 namespace ConsoleApplication {
 	class Program {
 		static void Main() {
+			string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 			RegisterEntities();
+			CreateDemoData(connectionString);
+
 			AuthenticationStandard authentication = new AuthenticationStandard();
 			SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
 			security.RegisterXPOAdapterProviders();
-
-			string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 			SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 
 			string userName = "User";
@@ -53,6 +55,12 @@ namespace ConsoleApplication {
 			XafTypesInfo.Instance.RegisterEntity(typeof(Employee));
 			XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
 			XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
+		}
+		private static void CreateDemoData(string connectionString) {
+			using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString))
+			using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+				new Updater(objectSpace).UpdateDatabase();
+			}
 		}
 	}
 }

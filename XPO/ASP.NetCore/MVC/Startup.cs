@@ -97,6 +97,7 @@ namespace MvcApplication {
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
 			});
+			app.UseDemoData(Configuration.GetConnectionString("ConnectionString"));
 		}
 	}
 }

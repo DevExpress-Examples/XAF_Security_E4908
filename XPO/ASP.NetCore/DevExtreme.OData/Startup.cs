@@ -60,6 +60,7 @@ namespace ASPNETCoreODataService {
 			app.UseEndpoints(endpoints => {
 				endpoints.MapControllers();
 			});
+			app.UseDemoData(Configuration.GetConnectionString("ConnectionString"));
 		}
 		private IEdmModel GetEdmModel() {
 			ODataModelBuilder builder = new ODataConventionModelBuilder();
