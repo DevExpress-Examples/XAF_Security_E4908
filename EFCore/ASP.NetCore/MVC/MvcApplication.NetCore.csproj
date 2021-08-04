@@ -3,11 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin_NetCore\</OutputPath>
-  </PropertyGroup>
-  
   <ItemGroup>
     <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.1.3" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.1.3" />

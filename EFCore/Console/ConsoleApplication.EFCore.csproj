@@ -5,9 +5,6 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>ConsoleApplication.EFCore</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin_NetCore\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="DatabaseUpdate\**" />
     <EmbeddedResource Remove="DatabaseUpdate\**" />
