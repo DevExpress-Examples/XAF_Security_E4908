@@ -1,0 +1,35 @@
+[
+  {
+    "outputFileName": "wwwroot/css/vendor.css",
+    "inputFiles": [
+      "wwwroot/devextreme/bootstrap.css",
+      "wwwroot/devextreme/css/dx.common.css",
+      "wwwroot/devextreme/css/dx.material.orange.light.css"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/vendor.js",
+    "inputFiles": [
+      "wwwroot/devextreme/js/jquery.js",
+      "wwwroot/devextreme/js/bootstrap.js",
+      "wwwroot/devextreme/js/cldr.js",
+      "wwwroot/devextreme/js/cldr/event.js",
+      "wwwroot/devextreme/js/cldr/supplemental.js",
+      "wwwroot/devextreme/js/cldr/unresolved.js",
+      "wwwroot/devextreme/js/globalize.js",
+      "wwwroot/devextreme/js/globalize/message.js",
+      "wwwroot/devextreme/js/globalize/number.js",
+      "wwwroot/devextreme/js/globalize/currency.js",
+      "wwwroot/devextreme/js/globalize/date.js",
+      "wwwroot/devextreme/js/dx.all.js",
+      "wwwroot/devextreme/js/dx.aspnet.mvc.js",
+      "wwwroot/devextreme/js/dx.aspnet.data.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  }
+]
