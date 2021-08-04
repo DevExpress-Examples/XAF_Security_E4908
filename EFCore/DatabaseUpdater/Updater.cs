@@ -1,5 +1,4 @@
 ﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
-using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.Base;
