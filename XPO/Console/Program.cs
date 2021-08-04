@@ -14,13 +14,13 @@ namespace ConsoleApplication {
 	class Program {
 		static void Main() {
 			string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-			RegisterEntities();
 			CreateDemoData(connectionString);
 
 			AuthenticationStandard authentication = new AuthenticationStandard();
 			SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
 			security.RegisterXPOAdapterProviders();
 			SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
+			RegisterEntities(objectSpaceProvider);
 
 			string userName = "User";
 			string password = string.Empty;
@@ -50,16 +50,17 @@ namespace ConsoleApplication {
 			Console.WriteLine("Press any key to close a the console...");
 			Console.ReadLine();
 		}
-		private static void RegisterEntities() {
-			XpoTypesInfoHelper.GetXpoTypeInfoSource();
-			XafTypesInfo.Instance.RegisterEntity(typeof(Employee));
-			XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
-			XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
+		private static void RegisterEntities(IObjectSpaceProvider objectSpaceProvider) {
+			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
+			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
 		}
 		private static void CreateDemoData(string connectionString) {
-			using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString))
-			using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
-				new Updater(objectSpace).UpdateDatabase();
+			using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString)) {
+				RegisterEntities(objectSpaceProvider);
+				using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+					new Updater(objectSpace).UpdateDatabase();
+				}
 			}
 		}
 	}
