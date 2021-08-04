@@ -26,7 +26,7 @@ namespace WebFormsApplication {
 			security.RegisterXPOAdapterProviders();
 			return security;
 		}
-		private static void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
+		public static void RegisterEntities(IObjectSpaceProvider objectSpaceProvider) {
 			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
 			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
 			objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));

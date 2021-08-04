@@ -186,6 +186,10 @@
       <Project>{b2c64ce1-756b-483d-b38e-86e1f15482b1}</Project>
       <Name>BusinessObjectsLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\DatabaseUpdater\DatabaseUpdater.csproj">
+      <Project>{4C305DDB-C716-412B-9624-9ED4059B8DC2}</Project>
+      <Name>DatabaseUpdater</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />

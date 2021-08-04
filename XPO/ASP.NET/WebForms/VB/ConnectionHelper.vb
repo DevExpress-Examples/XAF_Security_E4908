@@ -30,7 +30,7 @@ Namespace WebFormsApplication
             security.RegisterXPOAdapterProviders()
             Return security
         End Function
-        Private Shared Sub RegisterEntities(ByVal objectSpaceProvider As SecuredObjectSpaceProvider)
+        Public Shared Sub RegisterEntities(ByVal objectSpaceProvider As IObjectSpaceProvider)
             objectSpaceProvider.TypesInfo.RegisterEntity(GetType(Employee))
             objectSpaceProvider.TypesInfo.RegisterEntity(GetType(PermissionPolicyUser))
             objectSpaceProvider.TypesInfo.RegisterEntity(GetType(PermissionPolicyRole))
