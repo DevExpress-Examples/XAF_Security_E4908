@@ -10,11 +10,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="DatabaseUpdate\**" />
-    <Compile Remove="Properties\**" />
     <EmbeddedResource Remove="DatabaseUpdate\**" />
-    <EmbeddedResource Remove="Properties\**" />
     <None Remove="DatabaseUpdate\**" />
-    <None Remove="Properties\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.0" />
@@ -22,11 +22,14 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj" />
-    <ProjectReference Include="..\..\DatabaseUpdater\DatabaseUpdater.EFCore.csproj" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj" />
+    <ProjectReference Include="..\DatabaseUpdater\DatabaseUpdater.EFCore.csproj" />
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="dotnet restore ConsoleApplication.EFCore.vbproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+    <Exec Command="dotnet restore ConsoleApplication.EFCore.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
       <Output PropertyName="ExitCode" TaskParameter="ExitCode" />
     </Exec>
     <Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
