@@ -31,7 +31,7 @@ namespace Blazor.ServerSide {
                 .AddCookie();
             services.AddHttpContextAccessor();
 
-            string connectionString = Configuration.GetConnectionString("XafApplication");
+            string connectionString = Configuration.GetConnectionString("ConnectionString");
             services.AddSecuredObjectSpace<ApplicationDbContext>((builder, _) => builder.UseSqlServer(connectionString));
         }
 
@@ -60,7 +60,7 @@ namespace Blazor.ServerSide {
             app.UseRouting();
 
             app.UseDemoData<ApplicationDbContext>((builder, _) =>
-                builder.UseSqlServer(Configuration.GetConnectionString("XafApplication")));
+                builder.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
 
             app.UseEndpoints(endpoints =>
             {
