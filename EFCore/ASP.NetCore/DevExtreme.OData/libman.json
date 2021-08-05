@@ -1,85 +1,34 @@
 {
-    "version": "1.0",
-    "defaultProvider": "cdnjs",
-    "libraries": [
-        {
-            "library": "jquery@3.5.1",
-            "provider": "cdnjs",
-            "destination": "wwwroot/js/devextreme",
-            "files": [
-                "jquery.js",
-                "jquery.min.js"
-            ]
-        },
-        {
-            "library": "cldrjs@0.5.1",
-            "provider": "cdnjs",
-            "destination": "wwwroot/js/devextreme/"
-        },
-        {
-            "library": "globalize@1.4.2",
-            "provider": "cdnjs",
-            "destination": "wwwroot/js/devextreme/"
-        },
-        {
-            "library": "jszip@3.2.1",
-            "provider": "cdnjs",
-            "destination": "wwwroot/js/devextreme/"
-        },
-        {
-            "library": "node_modules/devextreme/dist/js/",
-            "provider": "filesystem",
-            "destination": "wwwroot/js/devextreme/"
-        },
-        {
-            "library": "node_modules/devextreme/dist/css/dx.light.css",
-            "provider": "filesystem",
-            "destination": "wwwroot/css/devextreme/"
-        },
-        {
-            "library": "node_modules/devextreme/dist/css/dx.material.orange.light.css",
-            "provider": "filesystem",
-            "destination": "wwwroot/css/devextreme/"
-        },
-        {
-            "library": "node_modules/devextreme/dist/css/dx.common.css",
-            "provider": "filesystem",
-            "destination": "wwwroot/css/devextreme/"
-        },
-        {
-            "library": "node_modules/devextreme/dist/css/icons/",
-            "provider": "filesystem",
-            "destination": "wwwroot/css/devextreme/icons"
-        },
-        {
-            "library": "node_modules/devextreme/dist/css/fonts/",
-            "provider": "filesystem",
-            "destination": "wwwroot/css/devextreme/fonts"
-        },
-        {
-            "library": "node_modules/bootstrap/dist/css/bootstrap.css",
-            "provider": "filesystem",
-            "destination": "wwwroot/css/devextreme"
-        },
-        {
-            "library": "node_modules/bootstrap/dist/js/bootstrap.js",
-            "provider": "filesystem",
-            "destination": "wwwroot/js/devextreme"
-        },
-        {
-            "library": "node_modules/bootstrap/dist/css/bootstrap.css.map",
-            "provider": "filesystem",
-            "destination": "wwwroot/css/devextreme"
-        },
-        {
-            "library": "node_modules/bootstrap/dist/js/bootstrap.js.map",
-            "provider": "filesystem",
-            "destination": "wwwroot/js/devextreme"
-        },
-        {
-            "library": "node_modules/devextreme-aspnet-data/js/dx.aspnet.data.js",
-            "provider": "filesystem",
-            "destination": "wwwroot/js/devextreme"
-        }
-    ]
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery@3.5.1",
+      "destination": "wwwroot/devextreme/js/"
+    },
+    {
+      "library": "cldrjs@0.5.1",
+      "destination": "wwwroot/devextreme/js/"
+    },
+    {
+      "library": "globalize@1.4.2",
+      "destination": "wwwroot/devextreme/js/"
+    },
+    {
+      "library": "jszip@3.2.1",
+      "destination": "wwwroot/devextreme/js/"
+    },
+    {
+      "library": "bootstrap@5.0.2",
+      "destination": "wwwroot/devextreme/"
+    },
+    {
+      "library": "devextreme@21.1.3",
+      "destination": "wwwroot/devextreme/"
+    },
+    {
+      "library": "devextreme-aspnet-data@2.8.6",
+      "destination": "wwwroot/devextreme/js/"
+    }
+  ]
 }

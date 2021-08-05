@@ -4,10 +4,7 @@
   "libraries": [
     {
       "library": "jquery@3.5.1",
-      "destination": "wwwroot/devextreme/js/",
-      "files": [
-        "jquery.js"
-      ]
+      "destination": "wwwroot/devextreme/js/"
     },
     {
       "library": "cldrjs@0.5.1",
