@@ -1,4 +1,3 @@
-<!-- default file list -->
 # .NET Role-based Access Control & User Authentication API for DevExpress XPO and Microsoft Entity Framework Core ORMs
 
 For general information on XAF's Security System API, please review [our landing page](https://www.devexpress.com/products/net/application_framework/security.xml) or watch [the overview video](https://youtu.be/sIhWOXRWlOw).
