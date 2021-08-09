@@ -36,7 +36,7 @@ namespace ConsoleApplication {
 				// User cannot read protected entities like PermissionPolicyRole.
 				Debug.Assert(securedObjectSpace.GetObjects<PermissionPolicyRole>().Count == 0);
 				foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) { // User can read Employee data.
-																						  // User can read Department data by criteria.
+					// User can read Department data by criteria.
 					bool canRead = security.CanRead(securedObjectSpace, employee, memberName: nameof(Employee.Department));
 					Debug.Assert(!canRead == (employee.Department == null));
 					// Mask protected property values when User has no 'Read' permission.

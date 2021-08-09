@@ -58,7 +58,8 @@ namespace DatabaseUpdater.EFCore {
                 userRole.Name = DefaultUserRoleName;
                 // Allow users to read departments only if their title contains 'Development'. 
                 const string protectedDepartment = "Development";
-                userRole.AddObjectPermissionFromLambda<Department>(SecurityOperations.Read, t => !t.Title.Contains(protectedDepartment), SecurityPermissionState.Deny);
+                userRole.AddObjectPermissionFromLambda<Department>(SecurityOperations.Read, t => t.Title.Contains(protectedDepartment), SecurityPermissionState.Allow);
+                userRole.AddTypePermission<Department>(SecurityOperations.Read, SecurityPermissionState.Deny);
                 // Allow users to read and modify employee records and their fields by criteria.
                 userRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
                 userRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);

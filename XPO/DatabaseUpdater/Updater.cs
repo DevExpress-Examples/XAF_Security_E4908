@@ -21,63 +21,54 @@ namespace DatabaseUpdater {
             CreateUser();
             CreateAdmin();
             CreateEmployees();
-            CreateDepartments();
-            ObjectSpace.CommitChanges();
         }
         private void CreateUser() {
-            PermissionPolicyUser sampleUser = ObjectSpace.FirstOrDefault<PermissionPolicyUser>(u => u.UserName == DefaultUserName);
-            if(sampleUser == null) {
-                sampleUser = ObjectSpace.CreateObject<PermissionPolicyUser>();
-                sampleUser.UserName = DefaultUserName;
-                sampleUser.SetPassword("");
+            PermissionPolicyUser defaultUser = ObjectSpace.FirstOrDefault<PermissionPolicyUser>(u => u.UserName == DefaultUserName);
+            if(defaultUser == null) {
+                defaultUser = ObjectSpace.CreateObject<PermissionPolicyUser>();
+                defaultUser.UserName = DefaultUserName;
+                defaultUser.SetPassword("");
+                defaultUser.Roles.Add(GetUserRole());
+                ObjectSpace.CommitChanges();
             }
-            PermissionPolicyRole defaultRole = CreateDefaultRole();
-            sampleUser.Roles.Add(defaultRole);
         }
         private void CreateAdmin() {
-            PermissionPolicyUser userAdmin = ObjectSpace.FirstOrDefault<PermissionPolicyUser>(u => u.UserName == AdministratorUserName);
-            if(userAdmin == null) {
-                userAdmin = ObjectSpace.CreateObject<PermissionPolicyUser>();
-                userAdmin.UserName = AdministratorUserName;
-                userAdmin.SetPassword("");
+            PermissionPolicyUser adminUser = ObjectSpace.FirstOrDefault<PermissionPolicyUser>(u => u.UserName == AdministratorUserName);
+            if(adminUser == null) {
+                adminUser = ObjectSpace.CreateObject<PermissionPolicyUser>();
+                adminUser.UserName = AdministratorUserName;
+                adminUser.SetPassword("");
+                adminUser.Roles.Add(GetAdminRole());
+                ObjectSpace.CommitChanges();
             }
-            PermissionPolicyRole adminRole = CreateAdminRole();
-            userAdmin.Roles.Add(adminRole);
         }
-        private PermissionPolicyRole CreateDefaultRole() {
-            PermissionPolicyRole defaultRole = ObjectSpace.FirstOrDefault<PermissionPolicyRole>(r => r.Name == DefaultUserRoleName);
-            if(defaultRole == null) {
-                defaultRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
-                defaultRole.Name = DefaultUserRoleName;
-                const string protectedDepartment = "Development";
-                defaultRole.AddTypePermissionsRecursively<Department>(SecurityOperations.Read, SecurityPermissionState.Deny);
-                defaultRole.AddObjectPermissionFromLambda<Department>(SecurityOperations.Read, t => t.Title.Contains(protectedDepartment), SecurityPermissionState.Allow);
-                defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
-                defaultRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
-                defaultRole.AddObjectPermissionFromLambda<Employee>(SecurityOperations.Delete, t => t.Department.Title.Contains(protectedDepartment), SecurityPermissionState.Allow);
-                defaultRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Write, nameof(Employee.LastName), t => !t.Department.Title.Contains(protectedDepartment), SecurityPermissionState.Deny);
-            }
-            return defaultRole;
-        }
-        private PermissionPolicyRole CreateAdminRole() {
-            PermissionPolicyRole adminRole = ObjectSpace.FirstOrDefault<PermissionPolicyRole>(r => r.Name == AdministratorRoleName);
+        private PermissionPolicyRole GetAdminRole() {
+            PermissionPolicyRole adminRole = ObjectSpace.FirstOrDefault<PermissionPolicyRole>(u => u.Name == AdministratorRoleName);
             if(adminRole == null) {
                 adminRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
                 adminRole.Name = AdministratorRoleName;
+                adminRole.IsAdministrative = true;
             }
-            adminRole.IsAdministrative = true;
             return adminRole;
         }
-        private DataTable GetEmployeesDataTable() {
-            string shortName = "Employees.xml";
-            string embeddedResourceName = Array.Find<string>(this.GetType().Assembly.GetManifestResourceNames(), (s) => { return s.Contains(shortName); });
-            Stream stream = this.GetType().Assembly.GetManifestResourceStream(embeddedResourceName);
-            if(stream == null) {
-                throw new Exception(string.Format("Cannot read employees data from the {0} file!", shortName));
+        private PermissionPolicyRole GetUserRole() {
+            PermissionPolicyRole userRole = ObjectSpace.FirstOrDefault<PermissionPolicyRole>(u => u.Name == DefaultUserRoleName);
+            if(userRole == null) {
+                userRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
+                userRole.Name = DefaultUserRoleName;
+                // Allow users to read departments only if their title contains 'Development'. 
+                const string protectedDepartment = "Development";
+                userRole.AddObjectPermissionFromLambda<Department>(SecurityOperations.Read, t => t.Title.Contains(protectedDepartment), SecurityPermissionState.Allow);
+                userRole.AddTypePermission<Department>(SecurityOperations.Read, SecurityPermissionState.Deny);
+                // Allow users to read and modify employee records and their fields by criteria.
+                userRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
+                userRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
+
+                userRole.AddObjectPermissionFromLambda<Employee>(SecurityOperations.Delete, t => t.Department.Title.Contains(protectedDepartment), SecurityPermissionState.Allow);
+                userRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Write, nameof(Employee.LastName), t => !t.Department.Title.Contains(protectedDepartment), SecurityPermissionState.Deny);
+                // For more information on criteria language syntax (both string and strongly-typed formats), see https://docs.devexpress.com/CoreLibraries/4928/.
             }
-            DataSet ds = new DataSet();
-            ds.ReadXml(stream);
-            return ds.Tables["Employee"];
+            return userRole;
         }
         private void CreateEmployees() {
             DataTable employeesTable = GetEmployeesDataTable();
@@ -102,20 +93,18 @@ namespace DatabaseUpdater {
                     employee.Department = department;
                 }
             }
+            ObjectSpace.CommitChanges();
         }
-        private void CreateDepartments() {
-            Department devDepartment = ObjectSpace.FirstOrDefault<Department>(d => d.Title == "Development Department");
-            if(devDepartment == null) {
-                devDepartment = ObjectSpace.CreateObject<Department>();
-                devDepartment.Title = "Development Department";
-                devDepartment.Office = "205";
+        private DataTable GetEmployeesDataTable() {
+            string shortName = "Employees.xml";
+            string embeddedResourceName = Array.Find<string>(this.GetType().Assembly.GetManifestResourceNames(), (s) => { return s.Contains(shortName); });
+            Stream stream = this.GetType().Assembly.GetManifestResourceStream(embeddedResourceName);
+            if(stream == null) {
+                throw new Exception(string.Format("Cannot read employees data from the {0} file!", shortName));
             }
-            Department seoDepartment = ObjectSpace.FirstOrDefault<Department>(d => d.Title == "SEO");
-            if(seoDepartment == null) {
-                seoDepartment = ObjectSpace.CreateObject<Department>();
-                seoDepartment.Title = "SEO";
-                seoDepartment.Office = "703";
-            }
+            DataSet ds = new DataSet();
+            ds.ReadXml(stream);
+            return ds.Tables["Employee"];
         }
     }
 }
