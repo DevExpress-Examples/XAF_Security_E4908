@@ -6,14 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-#if NET5_0
 using Microsoft.Extensions.Hosting;
-#else
-using Microsoft.AspNetCore.Mvc; 
-#endif
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using System.Linq;
 
 namespace ASPNETCoreODataService {
 	public class Startup {
@@ -35,11 +30,7 @@ namespace ASPNETCoreODataService {
 			services.AddScoped<SecurityProvider>();
 		}
 
-#if NET5_0
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-#else
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env) { 
-#endif
 			if(env.IsDevelopment()) {
 				app.UseDeveloperExceptionPage();
 			}

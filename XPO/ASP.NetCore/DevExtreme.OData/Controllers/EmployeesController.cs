@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.Xpo;
 using Microsoft.AspNetCore.Mvc;
