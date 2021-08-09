@@ -297,18 +297,8 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
-EFCore/ASP.NetCore/MVC/wwwroot/devextreme
-EFCore/ASP.NetCore/MVC/wwwroot/css/vendor.css
-EFCore/ASP.NetCore/MVC/wwwroot/js/vendor.js
 
-EFCore/ASP.NetCore/DevExtreme.OData/wwwroot/devextreme
-EFCore/ASP.NetCore/DevExtreme.OData/wwwroot/css/vendor.css
-EFCore/ASP.NetCore/DevExtreme.OData/wwwroot/js/vendor.js
-
-XPO/ASP.NetCore/DevExtreme.OData/wwwroot/devextreme
-XPO/ASP.NetCore/DevExtreme.OData/wwwroot/css/vendor.css
-XPO/ASP.NetCore/DevExtreme.OData/wwwroot/js/vendor.js
-
-XPO/ASP.NetCore/MVC/wwwroot/devextreme
-XPO/ASP.NetCore/MVC/wwwroot/css/vendor.css
-XPO/ASP.NetCore/MVC/wwwroot/js/vendor.js
+# JS and CSS files
+devextreme/
+*vendor.css
+*vendor.js
