@@ -1,132 +1,142 @@
 @page "/"
 @attribute [Authorize]
-@inject SecuredObjectSpaceService objectSpaceService;
+@implements IDisposable
+@inject SecurityProvider securityProvider;
 
 <div style="text-align:right; margin: 10px">
     <a class="ml-md-auto btn btn-primary" href="/logout">Log Out</a>
 </div>
 
-<DxDataGrid Data="employees" KeyFieldName="@nameof(Employee.ID)" PageSize="20" ShowFilterRow="true" AllowSort="true" @ref="grid">
-    <ChildContent>
-        <DxDataGridColumn Field="@nameof(Employee.FirstName)">
-            <DisplayTemplate>
-                <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.FirstName)">
-                    @(((Employee)context).FirstName)
-                </SecuredContainer>
-            </DisplayTemplate>
-        </DxDataGridColumn>
-        <DxDataGridColumn Field="@nameof(Employee.LastName)">
-            <DisplayTemplate>
-                <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.LastName)">
-                    @(((Employee)context).LastName)
-                </SecuredContainer>
-            </DisplayTemplate>
-        </DxDataGridColumn>
-        <DxDataGridColumn Field="@nameof(Employee.Email)">
-            <DisplayTemplate>
-                <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.Email)">
-                    @(((Employee)context).Email)
-                </SecuredContainer>
-            </DisplayTemplate>
-        </DxDataGridColumn>
-        <DxDataGridComboBoxColumn Field="@nameof(Employee.Department)" Data="@departments">
-            <DisplayTemplate>
-                <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.Department)">
-                    @(CaptionHelper.GetDisplayText(((Employee)context).Department))
-                </SecuredContainer>
-            </DisplayTemplate>
-        </DxDataGridComboBoxColumn>
-        <DxDataGridCommandColumn Width="100px">
-            <HeaderCellTemplate>
-                @if(objectSpaceService.CanCreate<Employee>()) {
-                    <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
-                }
-            </HeaderCellTemplate>
-            <CellTemplate>
-                @if(objectSpaceService.CanWrite(context)) {
-                    <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
-                }
-                @if(objectSpaceService.CanDelete(context)) {
-                    <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
-                }
-            </CellTemplate>
-        </DxDataGridCommandColumn>
-    </ChildContent>
-    <EditFormTemplate Context="employeeContext">
-        @{
-            <EditForm Model=employee Context="EditFormContext" OnValidSubmit="@HandleValidSubmit">
-                <DxFormLayout>
-                    <DxFormLayoutItem Caption="First Name">
-                        <Template>
-                            <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.FirstName) IsEditor=true IsNewObject="@isNewRowEditing">
-                                <DxTextBox @bind-Text=employee.FirstName ReadOnly=@readOnly />
-                            </SecuredContainer>
-                        </Template>
-                    </DxFormLayoutItem>
-                    <DxFormLayoutItem Caption="Last Name">
-                        <Template>
-                            <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.LastName) IsEditor=true IsNewObject="@isNewRowEditing">
-                                <DxTextBox @bind-Text=employee.LastName ReadOnly=@readOnly />
-                            </SecuredContainer>
-                        </Template>
-                    </DxFormLayoutItem>
-                    <DxFormLayoutItem Caption="Email">
-                        <Template>
-                            <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.Email) IsEditor=true IsNewObject="@isNewRowEditing">
-                                <DxTextBox @bind-Text=employee.Email ReadOnly=@readOnly />
-                            </SecuredContainer>
-                        </Template>
-                    </DxFormLayoutItem>
-                    <DxFormLayoutItem Caption="Department">
-                        <Template>
-                            <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.Department) IsEditor=true IsNewObject="@isNewRowEditing">
-                                <DxComboBox Data="@departments" ReadOnly=@readOnly @bind-Value=employee.Department TextFieldName="@nameof(Department.Title)" />
-                            </SecuredContainer>
-                        </Template>
-                    </DxFormLayoutItem>
-                    <DxFormLayoutItem>
-                        <Template>
-                            <div class="dxbs-fl-ctrl dxbs-fl-ctrl-nc text-right">
-                                @{
-                                    string buttonCaption = isNewRowEditing ? "Create" : "Update";
-                                    <button class="btn btn-link" type="submit">@buttonCaption</button>
-                                }
-                                <button class="btn btn-link" type="button" @onclick=CancelRowEdit>Cancel</button>
-                            </div>
-                        </Template>
-                    </DxFormLayoutItem>
-                </DxFormLayout>
-            </EditForm>
-        }
-    </EditFormTemplate>
-</DxDataGrid>
+<CascadingValue Value="objectSpace">
+    <DxDataGrid Data="employees" KeyFieldName="@nameof(Employee.ID)" PageSize="20" ShowFilterRow="true" AllowSort="true" @ref="grid">
+        <ChildContent>
+            <DxDataGridColumn Field="@nameof(Employee.FirstName)">
+                <DisplayTemplate>
+                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.FirstName)">
+                        @(((Employee)context).FirstName)
+                    </SecuredContainer>
+                </DisplayTemplate>
+            </DxDataGridColumn>
+            <DxDataGridColumn Field="@nameof(Employee.LastName)">
+                <DisplayTemplate>
+                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.LastName)">
+                        @(((Employee)context).LastName)
+                    </SecuredContainer>
+                </DisplayTemplate>
+            </DxDataGridColumn>
+            <DxDataGridColumn Field="@nameof(Employee.Email)">
+                <DisplayTemplate>
+                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.Email)">
+                        @(((Employee)context).Email)
+                    </SecuredContainer>
+                </DisplayTemplate>
+            </DxDataGridColumn>
+            <DxDataGridComboBoxColumn Field="@nameof(Employee.Department)" Data="@departments">
+                <DisplayTemplate>
+                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.Department)">
+                        @(CaptionHelper.GetDisplayText(((Employee)context).Department))
+                    </SecuredContainer>
+                </DisplayTemplate>
+            </DxDataGridComboBoxColumn>
+            <DxDataGridCommandColumn Width="100px">
+                <HeaderCellTemplate>
+                    @if(securityProvider.Security.CanCreate<Employee>()) {
+                        <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
+                    }
+                </HeaderCellTemplate>
+                <CellTemplate>
+                    @if(securityProvider.Security.CanWrite(context)) {
+                        <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
+                    }
+                    @if(securityProvider.Security.CanDelete(context)) {
+                        <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
+                    }
+                </CellTemplate>
+            </DxDataGridCommandColumn>
+        </ChildContent>
+        <EditFormTemplate Context="employeeContext">
+            @{
+                <EditForm Model=employee Context="EditFormContext" OnValidSubmit="@HandleValidSubmit">
+                    <DxFormLayout>
+                        <DxFormLayoutItem Caption="First Name">
+                            <Template>
+                                <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.FirstName) IsEditor=true>
+                                    <DxTextBox @bind-Text=employee.FirstName ReadOnly=@readOnly />
+                                </SecuredContainer>
+                            </Template>
+                        </DxFormLayoutItem>
+                        <DxFormLayoutItem Caption="Last Name">
+                            <Template>
+                                <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.LastName) IsEditor=true>
+                                    <DxTextBox @bind-Text=employee.LastName ReadOnly=@readOnly />
+                                </SecuredContainer>
+                            </Template>
+                        </DxFormLayoutItem>
+                        <DxFormLayoutItem Caption="Email">
+                            <Template>
+                                <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.Email) IsEditor=true>
+                                    <DxTextBox @bind-Text=employee.Email ReadOnly=@readOnly />
+                                </SecuredContainer>
+                            </Template>
+                        </DxFormLayoutItem>
+                        <DxFormLayoutItem Caption="Department">
+                            <Template>
+                                <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.Department) IsEditor=true>
+                                    <DxComboBox Data="@departments" ReadOnly=@readOnly @bind-Value=employee.Department />
+                                </SecuredContainer>
+                            </Template>
+                        </DxFormLayoutItem>
+                        <DxFormLayoutItem>
+                            <Template>
+                                <div class="dxbs-fl-ctrl dxbs-fl-ctrl-nc text-right">
+                                    @{
+                                        string buttonCaption = objectSpace.IsNewObject(employee) ? "Create" : "Update";
+                                        <button class="btn btn-link" type="submit">@buttonCaption</button>
+                                    }
+                                    <button class="btn btn-link" type="button" @onclick=CancelRowEdit>Cancel</button>
+                                </div>
+                            </Template>
+                        </DxFormLayoutItem>
+                    </DxFormLayout>
+                </EditForm>
+            }
+        </EditFormTemplate>
+    </DxDataGrid>
+</CascadingValue>
 
 @code {
-    IQueryable<Employee> employees;
-    Department[] departments;
-    Employee employee = null;
-    DxDataGrid<Employee> grid;
-    bool isNewRowEditing = false;
+        IQueryable<Employee> employees;
+        Department[] departments;
+        IObjectSpace objectSpace;
+        Employee employee = null;
+        DxDataGrid<Employee> grid;
 
     protected override void OnInitialized() {
-        employees = objectSpaceService.GetObjectsQuery<Employee>();
+        objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+        employees = objectSpace.GetObjectsQuery<Employee>();
     }
     protected override async Task OnInitializedAsync() {
-        departments = await objectSpaceService.GetObjectsAsync<Department>();
+        if(departments == null) {
+            departments = await objectSpace.GetObjectsQuery<Department>().ToArrayAsync();
+        }
+    }
+    public void Dispose() {
+        objectSpace?.Dispose();
+        securityProvider?.Dispose();
     }
     Task OnRowRemoving(object item) {
-        objectSpaceService.Delete(item);
+        objectSpace.Delete(item);
+        objectSpace.CommitChanges();
         return grid.Refresh();
     }
     async Task HandleValidSubmit() {
-        objectSpaceService.SaveChanges(employee);
+        objectSpace.CommitChanges();
         await grid.Refresh();
         employee = null;
         await grid.CancelRowEdit();
     }
     Task StartRowEdit(object item) {
-        employee = (Employee)item ?? new Employee();
-        isNewRowEditing = item == null;
+        employee = (Employee)item ?? objectSpace.CreateObject<Employee>();
         return grid.StartRowEdit(item);
     }
     Task CancelRowEdit() {
