@@ -23,17 +23,7 @@
                 <DxGridLayoutColumn />
             }
         </Columns>
-        <Items>
-            <DxGridLayoutItem Area="header">
-                <Template>
-                    <Header @bind-ToggleOn="@IsSidebarExpanded" />
-                </Template>
-            </DxGridLayoutItem>
-            <DxGridLayoutItem Area="sidebar">
-                <Template>
-                    <NavMenu StateCssClass="@NavMenuCssClass" />
-                </Template>
-            </DxGridLayoutItem>
+        <Items>              
             <DxGridLayoutItem Area="content" CssClass="content px-4">
                 <Template>
                     @Body

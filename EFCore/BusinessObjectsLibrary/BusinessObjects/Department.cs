@@ -80,5 +80,8 @@ namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
             add { propertyChanged += value; }
             remove { propertyChanged -= value; }
         }
+        public override string ToString() {
+            return Title;
+        }
     }
 }
