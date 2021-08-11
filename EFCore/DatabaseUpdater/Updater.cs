@@ -8,7 +8,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 
-namespace DatabaseUpdater.EFCore {
+namespace DatabaseUpdater {
     public class Updater {
         private const string AdministratorUserName = "Admin";
         private const string AdministratorRoleName = "Administrators";

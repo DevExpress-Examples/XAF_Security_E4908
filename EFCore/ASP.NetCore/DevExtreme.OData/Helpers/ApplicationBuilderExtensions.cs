@@ -1,4 +1,4 @@
-﻿using DatabaseUpdater.EFCore;
+﻿using DatabaseUpdater;
 using DevExpress.ExpressApp.EFCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;

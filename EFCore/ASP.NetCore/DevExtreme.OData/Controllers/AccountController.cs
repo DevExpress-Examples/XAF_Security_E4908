@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.Extensions.Configuration;
 using System;
 
-namespace DevExtreme.OData.EFCore.Controllers {
+namespace DevExtreme.OData.Controllers {
 	public class AccountController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		public AccountController(SecurityProvider securityProvider) {

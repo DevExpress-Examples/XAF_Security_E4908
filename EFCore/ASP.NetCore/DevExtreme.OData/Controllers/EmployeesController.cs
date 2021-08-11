@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.AspNetCore.OData.Query;
 using System.Text.Json;
-using DevExtreme.OData.EFCore;
+using DevExtreme.OData;
 using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp.EFCore;
 using System.Collections.Generic;

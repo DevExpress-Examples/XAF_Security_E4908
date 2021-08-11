@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.5" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.5" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
+    <ProjectReference Include="..\DatabaseUpdater\DatabaseUpdater.csproj" />
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="dotnet restore ConsoleApplication.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+      <Output PropertyName="ExitCode" TaskParameter="ExitCode" />
+    </Exec>
+    <Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
+  </Target>
+</Project>

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.Extensions.Configuration;
 
-namespace DevExtreme.OData.EFCore.Controllers {
+namespace DevExtreme.OData.Controllers {
 	public class DepartmentsController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		IObjectSpace objectSpace;

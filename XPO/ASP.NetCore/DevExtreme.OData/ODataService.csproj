@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.5" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.1" />
+    <PackageReference Include="Microsoft.OData.Core" Version="7.9.0" />
+    <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.0.96" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
+    <ProjectReference Include="..\..\DatabaseUpdater\DatabaseUpdater.csproj" />
+  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties TemplateFeatures="NETCORE CS BASELINE NETCORE_ON_FX" /></VisualStudio></ProjectExtensions>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="dotnet restore ODataService.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+      <Output PropertyName="RestoreResult" TaskParameter="ConsoleOutput" />
+    </Exec>
+    <Error Condition="$(RestoreResult.Contains('DevExpress'))" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
+  </Target>
+</Project>

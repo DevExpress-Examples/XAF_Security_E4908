@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DevExtreme.OData.EFCore {
+namespace DevExtreme.OData {
     public class MemberPermission {
         [Key]
         public Guid Key { get; set; }
