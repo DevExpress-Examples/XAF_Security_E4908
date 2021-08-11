@@ -1,4 +1,4 @@
-﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
+﻿using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp.Security;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;

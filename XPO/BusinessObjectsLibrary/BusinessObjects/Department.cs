@@ -1,13 +1,8 @@
 ﻿using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BusinessObjectsLibrary {
+namespace BusinessObjectsLibrary.BusinessObjects {
 	[DefaultClassOptions]
 	[System.ComponentModel.DefaultProperty("Title")]
 	public class Department : BaseObject {

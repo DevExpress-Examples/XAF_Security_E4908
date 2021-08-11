@@ -3,7 +3,7 @@ using System.Linq;
 using DevExpress.ExpressApp;
 using DevExpress.Xpo;
 using Microsoft.AspNetCore.Mvc;
-using BusinessObjectsLibrary;
+using BusinessObjectsLibrary.BusinessObjects;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.AspNetCore.OData.Query;
 using System.Text.Json;

@@ -1,4 +1,4 @@
-﻿using BusinessObjectsLibrary;
+﻿using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;

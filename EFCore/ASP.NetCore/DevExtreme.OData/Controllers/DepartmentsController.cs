@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using BusinessObjectsLibrary.EFCore.BusinessObjects;
+using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using Microsoft.AspNetCore.Authorization;

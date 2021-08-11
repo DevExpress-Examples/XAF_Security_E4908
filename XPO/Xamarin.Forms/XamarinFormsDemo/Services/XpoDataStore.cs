@@ -1,4 +1,4 @@
-﻿using BusinessObjectsLibrary;
+﻿using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;

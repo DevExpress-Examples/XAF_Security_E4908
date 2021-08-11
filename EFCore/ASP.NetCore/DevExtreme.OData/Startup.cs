@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.OData.ModelBuilder;
-using BusinessObjectsLibrary.EFCore.BusinessObjects;
+using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.Persistent.BaseImpl.EFCore;
 using Microsoft.OData.Edm;
 using Microsoft.AspNetCore.OData;

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary.EFCore", "BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj", "{A8F2572B-79F6-4580-92BB-56069FE65796}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary", "BusinessObjectsLibrary\BusinessObjectsLibrary.csproj", "{A8F2572B-79F6-4580-92BB-56069FE65796}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater.EFCore", "DatabaseUpdater\DatabaseUpdater.EFCore.csproj", "{DB4F2CDD-E1D0-48A0-BD16-5203D0B527F6}"
 EndProject

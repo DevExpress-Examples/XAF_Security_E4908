@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Blazor.ServerSide</AssemblyName>
+    <RootNamespace>Blazor.ServerSide</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DevExpress.Blazor" Version="21.1.3" />
@@ -14,7 +16,7 @@
     <ProjectReference Include="..\..\DatabaseUpdater\DatabaseUpdater.csproj" />
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="dotnet restore BlazorApplication.NetCore.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+    <Exec Command="dotnet restore Blazor.ServerSide.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
       <Output PropertyName="ExitCode" TaskParameter="ExitCode" />
     </Exec>
     <Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />

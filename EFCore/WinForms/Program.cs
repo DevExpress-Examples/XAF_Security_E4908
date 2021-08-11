@@ -1,4 +1,4 @@
-﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
+﻿using BusinessObjectsLibrary.BusinessObjects;
 using DatabaseUpdater.EFCore;
 using DevExpress.EntityFrameworkCore.Security;
 using DevExpress.ExpressApp;

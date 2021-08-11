@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp;
 using Microsoft.AspNetCore.Authorization;
-using BusinessObjectsLibrary;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace MvcApplication.Controllers {
 	[Authorize]

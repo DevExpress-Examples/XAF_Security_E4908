@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.AspNetCore.OData.Query;
 using System.Text.Json;
 using DevExtreme.OData.EFCore;
-using BusinessObjectsLibrary.EFCore.BusinessObjects;
+using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp.EFCore;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;

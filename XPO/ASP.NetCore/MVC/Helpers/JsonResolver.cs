@@ -2,7 +2,7 @@
 using DevExpress.Xpo.Metadata;
 using System.Collections.Generic;
 using System.Reflection;
-using BusinessObjectsLibrary;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace MvcApplication {
 	public class JsonResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {

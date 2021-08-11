@@ -1,4 +1,4 @@
-﻿using BlazorApplication.NetCore;
+﻿using Blazor.ServerSide.Helpers;
 using DatabaseUpdater;
 using DevExpress.ExpressApp.Xpo;
 using Microsoft.AspNetCore.Builder;

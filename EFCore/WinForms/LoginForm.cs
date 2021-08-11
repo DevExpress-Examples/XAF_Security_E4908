@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using DevExpress.ExpressApp.Security;
 using DevExpress.XtraEditors;
 using Microsoft.Data.SqlClient;
-using BusinessObjectsLibrary.EFCore.BusinessObjects;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace WindowsFormsApplication {
     public partial class LoginForm : XtraForm {
