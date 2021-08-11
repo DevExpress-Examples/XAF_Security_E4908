@@ -55,8 +55,8 @@
                 </dx:GridViewBandColumn>
             </Columns>
         </dx:ASPxGridView>
-        <dx:XpoDataSource ID="EmployeeDataSource" runat="server" ServerMode="False" TypeName="BusinessObjectsLibrary.BusinessObjects.Employee">
+        <dx:XpoDataSource ID="EmployeeDataSource" runat="server" ServerMode="False" TypeName="BusinessObjectsLibrary.Employee">
         </dx:XpoDataSource>
-        <dx:XpoDataSource ID="DepartmentDataSource" runat="server" ServerMode="True" TypeName="BusinessObjectsLibrary.BusinessObjects.Department">
+        <dx:XpoDataSource ID="DepartmentDataSource" runat="server" ServerMode="True" TypeName="BusinessObjectsLibrary.Department">
         </dx:XpoDataSource>
 </asp:Content>

@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ODataService.NetCore": {
+    "ODataService": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

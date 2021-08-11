@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary", "B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater", "DatabaseUpdater\DatabaseUpdater.csproj", "{CE88C0FE-06E3-4751-B178-0A6824005D87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODataService.NetCore", "ASP.NetCore\DevExtreme.OData\ODataService.NetCore.csproj", "{A94629E4-D6E4-4922-9A41-E628363F553E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODataService", "ASP.NetCore\DevExtreme.OData\ODataService.csproj", "{A94629E4-D6E4-4922-9A41-E628363F553E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

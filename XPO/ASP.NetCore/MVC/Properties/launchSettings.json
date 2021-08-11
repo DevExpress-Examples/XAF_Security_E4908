@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MvcApplication.NetCore": {
+    "MvcApplication": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

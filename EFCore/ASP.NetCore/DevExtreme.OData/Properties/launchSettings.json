@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "DevExtreme.OData.EFCore": {
+    "DevExtreme.OData": {
         "commandName": "Project",
         "dotnetRunMessages": "true",
         "launchBrowser": true,

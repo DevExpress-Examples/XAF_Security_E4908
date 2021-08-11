@@ -9,7 +9,7 @@ This example demonstrates how to protect your data with the [XAF Security System
   - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
 - Build the following solutions or projects depending on your target framework:
   - .NET Framework: *NonXAFSecurityExamples.sln* or *MvcApplication/XafSolution.Win*.
-  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* or *MvcApplication.NetCore/XafSolution.Win.NetCore*.
+  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* or *MvcApplication/XafSolution.Win.NetCore*.
 - Run the *XafSolution.Win/XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module/XafSolution.Module.NetCore* project.
 - Add the *XafSolution.Module/XafSolution.Module.NetCore* assembly reference to your test application.
 

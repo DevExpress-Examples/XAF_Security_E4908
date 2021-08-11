@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DevExtreme.OData.EFCore.Controllers {
+namespace DevExtreme.OData.Controllers {
 	public class ActionsController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		public ActionsController(SecurityProvider securityProvider) {

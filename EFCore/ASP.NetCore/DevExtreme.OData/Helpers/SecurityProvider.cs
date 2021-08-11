@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace DevExtreme.OData.EFCore {
+namespace DevExtreme.OData {
     public class SecurityProvider : IDisposable {
         public SecurityStrategyComplex Security { get; private set; }
         public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }

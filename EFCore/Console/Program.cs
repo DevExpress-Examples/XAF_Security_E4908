@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Configuration;
 using System.Diagnostics;
-using DatabaseUpdater.EFCore;
+using DatabaseUpdater;
 
 namespace ConsoleApplication {
     // ## Prerequisites. 

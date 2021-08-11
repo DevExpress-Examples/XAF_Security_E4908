@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary", "B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater", "DatabaseUpdater\DatabaseUpdater.csproj", "{CE88C0FE-06E3-4751-B178-0A6824005D87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcApplication.NetCore", "ASP.NetCore\MVC\MvcApplication.NetCore.csproj", "{766679FA-4405-44DC-90D9-C3E95699FC55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcApplication", "ASP.NetCore\MVC\MvcApplication.csproj", "{766679FA-4405-44DC-90D9-C3E95699FC55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

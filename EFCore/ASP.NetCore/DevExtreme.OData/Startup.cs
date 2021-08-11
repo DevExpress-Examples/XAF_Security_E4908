@@ -24,7 +24,7 @@ using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using Microsoft.EntityFrameworkCore;
 using DevExpress.ExpressApp;
 
-namespace DevExtreme.OData.EFCore {
+namespace DevExtreme.OData {
     public class Startup {
 
         public Startup(IConfiguration configuration) {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
-namespace DevExtreme.OData.EFCore {
+namespace DevExtreme.OData {
     public class UnauthorizedRedirectMiddleware {
         private const string authenticationPagePath = "/Authentication.html";
         private readonly RequestDelegate _next;
