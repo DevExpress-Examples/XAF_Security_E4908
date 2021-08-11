@@ -22,6 +22,7 @@ using DevExpress.EntityFrameworkCore.Security;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using Microsoft.EntityFrameworkCore;
+using DevExpress.ExpressApp;
 
 namespace DevExtreme.OData.EFCore {
     public class Startup {
@@ -39,14 +40,25 @@ namespace DevExtreme.OData.EFCore {
             })
                 .AddOData(opt => {
                     opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents(GetEdmModel());
-                    
                 });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-           .AddCookie();
-            services.AddSingleton(Configuration);
+                .AddCookie();
+            services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+                string connectionString = Configuration.GetConnectionString("ConnectionString");
+                options.UseSqlServer(connectionString);
+                options.UseLazyLoadingProxies();
+                options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
+            }, ServiceLifetime.Scoped);
             services.AddHttpContextAccessor();
-            
             services.AddScoped<SecurityProvider>();
+            services.AddScoped((serviceProvider) => {
+                AuthenticationMixed authentication = new AuthenticationMixed();
+                authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+                authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+                authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+                SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+                return security;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
