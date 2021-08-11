@@ -2,12 +2,10 @@
 using DevExpress.EntityFrameworkCore.Security;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -16,13 +14,11 @@ namespace MvcApplication {
     public class SecurityProvider : IDisposable {
         public SecurityStrategyComplex Security { get; private set; }
         public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
-        IConfiguration config;
         IHttpContextAccessor contextAccessor;
         IDbContextFactory<ApplicationDbContext> xafDbContextFactory;
-        public SecurityProvider(SecurityStrategyComplex security, IDbContextFactory<ApplicationDbContext> xafDbContextFactory, IConfiguration config, IHttpContextAccessor contextAccessor) {
+        public SecurityProvider(SecurityStrategyComplex security, IDbContextFactory<ApplicationDbContext> xafDbContextFactory, IHttpContextAccessor contextAccessor) {
             this.xafDbContextFactory = xafDbContextFactory;
             Security = security;
-            this.config = config;
             this.contextAccessor = contextAccessor;
             if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
                 Initialize();

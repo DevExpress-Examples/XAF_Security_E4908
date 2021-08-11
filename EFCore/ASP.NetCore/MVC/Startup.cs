@@ -1,4 +1,4 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
+﻿using BusinessObjectsLibrary.EFCore.BusinessObjects;
 using DevExpress.ExpressApp.Security;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -25,10 +25,7 @@ namespace MvcApplication {
         public void ConfigureServices(IServiceCollection services) {
             services.AddMvc(options => {
                 options.EnableEndpointRouting = false;
-            })
-
-                .SetCompatibilityVersion(CompatibilityVersion.Latest);
-
+            }).SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddControllers().
             AddNewtonsoftJson(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -54,13 +51,19 @@ namespace MvcApplication {
                 string connectionString = Configuration.GetConnectionString("ConnectionString");
                 options.UseSqlServer(connectionString);
                 options.UseLazyLoadingProxies();
-                options.UseSecurity(serviceProvider);
+                options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
             }, ServiceLifetime.Scoped);
             services.AddSingleton(Configuration);
             services.AddHttpContextAccessor();
             services.AddScoped<SecurityProvider>();
-            services.AddScoped<SecurityStrategyComplexProvider>();
-
+            services.AddScoped((serviceProvider) => {
+                AuthenticationMixed authentication = new AuthenticationMixed();
+                authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+                authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+                authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+                SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+                return security;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
