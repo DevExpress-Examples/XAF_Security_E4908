@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.ServerSide", "ASP.NetCore\Blazor.ServerSide\Blazor.ServerSide.csproj", "{7B294219-B9DF-49CB-837A-A1D14F862F53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary.EFCore", "BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj", "{D4F24473-ED38-4303-9916-2B0BC4BC7380}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary", "BusinessObjectsLibrary\BusinessObjectsLibrary.csproj", "{D4F24473-ED38-4303-9916-2B0BC4BC7380}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater.EFCore", "DatabaseUpdater\DatabaseUpdater.EFCore.csproj", "{875E71E5-D38A-49AA-9680-DB63680001E8}"
 EndProject

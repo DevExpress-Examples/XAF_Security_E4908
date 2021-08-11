@@ -1,5 +1,5 @@
 ﻿using System;
-using BusinessObjectsLibrary;
+using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.Xpo;
 using Xamarin.Forms;
 

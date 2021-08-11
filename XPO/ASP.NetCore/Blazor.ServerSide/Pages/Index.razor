@@ -1,26 +1,14 @@
 ﻿@page "/"
 @attribute [Authorize]
-
-@using BlazorApplication.NetCore
-@using BlazorApplication.NetCore.Components
-@using BusinessObjectsLibrary
-@using DevExpress.ExpressApp
-@using DevExpress.ExpressApp.Utils
-@using DevExpress.ExpressApp.Security
-
 @implements IDisposable
-@inject SecurityProvider SecurityProvider
+@inject SecurityProvider securityProvider
 
 <div style="text-align: right; margin: 10px">
     <a class="ml-md-auto btn btn-primary" href="/logout">Log Out</a>
 </div>
-<CascadingValue Value="ObjectSpace">
-    <DxDataGrid Data=@employees
-                @ref="grid"
-                KeyFieldName=@nameof(Employee.Oid)
-                PageSize="20"
-                ShowFilterRow="true"
-                AllowSort="true">
+
+<CascadingValue Value="objectSpace">
+    <DxDataGrid Data="employees" KeyFieldName="@nameof(Employee.Oid)" PageSize="20" ShowFilterRow="true" AllowSort="true" @ref="grid">
         <ChildContent>
             <DxDataGridColumn Field=@nameof(Employee.FirstName)>
                 <DisplayTemplate>
@@ -52,15 +40,15 @@
             </DxDataGridComboBoxColumn>
             <DxDataGridCommandColumn Width="100px">
                 <HeaderCellTemplate>
-                    @if(SecurityProvider.Security.CanCreate<Employee>()) {
+                    @if(securityProvider.Security.CanCreate<Employee>()) {
                         <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
                     }
                 </HeaderCellTemplate>
                 <CellTemplate>
-                    @if(SecurityProvider.Security.CanWrite(context)) {
+                    @if(securityProvider.Security.CanWrite(context)) {
                         <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
                     }
-                    @if(SecurityProvider.Security.CanDelete(context)) {
+                    @if(securityProvider.Security.CanDelete(context)) {
                         <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
                     }
                 </CellTemplate>
@@ -102,7 +90,7 @@
                             <Template>
                                 <div class="dxbs-fl-ctrl dxbs-fl-ctrl-nc text-right">
                                     @{
-                                        string buttonCaption = ObjectSpace.IsNewObject(employee) ? "Create" : "Update";
+                                        string buttonCaption = objectSpace.IsNewObject(employee) ? "Create" : "Update";
                                         <button class="btn btn-link" type="submit">@buttonCaption</button>
                                     }
                                     <button class="btn btn-link" type="button" @onclick=CancelRowEdit>Cancel</button>
@@ -117,34 +105,34 @@
 </CascadingValue>
 
 @code{
-    private IQueryable<Employee> employees;
-    private IQueryable<Department> departments;
-    private DxDataGrid<Employee> grid;
-    private Employee employee = null;
-    IObjectSpace ObjectSpace;
+    IQueryable<Employee> employees;
+    IQueryable<Department> departments;
+    DxDataGrid<Employee> grid;
+    Employee employee = null;
+    IObjectSpace objectSpace;
 
     protected override void OnInitialized() {
-        ObjectSpace = SecurityProvider.ObjectSpaceProvider.CreateObjectSpace();
-        employees = ObjectSpace.GetObjectsQuery<Employee>();
-        departments = ObjectSpace.GetObjectsQuery<Department>();
+        objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+        employees = objectSpace.GetObjectsQuery<Employee>();
+        departments = objectSpace.GetObjectsQuery<Department>();
     }
     Task OnRowRemoving(object item) {
-        ObjectSpace.Delete(item);
-        ObjectSpace.CommitChanges();
+        objectSpace.Delete(item);
+        objectSpace.CommitChanges();
         return grid.Refresh();
     }
     async Task HandleValidSubmit() {
-        ObjectSpace.CommitChanges();
+        objectSpace.CommitChanges();
         await grid.Refresh();
         employee = null;
         await grid.CancelRowEdit();
     }
     public void Dispose() {
-        SecurityProvider?.Dispose();
-        ObjectSpace?.Dispose();
+        securityProvider?.Dispose();
+        objectSpace?.Dispose();
     }
     Task StartRowEdit(object item) {
-        employee = item as Employee ?? ObjectSpace.CreateObject<Employee>();
+        employee = item as Employee ?? objectSpace.CreateObject<Employee>();
         return grid.StartRowEdit(item);
     }
     Task CancelRowEdit() {

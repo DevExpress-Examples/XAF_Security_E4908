@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj" />
+    <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
     <ProjectReference Include="..\..\DatabaseUpdater\DatabaseUpdater.EFCore.csproj" />
   </ItemGroup>
 

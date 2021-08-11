@@ -1,8 +1,7 @@
-﻿using DevExpress.ExpressApp.Xpo;
-using Microsoft.Extensions.Configuration;
-using System.Data;
+﻿using Microsoft.Extensions.Configuration;
+using DevExpress.ExpressApp.Xpo;
 
-namespace BlazorApplication.NetCore {
+namespace Blazor.ServerSide {
 	public class XpoDataStoreProviderService {
 		private IXpoDataStoreProvider dataStoreProvider;
 		private string connectionString;

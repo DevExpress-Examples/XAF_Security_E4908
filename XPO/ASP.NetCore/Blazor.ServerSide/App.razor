@@ -1,14 +1,15 @@
-﻿@inject NavigationManager NavigationManager
+﻿@inject NavigationManager navigationManager
+
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
-		<AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-			<NotAuthorized>
-				@{ 
-                    string returnUrl = "~/" + NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-					NavigationManager.NavigateTo($"Login?returnUrl={returnUrl}", forceLoad:true);
-				}
-			</NotAuthorized>
-		</AuthorizeRouteView>
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <NotAuthorized>
+                @{
+                    string returnUrl = $"~/{navigationManager.ToBaseRelativePath(navigationManager.Uri)}";
+                    navigationManager.NavigateTo($"Login?returnUrl={returnUrl}", forceLoad: true);
+                }
+            </NotAuthorized>
+        </AuthorizeRouteView>
     </Found>
     <NotFound>
         <CascadingAuthenticationState>

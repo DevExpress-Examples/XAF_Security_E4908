@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcApplication.NetCore", "ASP.NetCore\MVC\MvcApplication.NetCore.csproj", "{C7A03167-3A79-49A9-8925-0A0AAB3AE14A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary.EFCore", "BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj", "{5475A734-D928-4B49-A6B4-DA67666721DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary", "BusinessObjectsLibrary\BusinessObjectsLibrary.csproj", "{5475A734-D928-4B49-A6B4-DA67666721DD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater.EFCore", "DatabaseUpdater\DatabaseUpdater.EFCore.csproj", "{562BC122-FE96-4573-BF67-F4FF5344AD81}"
 EndProject

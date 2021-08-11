@@ -40,7 +40,7 @@ This example demonstrates how to access data protected by the [Security System](
 - In *YourConsoleApplication/Program.cs*, create a `SecurityStrategyComplex` instance using [AuthenticationStandard](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.AuthenticationStandard) (a simple Forms Authentication with a login and password).
 		
     ```csharp
-    using BusinessObjectsLibrary.EFCore.BusinessObjects;
+    using BusinessObjectsLibrary.BusinessObjects;
     using DevExpress.EntityFrameworkCore.Security;
     using DevExpress.ExpressApp;
     using DevExpress.ExpressApp.Security;

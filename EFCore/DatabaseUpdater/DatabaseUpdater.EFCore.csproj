@@ -11,6 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-    <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj" />
+    <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
   </ItemGroup>
 </Project>

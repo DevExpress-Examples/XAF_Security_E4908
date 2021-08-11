@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using BusinessObjectsLibrary.EFCore.BusinessObjects;
+using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;

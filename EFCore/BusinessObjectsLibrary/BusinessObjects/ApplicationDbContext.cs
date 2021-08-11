@@ -1,7 +1,7 @@
 ﻿using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessObjectsLibrary.EFCore.BusinessObjects {
+namespace BusinessObjectsLibrary.BusinessObjects {
     public class ApplicationDbContext : DbContext {
         public const string DatabaseConnectionFailedMessage = "Make sure the database has been created.\r\nTo create the database, run the 'DatabaseUpdater' project.";
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }

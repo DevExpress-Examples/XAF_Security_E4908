@@ -21,7 +21,7 @@
     <PackageReference Include="DevExpress.Win.Grid" Version="21.1.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.EFCore.csproj" />
+    <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
     <ProjectReference Include="..\DatabaseUpdater\DatabaseUpdater.EFCore.csproj" />
   </ItemGroup>
   <ItemGroup>

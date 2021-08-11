@@ -8,7 +8,7 @@ using System;
 using DevExpress.Xpo.DB.Helpers;
 using System.Net.Http;
 using DevExpress.ExpressApp.Security.ClientServer;
-using BusinessObjectsLibrary;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace XamarinFormsDemo.Services {
     public static class XpoHelper {

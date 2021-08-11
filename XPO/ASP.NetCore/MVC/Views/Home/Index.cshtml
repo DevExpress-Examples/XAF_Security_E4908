@@ -1,4 +1,4 @@
-﻿@using BusinessObjectsLibrary
+﻿@using BusinessObjectsLibrary.BusinessObjects
 @using Newtonsoft.Json
 
 @model MvcApplication.TypePermission
@@ -7,7 +7,7 @@
 <script src="~/js/IndexCode.js"></script>
 
 <div style="text-align: right; margin: 10px">
-	@(Html.DevExtreme().Button()
+    @(Html.DevExtreme().Button()
 				.ID("Logout")
 				.Text("Log Out")
 				.Type(ButtonType.Normal)
@@ -15,7 +15,7 @@
 	)
 </div>
 <div>
-	@(Html.DevExtreme().DataGrid<Employee>()
+    @(Html.DevExtreme().DataGrid<Employee>()
 		.ID("gridContainer")
 			.ShowBorders(true)
 			.Height(900)

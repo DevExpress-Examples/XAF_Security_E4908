@@ -6,7 +6,7 @@ using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
-using BusinessObjectsLibrary;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace MvcApplication.Controllers {
 	[Authorize]

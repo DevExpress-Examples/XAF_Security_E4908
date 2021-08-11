@@ -105,24 +105,16 @@
 </CascadingValue>
 
 @code {
-        IQueryable<Employee> employees;
-        Department[] departments;
-        IObjectSpace objectSpace;
-        Employee employee = null;
-        DxDataGrid<Employee> grid;
+    IQueryable<Employee> employees;
+    IQueryable<Department> departments;
+    IObjectSpace objectSpace;
+    Employee employee = null;
+    DxDataGrid<Employee> grid;
 
     protected override void OnInitialized() {
         objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
         employees = objectSpace.GetObjectsQuery<Employee>();
-    }
-    protected override async Task OnInitializedAsync() {
-        if(departments == null) {
-            departments = await objectSpace.GetObjectsQuery<Department>().ToArrayAsync();
-        }
-    }
-    public void Dispose() {
-        objectSpace?.Dispose();
-        securityProvider?.Dispose();
+        departments = objectSpace.GetObjectsQuery<Department>();
     }
     Task OnRowRemoving(object item) {
         objectSpace.Delete(item);
@@ -135,8 +127,12 @@
         employee = null;
         await grid.CancelRowEdit();
     }
+    public void Dispose() {
+        securityProvider?.Dispose();
+        objectSpace?.Dispose();
+    }
     Task StartRowEdit(object item) {
-        employee = (Employee)item ?? objectSpace.CreateObject<Employee>();
+        employee = item as Employee ?? objectSpace.CreateObject<Employee>();
         return grid.StartRowEdit(item);
     }
     Task CancelRowEdit() {

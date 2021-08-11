@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BusinessObjectsLibrary;
+using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
