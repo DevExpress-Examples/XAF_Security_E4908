@@ -1,4 +1,4 @@
-﻿Imports BusinessObjectsLibrary
+﻿Imports BusinessObjectsLibrary.BusinessObjects
 Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.ExpressApp.Security.ClientServer
