@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Blazor.ServerSide.Helpers;
+using DevExpress.ExpressApp.Security;
+using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
+using DevExpress.ExpressApp;
 
 namespace Blazor.ServerSide {
     public class Startup {
@@ -27,9 +30,17 @@ namespace Blazor.ServerSide {
                 string connectionString = Configuration.GetConnectionString("ConnectionString");
                 options.UseSqlServer(connectionString);
                 options.UseLazyLoadingProxies();
-                options.UseSecurity(serviceProvider);
+                options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
             }, ServiceLifetime.Scoped);
             services.AddScoped<SecurityProvider>();
+            services.AddScoped((serviceProvider) => {
+                AuthenticationMixed authentication = new AuthenticationMixed();
+                authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+                authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+                authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+                SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+                return security;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
