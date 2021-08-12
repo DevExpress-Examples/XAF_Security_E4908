@@ -26,5 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
+    <ProjectReference Include="..\..\DatabaseUpdater\DatabaseUpdater.csproj" />
   </ItemGroup>
 </Project>
