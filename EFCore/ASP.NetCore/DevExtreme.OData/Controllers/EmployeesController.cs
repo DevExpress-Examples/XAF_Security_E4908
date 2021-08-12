@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Linq;
-using DevExpress.Data.Filtering;
-using DevExpress.ExpressApp;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.AspNetCore.OData.Query;
 using System.Text.Json;
-using DevExtreme.OData;
-using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.ExpressApp.EFCore;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+using Microsoft.AspNetCore.OData.Query;
+using DevExpress.ExpressApp;
+using BusinessObjectsLibrary.BusinessObjects;
 
-namespace ASPNETCoreODataService.Controllers {
+namespace DevExtreme.OData.Controllers {
 	public class EmployeesController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		IObjectSpace objectSpace;

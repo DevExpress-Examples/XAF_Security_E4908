@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
-using DevExpress.ExpressApp;
-using DevExpress.Xpo;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using BusinessObjectsLibrary.BusinessObjects;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.AspNetCore.OData.Query;
-using System.Text.Json;
+using DevExpress.ExpressApp;
+using DevExpress.Xpo;
+using BusinessObjectsLibrary.BusinessObjects;
 
-namespace ASPNETCoreODataService.Controllers {
+namespace DevExtreme.OData.Controllers {
 	public class EmployeesController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		IObjectSpace objectSpace;

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace DevExtreme.OData {
     public class UnauthorizedRedirectMiddleware {
@@ -17,7 +17,6 @@ namespace DevExtreme.OData {
             }
         }
         private static bool IsAllowAnonymous(HttpContext context) {
-            IHeaderDictionary headerDictionary = context.Request.Headers;
             string referer = context.Request.Headers["Referer"];
             return context.Request.Path.HasValue && context.Request.Path.StartsWithSegments(authenticationPagePath)
                 || referer != null && referer.Contains(authenticationPagePath);

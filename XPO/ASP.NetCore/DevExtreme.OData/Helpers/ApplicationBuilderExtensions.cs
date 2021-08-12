@@ -1,7 +1,7 @@
-﻿using ASPNETCoreODataService;
-using DatabaseUpdater;
+﻿using Microsoft.AspNetCore.Builder;
 using DevExpress.ExpressApp.Xpo;
-using Microsoft.AspNetCore.Builder;
+using DevExtreme.OData;
+using DatabaseUpdater;
 
 namespace Microsoft.Extensions.DependencyInjection {
     public static class ApplicationBuilderExtensions {

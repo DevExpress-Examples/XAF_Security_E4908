@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ASPNETCoreODataService {
+namespace DevExtreme.OData {
 	public class UnauthorizedRedirectMiddleware {
 		private const string authenticationPagePath = "/Authentication.html";
 		private readonly RequestDelegate _next;
@@ -21,7 +21,6 @@ namespace ASPNETCoreODataService {
 			}
 		}
 		private static bool IsAllowAnonymous(HttpContext context) {
-			IHeaderDictionary headerDictionary = context.Request.Headers;
 			string referer = context.Request.Headers["Referer"];
 			return context.Request.Path.HasValue && context.Request.Path.StartsWithSegments(authenticationPagePath)
 				|| referer != null && referer.Contains(authenticationPagePath);

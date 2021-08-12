@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Linq;
-using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.Data.Filtering;
-using DevExpress.ExpressApp;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.Extensions.Configuration;
+using DevExpress.ExpressApp;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace DevExtreme.OData.Controllers {
 	public class DepartmentsController : ODataController, IDisposable {

@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.Extensions.Configuration;
-using System;
 
-namespace ASPNETCoreODataService.Controllers {
+namespace DevExtreme.OData.Controllers {
 	public class AccountController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		public AccountController(SecurityProvider securityProvider) {

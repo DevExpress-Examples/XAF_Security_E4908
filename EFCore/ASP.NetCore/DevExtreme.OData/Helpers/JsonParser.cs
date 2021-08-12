@@ -1,13 +1,10 @@
-﻿using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.DC;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.DC;
 
-namespace ASPNETCoreODataService {
+namespace DevExtreme.OData {
 	public static class JsonParser {
 		public static void ParseJson<T>(JsonElement jElement, object obj, IObjectSpace objectSpace)  {
 			ITypeInfo typeInfo = objectSpace.TypesInfo.FindTypeInfo(typeof(T));

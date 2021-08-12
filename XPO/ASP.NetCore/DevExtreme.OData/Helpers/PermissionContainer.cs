@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ASPNETCoreODataService {
+namespace DevExtreme.OData {
 	public class PermissionContainer {
 		public IDictionary<string, object> Data { get; set; }
 		public string Key { get; set; }

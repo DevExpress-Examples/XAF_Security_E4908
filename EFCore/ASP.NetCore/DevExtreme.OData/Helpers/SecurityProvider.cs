@@ -1,14 +1,14 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.EntityFrameworkCore.Security;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Security;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
+using DevExpress.EntityFrameworkCore.Security;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Security;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace DevExtreme.OData {
     public class SecurityProvider : IDisposable {

@@ -1,56 +1,41 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-using Microsoft.AspNetCore.OData.Formatter;
-using Microsoft.AspNetCore.OData.Extensions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.OData.ModelBuilder;
-using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.Persistent.BaseImpl.EFCore;
 using Microsoft.OData.Edm;
 using Microsoft.AspNetCore.OData;
-using DevExpress.Persistent.BaseImpl.EF;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using DevExpress.EntityFrameworkCore.Security;
+using Microsoft.EntityFrameworkCore;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using Microsoft.EntityFrameworkCore;
+using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.ExpressApp;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace DevExtreme.OData {
     public class Startup {
-
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        }   
         public void ConfigureServices(IServiceCollection services) {
             services.AddControllers(mvcOptions => {
                 mvcOptions.EnableEndpointRouting = false;
-            })
-                .AddOData(opt => {
-                    opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents(GetEdmModel());
-                });
+            }).AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents(GetEdmModel()));
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
+            services.AddHttpContextAccessor();
+            services.AddSingleton(Configuration);
+            services.AddScoped<SecurityProvider>();
             services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
                 string connectionString = Configuration.GetConnectionString("ConnectionString");
                 options.UseSqlServer(connectionString);
                 options.UseLazyLoadingProxies();
                 options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
             }, ServiceLifetime.Scoped);
-            services.AddHttpContextAccessor();
-            services.AddScoped<SecurityProvider>();
             services.AddScoped((serviceProvider) => {
                 AuthenticationMixed authentication = new AuthenticationMixed();
                 authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
@@ -60,8 +45,6 @@ namespace DevExtreme.OData {
                 return security;
             });
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if(env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
@@ -97,6 +80,7 @@ namespace DevExtreme.OData {
             employees.EntityType.HasKey(t => t.ID);
             departments.EntityType.HasKey(t => t.ID);
             parties.EntityType.HasKey(t => t.ID);
+
             ActionConfiguration login = builder.Action("Login");
             login.Parameter<string>("userName");
             login.Parameter<string>("password");

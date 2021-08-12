@@ -19,7 +19,7 @@
   </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties TemplateFeatures="NETCORE CS BASELINE NETCORE_ON_FX" /></VisualStudio></ProjectExtensions>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="dotnet restore ODataService.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+    <Exec Command="dotnet restore DevExtreme.OData.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
       <Output PropertyName="RestoreResult" TaskParameter="ConsoleOutput" />
     </Exec>
     <Error Condition="$(RestoreResult.Contains('DevExpress'))" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />

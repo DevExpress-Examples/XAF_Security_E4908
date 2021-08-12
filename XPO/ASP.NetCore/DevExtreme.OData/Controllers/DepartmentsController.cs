@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Linq;
-using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.Data.Filtering;
-using DevExpress.ExpressApp;
-using DevExpress.Xpo;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.Extensions.Configuration;
+using DevExpress.ExpressApp;
+using DevExpress.Xpo;
+using BusinessObjectsLibrary.BusinessObjects;
 
-namespace ASPNETCoreODataService.Controllers {
+namespace DevExtreme.OData.Controllers {
 	public class DepartmentsController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		IObjectSpace objectSpace;

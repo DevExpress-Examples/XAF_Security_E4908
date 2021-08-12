@@ -1,15 +1,11 @@
-﻿using DevExpress.Data.Filtering;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.BaseImpl;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace ASPNETCoreODataService {
+namespace DevExtreme.OData {
 	public static class JsonParser {
 		public static void ParseJObject<T>(JsonElement jElement, object obj, IObjectSpace objectSpace) where T : BaseObject {
 			ITypeInfo typeInfo = objectSpace.TypesInfo.FindTypeInfo(typeof(T));

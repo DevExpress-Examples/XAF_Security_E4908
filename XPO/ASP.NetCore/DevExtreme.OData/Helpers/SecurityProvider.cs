@@ -1,16 +1,16 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
+using BusinessObjectsLibrary.BusinessObjects;
 
-namespace ASPNETCoreODataService {
+namespace DevExtreme.OData {
 	public class SecurityProvider : IDisposable {
 		public SecurityStrategyComplex Security { get; private set; }
 		public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
