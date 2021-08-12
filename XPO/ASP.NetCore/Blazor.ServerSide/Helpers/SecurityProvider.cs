@@ -23,6 +23,14 @@ namespace Blazor.ServerSide.Helpers {
                 Initialize();
             }
         }
+        private void SignIn(HttpContext httpContext, string userName) {
+            List<Claim> claims = new List<Claim> {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            ClaimsPrincipal principal = new ClaimsPrincipal(id);
+            httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+        }
         public bool InitConnection(string userName, string password) {
             AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
             SecurityStrategyComplex security = GetSecurity(typeof(AuthenticationStandardProvider).Name, parameters);
@@ -31,7 +39,8 @@ namespace Blazor.ServerSide.Helpers {
                 Login(security, objectSpaceProvider);
                 SignIn(contextAccessor.HttpContext, userName);
                 return true;
-            } catch {
+            } 
+            catch {
                 return false;
             }
         }
@@ -49,16 +58,6 @@ namespace Blazor.ServerSide.Helpers {
             SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
             security.RegisterXPOAdapterProviders();
             return security;
-        }
-        private void SignIn(HttpContext httpContext, string userName) {
-            List<Claim> claims = new List<Claim> {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-            };
-            ClaimsIdentity id = new ClaimsIdentity(
-                claims, "ApplicationCookie",
-                ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            ClaimsPrincipal principal = new ClaimsPrincipal(id);
-            httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
         private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
             SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(), true);
@@ -80,4 +79,3 @@ namespace Blazor.ServerSide.Helpers {
         }
     }
 }
-
