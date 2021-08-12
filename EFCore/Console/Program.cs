@@ -1,21 +1,16 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
+﻿using System;
+using System.Configuration;
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using DevExpress.EntityFrameworkCore.Security;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.EFCore;
 using DevExpress.ExpressApp.Security;
-using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Configuration;
-using System.Diagnostics;
+using BusinessObjectsLibrary.BusinessObjects;
 using DatabaseUpdater;
 
 namespace ConsoleApplication {
-    // ## Prerequisites. 
-    // 1) Add the 'DevExpress.ExpressApp.EFCore' and 'Microsoft.EntityFrameworkCore*' NuGet packages; 
-    // 2) Define your ORM data model and DbContext (explore the 'BusinessObjectsLibrary' project);
     class Program {
         static void Main() {
             string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
@@ -24,25 +19,14 @@ namespace ConsoleApplication {
 
             // ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
             AuthenticationStandard authentication = new AuthenticationStandard();
-            SecurityStrategyComplex security = new SecurityStrategyComplex(
-                typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),
-                authentication
-            );
-            
+            SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
             SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
                 (builder, _) => builder.UseSqlServer(connectionString));
 
             // ## Step 2. Authentication. Log in as a 'User' with an Empty Password
             authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName: "User", password: string.Empty));
             IObjectSpace loginObjectSpace = objectSpaceProvider.CreateNonsecuredObjectSpace();
-            try {
-                security.Logon(loginObjectSpace);
-            }
-            catch(SqlException sqlEx) {
-                if(sqlEx.Number == 4060) {
-                    throw new Exception(sqlEx.Message + Environment.NewLine + ApplicationDbContext.DatabaseConnectionFailedMessage, sqlEx);
-                }
-            }
+            security.Logon(loginObjectSpace);
 
             // ## Step 3. Authorization. Access and Manipulate Data/UI Based on User/Role Rights
             Console.WriteLine($"{"Full Name",-40}{"Department",-40}");

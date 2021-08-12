@@ -8,8 +8,6 @@ using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using System;
 using System.Configuration;
 using System.Diagnostics;
-using System.IO;
-using System.Text;
 
 namespace ConsoleApplication {
 	class Program {
