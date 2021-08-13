@@ -1,14 +1,14 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace MvcApplication {
 	public class SecurityProvider : IDisposable {
@@ -16,7 +16,8 @@ namespace MvcApplication {
 		public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
 		private XpoDataStoreProviderService xpoDataStoreProviderService;
 		private IHttpContextAccessor contextAccessor;
-		public SecurityProvider(XpoDataStoreProviderService xpoDataStoreProviderService, IHttpContextAccessor contextAccessor) {
+		public SecurityProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, IHttpContextAccessor contextAccessor) {
+			Security = security;
 			this.xpoDataStoreProviderService = xpoDataStoreProviderService;
 			this.contextAccessor = contextAccessor;
 			if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
@@ -33,10 +34,11 @@ namespace MvcApplication {
 		}
 		public bool InitConnection(string userName, string password) {
 			AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
-			SecurityStrategyComplex security = GetSecurity(typeof(AuthenticationStandardProvider).Name, parameters);
-			IObjectSpaceProvider objectSpaceProvider = GetObjectSpaceProvider(security);
+			Security.Logoff();
+			((AuthenticationMixed)Security.Authentication).SetupAuthenticationProvider(typeof(AuthenticationStandardProvider).Name, parameters);
+			IObjectSpaceProvider objectSpaceProvider = GetObjectSpaceProvider(Security);
 			try {
-				Login(security, objectSpaceProvider);
+				Login(Security, objectSpaceProvider);
 				SignIn(contextAccessor.HttpContext, userName);
 				return true;
 			}
@@ -45,19 +47,9 @@ namespace MvcApplication {
 			}
 		}
 		public void Initialize() {
-			Security = GetSecurity(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
+			((AuthenticationMixed)Security.Authentication).SetupAuthenticationProvider(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
 			ObjectSpaceProvider = GetObjectSpaceProvider(Security);
 			Login(Security, ObjectSpaceProvider);
-		}
-		private SecurityStrategyComplex GetSecurity(string authenticationName, object parameter) {
-			AuthenticationMixed authentication = new AuthenticationMixed();
-			authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-			authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-			authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-			authentication.SetupAuthenticationProvider(authenticationName, parameter);
-			SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-			security.RegisterXPOAdapterProviders();
-			return security;
 		}
 		private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
 			SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(), true);

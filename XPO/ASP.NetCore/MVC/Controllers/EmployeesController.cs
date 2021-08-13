@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.ExpressApp;
-using DevExtreme.AspNet.Data;
-using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using DevExpress.ExpressApp;
+using DevExtreme.AspNet.Data;
+using DevExtreme.AspNet.Mvc;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace MvcApplication.Controllers {
 	[Authorize]

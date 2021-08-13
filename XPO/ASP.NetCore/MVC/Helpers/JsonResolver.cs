@@ -1,7 +1,7 @@
 ﻿using System;
-using DevExpress.Xpo.Metadata;
 using System.Collections.Generic;
 using System.Reflection;
+using DevExpress.Xpo.Metadata;
 using BusinessObjectsLibrary.BusinessObjects;
 
 namespace MvcApplication {

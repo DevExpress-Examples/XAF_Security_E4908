@@ -1,6 +1,5 @@
-﻿using DevExpress.ExpressApp.Xpo;
-using Microsoft.Extensions.Configuration;
-using System.Data;
+﻿using Microsoft.Extensions.Configuration;
+using DevExpress.ExpressApp.Xpo;
 
 namespace MvcApplication {
 	public class XpoDataStoreProviderService {

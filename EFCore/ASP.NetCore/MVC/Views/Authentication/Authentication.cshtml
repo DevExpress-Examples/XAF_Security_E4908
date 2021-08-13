@@ -1,11 +1,12 @@
 ﻿<script src="~/js/AuthenticationCode.js"></script>
+<link rel="stylesheet" type="text/css" href="devextreme/css/dx.light.css" />
 <link rel="stylesheet" type="text/css" href="css/Site.css" />
 <title>Log In</title>
 <h1 style="margin-top:5%; margin-bottom:5%;">Welcome to the XAF's Security in Non-XAF Apps Demo</h1>
 <form style="text-align:center">
-	<h2>Enter your user name (<b>Admin</b> or <b>User</b>) to proceed.</h2>
-	<div class="login-input">
-		@(Html.DevExtreme().TextBox()
+    <h2>Enter your user name (<b>Admin</b> or <b>User</b>) to proceed.</h2>
+    <div class="login-input">
+        @(Html.DevExtreme().TextBox()
 			.ID("userName")
 			.Name("userName")
 			.Placeholder("User name")
@@ -14,9 +15,9 @@
 			.OnEnterKey("pressEnter")
 			.OnValueChanged("validateLogin")
 		)
-	</div>
-	<div class="login-input">
-		@(Html.DevExtreme().TextBox()
+    </div>
+    <div class="login-input">
+        @(Html.DevExtreme().TextBox()
 			.ID("password")
 			.Name("Password")
 			.Placeholder("Password")
@@ -24,15 +25,15 @@
 			.TabIndex(3)
 			.OnEnterKey("pressEnter")
 		)
-	</div>
-	<h2 style="margin-bottom:0; color:#bdbdbd">This demo app does not require</h2>
-	<h2 style="margin:0; color:#bdbdbd">a password for login.</h2>
-	<div style="margin-top: 15%;">
-		@(Html.DevExtreme().Button()
+    </div>
+    <h2 style="margin-bottom:0; color:#bdbdbd">This demo app does not require</h2>
+    <h2 style="margin:0; color:#bdbdbd">a password for login.</h2>
+    <div style="margin-top: 15%;">
+        @(Html.DevExtreme().Button()
 			.ID("validateAndSubmit")
 			.Text("Log In")
 			.OnClick("onClick")
 		)
-	</div>
+    </div>
 </form>
 

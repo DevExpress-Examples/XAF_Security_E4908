@@ -3,12 +3,13 @@
 
 @model MvcApplication.TypePermission
 
-
 <title>Employees</title>
 <script src="~/js/IndexCode.js"></script>
+<link rel="stylesheet" type="text/css" href="devextreme/css/dx.common.css" />
+<link rel="stylesheet" type="text/css" data-theme="material.orange.light" href="devextreme/css/dx.material.orange.light.css" data-active="true">
 
 <div style="text-align: right; margin: 10px">
-	@(Html.DevExtreme().Button()
+    @(Html.DevExtreme().Button()
 				.ID("Logout")
 				.Text("Log Out")
 				.Type(ButtonType.Normal)
@@ -16,7 +17,7 @@
 	)
 </div>
 <div>
-	@(Html.DevExtreme().DataGrid<Employee>()
+    @(Html.DevExtreme().DataGrid<Employee>()
         .ID("gridContainer")
             .ShowBorders(true)
             .Height(900)

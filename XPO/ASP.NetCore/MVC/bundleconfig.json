@@ -1,16 +1,5 @@
 [
   {
-    "outputFileName": "wwwroot/css/vendor.css",
-    "inputFiles": [
-      "wwwroot/devextreme/css/bootstrap.css",
-      "wwwroot/devextreme/css/dx.common.css",
-      "wwwroot/devextreme/css/dx.material.orange.light.css"
-    ],
-    "minify": {
-      "enabled": false
-    }
-  },
-  {
     "outputFileName": "wwwroot/js/vendor.js",
     "inputFiles": [
       "wwwroot/devextreme/js/jquery.js",

@@ -1,8 +1,4 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Security;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Security;
+using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
+using BusinessObjectsLibrary.BusinessObjects;
 
 
 namespace MvcApplication {
@@ -21,16 +21,17 @@ namespace MvcApplication {
             Configuration = configuration;
         }
         public IConfiguration Configuration { get; }
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.AddMvc(options => {
                 options.EnableEndpointRouting = false;
             }).SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddControllers().
-            AddNewtonsoftJson(options => {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-            });
+                AddNewtonsoftJson(options => {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                });
+            services.AddSingleton(Configuration);
+            services.AddHttpContextAccessor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                      .AddCookie(options => {
                          options.LoginPath = loginPath;
@@ -40,8 +41,7 @@ namespace MvcApplication {
                 options.UseSqlServer(connectionString);
                 options.UseLazyLoadingProxies();
                 options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
-            }, ServiceLifetime.Scoped);
-            services.AddHttpContextAccessor();
+            }, ServiceLifetime.Scoped);            
             services.AddScoped<SecurityProvider>();
             services.AddScoped((serviceProvider) => {
                 AuthenticationMixed authentication = new AuthenticationMixed();
@@ -52,8 +52,6 @@ namespace MvcApplication {
                 return security;
             });
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if(env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();

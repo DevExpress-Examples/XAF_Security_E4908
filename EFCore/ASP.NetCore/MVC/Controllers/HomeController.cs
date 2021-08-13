@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp;
-using Microsoft.AspNetCore.Authorization;
 using BusinessObjectsLibrary.BusinessObjects;
 
 namespace MvcApplication.Controllers {

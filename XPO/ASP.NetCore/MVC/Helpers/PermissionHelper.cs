@@ -1,10 +1,8 @@
-﻿using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.DC;
-using DevExpress.ExpressApp.Security;
-using DevExpress.Persistent.BaseImpl;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp.Security;
 
 namespace MvcApplication {
 	public class PermissionHelper {
