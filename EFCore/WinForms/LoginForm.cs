@@ -1,9 +1,9 @@
-﻿using DevExpress.ExpressApp;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.XtraEditors;
-using Microsoft.Data.SqlClient;
 using BusinessObjectsLibrary.BusinessObjects;
 
 namespace WindowsFormsApplication {
@@ -24,11 +24,6 @@ namespace WindowsFormsApplication {
             try {
                 security.Logon(logonObjectSpace);
                 DialogResult = DialogResult.OK;
-            }
-            catch(SqlException sqlEx) {
-                if(sqlEx.Number == 4060) {
-                    XtraMessageBox.Show(sqlEx.Message + Environment.NewLine + ApplicationDbContext.DatabaseConnectionFailedMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
             }
             catch(Exception ex) {
                 XtraMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -7,7 +7,7 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.ViewInfo;
 using System.ComponentModel;
 
-namespace WindowsFormsApplication.Utils {
+namespace WindowsFormsApplication {
     [ToolboxItem(false)]
     public class ProtectedContentEdit : TextEdit {
         public ProtectedContentEdit() : base() {

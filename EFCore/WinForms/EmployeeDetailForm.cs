@@ -1,13 +1,13 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraLayout;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using BusinessObjectsLibrary.BusinessObjects;
 using WindowsFormsApplication.Utils;
 
 namespace WindowsFormsApplication {

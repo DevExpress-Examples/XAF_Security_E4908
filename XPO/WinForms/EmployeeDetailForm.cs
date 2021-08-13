@@ -1,14 +1,13 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
 using DevExpress.XtraEditors;
 using DevExpress.XtraLayout;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace WindowsFormsApplication {
 	public partial class EmployeeDetailForm : DevExpress.XtraBars.Ribbon.RibbonForm {
@@ -20,10 +19,11 @@ namespace WindowsFormsApplication {
 		public EmployeeDetailForm(Employee employee) {
 			InitializeComponent();
 			this.employee = employee;
-			visibleMembers = new Dictionary<string, string>();
-			visibleMembers.Add(nameof(Employee.FirstName), "First Name:");
-			visibleMembers.Add(nameof(Employee.LastName), "Last Name:");
-			visibleMembers.Add(nameof(Employee.Department), "Department:");
+			visibleMembers = new Dictionary<string, string> {
+				{ nameof(Employee.FirstName), "First Name:" },
+				{ nameof(Employee.LastName), "Last Name:" },
+				{ nameof(Employee.Department), "Department:" }
+			};
 		}
 		private void EmployeeDetailForm_Load(object sender, EventArgs e) {
 			security = ((MainForm)MdiParent).Security;

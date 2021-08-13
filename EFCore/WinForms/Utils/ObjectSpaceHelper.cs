@@ -1,10 +1,7 @@
-﻿using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.EFCore;
+﻿using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.EFCore;
 
 namespace WindowsFormsApplication.Utils {
     public static class ObjectSpaceHelper {

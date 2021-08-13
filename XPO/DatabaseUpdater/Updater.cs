@@ -1,11 +1,11 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
+﻿using System;
+using System.Data;
+using System.IO;
 using DevExpress.ExpressApp;
 using DevExpress.Persistent.Base;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using System;
-using System.Data;
-using System.IO;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace DatabaseUpdater {
     public class Updater {

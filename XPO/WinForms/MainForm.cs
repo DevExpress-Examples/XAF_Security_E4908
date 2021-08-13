@@ -1,8 +1,7 @@
-﻿using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Security;
-using System;
-using System.Linq;
+﻿using System;
 using System.Windows.Forms;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Security;
 
 namespace WindowsFormsApplication {
     public partial class MainForm : DevExpress.XtraBars.Ribbon.RibbonForm {

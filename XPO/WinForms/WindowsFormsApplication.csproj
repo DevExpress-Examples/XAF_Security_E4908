@@ -10,7 +10,6 @@
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="EmployeeDetailForm.resx" />
     <EmbeddedResource Remove="EmployeeListForm.resx" />
     <EmbeddedResource Remove="LoginForm.resx" />
     <EmbeddedResource Remove="MainForm.resx" />

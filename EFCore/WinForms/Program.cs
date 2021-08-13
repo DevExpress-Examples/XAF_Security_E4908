@@ -1,15 +1,13 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
-using DatabaseUpdater;
-using DevExpress.EntityFrameworkCore.Security;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.EFCore;
-using DevExpress.ExpressApp.Security;
-using DevExpress.Persistent.Base;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Configuration;
 using System.Windows.Forms;
+using Microsoft.EntityFrameworkCore;
+using DevExpress.EntityFrameworkCore.Security;
+using DevExpress.ExpressApp.EFCore;
+using DevExpress.ExpressApp.Security;
+using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
+using BusinessObjectsLibrary.BusinessObjects;
+using DatabaseUpdater;
 
 namespace WindowsFormsApplication {
     static class Program {

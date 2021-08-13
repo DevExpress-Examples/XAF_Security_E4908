@@ -1,5 +1,5 @@
-﻿using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 
 namespace BusinessObjectsLibrary.BusinessObjects {
     public class ApplicationDbContext : DbContext {

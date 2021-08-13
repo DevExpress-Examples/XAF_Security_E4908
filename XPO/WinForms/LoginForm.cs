@@ -1,6 +1,6 @@
-﻿using DevExpress.ExpressApp;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.XtraEditors;
 
@@ -22,7 +22,6 @@ namespace WindowsFormsApplication {
             try {
                 security.Logon(logonObjectSpace);
                 DialogResult = DialogResult.OK;
-                Close();
             }
             catch(Exception ex) {
                 XtraMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

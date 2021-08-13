@@ -1,7 +1,7 @@
-﻿using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Security;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Security;
 
 namespace WindowsFormsApplication {
     public partial class MainForm : DevExpress.XtraBars.Ribbon.RibbonForm {
@@ -37,10 +37,9 @@ namespace WindowsFormsApplication {
             }
         }
         private void CreateListForm() {
-            EmployeeListForm employeeForm = new EmployeeListForm(security, objectSpaceProvider) {
-                MdiParent = this,
-                WindowState = FormWindowState.Maximized
-            };
+            EmployeeListForm employeeForm = new EmployeeListForm(security, objectSpaceProvider);
+            employeeForm.MdiParent = this;
+            employeeForm.WindowState = FormWindowState.Maximized;
             employeeForm.Show();
         }
     }

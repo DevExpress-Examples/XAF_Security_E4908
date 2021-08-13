@@ -1,12 +1,11 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
+﻿using System;
+using System.Windows.Forms;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Xpo;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
-using System;
-using System.Linq;
-using System.Windows.Forms;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace WindowsFormsApplication {
 	public partial class EmployeeListForm : DevExpress.XtraBars.Ribbon.RibbonForm {
