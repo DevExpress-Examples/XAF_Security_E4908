@@ -9,6 +9,7 @@ using DevExpress.Xpo.DB.Helpers;
 using System.Net.Http;
 using DevExpress.ExpressApp.Security.ClientServer;
 using BusinessObjectsLibrary.BusinessObjects;
+using DatabaseUpdater;
 
 namespace XamarinFormsDemo.Services {
     public static class XpoHelper {
@@ -32,6 +33,7 @@ namespace XamarinFormsDemo.Services {
             fSecurity.RegisterXPOAdapterProviders(); 
 #if DEBUG
             ConfigureXpoForDevEnvironment();
+            UpdateDataBase();
 #endif
         }
         static void RegisterEntities() {
@@ -87,6 +89,12 @@ namespace XamarinFormsDemo.Services {
         public static void Logoff() {
             Security.Logoff();
             ObjectSpaceProvider = null;
+        }
+        static void UpdateDataBase() {
+            IObjectSpaceProvider objectSpaceProvider = GetObjectSpaceProvider();
+            IObjectSpace objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true);
+            Updater updater = new Updater(objectSpace);
+            updater.UpdateDatabase();
         }
     }
 }
