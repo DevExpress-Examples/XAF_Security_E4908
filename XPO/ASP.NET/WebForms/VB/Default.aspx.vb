@@ -1,13 +1,9 @@
-﻿Imports BusinessObjectsLibrary
+﻿Imports System.Web.Security
 Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.ExpressApp.Xpo
 Imports DevExpress.Web
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Web
-Imports System.Web.Security
+Imports BusinessObjectsLibrary.BusinessObjects
 
 Namespace WebFormsApplication
     Partial Public Class _Default

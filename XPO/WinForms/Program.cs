@@ -1,14 +1,13 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
-using DatabaseUpdater;
+﻿using System;
+using System.Configuration;
+using System.Windows.Forms;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using System;
-using System.Configuration;
-using System.Linq;
-using System.Windows.Forms;
+using BusinessObjectsLibrary.BusinessObjects;
+using DatabaseUpdater;
 
 namespace WindowsFormsApplication {
 	static class Program {

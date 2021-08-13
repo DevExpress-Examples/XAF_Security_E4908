@@ -1,13 +1,8 @@
-﻿Imports BusinessObjectsLibrary
-Imports DevExpress.ExpressApp
+﻿Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.ExpressApp.Security.ClientServer
 Imports DevExpress.Persistent.BaseImpl.PermissionPolicy
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Web
-Imports System.Web.Security
+Imports BusinessObjectsLibrary.BusinessObjects
 
 Namespace WebFormsApplication
     Public NotInheritable Class ConnectionHelper

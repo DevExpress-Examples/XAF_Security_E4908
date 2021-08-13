@@ -1,13 +1,8 @@
-﻿Imports DevExpress.ExpressApp
+﻿Imports System.Web.Security
+Imports System.Web.UI
+Imports DevExpress.ExpressApp
 Imports DevExpress.ExpressApp.Security
 Imports DevExpress.ExpressApp.Security.ClientServer
-Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Web
-Imports System.Web.Security
-Imports System.Web.UI
-Imports System.Web.UI.WebControls
 
 Namespace WebFormsApplication
     Partial Public Class LoginForm

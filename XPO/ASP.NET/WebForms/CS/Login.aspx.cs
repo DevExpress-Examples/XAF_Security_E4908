@@ -1,13 +1,10 @@
-﻿using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.Security.ClientServer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.Security.ClientServer;
 
 namespace WebFormsApplication {
 	public partial class LoginForm : Page {

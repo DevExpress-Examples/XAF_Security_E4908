@@ -1,13 +1,8 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.ExpressApp;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace WebFormsApplication {
 	public static class ConnectionHelper {

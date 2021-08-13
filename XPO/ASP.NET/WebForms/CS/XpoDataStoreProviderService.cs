@@ -1,10 +1,6 @@
-﻿using DevExpress.ExpressApp.Xpo;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data;
-using System.Linq;
-using System.Web;
+using DevExpress.ExpressApp.Xpo;
 
 namespace WebFormsApplication {
 	public static class XpoDataStoreProviderService {

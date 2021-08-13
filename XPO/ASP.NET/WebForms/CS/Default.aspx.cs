@@ -1,13 +1,11 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
+﻿using System;
+using System.Web;
+using System.Web.Security;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Web;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
+using BusinessObjectsLibrary.BusinessObjects;
 
 namespace WebFormsApplication {
 	public partial class _Default : System.Web.UI.Page {

@@ -1,14 +1,8 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Configuration
-Imports System.Linq
-Imports System.Web
+﻿Imports System.Configuration
 Imports System.Web.Optimization
 Imports System.Web.Routing
-Imports System.Web.Security
-Imports System.Web.SessionState
-Imports DatabaseUpdater
 Imports DevExpress.ExpressApp.Xpo
+Imports DatabaseUpdater
 
 Namespace WebFormsApplication
 	Public Class [Global]

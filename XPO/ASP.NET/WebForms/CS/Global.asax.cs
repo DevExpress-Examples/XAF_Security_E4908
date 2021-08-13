@@ -1,14 +1,10 @@
-﻿using DatabaseUpdater;
-using DevExpress.ExpressApp.Xpo;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Configuration;
-using System.Linq;
 using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.Security;
-using System.Web.SessionState;
+using DatabaseUpdater;
+using DevExpress.ExpressApp.Xpo;
 
 namespace WebFormsApplication {
 	public class Global : HttpApplication {
