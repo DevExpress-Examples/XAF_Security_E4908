@@ -16,21 +16,20 @@ Please research the information below, because additional prerequisites may appl
  - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
 
 #### Microsoft Entity Framework Core
+- [DevExtreme + ASP.NET Web API OData App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/under_construction/EFCore/ASP.NetCore/DevExtreme.OData)
 - [WinForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_WinForms_EFCore.aspx)
+- [ASP.NET Core MVC App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/under_construction/EFCore/ASP.NetCore/MVC)
+- [Blazor Server App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/under_construction/EFCore/ASP.NetCore/Blazor.ServerSide)
 - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Console_EFCore.aspx)
 
 We detailed the main integration steps for any .NET Core application in [this video](https://youtu.be/o1q4GqFgSFE).
 
-#### Coming Next
-Other CRUD UI apps with EF Core, Blazor WebAssembly with XPO. To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using this **[short survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx)**.
-
 ## Prerequisites
 - [Visual Studio 2019 v16.8+](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - *.NET desktop development*  |  *ASP.NET and web development*  |  *.NET Core cross-platform development*
-- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/)
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio nuget feeds.
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
-- Before you run any demo apps, run (F5) the *XafSolution.Win* or *XafSolution.Win.NetCore* app depending on your target framework and log in under 'User' or 'Admin' with an empty password.
-  - *This [Database Generation and Permision Management App](./XPO/XafSolution/) will create initial users, roles, permissions and other data in the database.*
+  - For .NET Framework examples you always need to install the installer.
 
 ## Frequently Asked Questions
 
