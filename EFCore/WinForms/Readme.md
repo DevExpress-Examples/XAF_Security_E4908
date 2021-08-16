@@ -1,75 +1,51 @@
-This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Windows Forms App (.NET Core). You will also learn how to execute Create, Read, Update and Delete data operations taking into account security permissions.
+This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Windows Forms App (.NET Core) using EF Core for data access. You will also learn how to execute Create, Read, Update and Delete data operations taking into account security permissions.
 
-> For simplicity, the instructions include only C# code snippets. For the complete C# code, see the [CS](CS) sub-directory.
-
-## Prerequisites. Create a Database and Populate It with User, Role, Permission and Other Data
-- [.NET Core SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core) and [EF Core 5.0.0](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/5.0.0).
-- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or [obtain a DevExpress NuGet Feed URL](https://docs.devexpress.com/GeneralInformation/115912/installation/install-devexpress-controls-using-nuget-packages).  
-    *We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
-- Open the *WinFormsApplication.EFCore.sln* solution and edit the [EFCore/DatabaseUpdater/App.config](../DatabaseUpdater/App.config) file so that `DBSERVER` refers to your database server name or its IP address (for a local database server, use `localhost`, `(local)` or `.`):
-	
-    ```xml
-    <connectionStrings>
-        <add name="ConnectionString" 
-            connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"
-        />
-    </connectionStrings>
-    ```
-    
-- Build and run the *DatabaseUpdater* project. This console application will create a database with user, role, permission and other data based on the `ApplicationDbContext` and `Updater` classes and the ORM data model in the *BusinessObjectsLibrary* project. For more information, see [Predefined Users, Roles and Permissions](https://docs.devexpress.com/eXpressAppFramework/119065/concepts/security-system/predefined-users-roles-and-permissions).
+### Prerequisites
+- [.NET SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio nuget feeds.
+  - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
+***
 
 ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
-- Create a new **Windows Forms App (.NET Core)** project and add the [EFCore/BusinessObjectsLibrary](../BusinessObjectsLibrary) project reference. *BusinessObjectsLibrary* adds important NuGet dependencies:
+
+- Add devexpress NuGet packages to your project:
+
     ```xml
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
-	<PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.1.5" />
-    <PackageReference Include="DevExpress.Persistent.Base" Version="21.1.5" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="21.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.1.5" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.1.5" />
     ```
-    The `DevExpress.Persistent.BaseImpl.EFCore` NuGet package contains the PermissionPolicyUser, PermissionPolicyRole and other XAF's Security System API.
+    - How to install Entity Framework Core, see in [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
 
-- Add NuGet packages for Entity Framework Core with SQL Server and DevExpress WinForms (.NET Core) components:
-    ```xml
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
-    <PackageReference Include="DevExpress.Win.Grid" Version="21.1.5" />
-    ```
-    
-- In *YourWinFormsApplication/Program.cs*, create a `SecurityStrategyComplex` instance using [AuthenticationStandard](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.AuthenticationStandard) (a simple Forms Authentication with a login and password).
+- Open the application configuration file. It is an XML file located in the application folder. The Console application configuration file is _App.config_. Add the following line in this file.
 	
-    ```csharp
-    using BusinessObjectsLibrary.BusinessObjects;
-    using DevExpress.EntityFrameworkCore.Security;
-    using DevExpress.ExpressApp;
-    using DevExpress.ExpressApp.Security;
-    using DevExpress.Persistent.Base;
-    using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-    using Microsoft.EntityFrameworkCore;
-    //...
-    static void Main() {
-        AuthenticationStandard authentication = new AuthenticationStandard();
-        
-        SecurityStrategyComplex security = new SecurityStrategyComplex(
-            typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),
-            authentication
-        );
-    }
-    ```
+	[](#tab/tabid-xml)
+	
+	```xml
+	<add name="ConnectionString" connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"/>
+	```
+	
+	Substitute "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
+	
+- Initialize the Security System.
+	
+	[](#tab/tabid-csharp)
+	
+	```csharp
+    AuthenticationStandard authentication = new AuthenticationStandard();
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+	```
 
-- Create a `SecuredEFCoreObjectSpaceProvider` instance using the `EFCoreDatabaseProviderHandler` delegate and the `UseSqlServer` extension
-    ```csharp
-    static void Main() {
-        // ...
-        string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
-            (builder, _) => builder.UseSqlServer(connectionString)
-        );
-    }
-    ```
-    
-    This provider allows you to create secured [IObjectSpace](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) instances to perform secured CRUD (create-read-update-delete) operations. Object Space is an ORM-independent implementation of the well-known Repository and Unit Of Work design patterns (for instance, `SecuredEFCoreObjectSpace` is an IObjectSpace implementation for EF Core that wraps DbContext).
+- Create a **SecuredEFCoreObjectSpaceProvider** object. It allows you to create a **EFCoreObjectSpace** to ensure a secured data access.
+	[](#tab/tabid-csharp)
 	
-- In *YourWinFormsApplication/App.config*, add the same connection string as in **Prerequisites**.
+	```csharp
+	string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+    SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
+        (builder, _) => builder.UseSqlServer(connectionString));
+	```
+
+- How to create demo data from code, see the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2. Authentication. Implement the Login Form to Validate User Name and Password
 [LoginForm](CS/LoginForm.cs) contains two `TextEdit` controls for user name and password, and the **Log In** button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if logon was successful.
@@ -156,12 +132,16 @@ private void Login_Click(object sender, EventArgs e) {
 
 ## Step 4. Authorization. Implement the List Form to Access and Manipulate Data/UI Based on User/Role Rights
 - [EmployeeListForm](CS/EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and do the following: 
-    - Create a `SecuredEFCoreObjectSpace` instance to access protected data and use its [data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, `IObjectSpace.GetObjects`).
+    - Create a `SecuredEFCoreObjectSpace` instance to access protected data and use its [data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, `IObjectSpace.GetObjects`) OR if you prefer, the familiar **DbContext** object accessible through the *EFCoreObjectSpace.DbContext* property.
     - Set the grid's `DataSource` property to [BindingList\<Employee>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.localview-1.tobindinglist?view=efcore-2.1). You can see the code of the `GetBindingList<TEntity>` method in the [CS](CS/Utils/ObjectSpaceHelper.cs) file.
     - Call the `CanCreate` method to check Create operation availability and thus determine whether the **New** button can be enabled.
     ```csharp
     private void EmployeeListForm_Load(object sender, EventArgs e) {
         securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
+            // The EFCore way:
+            // var dbContext = ((EFCoreObjectSpace)securedObjectSpace).DbContext;
+            // 
+            // The XAF way:
         employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
         newBarButtonItem.Enabled = security.CanCreate<Employee>();
         protectedContentTextEdit = new RepositoryItemProtectedContentTextEdit();

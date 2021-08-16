@@ -1,70 +1,67 @@
-This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Windows Forms application using XPO ORM for data access. You will also learn how to execute Create, Write and Delete data operations taking into account security permissions.
+This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Windows Forms App (.NET Core) using XPO ORM for data access. You will also learn how to execute Create, Write and Delete data operations taking into account security permissions.
 
 >If you are using EF Core for data access, [follow this tutorial](https://www.devexpress.com/go/XAF_Security_NonXAF_WinForms_EFCore.aspx).
 
-For simplicity, the instructions include only C# code snippets. For the complete C# and VB code, see the [CS](CS) and [VB](VB) sub-directories.
-
 ### Prerequisites
-- [.NET Core SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Unified component installer](https://www.devexpress.com/Products/Try/).
-  - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
-- Build the following solutions or projects depending on your target framework:
-  - .NET Framework: *NonXAFSecurityExamples.sln* or *WindowsFormsApplication/XafSolution.Win*.
-  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* or *WindowsFormsApplication/XafSolution.Win.NetCore*.
-- Run the *XafSolution.Win/XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module/XafSolution.Module.NetCore* project.
-- Add the *XafSolution.Module/XafSolution.Module.NetCore* assembly reference to your test application.  
+- [.NET SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio nuget feeds.
+  - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
+***
   
 > **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ***
+# How to add Security System to an existent project.
 
-# Step 1: Initialize Data Store and XAF's Security System
+## Step 1: Initialize Data Store and XAF's Security System
 
-- In the `Main` method of Program.cs, initialize the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system and register the business objects that you will access from your code.
-	
-	[](#tab/tabid-csharp)
-	
-``` csharp
-using DevExpress.ExpressApp;
-using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-//...
-XpoTypesInfoHelper.GetXpoTypeInfoSource();
-XafTypesInfo.Instance.RegisterEntity(typeof(Employee));
-XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyUser));
-XafTypesInfo.Instance.RegisterEntity(typeof(PermissionPolicyRole));
-```
-- Initialize the Security System.
-	
-	[](#tab/tabid-csharp)
-	
-``` csharp
-AuthenticationStandard authentication = new AuthenticationStandard();
-SecurityStrategyComplex security = new SecurityStrategyComplex(
-    typeof(PermissionPolicyUser), 
-    typeof(PermissionPolicyRole), 
-    authentication
-);
-security.RegisterXPOAdapterProviders();
-```
-- Create a `SecuredObjectSpaceProvider` object. It allows you to create `SecuredObjectSpace` instances to ensure secured data access.
-	[](#tab/tabid-csharp)
-	
-``` csharp
-string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-IObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(
-    security, 
-    connectionString,
-    null
-);
-```
+- Add devexpress NuGet packages to your project:
 
-- In _App.config_, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
+    ```xml
+    <PackageReference Include="DevExpress.Win.Grid" Version="21.1.5" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.5" />
+    ```
+
+- Open the application configuration file. It is an XML file located in the application folder. The Console application configuration file is _App.config_. Add the following line in this file.
 	
 	[](#tab/tabid-xml)
 	
-``` xml
-<add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"/>
-```
+	```xml
+	<add name="ConnectionString" connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True"/>
+	```
+	
+	Substitute "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
+	
+- In the Main method of Program.cs, initialize the Security System.
+	
+	[](#tab/tabid-csharp)
+	
+	```csharp
+    AuthenticationStandard authentication = new AuthenticationStandard();
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+    security.RegisterXPOAdapterProviders();
+	```
+
+- Create a **SecuredObjectSpaceProvider** object. It allows you to create a **SecuredObjectSpace** to ensure a secured data access.
+	[](#tab/tabid-csharp)
+	
+	```csharp
+	string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+	SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
+	```
+
+- Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
+	
+	[](#tab/tabid-csharp)
+	
+	```csharp
+		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
+		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+	```
+
+- How to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2: Implement the Main and Login Forms
 
@@ -137,7 +134,7 @@ private void Login_Click(object sender, EventArgs e) {
 
 ## Step 3: Implement the List Form
 - [EmployeeListForm](CS/EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
-	- Create a `SecuredObjectSpace` instance to access protected data and use its data manipulation APIs (for instance, *IObjectSpace.GetObjects*) OR if you prefer, the familiar `UnitOfWork` object accessible through the *SecuredObjectSpace.Session* property.
+	- Create a `EFCoreObjectSpace` instance to access protected data and use its data manipulation APIs (for instance, *IObjectSpace.GetObjects*) OR if you prefer, the familiar `UnitOfWork` object accessible through the *SecuredObjectSpace.Session* property.
 	- Set [XPBindingSource.DataSource](https://docs.devexpress.com/XPO/DevExpress.Xpo.XPBindingSource.DataSource) to the Employees collection obtained from the secured object space.
 	- Call the CanCreate method to check Create operation availability and thus determine whether the New button can be enabled.
 		
