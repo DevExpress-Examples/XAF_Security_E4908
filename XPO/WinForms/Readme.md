@@ -11,7 +11,7 @@ This example demonstrates how to access data protected by the [Security System](
 > **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ***
-# How to add Security System to an existent project.
+# Detailed description of the example
 
 ## Step 1: Initialize Data Store and XAF's Security System
 

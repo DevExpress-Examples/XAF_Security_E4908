@@ -4,20 +4,16 @@ This example demonstrates how to protect your data with the [XAF Security System
 - [Visual Studio 2019 v16.8+](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - **ASP.NET and web development**
   - **.NET Core cross-platform development**
-- [.NET Core SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Unified component installer](https://www.devexpress.com/Products/Try/).
-  - We recommend that you select all  products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.
-- Build the following solutions or projects depending on your target framework:
-  - .NET Framework: *NonXAFSecurityExamples.sln* or *MvcApplication/XafSolution.Win*.
-  - .NET Core: *NonXAFSecurityExamples.NetCore.sln* or *MvcApplication/XafSolution.Win.NetCore*.
-- Run the *XafSolution.Win/XafSolution.Win.NetCore* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module/XafSolution.Module.NetCore* project.
-- Add the *XafSolution.Module/XafSolution.Module.NetCore* assembly reference to your test application.
+- [.NET SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio nuget feeds.
+  - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 
 ***
 
-## Known Issue
-If you are using Visual Studio v.16.8.0 you may face a [RazorTagHelper - DOTNET_HOST_PATH is not set](https://github.com/dotnet/sdk/issues/14497) issue.
+> **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
+
 ***
+# Detailed description of the example:
 
 ## Step 1: Configure the ASP.NET Core Server App Services
 For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-2.2&tabs=windows).
@@ -27,114 +23,75 @@ Configure the MVC pipelines in the `ConfigureServices` and `Configure` methods o
 ``` csharp
 // This method gets called by the runtime. Use this method to add services to the container.
 public void ConfigureServices(IServiceCollection services) {
-	JsonResolver resolver = new JsonResolver();
-	Action<MvcJsonOptions> JsonOptions = options => {
-		options.SerializerSettings.ContractResolver = resolver;
-		options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-	};
-	services.AddMvc(options => {
-		options.EnableEndpointRouting = false;
-	})
-		.AddJsonOptions(JsonOptions)
-		.SetCompatibilityVersion(CompatibilityVersion.Latest)
-		.AddDxSampleModelJsonOptions();
-	services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-		 .AddCookie(options => {
-			 options.LoginPath = loginPath;
-		 });
-	services.AddSingleton<XpoDataStoreProviderService>();
-	services.AddSingleton(Configuration);
-	services.AddHttpContextAccessor();
-	services.AddScoped<SecurityProvider>();
+    services.AddMvc(options => {
+        options.EnableEndpointRouting = false;
+    }).SetCompatibilityVersion(CompatibilityVersion.Latest);
+    services.AddControllers().
+        AddNewtonsoftJson(options => {
+            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+        });
+    services.AddSingleton(Configuration);
+    services.AddHttpContextAccessor();
+    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+             .AddCookie(options => {
+                 options.LoginPath = loginPath;
+             });
+    services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+        string connectionString = Configuration.GetConnectionString("ConnectionString");
+        options.UseSqlServer(connectionString);
+        options.UseLazyLoadingProxies();
+        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
+    }, ServiceLifetime.Scoped);
+    services.AddScoped<SecurityProvider>();
+    services.AddScoped((serviceProvider) => {
+        AuthenticationMixed authentication = new AuthenticationMixed();
+        authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+        authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+        authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+        return security;
+    });
 }
-
 // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-	if(env.IsDevelopment()) {
-		app.UseDeveloperExceptionPage();
-	}
-	else {
-		app.UseExceptionHandler("/Home/Error");
-		app.UseHsts();
-	}
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+    if(env.IsDevelopment()) {
+        app.UseDeveloperExceptionPage();
+    } else {
+        app.UseExceptionHandler("/Home/Error");
+        app.UseHsts();
+    }
 
-	app.UseAuthentication();
-	app.UseDefaultFiles();
-	app.UseHttpsRedirection();
-	app.UseStaticFiles(new StaticFileOptions() { 
-		OnPrepareResponse = context => {
-			if(context.Context.User.Identity.IsAuthenticated) {
-				return;
-			}
-			else {
-				string referer = context.Context.Request.Headers["Referer"].ToString();
-				string authenticationPagePath = loginPath;
-				string vendorString = "vendor.css";
-				if(context.Context.Request.Path.HasValue && context.Context.Request.Path.StartsWithSegments(authenticationPagePath)
-					|| referer != null && (referer.Contains(authenticationPagePath) || referer.Contains(vendorString))) {
-					return;
-				}
-				context.Context.Response.Redirect(loginPath);
-			}
-		}
-	});
-	app.UseCookiePolicy();
-	app.UseMvc(routes => {
-		routes.MapRoute(
-			name: "default",
-			template: "{controller=Home}/{action=Index}/{id?}");
-	});
+    app.UseAuthentication();
+    app.UseDefaultFiles();
+    app.UseHttpsRedirection();
+    app.UseStaticFiles(new StaticFileOptions() {
+        OnPrepareResponse = context => {
+            if(context.Context.User.Identity.IsAuthenticated) {
+                return;
+            } else {
+                string referer = context.Context.Request.Headers["Referer"].ToString();
+                string authenticationPagePath = loginPath;
+                string vendorString = "vendor.css";
+                if(context.Context.Request.Path.HasValue && context.Context.Request.Path.StartsWithSegments(authenticationPagePath)
+                    || referer != null && (referer.Contains(authenticationPagePath) || referer.Contains(vendorString))) {
+                    return;
+                }
+                context.Context.Response.Redirect(loginPath);
+            }
+        }
+    });
+    app.UseCookiePolicy();
+    app.UseMvc(routes => {
+        routes.MapRoute(
+            name: "default",
+            template: "{controller=Home}/{action=Index}/{id?}");
+    });
+    app.UseDemoData<ApplicationDbContext>((builder, _) =>
+        builder.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
 }
 ```
-	
-- The AddDxSampleModelJsonOptions extension is used to register [JsonResolver](Helpers/JsonResolver.cs) needed to serialize business objects correctly.
-		
-	``` csharp
-	public class JsonResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {
-		public bool SerializeCollections { get; set; } = false;
-		public bool SerializeReferences { get; set; } = true;
-		public bool SerializeByteArrays { get; set; } = true;
-		readonly XPDictionary dictionary;
-		public JsonResolver() {
-			dictionary = new ReflectionDictionary();
-			dictionary.GetDataStoreSchema(typeof(Employee), typeof(Department));
-		}
-		protected override List<MemberInfo> GetSerializableMembers(Type objectType) {
-			XPClassInfo classInfo = dictionary.QueryClassInfo(objectType);
-			if(classInfo != null && classInfo.IsPersistent) {
-				var allSerializableMembers = base.GetSerializableMembers(objectType);
-				var serializableMembers = new List<MemberInfo>(allSerializableMembers.Count);
-				foreach(MemberInfo member in allSerializableMembers) {
-					XPMemberInfo mi = classInfo.FindMember(member.Name);
-					if(!(mi.IsPersistent || mi.IsAliased || mi.IsCollection || mi.IsManyToManyAlias)
-						|| ((mi.IsCollection || mi.IsManyToManyAlias) && !SerializeCollections)
-						|| (mi.ReferenceType != null && !SerializeReferences)
-						|| (mi.MemberType == typeof(byte[]) && !SerializeByteArrays)) {
-						continue;
-					}
-					serializableMembers.Add(member);
-				}
-				return serializableMembers;
-			}
-			return base.GetSerializableMembers(objectType);
-		}
-	}
-	```
 
-- The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
-		
-	``` csharp
-	public class XpoDataStoreProviderService {
-		private IXpoDataStoreProvider dataStoreProvider;
-		public IXpoDataStoreProvider GetDataStoreProvider(string connectionString, IDbConnection connection, bool enablePoolingInConnectionString) {
-			if(dataStoreProvider == null) {
-				dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, connection, enablePoolingInConnectionString);
-			}
-			return dataStoreProvider;
-		}
-	}
-	```
-	
 - The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider. 
 		
 	``` csharp		
@@ -147,7 +104,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
 	In appsettings.json, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
 	``` json
 	"ConnectionStrings": {
-	  "ConnectionString": "Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"
+		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"
 	}
 	```
 		
@@ -155,6 +112,8 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
 
 - Set the [StaticFileOptions\.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
 with the logic which сhecks if the ASP.NET Core Identity is authenticated. And, if not, it redirects a user to the authentication page.
+
+- How to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2: Initialize Data Store and XAF's Security System. Authentication and Permission Configuration
 
@@ -188,62 +147,68 @@ public class TypePermission {
 The [SecurityProvider](Helpers/SecurityProvider.cs) class provides access to the XAF Security System functionality.
 
 ``` csharp
-public SecurityProvider(XpoDataStoreProviderService xpoDataStoreProviderService, IConfiguration config, IHttpContextAccessor contextAccessor) {
-	this.xpoDataStoreProviderService = xpoDataStoreProviderService;
-	this.config = config;
-	this.contextAccessor = contextAccessor;
-	if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
-		Initialize();
-	}
+public class SecurityProvider : IDisposable {
+    public SecurityStrategyComplex Security { get; private set; }
+    public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
+    IHttpContextAccessor contextAccessor;
+    IDbContextFactory<ApplicationDbContext> xafDbContextFactory;
+    public SecurityProvider(SecurityStrategyComplex security, IDbContextFactory<ApplicationDbContext> xafDbContextFactory, IHttpContextAccessor contextAccessor) {
+        this.xafDbContextFactory = xafDbContextFactory;
+        Security = security;
+        this.contextAccessor = contextAccessor;
+        if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
+            Initialize();
+        }
+    }
+	//...
 }
 ```
 
-The `Initialize` method initializes the `Security` and `ObjectSpaceProvider` properties and performs [Login](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.Logon(System.Object)) to Security System.
+The `Initialize` method initializes and `ObjectSpaceProvider` properties and performs [Login](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.Logon(System.Object)) to Security System.
 
 ``` csharp
 public void Initialize() {
-	Security = GetSecurity(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
-	ObjectSpaceProvider = GetObjectSpaceProvider(Security);
-	Login(Security, ObjectSpaceProvider);
-}
+    ((AuthenticationMixed)Security.Authentication).SetupAuthenticationProvider(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
+    ObjectSpaceProvider = GetObjectSpaceProvider(Security);
+    Login(Security, ObjectSpaceProvider);
+}	
 private void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
-	IObjectSpace objectSpace = objectSpaceProvider.CreateObjectSpace();
-	security.Logon(objectSpace);
+    IObjectSpace objectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();
+    security.Logon(objectSpace);
 }
 ```
 
-The `GetSecurity` method initializes the Security System instance and registers authentication providers. 
 
 The `AuthenticationMixed` class allows you to register several authentication providers, 
-so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
+so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication. Security system and authentication register in [Startup.cs](Startup.cs):
 
 ``` csharp
-private SecurityStrategyComplex GetSecurity(string authenticationName, object parameter) {
-	AuthenticationMixed authentication = new AuthenticationMixed();
-	authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-	authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-	authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-	authentication.SetupAuthenticationProvider(authenticationName, parameter);
-	SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-	security.RegisterXPOAdapterProviders();
-	return security;
-}
+services.AddScoped((serviceProvider) => {
+    AuthenticationMixed authentication = new AuthenticationMixed();
+    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+    security.RegisterXPOAdapterProviders();
+    return security;
+});
 ```
+Secured `DbContextFactory` allows your application to filter data based on user permissions. The `DbContextFactory` registers in [Startup.cs](Startup.cs):
 
+``` csharp
+services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+    string connectionString = Configuration.GetConnectionString("ConnectionString");
+    options.UseSqlServer(connectionString);
+    options.UseLazyLoadingProxies();
+    options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
+}, ServiceLifetime.Scoped);
+```
 The `GetObjectSpaceProvider` method initializes the Object Space Provider.
 
 ``` csharp
 private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-	string connectionString = config.GetConnectionString("ConnectionString");
-	SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(connectionString, null, true), true);
-	RegisterEntities(objectSpaceProvider);
-	return objectSpaceProvider;
-}
-// Registers all business object types you use in the application.
-private void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
-	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+    SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, xafDbContextFactory);
+    return objectSpaceProvider;
 }
 ```
 	
@@ -252,26 +217,26 @@ A user is identified by the user name and password parameters.
 
 ``` csharp
 public bool InitConnection(string userName, string password) {
-	AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
-	SecurityStrategyComplex security = GetSecurity(typeof(AuthenticationStandardProvider).Name, parameters);
-	IObjectSpaceProvider objectSpaceProvider = GetObjectSpaceProvider(security);
-	try {
-		Login(security, objectSpaceProvider);
-		SignIn(contextAccessor.HttpContext, userName);
-		return true;
-	}
-	catch {
-		return false;
-	}
+    AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
+    Security.Logoff();
+    ((AuthenticationMixed)Security.Authentication).SetupAuthenticationProvider(typeof(AuthenticationStandardProvider).Name, parameters);
+    IObjectSpaceProvider objectSpaceProvider = GetObjectSpaceProvider(Security);
+    try {
+        Login(Security, objectSpaceProvider);
+        SignIn(contextAccessor.HttpContext, userName);
+        return true;
+    } catch {
+        return false;
+    }
 }
 // Signs into HttpContext and creates a cookie.
 private void SignIn(HttpContext httpContext, string userName) {
-	List<Claim> claims = new List<Claim>{
-		new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-	};
-	ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-	ClaimsPrincipal principal = new ClaimsPrincipal(id);
-	httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+    List<Claim> claims = new List<Claim>{
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
+    ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+    ClaimsPrincipal principal = new ClaimsPrincipal(id);
+    httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 }
 ```
 
@@ -281,12 +246,13 @@ All controllers get SecurityProvider as constructor parameters to have access to
 
 ``` csharp
 public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
-	SecurityProvider securityProvider;
-	IObjectSpace objectSpace;
-	public EmployeesController(SecurityProvider securityProvider) {
-		this.securityProvider = securityProvider;
-		objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
-	}
+    SecurityProvider securityProvider;
+    IObjectSpace objectSpace;
+    public EmployeesController(SecurityProvider securityProvider) {
+        this.securityProvider = securityProvider;
+        objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+    }
+	//...
 }
 ```
 
@@ -305,46 +271,46 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	The `Delete` method deletes the Employee object by key.
     
 	``` csharp
-	[HttpDelete]
-	public ActionResult Delete(Guid key) {
-		Employee existing = objectSpace.GetObjectByKey<Employee>(key);
-		if(existing != null) {
-			objectSpace.Delete(existing);
-			objectSpace.CommitChanges();
-			return NoContent();
-		}
-		return NotFound();
-	}
+    [HttpDelete]
+    public ActionResult Delete(int key) {
+        Employee existing = objectSpace.GetObjectByKey<Employee>(key);
+        if(existing != null) {
+            objectSpace.Delete(existing);
+            objectSpace.CommitChanges();
+            return NoContent();
+        }
+        return NotFound();
+    }
 	```
 
 	The `Update` method updates a specific Employee object with specified values.
 	
 	``` csharp
-	[HttpPut]
-	public ActionResult Update(Guid key, string values) {
-		Employee employee = objectSpace.GetObjectByKey<Employee>(key);
-		if(employee != null) {
-			JsonParser.ParseJObject<Employee>(JObject.Parse(values), employee, objectSpace);
-			return Ok(employee);
-		}
-		return NotFound();
-	}
+    [HttpPut]
+    public ActionResult Update(int key, string values) {
+        Employee employee = objectSpace.GetObjectByKey<Employee>(key);
+        if(employee != null) {
+            JsonParser.ParseJObject<Employee>(JObject.Parse(values), employee, objectSpace);
+            return Ok(employee);
+        }
+        return NotFound();
+    }
 	```
 	
 	The `Add` method creates new Employee object and saves it with specified values.
     
 	``` csharp
-	[HttpPost]
-	public ActionResult Add(string values) {
-		Employee employee = objectSpace.CreateObject<Employee>();
-		JsonParser.ParseJObject<Employee>(JObject.Parse(values), employee, objectSpace);
-		return Ok(employee);
-	}
+    [HttpPost]
+    public ActionResult Add(string values) {
+        Employee employee = objectSpace.CreateObject<Employee>();
+        JsonParser.ParseJObject<Employee>(JObject.Parse(values), employee, objectSpace);
+        return Ok(employee);
+    }
 	```
 	
 	[JsonParser](Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
 	
-	> Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI.
+	> Note that secured EFCoreObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI.
 
 - [DepartmentsController](Controllers/DepartmentsController.cs) has methods to get access to Department objects and contains code similar to the one in EmployeesController.
     
@@ -354,12 +320,10 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	The `Logout` method is called when a user clicks the `Log out` button on the [main page](Views/Home/Index.cshtml).
     
 	``` csharp
-	    public class AuthenticationController : Controller {
-		[HttpGet]
-		[Route("Logout")]
-		public async Task<ActionResult> Logout() {
-		    await HttpContext.SignOutAsync();
-		    return Ok();
+	public class AuthenticationController : Controller {
+		SecurityProvider securityProvider;
+		public AuthenticationController(SecurityProvider securityProvider){
+			this.securityProvider = securityProvider;
 		}
 		[HttpPost]
 		[Route("Login")]
@@ -374,47 +338,59 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 			}
 			return result;
 		}
+		[HttpGet]
+		[Route("Logout")]
+		public async Task<ActionResult> Logout() {
+			await HttpContext.SignOutAsync();
+			return Ok();
+		}
 		[Route("Authentication")]
 		public IActionResult Authentication() {
 			return View();
 		}
-	    }
+		protected override void Dispose(bool disposing) {
+			if(disposing) {
+				securityProvider?.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+	}
     ```
 
 - [ActionsController](Controllers/ActionsController.cs) contains the `GetPermissions` method to process permissions.
     
 	``` csharp
     [HttpPost]
-	public ActionResult GetPermissions(List<Guid> keys, string typeName) {
-		ActionResult result = NoContent();
-		using(IObjectSpace objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace()) {
-			PermissionHelper permissionHelper = new PermissionHelper(objectSpace, securityProvider.Security);
-			ITypeInfo typeInfo = objectSpace.TypesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeName);
-			if(typeInfo != null) {
-				IList entityList = objectSpace.GetObjects(typeInfo.Type, new InOperator(typeInfo.KeyMember.Name, keys));
-				List<ObjectPermission> objectPermissions = new List<ObjectPermission>();
-				foreach(object entity in entityList) {
-					ObjectPermission objectPermission = permissionHelper.CreateObjectPermission(typeInfo, entity);
-					objectPermissions.Add(objectPermission);
-				}
-				result = Ok(objectPermissions);
-			}
-		}
-		return result;
-	}
+        public ActionResult GetPermissions(List<string> keys, string typeName) {
+        ActionResult result = NoContent();
+        using(IObjectSpace objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace()) {
+            PermissionHelper permissionHelper = new PermissionHelper(securityProvider.Security);
+            ITypeInfo typeInfo = objectSpace.TypesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeName);
+            if(typeInfo != null) {
+                IList entityList = objectSpace.GetObjects(typeInfo.Type, new InOperator(typeInfo.KeyMember.Name, keys));
+                List<ObjectPermission> objectPermissions = new List<ObjectPermission>();
+                foreach(object entity in entityList) {
+                    ObjectPermission objectPermission = permissionHelper.CreateObjectPermission(typeInfo, entity);
+                    objectPermissions.Add(objectPermission);
+                }
+                result = Ok(objectPermissions);
+            }
+        }
+        return result;
+    }
     ```	    
     
 - [HomeController](Controllers/HomeController.cs) sends to client-side the [Index](Views/Home/Index.cshtml) view and type permissions.
     
 	``` csharp
     public IActionResult Index() {
-		using(IObjectSpace objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace()) {
-			ITypeInfo typeInfo = objectSpace.TypesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeof(Employee).Name);
-			PermissionHelper permissionHelper = new PermissionHelper(objectSpace, securityProvider.Security);
-			TypePermission typePermission = permissionHelper.CreateTypePermission(typeInfo);
-			return View(typePermission);
-		}
-	}
+        using(IObjectSpace objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace()) {
+            ITypeInfo typeInfo = objectSpace.TypesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeof(Employee).Name);
+            PermissionHelper permissionHelper = new PermissionHelper(securityProvider.Security);
+            TypePermission typePermission = permissionHelper.CreateTypePermission(typeInfo);
+            return View(typePermission);
+        }
+    }
 	```
 	
 - [PermissionHelper](Helpers/PermissionHelper.cs) is a helper class which provides methods to create permissions.
@@ -425,49 +401,49 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	The `CreateTypePermission` creates the `TypePermission` object, which contains create operation permissions for the specified type and write operation permissions for all members of this type obtained from the `GetPersistentMembers` method.
 	
 	```csharp
-	public TypePermission CreateTypePermission(ITypeInfo typeInfo) {
-		Type type = typeInfo.Type;
-		TypePermission typePermission = new TypePermission();
-		typePermission.Create = Security.CanCreate(type);
-		IEnumerable<IMemberInfo> members = GetPersistentMembers(typeInfo);
-		foreach(IMemberInfo member in members) {
-			bool writePermission = Security.CanWrite(type, member.Name);
-			typePermission.Data.Add(member.Name, writePermission);
-		}
-		return typePermission;
-	}
-	private static IEnumerable<IMemberInfo> GetPersistentMembers(ITypeInfo typeInfo) {
-		return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
-	}
+    public TypePermission CreateTypePermission(ITypeInfo typeInfo) {
+        Type type = typeInfo.Type;
+        TypePermission typePermission = new TypePermission();
+        typePermission.Create = Security.CanCreate(type);
+        IEnumerable<IMemberInfo> members = GetPersistentMembers(typeInfo);
+        foreach(IMemberInfo member in members) {
+            bool writePermission = Security.CanWrite(type, member.Name);
+            typePermission.Data.Add(member.Name, writePermission);
+        }
+        return typePermission;
+    }
+    private static IEnumerable<IMemberInfo> GetPersistentMembers(ITypeInfo typeInfo) {
+        return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
+    }
 	```
 	
 	The `CreateObjectPermission` method creates the `ObjectPermission` object, which contains write and delete operation permissions for the specified object and the `MemberPermission` objects 
 	for all members of this type obtained from the `GetPersistentMembers` method.
 	
 	```csharp
-	public ObjectPermission CreateObjectPermission(ITypeInfo typeInfo, object entity) {
-		ObjectPermission objectPermission = new ObjectPermission();
-		objectPermission.Key = typeInfo.KeyMember.GetValue(entity).ToString();
-		objectPermission.Write = Security.CanWrite(entity);
-		objectPermission.Delete = Security.CanDelete(entity);
-		IEnumerable<IMemberInfo> members = GetPersistentMembers(typeInfo);
-		foreach(IMemberInfo member in members) {
-			MemberPermission memberPermission = CreateMemberPermission(entity, member);
-			objectPermission.Data.Add(member.Name, memberPermission);
-		}
-		return objectPermission;
-	}
+    public ObjectPermission CreateObjectPermission(ITypeInfo typeInfo, object entity) {
+        ObjectPermission objectPermission = new ObjectPermission();
+        objectPermission.Key = typeInfo.KeyMember.GetValue(entity).ToString();
+        objectPermission.Write = Security.CanWrite(entity);
+        objectPermission.Delete = Security.CanDelete(entity);
+        IEnumerable<IMemberInfo> members = GetPersistentMembers(typeInfo);
+        foreach(IMemberInfo member in members) {
+            MemberPermission memberPermission = CreateMemberPermission(entity, member);
+            objectPermission.Data.Add(member.Name, memberPermission);
+        }
+        return objectPermission;
+    }
 	```
 	
 	The `CreateMemberPermission` method creates the `MemberPermission` object, which contains read and write operation permissions for the specified member.
 	
 	```csharp
-	public MemberPermission CreateMemberPermission(object entity, IMemberInfo member) {
-		return new MemberPermission {
-			Read = Security.CanRead(entity, member.Name),
-			Write = Security.CanWrite(entity, member.Name)
-		};
-	}
+    public MemberPermission CreateMemberPermission(object entity, IMemberInfo member) {
+        return new MemberPermission {
+            Read = Security.CanRead(entity, member.Name),
+            Write = Security.CanWrite(entity, member.Name)
+        };
+    }
 	```	
 	
 ## Step 4: Client-Side App Authentication and Authorization to Customize UI Based on Access Rights
@@ -491,7 +467,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	``` javascript
 	function onLoaded(data) {
 		var oids = $.map(data, function (val) {
-			return val.Oid;
+			return val.ID;
 		});
 		var parameters = {
 			keys: oids,

@@ -57,7 +57,7 @@ namespace MvcApplication {
 			return objectSpaceProvider;
 		}
 		private void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
-			IObjectSpace objectSpace = objectSpaceProvider.CreateObjectSpace();
+			IObjectSpace objectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();
 			security.Logon(objectSpace);
 		}
 		public static void RegisterEntities(IObjectSpaceProvider objectSpaceProvider) {

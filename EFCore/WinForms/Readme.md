@@ -6,6 +6,8 @@ This example demonstrates how to access data protected by the [Security System](
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 ***
 
+# Detailed description of the example
+
 ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
 
 - Add devexpress NuGet packages to your project:

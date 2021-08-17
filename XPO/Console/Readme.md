@@ -13,7 +13,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ***
 
-# How to create console application with Security system.
+# Detailed description of the example
 
 ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
 
