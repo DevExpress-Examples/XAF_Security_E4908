@@ -19,6 +19,10 @@ namespace DevExtreme.OData.Controllers {
 		[HttpGet]
 		[EnableQuery]
 		public ActionResult Get() {
+			// The XPO way:
+			// var session = ((SecuredObjectSpace)ObjectSpace).Session;
+			// 
+			// The XAF way:
 			IQueryable<Employee> employees = ((XPQuery<Employee>)objectSpace.GetObjectsQuery<Employee>());
 			return Ok(employees);
 		}

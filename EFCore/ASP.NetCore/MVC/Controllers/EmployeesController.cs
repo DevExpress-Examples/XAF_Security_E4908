@@ -19,6 +19,10 @@ namespace MvcApplication.Controllers {
 		}
 		[HttpGet]
 		public object Get(DataSourceLoadOptions loadOptions) {
+			// The EFCore way:
+			// var dbContext = ((EFCoreObjectSpace)objectSpace).DbContext;
+			// 
+			// The XAF way:
 			IQueryable<Employee> employees = objectSpace.GetObjectsQuery<Employee>();
 			return DataSourceLoader.Load(employees, loadOptions);
 		}

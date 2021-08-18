@@ -16,7 +16,7 @@ This example demonstrates how to protect your data with the [XAF Security System
 # Detailed description of the example:
 
 ## Step 1: Configure the ASP.NET Core Server App Services
-For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-2.2&tabs=windows).
+For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-5.0&tabs=windows).
 
 Configure the MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
     
@@ -40,18 +40,8 @@ public void ConfigureServices(IServiceCollection services) {
     services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
         string connectionString = Configuration.GetConnectionString("ConnectionString");
         options.UseSqlServer(connectionString);
-        options.UseLazyLoadingProxies();
-        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
+        options.UseLazyLoadingProxies();        
     }, ServiceLifetime.Scoped);
-    services.AddScoped<SecurityProvider>();
-    services.AddScoped((serviceProvider) => {
-        AuthenticationMixed authentication = new AuthenticationMixed();
-        authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-        authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-        authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-        return security;
-    });
 }
 // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
@@ -108,14 +98,48 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 	}
 	```
 		
-- Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
+- Register `HttpContextAccessor` in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
 
 - Set the [StaticFileOptions\.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
 with the logic which сhecks if the ASP.NET Core Identity is authenticated. And, if not, it redirects a user to the authentication page.
 
-- How to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+- Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-5.0) in the `ConfigureServices` method  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
+
+How to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2: Initialize Data Store and XAF's Security System. Authentication and Permission Configuration
+
+Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, 
+so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
+
+``` csharp
+public void ConfigureServices(IServiceCollection services) {
+    services.AddScoped((serviceProvider) => {
+        AuthenticationMixed authentication = new AuthenticationMixed();
+        authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+        authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+        authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+        return security;
+    });
+}	
+```
+
+    services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+        string connectionString = Configuration.GetConnectionString("ConnectionString");
+        options.UseSqlServer(connectionString);
+        options.UseLazyLoadingProxies();
+        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
+    }, ServiceLifetime.Scoped);
+
+Add security extension to `DbContextFactory`to allow your application to filter data based on user permissions. The `DbContextFactory` registers in [Startup.cs](Startup.cs):
+
+``` csharp
+services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+    //...
+    options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);    
+}, ServiceLifetime.Scoped);
+```
 
 Create [MemberPermission](Helpers/MemberPermission.cs), [ObjectPermission](Helpers/ObjectPermission.cs) and [TypePermission](Helpers/TypePermission.cs) classes. These classes are used as containers to transfer permissions to the client side.
 	
@@ -164,6 +188,15 @@ public class SecurityProvider : IDisposable {
 }
 ```
 
+- Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
+
+	``` csharp
+	public void ConfigureServices(IServiceCollection services) {
+		// ...
+		services.AddScoped<SecurityProvider>();
+	}
+	```
+
 The `Initialize` method initializes and `ObjectSpaceProvider` properties and performs [Login](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.Logon(System.Object)) to Security System.
 
 ``` csharp
@@ -178,31 +211,6 @@ private void Login(SecurityStrategyComplex security, IObjectSpaceProvider object
 }
 ```
 
-
-The `AuthenticationMixed` class allows you to register several authentication providers, 
-so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication. Security system and authentication register in [Startup.cs](Startup.cs):
-
-``` csharp
-services.AddScoped((serviceProvider) => {
-    AuthenticationMixed authentication = new AuthenticationMixed();
-    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-    security.RegisterXPOAdapterProviders();
-    return security;
-});
-```
-Secured `DbContextFactory` allows your application to filter data based on user permissions. The `DbContextFactory` registers in [Startup.cs](Startup.cs):
-
-``` csharp
-services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
-    string connectionString = Configuration.GetConnectionString("ConnectionString");
-    options.UseSqlServer(connectionString);
-    options.UseLazyLoadingProxies();
-    options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
-}, ServiceLifetime.Scoped);
-```
 The `GetObjectSpaceProvider` method initializes the Object Space Provider.
 
 ``` csharp
@@ -263,6 +271,10 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 	``` csharp
 	[HttpGet]
 	public object Get(DataSourceLoadOptions loadOptions) {
+        // The EFCore way:
+        // var dbContext = ((EFCoreObjectSpace)objectSpace).DbContext;
+        // 
+        // The XAF way:
 		IQueryable<Employee> employees = objectSpace.GetObjectsQuery<Employee>();
 		return DataSourceLoader.Load(employees, loadOptions);
 	}

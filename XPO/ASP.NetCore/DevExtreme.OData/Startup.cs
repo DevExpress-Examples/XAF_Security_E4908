@@ -9,6 +9,8 @@ using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using DevExpress.Persistent.BaseImpl;
 using BusinessObjectsLibrary.BusinessObjects;
+using DevExpress.ExpressApp.Security;
+using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 
 namespace DevExtreme.OData {
     public class Startup {
@@ -26,7 +28,14 @@ namespace DevExtreme.OData {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
             services.AddSingleton<XpoDataStoreProviderService>();
-
+            services.AddScoped((serviceProvider) => {
+                AuthenticationMixed authentication = new AuthenticationMixed();
+                authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+                authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+                authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+                SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+                return security;
+            });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if(env.IsDevelopment()) {
