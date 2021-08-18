@@ -5,6 +5,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using Blazor.ServerSide.Helpers;
+using DevExpress.ExpressApp.Security;
+using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 
 namespace Blazor.ServerSide {
     public class Startup {
@@ -22,6 +24,14 @@ namespace Blazor.ServerSide {
             services.AddSingleton<XpoDataStoreProviderService>();
             services.AddSingleton(Configuration);
             services.AddScoped<SecurityProvider>();
+            services.AddScoped((serviceProvider) => {
+                AuthenticationMixed authentication = new AuthenticationMixed();
+                authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+                authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+                authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+                SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+                return security;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {

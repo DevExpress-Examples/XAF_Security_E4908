@@ -10,30 +10,30 @@
 <CascadingValue Value="objectSpace">
     <DxDataGrid Data="employees" KeyFieldName="@nameof(Employee.Oid)" PageSize="20" ShowFilterRow="true" AllowSort="true" @ref="grid">
         <ChildContent>
-            <DxDataGridColumn Field=@nameof(Employee.FirstName)>
+            <DxDataGridColumn Field="@nameof(Employee.FirstName)">
                 <DisplayTemplate>
-                    <SecuredContainer Context="readOnly" CurrentObject=@context PropertyName=@nameof(Employee.FirstName)>
+                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.FirstName)">
                         @(((Employee)context).FirstName)
                     </SecuredContainer>
                 </DisplayTemplate>
             </DxDataGridColumn>
-            <DxDataGridColumn Field=@nameof(Employee.LastName)>
+            <DxDataGridColumn Field="@nameof(Employee.LastName)">
                 <DisplayTemplate>
-                    <SecuredContainer Context="readOnly" CurrentObject=@context PropertyName=@nameof(Employee.LastName)>
+                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.LastName)">
                         @(((Employee)context).LastName)
                     </SecuredContainer>
                 </DisplayTemplate>
             </DxDataGridColumn>
-            <DxDataGridColumn Field=@nameof(Employee.Email)>
+            <DxDataGridColumn Field="@nameof(Employee.Email)">
                 <DisplayTemplate>
-                    <SecuredContainer Context="readOnly" CurrentObject=@context PropertyName=@nameof(Employee.Email)>
+                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.Email)">
                         @(((Employee)context).Email)
                     </SecuredContainer>
                 </DisplayTemplate>
             </DxDataGridColumn>
-            <DxDataGridComboBoxColumn Field=@nameof(Employee.Department) Data=@departments>
+            <DxDataGridComboBoxColumn Field="@nameof(Employee.Department)" Data="@departments">
                 <DisplayTemplate>
-                    <SecuredContainer Context="readOnly" CurrentObject=@context PropertyName=@nameof(Employee.Department)>
+                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.Department)">
                         @(CaptionHelper.GetDisplayText(((Employee)context).Department))
                     </SecuredContainer>
                 </DisplayTemplate>

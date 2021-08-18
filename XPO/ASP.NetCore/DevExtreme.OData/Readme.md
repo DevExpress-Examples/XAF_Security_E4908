@@ -17,6 +17,7 @@ This example demonstrates how to protect your data with the [XAF Security System
 > **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ***
+
 # Detailed description of the example
 
 ## Step 1: Configure the ASP.NET Core Server App
@@ -46,7 +47,25 @@ For detailed information about ASP.NET Core application configuration, see [offi
         app.UseDemoData(Configuration.GetConnectionString("ConnectionString"));
     }
 	```
-	- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
+- The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
+		
+	``` csharp
+	public class XpoDataStoreProviderService {
+		private IXpoDataStoreProvider dataStoreProvider;
+		private string connectionString;
+		public XpoDataStoreProviderService(IConfiguration config) {
+			connectionString = config.GetConnectionString("ConnectionString");
+		}
+		public IXpoDataStoreProvider GetDataStoreProvider() {
+			if(dataStoreProvider == null) {
+				dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+			}
+			return dataStoreProvider;
+		}
+	}
+	```
+	
+- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
 
 	``` csharp		
 	//...
@@ -169,6 +188,8 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	}
 	```
 
+How to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+
 ## Step 2: Initialize Data Store and XAF's Security System
 
 Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, 
@@ -212,7 +233,7 @@ public class SecurityProvider : IDisposable {
 }
 ```
 
-- Register `SecurityProvider`, in the `ConfigureServices` method.
+- Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
 
 	``` csharp
 	public void ConfigureServices(IServiceCollection services) {

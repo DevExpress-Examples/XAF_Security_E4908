@@ -50,7 +50,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
         app.UseDemoData(Configuration.GetConnectionString("ConnectionString"));
     }
 	```
-	- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
+- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
 
 	``` csharp		
 	//...
@@ -62,7 +62,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	In appsettings.json, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
 	``` json
 	"ConnectionStrings": {
-		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"
 	}
 	```
 - Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-5.0) in the `ConfigureServices` method  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
@@ -220,7 +220,7 @@ public class SecurityProvider : IDisposable {
 }
 ```
 
-- Register `SecurityProvider`, in the `ConfigureServices` method.
+- Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
 
 	``` csharp
 	public void ConfigureServices(IServiceCollection services) {
