@@ -36,7 +36,6 @@ public void ConfigureServices(IServiceCollection services) {
     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
     services.AddHttpContextAccessor();
     services.AddSession();
-    services.AddSingleton<XpoDataStoreProviderService>();
     services.AddSingleton(Configuration);
     services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
       	string connectionString = Configuration.GetConnectionString("ConnectionString");
