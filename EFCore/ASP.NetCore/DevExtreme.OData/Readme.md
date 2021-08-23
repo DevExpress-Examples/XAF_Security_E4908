@@ -255,7 +255,7 @@ public class SecurityProvider : IDisposable {
 	```
 
 
-- The `GetObjectSpaceProvider` method provides access to the Object Space Provider. The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
+- The `GetObjectSpaceProvider` method provides access to the Object Space Provider.
 
 	``` csharp
     private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
