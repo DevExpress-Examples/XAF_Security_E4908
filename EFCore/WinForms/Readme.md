@@ -26,7 +26,9 @@ This example demonstrates how to access data protected by the [Security System](
 	```xml
 	<add name="ConnectionString" connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"/>
 	```
-		
+	
+    > **!NOTE:** The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MSSql database. We do not recommend that you remove “MultipleActiveResultSets=True;“ from the connection string or set the MultipleActiveResultSets parameter to false.
+	
 - Initialize the Security System.
 	
 	[](#tab/tabid-csharp)
