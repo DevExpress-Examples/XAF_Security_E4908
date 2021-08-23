@@ -1,6 +1,6 @@
 <!-- default file list -->
 
-This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from your Non-XAF application using EF Core for data access. The application outputs secured data to the 'result.txt' file. 
+This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from your Non-XAF application using EF Core for data access. The application outputs secured data to the console.
 
 >If you are using XPO ORM for data access, [follow this tutorial](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx).
  
@@ -53,7 +53,18 @@ This example demonstrates how to access data protected by the [Security System](
         (builder, _) => builder.UseSqlServer(connectionString));
 	```
 
-- How to create demo data from code, see the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
+- Call CreateDemoData method at the beginning of the Main method of Program.cs:
+	[](#tab/tabid-csharp)
+	
+	```csharp
+    private static void CreateDemoData(string connectionString) {
+        using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), (builder, _) => builder.UseSqlServer(connectionString)))
+        using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+            new Updater(objectSpace).UpdateDatabase();
+        }
+    }
+    ```
+    For more details about how to create demo data from code, see in the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2. Authentication. Log in as a 'User' with an Empty Password
 
