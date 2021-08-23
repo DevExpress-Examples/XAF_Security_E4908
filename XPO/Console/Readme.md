@@ -32,8 +32,6 @@ This example demonstrates how to access data protected by the [Security System](
 	<add name="ConnectionString" connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True"/>
 	```
 	
-	Substitute "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
-	
 - Initialize the Security System.
 	
 	[](#tab/tabid-csharp)

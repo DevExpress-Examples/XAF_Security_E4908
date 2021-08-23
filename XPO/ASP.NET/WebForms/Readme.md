@@ -28,7 +28,7 @@ You will also learn how to execute Create, Write and Delete data operations taki
   }
   ```
   
-  In the [Web.config](CS/Web.config) file, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "localhost" or "(local)" if you use a local Database Server.
+  In the [Web.config](CS/Web.config) file, add the connection string.
   
   ```xml
   <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"/>

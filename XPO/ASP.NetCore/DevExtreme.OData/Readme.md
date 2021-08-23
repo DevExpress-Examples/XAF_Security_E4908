@@ -74,7 +74,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 		Configuration = configuration;
 	}
 	```
-	In appsettings.json, add the connection string and replace "DBSERVER" with the Database Server name or its IP address. Use "**localhost**" or "**(local)**" if you use a local Database Server.
+	In appsettings.json, add the connection string.
 	``` json
 	"ConnectionStrings": {
 		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
