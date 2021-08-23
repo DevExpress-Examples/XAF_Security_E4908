@@ -3,7 +3,10 @@ You will also see how to execute Create, Write and Delete data operations and ta
 
 ## Prerequisites
 
-- Make sure that your environment meets [Microsoft Blazor Prerequisites](https://docs.devexpress.com/Blazor/401055/getting-started/prerequisites).
+- [Visual Studio 2019 v16.8+](https://visualstudio.microsoft.com/vs/) with the following workloads:
+  - **ASP.NET and web development**
+  - **.NET Core cross-platform development**
+- [.NET SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
 - [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio nuget feeds.
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 
