@@ -57,9 +57,9 @@ This example demonstrates how to access data protected by the [Security System](
 	[](#tab/tabid-csharp)
 	
 	```csharp
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
+	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
 	```
 - Call CreateDemoData method at the beginning of the Main method of Program.cs:
 	[](#tab/tabid-csharp)
