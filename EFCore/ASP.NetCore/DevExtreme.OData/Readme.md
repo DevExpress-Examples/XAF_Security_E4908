@@ -178,7 +178,19 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	}
 	```
 
-How to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+- Call the UseDemoData method at the end of the Configure method of Startup.cs:
+	[](#tab/tabid-csharp)
+	
+	```csharp
+    public static IApplicationBuilder UseDemoData<TContext>(this IApplicationBuilder app, EFCoreDatabaseProviderHandler databaseProviderHandler) where TContext : DbContext {
+        using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(TContext), databaseProviderHandler))
+        using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+            new Updater(objectSpace).UpdateDatabase();
+        }
+        return app;
+    }
+    ```
+    For more details about how to create demo data from code, see in the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2: Initialize Data Store and XAF's Security System
 

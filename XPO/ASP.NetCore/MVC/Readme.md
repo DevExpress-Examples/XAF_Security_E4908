@@ -152,7 +152,21 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 - Set the [StaticFileOptions\.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
 with the logic which сhecks if the ASP.NET Core Identity is authenticated. And, if not, it redirects a user to the authentication page.
 
-How to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+- Call the UseDemoData method at the end of the Configure method of Startup.cs:
+	[](#tab/tabid-csharp)
+	
+	```csharp
+    public static IApplicationBuilder UseDemoData(this IApplicationBuilder app, string connectionString) {
+        using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString)) {
+            SecurityProvider.RegisterEntities(objectSpaceProvider);
+            using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+                new Updater(objectSpace).UpdateDatabase();
+            }
+        }
+        return app;
+    }
+    ```
+    For more details about how to create demo data from code, see in the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2: Initialize Data Store and XAF's Security System. Authentication and Permission Configuration
 

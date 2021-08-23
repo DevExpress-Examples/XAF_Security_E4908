@@ -88,7 +88,19 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 	
 - Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
 
-How to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+- Call the UseDemoData method at the end of the Configure method of Startup.cs:
+	[](#tab/tabid-csharp)
+	
+	```csharp
+    public static IApplicationBuilder UseDemoData<TContext>(this IApplicationBuilder app, EFCoreDatabaseProviderHandler databaseProviderHandler) where TContext : DbContext {
+        using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(TContext), databaseProviderHandler))
+        using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+            new Updater(objectSpace).UpdateDatabase();
+        }
+        return app;
+    }
+    ```
+    For more details about how to create demo data from code, see in the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
 
