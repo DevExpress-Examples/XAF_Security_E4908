@@ -355,7 +355,7 @@ Make every other ViewModel, except `LogIn`, inherit `XpoViewModel` instead of `B
         <ShellContent Title="Browse" Icon="icon_feed.png" Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
         ```
 
-## Step 6. Items Page and ViewModel implementation
+## Step 7. Items Page and ViewModel implementation
 
 Change the _ViewModels\ItemsViewModel.cs_ and _ViewModels\ItemsPage.xaml_ files to implement a ListView with the list of items, a filter bar, and Toolbar items.
 
@@ -542,7 +542,7 @@ Change the _ViewModels\ItemsViewModel.cs_ and _ViewModels\ItemsPage.xaml_ files 
     ```
 
 
-## Step 7. Item Detail page and ViewModel implementation
+## Step 8. Item Detail page and ViewModel implementation
 
 Change the _ViewModels\ItemDetailViewModel.cs_ and _ViewModels\ItemDetailPage.xaml_ files as shown below.
 
@@ -710,7 +710,7 @@ Change the _ViewModels\ItemDetailViewModel.cs_ and _ViewModels\ItemDetailPage.xa
     }
     ```
 
-## Step 8. Populate the Database
+## Step 9. Populate the Database
 
 To seed the data in the database, add the `UpdateDataBase` method and call this method from the `XpoHelper` static constructor: 
 
@@ -727,7 +727,7 @@ static void UpdateDataBase() {
 }
 ```
 
-## Step 9. Run and Test the App
+## Step 10. Run and Test the App
 
  - Log in as 'User' with an empty password.
  - Notice that secured data is not displayed.

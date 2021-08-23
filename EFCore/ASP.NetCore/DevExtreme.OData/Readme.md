@@ -195,6 +195,16 @@ public void ConfigureServices(IServiceCollection services) {
 }	
 ```
 
+
+Add security extension to `DbContextFactory`to allow your application to filter data based on user permissions. The `DbContextFactory` registers in [Startup.cs](Startup.cs):
+
+``` csharp
+services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+    //...
+    options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);    
+}, ServiceLifetime.Scoped);
+```
+
 The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
 
 ``` csharp
