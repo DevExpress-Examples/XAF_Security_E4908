@@ -179,7 +179,7 @@ The static `XpoHelper` class exposes the following members:
     ```csharp
     using DevExpress.ExpressApp.Security.ClientServer;
     // ...
-    const string ConnectionString = @"XpoProvider=WebApi;uri=https://localhost:5001/xpo/";
+    const string ConnectionString = @"XpoProvider=WebApi;uri=https://10.0.2.2:5001/xpo/";
     static IObjectSpaceProvider ObjectSpaceProvider;
     static IObjectSpaceProvider GetObjectSpaceProvider() {
         if(ObjectSpaceProvider == null) {
@@ -533,7 +533,7 @@ Change the _ViewModels\ItemsViewModel.cs_ and _ViewModels\ItemsPage.xaml_ files 
         IsBusy = false;
     }
     ```
-	
+	In the _ItemsPage.xaml_ file, add the following Picker item.
     ```xaml
     <StackLayout>
         <Picker Title="Filter" ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}"/>
