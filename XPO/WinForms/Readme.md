@@ -60,8 +60,20 @@ This example demonstrates how to access data protected by the [Security System](
 		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
 		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
 	```
-
-- How to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+- Call CreateDemoData method at the beginning of the Main method of Program.cs:
+	[](#tab/tabid-csharp)
+	
+	```csharp
+    private static void CreateDemoData(string connectionString) {
+        using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString)) {
+            RegisterEntities(objectSpaceProvider);
+            using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+                new Updater(objectSpace).UpdateDatabase();
+            }
+        }
+    }
+    ```
+    For more details about how to create demo data from code, see in the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2: Implement the Main and Login Forms
 

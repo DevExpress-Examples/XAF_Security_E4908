@@ -46,8 +46,18 @@ This example demonstrates how to access data protected by the [Security System](
     SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
         (builder, _) => builder.UseSqlServer(connectionString));
 	```
-
-- How to create demo data from code, see the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
+- Call CreateDemoData method at the beginning of the Main method of Program.cs:
+	[](#tab/tabid-csharp)
+	
+	```csharp
+    private static void CreateDemoData(string connectionString) {
+        using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), (builder, _) => builder.UseSqlServer(connectionString)))
+        using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+            new Updater(objectSpace).UpdateDatabase();
+        }
+    }
+    ```
+    For more details about how to create demo data from code, see in the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2. Authentication. Implement the Login Form to Validate User Name and Password
 [LoginForm](CS/LoginForm.cs) contains two `TextEdit` controls for user name and password, and the **Log In** button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if logon was successful.
