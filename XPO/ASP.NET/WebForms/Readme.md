@@ -5,12 +5,14 @@ You will also learn how to execute Create, Write and Delete data operations taki
 
 
 ### Prerequisites
-- Build the solution and run the *XafSolution.Win* project to log in under 'User' or 'Admin' with an empty password. The application will generate a database with business objects from the *XafSolution.Module* project. 
-- Add the *XafSolution.Module* assembly reference to your application.
-
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio nuget feeds.
+  - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
+***
 > **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ***
+
+# Detailed description of the example
 
 ## Step 1. Database Connection and Security System Initialization
 - Implement [XpoDataStoreProviderService](CS/XpoDataStoreProviderService.cs) to create Data Store Provider and access its value in singleton manner.
@@ -55,6 +57,21 @@ You will also learn how to execute Create, Write and Delete data operations taki
       objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
   }
   ```
+
+  Call CreateDemoData method at the end of the Application_Start method of Global.asax.cs:
+	[](#tab/tabid-csharp)
+	
+	```csharp
+    private static void CreateDemoData(string connectionString) {
+        using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString)) {
+            ConnectionHelper.RegisterEntities(objectSpaceProvider);
+            using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+                new Updater(objectSpace).UpdateDatabase();
+            }
+        }
+    }
+    ```
+    For more details about how to create demo data from code, see in the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
   
   Implement the `GetSecurity` method to create and initialize the Security System.
   ```csharp
@@ -144,7 +161,7 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
   ```  
   Also, you need to assign the Session to ASPxGridView Data Sources.
   
-  > !NOTE: We temporarily do not use `EmployeeDataSource` in [Server Mode](https://docs.devexpress.com/AspNet/14781/aspnet-webforms-controls/grid-view/concepts/bind-to-data/binding-to-large-data-database-server-mode) because of unexpected behavior when grouping ASPxGridView by associated properties, like Department. It is a known issue described in the [Security \- SecuredSessionObjectLayer allows accessing the key and the ServiceField properties of associated objects](https://supportcenter.devexpress.com/internal/ticket/details/t818790) bug report.
+  > !NOTE: We temporarily do not use `EmployeeDataSource` in [Server Mode](https://docs.devexpress.com/AspNet/14781/aspnet-webforms-controls/grid-view/concepts/bind-to-data/binding-to-large-data-database-server-mode) because of unexpected behavior when grouping ASPxGridView by associated properties, like Department. It is a known issue described in the [Security \- SecuredSessionObjectLayer allows accessing the key and the ServiceField properties of associated objects](https://supportcenter.devexpress.com/ticket/details/t818790) bug report.
 
 - Check the read operation for appropriate members before each ASPxGridView cell is displayed
 
