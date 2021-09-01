@@ -9,22 +9,20 @@ This example demonstrates how to protect your data with the [XAF Security System
   - **ASP.NET and web development**
   - **.NET Core cross-platform development**
 - [.NET SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio nuget feeds.
-  - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
+  
+  *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 
-***
 
-> **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
-
-***
-
-# Detailed description of the example
+> **NOTE** 
+>
+> If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ## Step 1: Configure the ASP.NET Core Server App
 For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-5.0&tabs=windows).
 - Configure the OData and MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
 
-	``` csharp
+	```csharp
     public void ConfigureServices(IServiceCollection services) {
 		services.AddSingleton(Configuration);
 		services.AddHttpContextAccessor();
@@ -49,7 +47,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	```
 - The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
 		
-	``` csharp
+	```csharp
 	public class XpoDataStoreProviderService {
 		private IXpoDataStoreProvider dataStoreProvider;
 		private string connectionString;
@@ -67,14 +65,14 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	
 - The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
 
-	``` csharp		
+	```csharp		
 	//...
 	public IConfiguration Configuration { get; }
 	public Startup(IConfiguration configuration) {
 		Configuration = configuration;
 	}
 	```
-	In appsettings.json, add the connection string.
+	In _appsettings.json_, add the connection string.
 	``` json
 	"ConnectionStrings": {
 		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
@@ -85,7 +83,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 
 - Define the EDM model that contains data description for all used entities. We also need to define actions to log in/out a user and get the user permissions.
 
-	``` csharp
+	```csharp
     private IEdmModel GetEdmModel() {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
         EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
@@ -154,7 +152,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 - Enable the authentication service and configure the request pipeline with the authentication middleware in the `ConfigureServices` and `Configure` methods. 
 [UnauthorizedRedirectMiddleware](UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
 
-	``` csharp
+	```csharp
 	public void ConfigureServices(IServiceCollection services) {
 	    	// ...
         services.AddControllers(mvcOptions => {
@@ -189,7 +187,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	```
 
 - Call the UseDemoData method at the end of the Configure method of Startup.cs:
-	[](#tab/tabid-csharp)
+	
 	
 	```csharp
     public static IApplicationBuilder UseDemoData(this IApplicationBuilder app, string connectionString) {
@@ -202,14 +200,14 @@ For detailed information about ASP.NET Core application configuration, see [offi
         return app;
     }
     ```
-    For more details about how to create demo data from code, see in the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+    For more details about how to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2: Initialize Data Store and XAF's Security System
 
 Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, 
 so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
 
-``` csharp
+```csharp
 public void ConfigureServices(IServiceCollection services) {
     services.AddScoped((serviceProvider) => {
         AuthenticationMixed authentication = new AuthenticationMixed();
@@ -224,7 +222,7 @@ public void ConfigureServices(IServiceCollection services) {
 
 The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
 
-``` csharp
+```csharp
 public class SecurityProvider : IDisposable {
     public SecurityStrategyComplex Security { get; private set; }
     public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
@@ -249,7 +247,7 @@ public class SecurityProvider : IDisposable {
 
 - Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
 
-	``` csharp
+	```csharp
 	public void ConfigureServices(IServiceCollection services) {
 		// ...
 		services.AddScoped<SecurityProvider>();
@@ -259,7 +257,7 @@ public class SecurityProvider : IDisposable {
 
 - The `GetObjectSpaceProvider` method provides access to the Object Space Provider. The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
 
-	``` csharp
+	```csharp
 	private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
 		SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(), true);
 		RegisterEntities(objectSpaceProvider);
@@ -290,7 +288,7 @@ public class SecurityProvider : IDisposable {
 - The `InitConnection` method authenticates a user both in the Security System and in [ASP.NET Core HttpContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontext?view=aspnetcore-2.2). 
 A user is identified by the user name and password parameters.
 
-	``` csharp
+	```csharp
     public bool InitConnection(string userName, string password) {
         AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
         Security.Logoff();
@@ -325,7 +323,7 @@ A user is identified by the user name and password parameters.
 
 - [EmployeesController](Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
 
-	``` csharp
+	```csharp
 	public class EmployeesController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		IObjectSpace objectSpace;
@@ -347,7 +345,7 @@ A user is identified by the user name and password parameters.
 
 	The `Delete` method allows deleting Employee objects.
 
-	``` csharp
+	```csharp
     [HttpDelete]
     public ActionResult Delete(Guid key) {
         Employee existing = objectSpace.GetObjectByKey<Employee>(key);
@@ -362,7 +360,7 @@ A user is identified by the user name and password parameters.
 
 	The `Patch` method allows updating Employee objects.
 
-	``` csharp
+	```csharp
     [HttpPatch]
     public ActionResult Patch(Guid key, [FromBody] JsonElement jElement) {
         Employee employee = objectSpace.FirstOrDefault<Employee>(e => e.Oid == key);
@@ -376,7 +374,7 @@ A user is identified by the user name and password parameters.
 
 	The `Post` method allows creating Employee objects.
 
-	``` csharp
+	```csharp
     [HttpPost]
     public ActionResult Post([FromBody] JsonElement jElement) {
         Employee employee = objectSpace.CreateObject<Employee>();
@@ -389,7 +387,7 @@ A user is identified by the user name and password parameters.
 
 - [DepartmentsController](Controllers/DepartmentsController.cs) has methods to get access to Department objects.
  
-	``` csharp
+	```csharp
 	public class DepartmentsController : ODataController, IDisposable {
 		SecurityProvider securityProvider;
 		IObjectSpace objectSpace;
@@ -419,7 +417,7 @@ A user is identified by the user name and password parameters.
 - [AccountController](Controllers/AccountController.cs) handles the Login and Logout operations.
 The `Login` method is called when a user clicks the `Login` button on the login page. The `Logoff` method is called when a user clicks the `Logoff` button on the main page.
 
-	``` csharp
+	```csharp
 	// Attempts to log users with accepted credentials into the Security System.
     [HttpPost("Login")]
     [AllowAnonymous]
@@ -443,7 +441,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
 - [ActionsController](Controllers/ActionsController.cs) contains additional methods that process permissions.
 
 	The `GetPermissions` method gathers permissions for all objects on the DevExtreme Data Grid current page and sends them to the client side as part of the response.
-	``` csharp
+	```csharp
     [HttpPost("/GetPermissions")]
     public ActionResult GetPermissions(ODataActionParameters parameters) {
         ActionResult result = NoContent();
@@ -527,7 +525,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
 - The authentication page ([Authentication.html](wwwroot/Authentication.html)) and the main page([Index.html](wwwroot/Index.html)) represent the client side UI.
 - [authentication_code.js](wwwroot/js/authentication_code.js) gathers data from the login page and attempts to log the user in.
 
-	``` javascript
+	```javascript
 	$("#userName").dxTextBox({
 		name: "userName",
 		placeholder: "User name",
@@ -602,7 +600,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
 - [index_code.js](wwwroot/js/index_code.js) configures the DevExtreme Data Grid and logs the user out. 
 The [onLoaded](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/ODataStore/Configuration/#onLoaded) function sends a request to the server to obtain permissions for the current data grid page.
 
-	``` javascript
+	```javascript
 	function onLoaded(data) {
         var oids = $.map(data, function (val) {
 			return val.Oid._value;
@@ -628,7 +626,7 @@ The [onLoaded](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/O
 - The `onInitialized` function handles the data grid's [initialized](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#initialized) event 
 and checks create operation permission to define whether the Create action should be displayed or not.
 
-	``` javascript
+	```javascript
 	function onInitialized(e) {
 		$.ajax({
 			method: 'GET',
@@ -646,7 +644,7 @@ and checks create operation permission to define whether the Create action shoul
 - The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
 If the Read operation permission is denied, it displays the "*******" placeholder and disables the editor. If the Write operation permission is denied, the editor is disabled.
 
-	``` javascript
+	```javascript
 	function onEditorPreparing(e) {
 		if (e.parentType === "dataRow") {
 			var dataField = e.dataField.split('.')[0];
@@ -673,7 +671,7 @@ If the Read operation permission is denied, it displays the "*******" placeholde
 - The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#cellPrepared) event and checks Read, Write, and Delete operation permissions. 
 If the Read permission is denied, it displays the "*******" placeholder in data grid cells. Write and Delete operation permission checks define whether the Write and Delete actions should be displayed or not.
 
-	``` javascript
+	```javascript
 	function onCellPrepared(e) {
 		if (e.rowType === "data") {
 			var key = e.key._value;
@@ -702,7 +700,7 @@ when to mask default values with the "*******" placeholder in the UI.
 
 - The `getPermission` function returns the permission object for a business object. The business object is identified by the key passed in function parameters:
 
-	``` javascript
+	```javascript
 	function getPermission(key) {
 		var permission = permissions.filter(function (entry) {
 			return entry.Key === key;
@@ -712,11 +710,11 @@ when to mask default values with the "*******" placeholder in the UI.
 	```
 
 ## Step 5: Run and Test the App
- - Log in under 'User' with an empty password.
+ - Log in a 'User' with an empty password.
 
    ![](/images/ODataLoginPage.png)
 
  - Notice that secured data is displayed as '*******'.
    ![](/images/ODataListView.png)
 
- - Press the Logout button and log in under 'Admin' to see all records.
+ - Press the **Logout** button and log in as 'Admin' to see all the records.

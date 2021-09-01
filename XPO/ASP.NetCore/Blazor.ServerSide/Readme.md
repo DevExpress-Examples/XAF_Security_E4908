@@ -1,5 +1,5 @@
 This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Blazor application.
-You will also see how to execute Create, Write and Delete data operations and take security permissions into account.
+You will also see how to execute Create, Write, and Delete data operations and take security permissions into account.
 
 ## Prerequisites
 
@@ -7,26 +7,24 @@ You will also see how to execute Create, Write and Delete data operations and ta
   - **ASP.NET and web development**
   - **.NET Core cross-platform development**
 - [.NET SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio nuget feeds.
-  - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
+- Download and run the [Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
+  
+  *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 
-***
 
-> **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
-
-***
+> **NOTE** 
+>
+> If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 > If you wish to create a Blazor project with our Blazor Components from scratch, follow the [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application) article.
 
 ---
 
-# Detailed description of the example
-
 ## Step 1. Configure the Blazor Application
 
 For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
 
-Configure the Blazor Application in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
+Configure the Blazor application in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
 
 ```csharp
 public void ConfigureServices(IServiceCollection services) {
@@ -61,45 +59,45 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 }
 ```
 - The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
-		
-	``` csharp
-	public class XpoDataStoreProviderService {
-		private IXpoDataStoreProvider dataStoreProvider;
-		private string connectionString;
-		public XpoDataStoreProviderService(IConfiguration config) {
-			connectionString = config.GetConnectionString("ConnectionString");
-		}
-		public IXpoDataStoreProvider GetDataStoreProvider() {
-			if(dataStoreProvider == null) {
-				dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
-			}
-			return dataStoreProvider;
-		}
-	}
-	```	
+        
+    ```csharp
+    public class XpoDataStoreProviderService {
+        private IXpoDataStoreProvider dataStoreProvider;
+        private string connectionString;
+        public XpoDataStoreProviderService(IConfiguration config) {
+            connectionString = config.GetConnectionString("ConnectionString");
+        }
+        public IXpoDataStoreProvider GetDataStoreProvider() {
+            if(dataStoreProvider == null) {
+                dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+            }
+            return dataStoreProvider;
+        }
+    }
+    ```    
 
 - The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
 
-	``` csharp		
-	//...
-	public IConfiguration Configuration { get; }
-	public Startup(IConfiguration configuration) {
-		Configuration = configuration;
-	}
-	```
-	In appsettings.json, add the connection string.
-	``` json
-	"ConnectionStrings": {
-		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
-	}
-	```
-		
+    ```csharp        
+    //...
+    public IConfiguration Configuration { get; }
+    public Startup(IConfiguration configuration) {
+        Configuration = configuration;
+    }
+    ```
+    In _appsettings.json_, add the connection string.
+    ``` json
+    "ConnectionStrings": {
+        "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+    }
+    ```
+        
 - Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
 
-- Call the UseDemoData method at the end of the Configure method of Startup.cs:
-	[](#tab/tabid-csharp)
-	
-	```csharp
+- Call the `UseDemoData` method at the end of the `Configure` method of _Startup.cs_:
+    
+    
+    ```csharp
     public static IApplicationBuilder UseDemoData(this IApplicationBuilder app, string connectionString) {
         using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString)) {
             SecurityProvider.RegisterEntities(objectSpaceProvider);
@@ -110,13 +108,13 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
         return app;
     }
     ```
-    For more details about how to create demo data from code, see in the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+    For more details about how to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
-Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, 
-so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
 
-``` csharp
+Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
+
+```csharp
 public void ConfigureServices(IServiceCollection services) {
     services.AddScoped((serviceProvider) => {
         AuthenticationMixed authentication = new AuthenticationMixed();
@@ -126,12 +124,12 @@ public void ConfigureServices(IServiceCollection services) {
         SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
         return security;
     });
-}	
+}    
 ```
 
 The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
 
-``` csharp
+```csharp
 public class SecurityProvider : IDisposable {
     public SecurityStrategyComplex Security { get; private set; }
     public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
@@ -150,54 +148,54 @@ public class SecurityProvider : IDisposable {
         ObjectSpaceProvider = GetObjectSpaceProvider(Security);
         Login(Security, ObjectSpaceProvider);
     }
-	//...
+    //...
 }
 ```
 
 - Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
 
-	``` csharp
-	public void ConfigureServices(IServiceCollection services) {
-		// ...
-		services.AddScoped<SecurityProvider>();
-	}
-	```
+    ```csharp
+    public void ConfigureServices(IServiceCollection services) {
+        // ...
+        services.AddScoped<SecurityProvider>();
+    }
+    ```
 
 
 - The `GetObjectSpaceProvider` method provides access to the Object Space Provider. The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
 
-	``` csharp
-	private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-		SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(), true);
-		RegisterEntities(objectSpaceProvider);
-		return objectSpaceProvider;
-	}
-	//...
-	public class XpoDataStoreProviderService {
-		private IXpoDataStoreProvider dataStoreProvider;
-		private string connectionString;
-		public XpoDataStoreProviderService(IConfiguration config) {
-			connectionString = config.GetConnectionString("ConnectionString");
-		}
-		public IXpoDataStoreProvider GetDataStoreProvider() {
-			if(dataStoreProvider == null) {
-				dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
-			}
-			return dataStoreProvider;
-		}
-	}
-	// Registers all business object types you use in the application.
-	private void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
-	}
-	```
-	
+    ```csharp
+    private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
+        SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(), true);
+        RegisterEntities(objectSpaceProvider);
+        return objectSpaceProvider;
+    }
+    //...
+    public class XpoDataStoreProviderService {
+        private IXpoDataStoreProvider dataStoreProvider;
+        private string connectionString;
+        public XpoDataStoreProviderService(IConfiguration config) {
+            connectionString = config.GetConnectionString("ConnectionString");
+        }
+        public IXpoDataStoreProvider GetDataStoreProvider() {
+            if(dataStoreProvider == null) {
+                dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+            }
+            return dataStoreProvider;
+        }
+    }
+    // Registers all business object types you use in the application.
+    private void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
+        objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
+        objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+        objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+    }
+    ```
+    
 - The `InitConnection` method authenticates a user both in the Security System and in [ASP.NET Core HttpContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontext?view=aspnetcore-2.2). 
 A user is identified by the user name and password parameters.
 
-	``` csharp
+    ```csharp
     public bool InitConnection(string userName, string password) {
         AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
         Security.Logoff();
@@ -211,13 +209,13 @@ A user is identified by the user name and password parameters.
             return false;
         }
     }
-	//...
-	// Logs into the Security System.
+    //...
+    // Logs into the Security System.
     private void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
         IObjectSpace objectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();
         security.Logon(objectSpace);
     }
-	// Signs into HttpContext and creates a cookie.
+    // Signs into HttpContext and creates a cookie.
     private void SignIn(HttpContext httpContext, string userName) {
         List<Claim> claims = new List<Claim>{
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
@@ -226,7 +224,7 @@ A user is identified by the user name and password parameters.
         ClaimsPrincipal principal = new ClaimsPrincipal(id);
         httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
     }
-	```
+    ```
 
 ## Step 3. Pages
 
@@ -278,10 +276,10 @@ The `HandleValidSubmit` method saves changes if data is valid.
 
 ```csharp
 async Task HandleValidSubmit() {
-	ObjectSpace.CommitChanges();
-	await grid.Refresh();
-	employee = null;
-	await grid.CancelRowEdit();
+    ObjectSpace.CommitChanges();
+    await grid.Refresh();
+    employee = null;
+    await grid.CancelRowEdit();
 }
 ```
 
@@ -289,9 +287,9 @@ The `OnRowRemoving` method removes an object.
 
 ```csharp
 Task OnRowRemoving(object item) {
-	ObjectSpace.Delete(item);
-	ObjectSpace.CommitChanges();
-	return grid.Refresh();
+    ObjectSpace.Delete(item);
+    ObjectSpace.CommitChanges();
+    return grid.Refresh();
 }
 ```
 
@@ -352,10 +350,10 @@ private bool HasAccess => ObjectSpace.IsNewObject(CurrentObject) ?
 
 ## Step 4: Run and Test the App
 
-- Log in under 'User' with an empty password.
+- Log in a 'User' with an empty password.
   ![](/images/Blazor_LoginPage.png)
 
 - Note that secured data is displayed as '*******'.
   ![](/images/Blazor_ListView.png)
 
-- Press the Logout button and log in under 'Admin' to see all records.
+- Press the **Logout** button and log in as 'Admin' to see all the records.
