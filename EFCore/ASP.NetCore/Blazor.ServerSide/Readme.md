@@ -26,6 +26,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
 1. Add DevExpress NuGet packages to your project:
 
     ```xml
+    <PackageReference Include="DevExpress.Blazor" Version="21.1.5" />
     <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.1.5" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.1.5" />
     ```
