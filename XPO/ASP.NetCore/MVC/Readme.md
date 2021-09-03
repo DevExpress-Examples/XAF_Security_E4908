@@ -22,6 +22,7 @@ This example demonstrates how to protect your data with the [XAF Security System
     ```xml
     <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.5" />
     <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.5" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="21.1.5" />
     ```
 3. [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-5.0&tabs=windows) the MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
     
