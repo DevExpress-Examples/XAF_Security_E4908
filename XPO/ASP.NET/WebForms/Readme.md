@@ -5,17 +5,19 @@ You will also learn how to execute Create, Write and Delete data operations taki
 
 
 ### Prerequisites
-- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio nuget feeds.
-  - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
-***
-> **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
-***
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
+  
+  *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 
-# Detailed description of the example
+
+> **NOTE** 
+>
+> If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ## Step 1. Database Connection and Security System Initialization
-- Implement [XpoDataStoreProviderService](CS/XpoDataStoreProviderService.cs) to create Data Store Provider and access its value in singleton manner.
+
+1. Implement [XpoDataStoreProviderService](CS/XpoDataStoreProviderService.cs) to create Data Store Provider and access its value in singleton manner.
   
   ```csharp
   public static class XpoDataStoreProviderService {
@@ -36,7 +38,7 @@ You will also learn how to execute Create, Write and Delete data operations taki
   <add name="ConnectionString" connectionString="Data Source=DBSERVER;Initial Catalog=XafSolution;Integrated Security=True"/>
   ```
   
-- Implement the [ConnectionHelper](CS/ConnectionHelper.cs) class.
+2. Implement the [ConnectionHelper](CS/ConnectionHelper.cs) class.
   
   Implement the `GetObjectSpaceProvider` method to create a new `SecuredObjectSpaceProvider` instance.
 
@@ -58,10 +60,10 @@ You will also learn how to execute Create, Write and Delete data operations taki
   }
   ```
 
-  Call CreateDemoData method at the end of the Application_Start method of Global.asax.cs:
-	[](#tab/tabid-csharp)
-	
-	```csharp
+  Call `CreateDemoData` method at the end of the `Application_Start` method of _Global.asax.cs_:
+    
+    
+    ```csharp
     private static void CreateDemoData(string connectionString) {
         using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString)) {
             ConnectionHelper.RegisterEntities(objectSpaceProvider);
@@ -71,7 +73,7 @@ You will also learn how to execute Create, Write and Delete data operations taki
         }
     }
     ```
-    For more details about how to create demo data from code, see in the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+    For more details about how to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
   
   Implement the `GetSecurity` method to create and initialize the Security System.
   ```csharp
@@ -88,6 +90,7 @@ You will also learn how to execute Create, Write and Delete data operations taki
   ```
 
 ## Step 2. Login Page Implementation
+
 Create the [Login.aspx](CS/Login.aspx) page, add [ASPxTextBox](https://docs.devexpress.com/AspNet/11586/aspnet-webforms-controls/data-editors/aspxtextbox) 
 to enter the login/password. Then, add 'Log In' [ASPxButton](https://documentation.devexpress.com/AspNet/11620/ASP-NET-WebForms-Controls/Data-Editors/ASPxButton) to log in.
   
@@ -102,7 +105,7 @@ protected void LoginButton_Click(object sender, EventArgs e) {
     try {
         security.Logon(logonObjectSpace);
     }
-    catch {	}
+    catch {    }
     if(security.IsAuthenticated) {
         SetCookie(userName);
         FormsAuthentication.RedirectFromLoginPage(userName, true);
@@ -159,9 +162,7 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
       // ...
   }
   ```  
-  Also, you need to assign the Session to ASPxGridView Data Sources.
-  
-  > !NOTE: We temporarily do not use `EmployeeDataSource` in [Server Mode](https://docs.devexpress.com/AspNet/14781/aspnet-webforms-controls/grid-view/concepts/bind-to-data/binding-to-large-data-database-server-mode) because of unexpected behavior when grouping ASPxGridView by associated properties, like Department. It is a known issue described in the [Security \- SecuredSessionObjectLayer allows accessing the key and the ServiceField properties of associated objects](https://supportcenter.devexpress.com/ticket/details/t818790) bug report.
+  Also, you need to assign the `Session` to ASPxGridView Data Sources.
 
 - Check the read operation for appropriate members before each ASPxGridView cell is displayed
 
@@ -245,11 +246,11 @@ Add [ASPxGridView](https://docs.devexpress.com/AspNet/DevExpress.Web.ASPxGridVie
   ```
   
   ## Step 4: Run and Test the App
- - Log in under 'User' with an empty password.
+ - Log in a 'User' with an empty password.
    
    ![](/images/WebForms_LoginPage.png)
 
  - Notice that secured data is displayed as '*******'.
    ![](/images/WebForms_ListView.png)
 
- - Press the Logout button and log in under 'Admin' to see all records.
+ - Press the **Logout** button and log in as 'Admin' to see all the records.

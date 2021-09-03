@@ -9,29 +9,36 @@ This example demonstrates how to protect your data with the [XAF Security System
   - **ASP.NET and web development**
   - **.NET Core cross-platform development**
 - [.NET SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio nuget feeds.
-  - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
+- Download and run the [Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
+  
+  *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
 
-***
 
-> **!NOTE:** If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
-
-***
-# Detailed description of the example
+> **NOTE** 
+>
+> If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ## Step 1: Configure the ASP.NET Core Server App
-For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-5.0&tabs=windows).
-- Configure the OData and MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
+1. Add DevExpress NuGet packages to your project:
 
-	``` csharp
+    ```xml
+    <PackageReference Include="DevExpress.Win.Grid" Version="21.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.1.5" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.1.5" />
+    ```
+2. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
+
+3. Configure the OData and MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
+
+    ```csharp
     public void ConfigureServices(IServiceCollection services) {
-		services.AddSingleton(Configuration);
-		services.AddHttpContextAccessor();
-		services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
-        	string connectionString = Configuration.GetConnectionString("ConnectionString");
-        	options.UseSqlServer(connectionString);
-        	options.UseLazyLoadingProxies();        
-    	}, ServiceLifetime.Scoped);
+        services.AddSingleton(Configuration);
+        services.AddHttpContextAccessor();
+        services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+            string connectionString = Configuration.GetConnectionString("ConnectionString");
+            options.UseSqlServer(connectionString);
+            options.UseLazyLoadingProxies();        
+        }, ServiceLifetime.Scoped);
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
         if(env.IsDevelopment()) {
@@ -49,32 +56,34 @@ For detailed information about ASP.NET Core application configuration, see [offi
         });
         app.UseDemoData(Configuration.GetConnectionString("ConnectionString"));
     }
-	```
-- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
+    ```
+    > For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-5.0&tabs=windows).
 
-	``` csharp		
-	//...
-	public IConfiguration Configuration { get; }
-	public Startup(IConfiguration configuration) {
-		Configuration = configuration;
-	}
-	```
-	In appsettings.json, add the connection string.
-	``` json
-	"ConnectionStrings": {
-		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"
-	}
-	```
+4. The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
 
-	> **!NOTE:** The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MSSql database. We do not recommend that you remove “MultipleActiveResultSets=True;“ from the connection string or set the MultipleActiveResultSets parameter to false.
-	
-- Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-5.0) in the `ConfigureServices` method  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
+    ```csharp        
+    //...
+    public IConfiguration Configuration { get; }
+    public Startup(IConfiguration configuration) {
+        Configuration = configuration;
+    }
+    ```
+    In _appsettings.json_, add the connection string.
+    ``` json
+    "ConnectionStrings": {
+        "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"
+    }
+    ```
 
-- Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
+    > **NOTE** The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MS SQL database. We do not recommend that you remove “MultipleActiveResultSets=True;“ from the connection string or set the MultipleActiveResultSets parameter to false.
+    
+5. Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-5.0) in the `ConfigureServices` method  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
 
-- Define the EDM model that contains data description for all used entities. We also need to define actions to log in/out a user and get the user permissions.
+6. Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
 
-	``` csharp
+7. Define the EDM model that contains data description for all used entities. We also need to define actions to log in/out a user and get the user permissions.
+
+    ```csharp
     private IEdmModel GetEdmModel() {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
         EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
@@ -104,84 +113,84 @@ For detailed information about ASP.NET Core application configuration, see [offi
         getTypePermissions.ReturnsFromEntitySet<TypePermission>("TypePermissions");
         return builder.GetEdmModel();
     }
-	```
+    ```
 
-	The [MemberPermission](Helpers/MemberPermission.cs), [ObjectPermission](Helpers/ObjectPermission.cs) and [TypePermission](Helpers/TypePermission.cs) classes are used as containers to transfer permissions to the client side.
+    The [MemberPermission](Helpers/MemberPermission.cs), [ObjectPermission](Helpers/ObjectPermission.cs) and [TypePermission](Helpers/TypePermission.cs) classes are used as containers to transfer permissions to the client side.
 
-	```csharp
-	public class MemberPermission {
-		[Key]
-		public Guid Key { get; set; }
-		public bool Read { get; set; }
-		public bool Write { get; set; }
-		public MemberPermission() {
-			Key = Guid.NewGuid();
-		}
-	}
-	//...
-	public class ObjectPermission {
-		public IDictionary<string, object> Data { get; set; }
-		[Key]
-		public string Key { get; set; }
-		public bool Write { get; set; }
-		public bool Delete { get; set; }
-		public ObjectPermission() {
-			Data = new Dictionary<string, object>();
-		}
-	}
-	//...
-	public class TypePermission {
-		public IDictionary<string, object> Data { get; set; }
-		[Key]
-		public string Key { get; set; }
-		public bool Create { get; set; }
-		public TypePermission() {
-			Data = new Dictionary<string, object>();
-		}
-	}
-	```
+    ```csharp
+    public class MemberPermission {
+        [Key]
+        public Guid Key { get; set; }
+        public bool Read { get; set; }
+        public bool Write { get; set; }
+        public MemberPermission() {
+            Key = Guid.NewGuid();
+        }
+    }
+    //...
+    public class ObjectPermission {
+        public IDictionary<string, object> Data { get; set; }
+        [Key]
+        public string Key { get; set; }
+        public bool Write { get; set; }
+        public bool Delete { get; set; }
+        public ObjectPermission() {
+            Data = new Dictionary<string, object>();
+        }
+    }
+    //...
+    public class TypePermission {
+        public IDictionary<string, object> Data { get; set; }
+        [Key]
+        public string Key { get; set; }
+        public bool Create { get; set; }
+        public TypePermission() {
+            Data = new Dictionary<string, object>();
+        }
+    }
+    ```
 
-- Enable the authentication service and configure the request pipeline with the authentication middleware in the `ConfigureServices` and `Configure` methods. 
+8. Enable the authentication service and configure the request pipeline with the authentication middleware in the `ConfigureServices` and `Configure` methods. 
 [UnauthorizedRedirectMiddleware](UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
 
-	``` csharp
-	public void ConfigureServices(IServiceCollection services) {
-	    	// ...
+    ```csharp
+    public void ConfigureServices(IServiceCollection services) {
+            // ...
         services.AddControllers(mvcOptions => {
             mvcOptions.EnableEndpointRouting = false;
         }).AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents(GetEdmModel()));
-	    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-	    	  .AddCookie(); // !!!
-	}
-  	public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-	    // ...
-	    app.UseAuthentication(); // !!!
-	    app.UseMiddleware<UnauthorizedRedirectMiddleware>(); // !!!
-	    app.UseDefaultFiles();
-	    app.UseStaticFiles();
-	    app.UseHttpsRedirection();
-	    app.UseCookiePolicy();
-	}
-	//...
-	public class UnauthorizedRedirectMiddleware {
-		// ...
-		public async Task InvokeAsync(HttpContext context) {
-			if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
-				|| IsAllowAnonymous(context)) {
-				await _next(context);
-			}
-			else {
-				context.Response.Redirect(authenticationPagePath);
-			}
-		}
-		// ...
-	}
-	```
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(); // !!!
+    }
+      public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+        // ...
+        app.UseAuthentication(); // !!!
+        app.UseMiddleware<UnauthorizedRedirectMiddleware>(); // !!!
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
+        app.UseHttpsRedirection();
+        app.UseCookiePolicy();
+    }
+    //...
+    public class UnauthorizedRedirectMiddleware {
+        // ...
+        public async Task InvokeAsync(HttpContext context) {
+            if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
+                || IsAllowAnonymous(context)) {
+                await _next(context);
+            }
+            else {
+                context.Response.Redirect(authenticationPagePath);
+            }
+        }
+        // ...
+    }
+    ```
 
-- Call the UseDemoData method at the end of the Configure method of Startup.cs:
-	[](#tab/tabid-csharp)
-	
-	```csharp
+9. Call the UseDemoData method at the end of the Configure method of Startup.cs:
+    
+    
+    ```csharp
     public static IApplicationBuilder UseDemoData<TContext>(this IApplicationBuilder app, EFCoreDatabaseProviderHandler databaseProviderHandler) where TContext : DbContext {
         using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(TContext), databaseProviderHandler))
         using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
@@ -190,84 +199,81 @@ For detailed information about ASP.NET Core application configuration, see [offi
         return app;
     }
     ```
-    For more details about how to create demo data from code, see in the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
+    For more details about how to create demo data from code, see the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
 
 ## Step 2: Initialize Data Store and XAF's Security System
 
-Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, 
-so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
+1. Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, so you can use both the [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
 
-``` csharp
-public void ConfigureServices(IServiceCollection services) {
-    services.AddScoped((serviceProvider) => {
-        AuthenticationMixed authentication = new AuthenticationMixed();
-        authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-        authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-        authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-        return security;
-    });
-}	
-```
+    ```csharp
+    public void ConfigureServices(IServiceCollection services) {
+        services.AddScoped((serviceProvider) => {
+            AuthenticationMixed authentication = new AuthenticationMixed();
+            authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+            authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+            authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+            SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+            return security;
+        });
+    }    
+    ```
+2. Add security extension to `DbContextFactory`to allow your application to filter data based on user permissions. The `DbContextFactory` registers in [Startup.cs](Startup.cs):
 
+    ```csharp
+    services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+        //...
+        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);    
+    }, ServiceLifetime.Scoped);
+    ```
 
-Add security extension to `DbContextFactory`to allow your application to filter data based on user permissions. The `DbContextFactory` registers in [Startup.cs](Startup.cs):
+    The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
 
-``` csharp
-services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
-    //...
-    options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);    
-}, ServiceLifetime.Scoped);
-```
-
-The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
-
-``` csharp
-public class SecurityProvider : IDisposable {
-    public SecurityStrategyComplex Security { get; private set; }
-    public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
-    IHttpContextAccessor contextAccessor;
-    IDbContextFactory<ApplicationDbContext> xafDbContextFactory;
-    public SecurityProvider(SecurityStrategyComplex security, IDbContextFactory<ApplicationDbContext> xafDbContextFactory, IHttpContextAccessor contextAccessor) {
-        this.xafDbContextFactory = xafDbContextFactory;
-        Security = security;
-        this.contextAccessor = contextAccessor;
-        if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
-            Initialize();
+    ```csharp
+    public class SecurityProvider : IDisposable {
+        public SecurityStrategyComplex Security { get; private set; }
+        public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
+        IHttpContextAccessor contextAccessor;
+        IDbContextFactory<ApplicationDbContext> xafDbContextFactory;
+        public SecurityProvider(SecurityStrategyComplex security, IDbContextFactory<ApplicationDbContext> xafDbContextFactory, IHttpContextAccessor contextAccessor) {
+            this.xafDbContextFactory = xafDbContextFactory;
+            Security = security;
+            this.contextAccessor = contextAccessor;
+            if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
+                Initialize();
+            }
         }
+        public void Initialize() {
+            ((AuthenticationMixed)Security.Authentication).SetupAuthenticationProvider(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
+            ObjectSpaceProvider = GetObjectSpaceProvider(Security);
+            Login(Security, ObjectSpaceProvider);
+        }
+        //...
     }
-    public void Initialize() {
-        ((AuthenticationMixed)Security.Authentication).SetupAuthenticationProvider(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
-        ObjectSpaceProvider = GetObjectSpaceProvider(Security);
-        Login(Security, ObjectSpaceProvider);
+    ```
+
+3. Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
+
+    ```csharp
+    public void ConfigureServices(IServiceCollection services) {
+        // ...
+        services.AddScoped<SecurityProvider>();
     }
-	//...
-}
-```
-
-- Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
-
-	``` csharp
-	public void ConfigureServices(IServiceCollection services) {
-		// ...
-		services.AddScoped<SecurityProvider>();
-	}
-	```
+    ```
 
 
-- The `GetObjectSpaceProvider` method provides access to the Object Space Provider.
+4. The `GetObjectSpaceProvider` method provides access to the Object Space Provider.
 
-	``` csharp
+    ```csharp
     private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
         SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, xafDbContextFactory);
         return objectSpaceProvider;
     }
-	```
-	
-- The `InitConnection` method authenticates a user both in the Security System and in [ASP.NET Core HttpContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontext?view=aspnetcore-2.2). 
+    ```
+    
+5. The `InitConnection` method authenticates a user both in the Security System and in [ASP.NET Core HttpContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontext?view=aspnetcore-2.2). 
 A user is identified by the user name and password parameters.
 
-	``` csharp
+    ```csharp
     public bool InitConnection(string userName, string password) {
         AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
         Security.Logoff();
@@ -281,13 +287,13 @@ A user is identified by the user name and password parameters.
             return false;
         }
     }
-	//...
-	// Logs into the Security System.
+    //...
+    // Logs into the Security System.
     private void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
         IObjectSpace objectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();
         security.Logon(objectSpace);
     }
-	// Signs into HttpContext and creates a cookie.
+    // Signs into HttpContext and creates a cookie.
     private void SignIn(HttpContext httpContext, string userName) {
         List<Claim> claims = new List<Claim>{
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
@@ -296,35 +302,35 @@ A user is identified by the user name and password parameters.
         ClaimsPrincipal principal = new ClaimsPrincipal(id);
         httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
     }
-	```
+    ```
 
 ## Step 3: Implement OData Controllers for CRUD, Login, Logoff, etc.
 
-- [EmployeesController](Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
+1. [EmployeesController](Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
 
-	``` csharp
-	public class EmployeesController : ODataController, IDisposable {
-		SecurityProvider securityProvider;
-		IObjectSpace objectSpace;
-		public EmployeesController(SecurityProvider securityProvider) {
-			this.securityProvider = securityProvider;
-			objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
-		}
-		[HttpGet]
-		[EnableQuery]
-		public ActionResult Get() {
-			// The EFCore way:
+    ```csharp
+    public class EmployeesController : ODataController, IDisposable {
+        SecurityProvider securityProvider;
+        IObjectSpace objectSpace;
+        public EmployeesController(SecurityProvider securityProvider) {
+            this.securityProvider = securityProvider;
+            objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+        }
+        [HttpGet]
+        [EnableQuery]
+        public ActionResult Get() {
+            // The EFCore way:
             // var dbContext = ((EFCoreObjectSpace)objectSpace).DbContext;
             // 
             // The XAF way:
-			IQueryable<Employee> employees = objectSpace.GetObjectsQuery<Employee>().Include(e=>e.Department);
-			return Ok(employees);
-		}
-	```
+            IQueryable<Employee> employees = objectSpace.GetObjectsQuery<Employee>().Include(e=>e.Department);
+            return Ok(employees);
+        }
+    ```
 
-	The `Delete` method allows deleting Employee objects.
+    The `Delete` method allows deleting Employee objects.
 
-	``` csharp
+    ```csharp
     [HttpDelete]
     public ActionResult Delete(int key) {
         Employee existing = objectSpace.GetObjectByKey<Employee>(key);
@@ -335,11 +341,11 @@ A user is identified by the user name and password parameters.
         }
         return NotFound();
     }
-	```
+    ```
 
-	The `Patch` method allows updating Employee objects.
+    The `Patch` method allows updating Employee objects.
 
-	``` csharp
+    ```csharp
     [HttpPatch]
     public ActionResult Patch(int key, [FromBody] JsonElement serializedProperties) {
         Employee employee = objectSpace.FirstOrDefault<Employee>(e => e.ID == key);
@@ -350,11 +356,11 @@ A user is identified by the user name and password parameters.
         }
         return NotFound();
     }
-	```
+    ```
 
-	The `Post` method allows creating Employee objects.
+    The `Post` method allows creating Employee objects.
 
-	``` csharp
+    ```csharp
     [HttpPost]
     public ActionResult Post([FromBody] JsonElement serializedProperties) {
         Employee newEmployee = objectSpace.CreateObject<Employee>();
@@ -362,44 +368,44 @@ A user is identified by the user name and password parameters.
         objectSpace.CommitChanges();
         return Ok(newEmployee);
     }
-	```
-	
-	[JsonParser](Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
+    ```
+    
+    [JsonParser](Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
 
-- [DepartmentsController](Controllers/DepartmentsController.cs) has methods to get access to Department objects.
+2. [DepartmentsController](Controllers/DepartmentsController.cs) has methods to get access to Department objects.
  
-	``` csharp
-	public class DepartmentsController : ODataController, IDisposable {
-		SecurityProvider securityProvider;
-		IObjectSpace objectSpace;
-		public DepartmentsController(SecurityProvider securityProvider) {
-			this.securityProvider = securityProvider;
-			objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
-		}
-		[HttpGet]
-		[EnableQuery]
-		public ActionResult Get() {
-			IQueryable<Department> departments = objectSpace.GetObjectsQuery<Department>();
-			return Ok(departments);
-		}
-		[HttpGet]
-		[EnableQuery]
-		public ActionResult Get(int key) {
-			Department department = objectSpace.GetObjectByKey<Department>(key);
-			return department != null ? Ok(department) : (ActionResult)NoContent();
-		}
-		public void Dispose() {
-			objectSpace?.Dispose();
-			securityProvider?.Dispose();
-		}
-	}
-	```
+    ```csharp
+    public class DepartmentsController : ODataController, IDisposable {
+        SecurityProvider securityProvider;
+        IObjectSpace objectSpace;
+        public DepartmentsController(SecurityProvider securityProvider) {
+            this.securityProvider = securityProvider;
+            objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+        }
+        [HttpGet]
+        [EnableQuery]
+        public ActionResult Get() {
+            IQueryable<Department> departments = objectSpace.GetObjectsQuery<Department>();
+            return Ok(departments);
+        }
+        [HttpGet]
+        [EnableQuery]
+        public ActionResult Get(int key) {
+            Department department = objectSpace.GetObjectByKey<Department>(key);
+            return department != null ? Ok(department) : (ActionResult)NoContent();
+        }
+        public void Dispose() {
+            objectSpace?.Dispose();
+            securityProvider?.Dispose();
+        }
+    }
+    ```
 
-- [AccountController](Controllers/AccountController.cs) handles the Login and Logout operations.
+3. [AccountController](Controllers/AccountController.cs) handles the Login and Logout operations.
 The `Login` method is called when a user clicks the `Login` button on the login page. The `Logoff` method is called when a user clicks the `Logoff` button on the main page.
 
-	``` csharp
-	// Attempts to log users with accepted credentials into the Security System.
+    ```csharp
+    // Attempts to log users with accepted credentials into the Security System.
     [HttpPost("Login")]
     [AllowAnonymous]
     public ActionResult Login(string userName, string password) {
@@ -411,18 +417,19 @@ The `Login` method is called when a user clicks the `Login` button on the login 
         }
         return result;
     }
-	// Signs the user out of the HttpContext.
+    // Signs the user out of the HttpContext.
     [HttpGet("Logout")]
     public ActionResult Logout() {
         HttpContext.SignOutAsync();
         return Ok();
     }
-	```
-		
-- [ActionsController](Controllers/ActionsController.cs) contains additional methods that process permissions.
+    ```
+        
+4. [ActionsController](Controllers/ActionsController.cs) contains additional methods that process permissions.
 
-	The `GetPermissions` method gathers permissions for all objects on the DevExtreme Data Grid current page and sends them to the client side as part of the response.
-	``` csharp
+    The `GetPermissions` method gathers permissions for all objects on the DevExtreme Data Grid current page and sends them to the client side as part of the response.
+    
+    ```csharp
     [HttpPost("/GetPermissions")]
     public ActionResult GetPermissions(ODataActionParameters parameters) {
         ActionResult result = NoContent();
@@ -444,7 +451,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
         }
         return result;
     }
-	// Creates a new ObjectPermission object, which contains a business object key, write and delete operation permissions, and object-level member permissions for each persistent member.
+    // Creates a new ObjectPermission object, which contains a business object key, write and delete operation permissions, and object-level member permissions for each persistent member.
     private ObjectPermission CreateObjectPermission(ITypeInfo typeInfo, object entity) {
         Type type = typeInfo.Type;
         ObjectPermission objectPermission = new ObjectPermission();
@@ -458,22 +465,22 @@ The `Login` method is called when a user clicks the `Login` button on the login 
         }
         return objectPermission;
     }
-	// Creates a new MemberPermission object, which contains read and write operation permissions for a specific member.
+    // Creates a new MemberPermission object, which contains read and write operation permissions for a specific member.
     private MemberPermission CreateMemberPermission(object entity, Type type, IMemberInfo member) {
         return new MemberPermission {
             Read = securityProvider.Security.CanRead(entity, member.Name),
             Write = securityProvider.Security.CanWrite(entity, member.Name)
         };
     }
-	// Returns only visible persistent members which are displayed in the grid.
-	private static IEnumerable<IMemberInfo> GetPersistentMembers(ITypeInfo typeInfo) {
-		return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
-	}
-	```
-	
-	The `GetTypePermissions` method gathers permissions for the type on the DevExtreme Data Grid's current page and sends them to the client side as part of the response.
-	
-	```csharp
+    // Returns only visible persistent members which are displayed in the grid.
+    private static IEnumerable<IMemberInfo> GetPersistentMembers(ITypeInfo typeInfo) {
+        return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
+    }
+    ```
+    
+    The `GetTypePermissions` method gathers permissions for the type on the DevExtreme Data Grid's current page and sends them to the client side as part of the response.
+    
+    ```csharp
     [HttpGet("/GetTypePermissions")]
     public ActionResult GetTypePermissions(string typeName) {
         ActionResult result = NoContent();
@@ -486,7 +493,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
         }
         return result;
     }
-	// Creates a new TypePermission object which contains the type name, create operation permission and type-level member permissions for each persistent member.
+    // Creates a new TypePermission object which contains the type name, create operation permission and type-level member permissions for each persistent member.
     private TypePermission CreateTypePermission(ITypeInfo typeInfo) {
         Type type = typeInfo.Type;
         TypePermission typePermission = new TypePermission();
@@ -499,202 +506,201 @@ The `Login` method is called when a user clicks the `Login` button on the login 
         }
         return typePermission;
     }
-	```
-	
+    ```
+    
 ## Step 4: Implement the Client-Side App
-- The authentication page ([Authentication.html](wwwroot/Authentication.html)) and the main page([Index.html](wwwroot/Index.html)) represent the client side UI.
-- [authentication_code.js](wwwroot/js/authentication_code.js) gathers data from the login page and attempts to log the user in.
+1. The authentication page ([Authentication.html](wwwroot/Authentication.html)) and the main page([Index.html](wwwroot/Index.html)) represent the client side UI.
+2. [authentication_code.js](wwwroot/js/authentication_code.js) gathers data from the login page and attempts to log the user in.
 
-	``` javascript
-	$("#userName").dxTextBox({
-		name: "userName",
-		placeholder: "User name",
-		tabIndex: 2,
-		onInitialized: function (e) {
-			var texBoxInstance = e.component;
-			var userName = getCookie("userName");
-			if (userName === undefined) {
-				userName = "User";
-			}
-			texBoxInstance.option("value", userName);
-		},
-		onEnterKey: pressEnter
-	}).dxValidator({
-		validationRules: [{
-			type: "required",
-			message: "The user name must not be empty"
-		}]
-	});
+    ```javascript
+    $("#userName").dxTextBox({
+        name: "userName",
+        placeholder: "User name",
+        tabIndex: 2,
+        onInitialized: function (e) {
+            var texBoxInstance = e.component;
+            var userName = getCookie("userName");
+            if (userName === undefined) {
+                userName = "User";
+            }
+            texBoxInstance.option("value", userName);
+        },
+        onEnterKey: pressEnter
+    }).dxValidator({
+        validationRules: [{
+            type: "required",
+            message: "The user name must not be empty"
+        }]
+    });
 
-	$("#password").dxTextBox({
-		name: "Password",
-		placeholder: "Password",
-		mode: "password",
-		tabIndex: 3,
-		onEnterKey: pressEnter
-	});
+    $("#password").dxTextBox({
+        name: "Password",
+        placeholder: "Password",
+        mode: "password",
+        tabIndex: 3,
+        onEnterKey: pressEnter
+    });
 
-	$("#validateAndSubmit").dxButton({
-		text: "Log In",
-		tabIndex: 1,
-		useSubmitBehavior: true
-	});
+    $("#validateAndSubmit").dxButton({
+        text: "Log In",
+        tabIndex: 1,
+        useSubmitBehavior: true
+    });
 
-	$("#form").on("submit", function (e) {
-		var userName = $("#userName").dxTextBox("instance").option("value");
-		var password = $("#password").dxTextBox("instance").option("value");
-		$.ajax({
-			method: 'POST',
-			url: 'Login',
-			data: {
-				"userName": userName,
-				"password": password
-			},
-			complete: function (e) {
-				if (e.status === 200) {
-					document.cookie = "userName=" + userName;
-					document.location.href = "/";
-					window.location = "Index.html";
-				}
-				if (e.status === 401) {
-					alert("User name or password is incorrect");
-				}
-			}
-		});
+    $("#form").on("submit", function (e) {
+        var userName = $("#userName").dxTextBox("instance").option("value");
+        var password = $("#password").dxTextBox("instance").option("value");
+        $.ajax({
+            method: 'POST',
+            url: 'Login',
+            data: {
+                "userName": userName,
+                "password": password
+            },
+            complete: function (e) {
+                if (e.status === 200) {
+                    document.cookie = "userName=" + userName;
+                    document.location.href = "/";
+                    window.location = "Index.html";
+                }
+                if (e.status === 401) {
+                    alert("User name or password is incorrect");
+                }
+            }
+        });
 
-		e.preventDefault();
-	});
+        e.preventDefault();
+    });
 
-	function pressEnter(data) {
-		$('#validateAndSubmit').click();
-	}
+    function pressEnter(data) {
+        $('#validateAndSubmit').click();
+    }
 
-	function getCookie(name) {
-		let matches = document.cookie.match(new RegExp(
-			"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-		));
-		return matches ? decodeURIComponent(matches[1]) : undefined;
-	}
-	```	
-		
-- [index_code.js](wwwroot/js/index_code.js) configures the DevExtreme Data Grid and logs the user out. 
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+    ```    
+        
+3. [index_code.js](wwwroot/js/index_code.js) configures the DevExtreme Data Grid and logs the user out. 
 The [onLoaded](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/ODataStore/Configuration/#onLoaded) function sends a request to the server to obtain permissions for the current data grid page.
 
-	``` javascript
-	function onLoaded(data) {
+    ```javascript
+    function onLoaded(data) {
         var oids = $.map(data, function (val) {
-			return val.ID.toString();
-		});
-		var parameters = {
-			keys: oids,
-			typeName: 'Employee'
-		};
-		var options = {
-			dataType: "json",
-			contentType: "application/json",
-			type: "POST",
-			async: false,
+            return val.ID.toString();
+        });
+        var parameters = {
+            keys: oids,
+            typeName: 'Employee'
+        };
+        var options = {
+            dataType: "json",
+            contentType: "application/json",
+            type: "POST",
+            async: false,
             data: JSON.stringify(parameters)
-		};
-		$.ajax("GetPermissions", options)
-			.done(function (e) {
-				permissions = e.value;
-			});
-	}
-	```	
+        };
+        $.ajax("GetPermissions", options)
+            .done(function (e) {
+                permissions = e.value;
+            });
+    }
+    ```    
 
-- The `onInitialized` function handles the data grid's [initialized](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#initialized) event 
+5. The `onInitialized` function handles the data grid's [initialized](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#initialized) event 
 and checks create operation permission to define whether the Create action should be displayed or not.
 
-	``` javascript
-	function onInitialized(e) {
-		$.ajax({
-			method: 'GET',
-			url: 'GetTypePermissions?typeName=Employee',
-			async: false,
-			complete: function (data) {
-				typePermissions = data.responseJSON;
-			}
-		});
-		var grid = e.component;
-		grid.option("editing.allowAdding", typePermissions.Create);
-	}
-	```	
+    ```javascript
+    function onInitialized(e) {
+        $.ajax({
+            method: 'GET',
+            url: 'GetTypePermissions?typeName=Employee',
+            async: false,
+            complete: function (data) {
+                typePermissions = data.responseJSON;
+            }
+        });
+        var grid = e.component;
+        grid.option("editing.allowAdding", typePermissions.Create);
+    }
+    ```    
 
-- The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
+6. The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
 If the Read operation permission is denied, it displays the "*******" placeholder and disables the editor. If the Write operation permission is denied, the editor is disabled.
 
-	``` javascript
-	function onEditorPreparing(e) {
-		if (e.parentType === "dataRow") {
-			var dataField = e.dataField.split('.')[0];
-			if (!e.row.isNewRow) {
-				var key = e.row.key;
-				var objectPermission = getPermission(key.toString());
-				if (!objectPermission[dataField].Read) {
-					e.editorOptions.disabled = true;
+    ```javascript
+    function onEditorPreparing(e) {
+        if (e.parentType === "dataRow") {
+            var dataField = e.dataField.split('.')[0];
+            if (!e.row.isNewRow) {
+                var key = e.row.key;
+                var objectPermission = getPermission(key.toString());
+                if (!objectPermission[dataField].Read) {
+                    e.editorOptions.disabled = true;
                     e.editorOptions.value = "*******";
-				}
-				if (!objectPermission[dataField].Write) {
-					e.editorOptions.disabled = true;
-				}
-			}
-			else {
-				if (!typePermissions[dataField]) {
-					e.editorOptions.disabled = true;
-				}
-			}
-		}
-	}
-	```	
+                }
+                if (!objectPermission[dataField].Write) {
+                    e.editorOptions.disabled = true;
+                }
+            }
+            else {
+                if (!typePermissions[dataField]) {
+                    e.editorOptions.disabled = true;
+                }
+            }
+        }
+    }
+    ```    
 
-- The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#cellPrepared) event and checks Read, Write, and Delete operation permissions. 
+7. The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#cellPrepared) event and checks Read, Write, and Delete operation permissions. 
 If the Read permission is denied, it displays the "*******" placeholder in data grid cells. Write and Delete operation permission checks define whether the Write and Delete actions should be displayed or not.
 
-	``` javascript
-	function onCellPrepared(e) {
-		if (e.rowType === "data") {
-			var key = e.key;
-			var objectPermission = getPermission(key.toString());
-			if (!e.column.command) {
-				var dataField = e.column.dataField.split('.')[0];
-				if (!objectPermission[dataField].Read) {
-					e.cellElement.text("*******");
-				}
-			}
-			else if (e.column.command == 'edit') {
-				if (!objectPermission.Delete) {
-					e.cellElement.find(".dx-link-delete").remove();
-				}
-				if (!objectPermission.Write) {
-					e.cellElement.find(".dx-link-edit").remove();
-				}
-			}
-		}
-	}
-	```	
-	
-Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. 
-Use the [SecurityStrategy.IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) method to determine 
-when to mask default values with the "*******" placeholder in the UI.
+    ```javascript
+    function onCellPrepared(e) {
+        if (e.rowType === "data") {
+            var key = e.key;
+            var objectPermission = getPermission(key.toString());
+            if (!e.column.command) {
+                var dataField = e.column.dataField.split('.')[0];
+                if (!objectPermission[dataField].Read) {
+                    e.cellElement.text("*******");
+                }
+            }
+            else if (e.column.command == 'edit') {
+                if (!objectPermission.Delete) {
+                    e.cellElement.find(".dx-link-delete").remove();
+                }
+                if (!objectPermission.Write) {
+                    e.cellElement.find(".dx-link-edit").remove();
+                }
+            }
+        }
+    }
+    ```    
+    
+    Note that SecuredObjectSpace returns default values (for instance, null) for protected object properties - it is secure even without any custom UI. 
+    Use the [SecurityStrategy.IsGranted](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.IsGranted(DevExpress.ExpressApp.Security.IPermissionRequest)) method to determine when to mask default values with the "*******" placeholder in the UI.
 
-- The `getPermission` function returns the permission object for a business object. The business object is identified by the key passed in function parameters:
+8. The `getPermission` function returns the permission object for a business object. The business object is identified by the key passed in function parameters:
 
-	``` javascript
-	function getPermission(key) {
-		var permission = permissions.filter(function (entry) {
-			return entry.Key === key;
-		});
-		return permission[0];
-	}
-	```
+    ```javascript
+    function getPermission(key) {
+        var permission = permissions.filter(function (entry) {
+            return entry.Key === key;
+        });
+        return permission[0];
+    }
+    ```
 
 ## Step 5: Run and Test the App
- - Log in under 'User' with an empty password.
+ - Log in a 'User' with an empty password.
 
    ![](/images/ODataLoginPage.png)
 
  - Notice that secured data is displayed as '*******'.
    ![](/images/ODataListView.png)
 
- - Press the Logout button and log in under 'Admin' to see all records.
+ - Press the **Logout** button and log in as 'Admin' to see all the records.
