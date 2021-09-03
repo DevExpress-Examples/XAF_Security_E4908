@@ -20,8 +20,8 @@ Please research the information below, because additional prerequisites may appl
  - [Console App](/XPO/Console)
 
 #### Microsoft Entity Framework Core
-- [WinForms App](/EFCore/Console)
-- [Console App](/EFCore/WinForms)
+- [WinForms App](/EFCore/WinForms)
+- [Console App](/EFCore/Console)
 
 We detailed the main integration steps for any .NET Core application in [this video](https://youtu.be/o1q4GqFgSFE).
 
