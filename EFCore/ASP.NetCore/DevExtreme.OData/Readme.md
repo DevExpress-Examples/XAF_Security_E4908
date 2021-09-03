@@ -22,7 +22,6 @@ This example demonstrates how to protect your data with the [XAF Security System
 1. Add DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.Win.Grid" Version="21.1.5" />
     <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.1.5" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.1.5" />
     ```
