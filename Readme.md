@@ -7,14 +7,14 @@
 
 # User Authentication and Group Authorization API for .NET Apps Powered by the XPO ORM - App Security Made Easy
 
-![image](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/blob/19.1.4%2B/Security-System-1x2-FB.png)
+![image](Security-System-1x2-FB.png)
 
 ## Available Samples & Tutorials
- - [WinForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_3.aspx)
- - [DevExtreme + ASP.NET Web API OData App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_2.aspx)
- - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
- - [ASP.NET WebForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
- - [ASP.NET Core MVC](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_5_MVC_Core.aspx)
+ - [WinForms App](/WinForms)
+ - [DevExtreme + ASP.NET Web API OData App](/ASP.NET/DevExtreme.OData)
+ - [Console App](/Console)
+ - [ASP.NET WebForms App](/ASP.NET/WebForms)
+ - [ASP.NET Core MVC](/ASP.NET/MVC.Core/CS)
  - *Coming Next: WPF, Xamarin, Blazor.*
  
  > To help us prioritize our future development, please tell us about the platforms and use-case scenarios you are most interested in using the [Support Center](https://www.devexpress.com/ask) or this [Survey](https://www.devexpress.com/go/XAF_Security_NonXAF_Survey.aspx).
