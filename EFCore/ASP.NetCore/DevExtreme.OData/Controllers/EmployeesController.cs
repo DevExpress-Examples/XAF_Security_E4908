@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OData.Query;
 using DevExpress.ExpressApp;
 using BusinessObjectsLibrary.BusinessObjects;
+using DevExtreme.OData;
 
 //namespace DevExtreme.OData.Controllers {
 public class EmployeesController : ODataController, IDisposable {
