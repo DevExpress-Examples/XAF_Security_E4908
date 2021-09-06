@@ -10,17 +10,17 @@ For general information on XAF's Security System API, please review [our landing
 Please research the information below, because additional prerequisites may apply to certain platforms. If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
 
 #### DevExpress XPO
- - [DevExtreme + ASP.NET Web API OData App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_2.aspx)
- - [WinForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_3.aspx)
- - [ASP.NET WebForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_4_WebForms.aspx)
- - [ASP.NET Core MVC App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_5_MVC_Core.aspx)
- - [Blazor Server App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_6_Blazor_ServerSide.aspx)
- - [Xamarin Forms App](https://www.devexpress.com/go/XAF_Security_NonXAF_Xamarin.aspx)
- - [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Series_1.aspx)
+ - [DevExtreme + ASP.NET Web API OData App](/XPO/ASP.NetCore/DevExtreme.OData)
+ - [WinForms App](/XPO/WinForms)
+ - [ASP.NET WebForms App](/XPO/ASP.NET/WebForms)
+ - [ASP.NET Core MVC App](/XPO/ASP.NetCore/MVC)
+ - [Blazor Server App](/XPO/ASP.NetCore/Blazor.ServerSide)
+ - [Xamarin Forms App](/XPO/Xamarin.Forms)
+ - [Console App](/XPO/Console)
 
 #### Microsoft Entity Framework Core
-- [WinForms App](https://www.devexpress.com/go/XAF_Security_NonXAF_WinForms_EFCore.aspx)
-- [Console App](https://www.devexpress.com/go/XAF_Security_NonXAF_Console_EFCore.aspx)
+- [WinForms App](/EFCore/WinForms)
+- [Console App](/EFCore/Console)
 
 We detailed the main integration steps for any .NET Core application in [this video](https://youtu.be/o1q4GqFgSFE).
 
