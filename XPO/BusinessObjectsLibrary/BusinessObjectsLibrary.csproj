@@ -1,12 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
       <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.5" />
       <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.5" />
   </ItemGroup>
-
 </Project>

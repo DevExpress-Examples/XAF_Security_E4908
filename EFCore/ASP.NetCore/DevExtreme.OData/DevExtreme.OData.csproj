@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="microsoft.aspnetcore.odata" Version="8.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.8" />
@@ -12,7 +10,6 @@
     <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
     <PackageReference Include="microsoft.web.librarymanager.build" Version="2.1.113" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
     <ProjectReference Include="..\..\DatabaseUpdater\DatabaseUpdater.csproj" />
