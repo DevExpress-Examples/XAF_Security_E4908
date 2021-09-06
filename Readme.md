@@ -11,20 +11,20 @@ For general information on XAF's Security System API, please review [our landing
 Please research the information below, because additional prerequisites may apply to certain platforms. If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
 
 #### DevExpress XPO
- - [DevExtreme + ASP.NET Web API OData App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/master/XPO/ASP.NetCore/DevExtreme.OData)
- - [WinForms App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/master/XPO/WinForms)
- - [ASP.NET WebForms App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/master/XPO/ASP.NET/WebForms)
- - [ASP.NET Core MVC App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/master/XPO/ASP.NetCore/MVC)
- - [Blazor Server App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/master/XPO/ASP.NetCore/Blazor.ServerSide)
- - [Xamarin Forms App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/master/XPO/Xamarin.Forms)
- - [Console App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/master/XPO/Console)
+ - [DevExtreme + ASP.NET Web API OData App](/XPO/ASP.NetCore/DevExtreme.OData)
+ - [WinForms App](/XPO/WinForms)
+ - [ASP.NET WebForms App](/XPO/ASP.NET/WebForms)
+ - [ASP.NET Core MVC App](/XPO/ASP.NetCore/MVC)
+ - [Blazor Server App](/XPO/ASP.NetCore/Blazor.ServerSide)
+ - [Xamarin Forms App](/XPO/Xamarin.Forms)
+ - [Console App](/XPO/Console)
 
 #### Microsoft Entity Framework Core
-- [DevExtreme + ASP.NET Web API OData App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/under_construction/EFCore/ASP.NetCore/DevExtreme.OData)
-- [WinForms App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/master/EFCore/WinForms)
-- [ASP.NET Core MVC App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/under_construction/EFCore/ASP.NetCore/MVC)
-- [Blazor Server App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/under_construction/EFCore/ASP.NetCore/Blazor.ServerSide)
-- [Console App](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/master/EFCore/Console)
+- [DevExtreme + ASP.NET Web API OData App](/EFCore/ASP.NetCore/DevExtreme.OData)
+- [WinForms App](/EFCore/WinForms)
+- [ASP.NET Core MVC App](/EFCore/ASP.NetCore/MVC)
+- [Blazor Server App](/EFCore/ASP.NetCore/Blazor.ServerSide)
+- [Console App](/EFCore/Console)
 
 We detailed the main integration steps for any .NET Core application in [this video](https://youtu.be/o1q4GqFgSFE).
 
