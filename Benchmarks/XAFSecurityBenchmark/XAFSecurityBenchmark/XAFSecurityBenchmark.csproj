@@ -75,38 +75,9 @@
     </Reference>
   </ItemGroup>-->
   <ItemGroup>
-    <Reference Include="DevExpress.ExpressApp.Security.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.ExpressApp.Security.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.ExpressApp.Security.Xpo.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.ExpressApp.Security.Xpo.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.ExpressApp.Xpo.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.ExpressApp.Xpo.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Data.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.Data.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.ExpressApp.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.ExpressApp.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Persistent.Base.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.Persistent.Base.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Persistent.BaseImpl.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.Persistent.BaseImpl.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Xpo.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.Xpo.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.ExpressApp.EFCore.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.ExpressApp.EFCore.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Persistent.BaseImpl.EFCore.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.Persistent.BaseImpl.EFCore.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.EntityFrameworkCore.Security.v20.2">
-      <HintPath>..\..\ReseaseDLL\DevExpress.EntityFrameworkCore.Security.v20.2.dll</HintPath>
-    </Reference>
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.1.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.3" />
   </ItemGroup>
 </Project>

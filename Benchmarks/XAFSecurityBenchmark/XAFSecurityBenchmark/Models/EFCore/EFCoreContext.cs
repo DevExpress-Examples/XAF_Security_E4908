@@ -33,7 +33,6 @@ namespace XAFSecurityBenchmark.Models.EFCore {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Party>().HasMany(c => c.PhoneNumbers).WithOne(p => p.Party).IsRequired();
-            modelBuilder.Entity<Party>().HasMany(p => p.AssignedTasks).WithOne(t => t.AssignedTo).OnDelete(DeleteBehavior.SetNull);
 
 
             modelBuilder.Entity<Contact>()
