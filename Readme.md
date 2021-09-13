@@ -1,12 +1,15 @@
 <!-- default badges list -->
-![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/128594809/21.1.5%2B)
+![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/128594809/21.2.1%2B)
 [![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/E4908)
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
 
 # .NET Role-based Access Control & User Authentication API for DevExpress XPO and Microsoft Entity Framework Core ORMs
+> **NOTE** 
+>
+> As a registered DevExpress.com user, you are entitled to a free copy of .NET Role-based Access Control & User Authentication API powered by Entity Framework (EF Core) and DevExpress eXpressPersistent Objects ORM. For more information on this offer, refer to the following page: [.NET App Security API (Role-based Access Control) – Free Offer from DevExpress](https://www.devexpress.com/security-api-free).
 
-For general information on XAF's Security System API, please review [our landing page](https://www.devexpress.com/products/net/application_framework/security.xml) or watch [the overview video](https://youtu.be/sIhWOXRWlOw).
+For general information on XAF's Security System API, please review [our landing page](https://www.devexpress.com/products/net/application_framework/security.xml) or watch [the overview video](https://www.youtube.com/watch?v=sIhWOXRWlOw).
 
 ## Demos and Step-By-Step Tutorials for  .NET 5 and .NET Framework
 Please research the information below, because additional prerequisites may apply to certain platforms. If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
@@ -27,7 +30,7 @@ Please research the information below, because additional prerequisites may appl
 - [Blazor Server App](/EFCore/ASP.NetCore/Blazor.ServerSide)
 - [Console App](/EFCore/Console)
 
-We detailed the main integration steps for any .NET Core application in [this video](https://youtu.be/o1q4GqFgSFE).
+We detailed the main integration steps for any .NET Core application in [this video](https://www.youtube.com/watch?v=o1q4GqFgSFE).
 
 ## Prerequisites
 
