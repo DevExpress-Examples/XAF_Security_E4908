@@ -23,8 +23,8 @@ This example demonstrates how to access data protected by the [Security System](
 2. Add DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.1.5" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.1.5" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.2.2-pre-21250" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.2.2-pre-21250" />
     ```
 3. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
 4. Open the application configuration file (_App.config__. Add the following line to this file.

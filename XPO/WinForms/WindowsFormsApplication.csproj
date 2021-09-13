@@ -15,9 +15,9 @@
     <EmbeddedResource Remove="MainForm.resx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Win.Grid" Version="21.1.5" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.5" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.5" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="21.2.2-pre-21250" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.2-pre-21250" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.2-pre-21250" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />

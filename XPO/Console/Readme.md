@@ -22,8 +22,8 @@ This example demonstrates how to access data protected by the [Security System](
 2. Add DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.Persistent.BaseImpl" Version="21.1.5" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.1.5" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.2-pre-21250" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.2-pre-21250" />
     ```
 3. Open the application configuration file (_App.config_). Add the following line in this file.
     
