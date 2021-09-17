@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApplication", "Console\ConsoleApplication.csproj", "{94C4A2E5-B9E0-4114-8E6F-5A68BEF0EFFC}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary", "BusinessObjectsLibrary\BusinessObjectsLibrary.csproj", "{A8F2572B-79F6-4580-92BB-56069FE65796}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater", "DatabaseUpdater\DatabaseUpdater.csproj", "{DB4F2CDD-E1D0-48A0-BD16-5203D0B527F6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApplication", "Console\ConsoleApplication.csproj", "{94C4A2E5-B9E0-4114-8E6F-5A68BEF0EFFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
