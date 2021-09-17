@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamarinFormsDemo", "Xamarin.Forms\XamarinFormsDemo\XamarinFormsDemo.csproj", "{F96AC3FF-6B55-401D-AAB1-10B9A7460A53}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary", "BusinessObjectsLibrary\BusinessObjectsLibrary.csproj", "{079E048F-B1FE-462C-8FB9-2AB697876513}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater", "DatabaseUpdater\DatabaseUpdater.csproj", "{88095310-5DED-4BB4-8812-03EFC13F5A43}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiService", "Xamarin.Forms\WebApiService\WebApiService.csproj", "{80B80DCE-C459-4A52-818E-678942A35258}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamarinFormsDemo", "Xamarin.Forms\XamarinFormsDemo\XamarinFormsDemo.csproj", "{F96AC3FF-6B55-401D-AAB1-10B9A7460A53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsDemo.Android", "Xamarin.Forms\XamarinFormsDemo.Android\XamarinFormsDemo.Android.csproj", "{DC51519F-F680-43DA-93B2-9BAF7E010A78}"
 EndProject
