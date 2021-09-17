@@ -36,27 +36,27 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
   <!--<ItemGroup>
-    <Reference Include="DevExpress.ExpressApp.Security.v21.1">
+    <Reference Include="DevExpress.ExpressApp.Security.v21.2">
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.Security.Xpo.v21.1">
+    <Reference Include="DevExpress.ExpressApp.Security.Xpo.v21.2">
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.Xpo.v21.1">
+    <Reference Include="DevExpress.ExpressApp.Xpo.v21.2">
     </Reference>
-    <Reference Include="DevExpress.Data.v21.1">
+    <Reference Include="DevExpress.Data.v21.2">
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.v21.1">
+    <Reference Include="DevExpress.ExpressApp.v21.2">
     </Reference>
-    <Reference Include="DevExpress.Persistent.Base.v21.1">
+    <Reference Include="DevExpress.Persistent.Base.v21.2">
     </Reference>
-    <Reference Include="DevExpress.Persistent.BaseImpl.v21.1">
+    <Reference Include="DevExpress.Persistent.BaseImpl.v21.2">
     </Reference>
-    <Reference Include="DevExpress.Xpo.v21.1">
+    <Reference Include="DevExpress.Xpo.v21.2">
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.EFCore.v21.1">
+    <Reference Include="DevExpress.ExpressApp.EFCore.v21.2">
     </Reference>
-    <Reference Include="DevExpress.Persistent.BaseImpl.EFCore.v21.1">
+    <Reference Include="DevExpress.Persistent.BaseImpl.EFCore.v21.2">
     </Reference>
-    <Reference Include="DevExpress.EntityFrameworkCore.Security.v21.1">
+    <Reference Include="DevExpress.EntityFrameworkCore.Security.v21.2">
     </Reference>
   </ItemGroup>-->
   <ItemGroup>
