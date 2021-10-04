@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- 19.2.5+
+- 19.2.6+
 
 pool:
   vmImage: 'windows-latest'
