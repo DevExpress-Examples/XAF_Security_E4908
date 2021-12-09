@@ -20,9 +20,9 @@ This example demonstrates how to protect your data with the [XAF Security System
 2. Add DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.2-pre-21250" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.2-pre-21250" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="21.2.2-pre-21250" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.4" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="21.2.4" />
     ```
 3. [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-5.0&tabs=windows) the MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
     

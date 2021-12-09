@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
@@ -7,8 +7,8 @@
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.2-pre-21250" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.2-pre-21250" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.4" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
   </ItemGroup>
   <ItemGroup>

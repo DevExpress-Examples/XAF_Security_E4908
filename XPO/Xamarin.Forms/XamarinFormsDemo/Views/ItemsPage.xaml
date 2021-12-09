@@ -26,8 +26,12 @@
                             <Label Text="{Binding FullName}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="16" />
-                            <Label Text="{Binding Department.Title}" 
+                            FontSize="16"
+                            TextColor="Black"
+                            BackgroundColor="White"/>
+                            <Label Text="{Binding Department.Title}"
+                            TextColor="Black"
+                            BackgroundColor="White"
                             LineBreakMode="NoWrap"
                             Style="{DynamicResource ListItemDetailTextStyle}"
                             FontSize="13" />

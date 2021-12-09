@@ -3,8 +3,8 @@
       <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.2-pre-21250" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.2-pre-21250" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.4" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Employees.xml" />

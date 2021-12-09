@@ -1,0 +1,22 @@
+<linker>
+        <assembly fullname="XamarinFormsDemo">
+        </assembly>
+        <assembly fullname="BusinessObjectsLibrary">
+        </assembly>
+        <assembly fullname="DevExpress.Persistent.BaseImpl.Xpo.v21.2">
+        </assembly>
+        <assembly fullname="DevExpress.Persistent.Base.v21.2">
+        </assembly>
+        <assembly fullname="DevExpress.ExpressApp.Objects.v21.2">
+        </assembly>
+        <assembly fullname="DevExpress.ExpressApp.Xpo.v21.2">
+            <namespace fullname="DevExpress.ExpressApp.Utils" />
+        </assembly>
+        <assembly fullname="DevExpress.Data.v21.2">
+        </assembly>
+        <assembly fullname="DevExpress.Xpo.v21.2">
+        </assembly>
+        <assembly fullname="DevExpress.ExpressApp.v21.2">
+            <namespace fullname="DevExpress.Persistent.Base" />
+        </assembly>
+</linker>

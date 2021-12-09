@@ -49,7 +49,7 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>Full</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -61,6 +61,7 @@
     <MtouchArch>ARM64</MtouchArch>
     <CodesignKey>iPhone Developer</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -141,5 +142,8 @@
       <Project>{655ACC3F-58CF-49E0-AFB7-8D89EA089D7D}</Project>
       <Name>XamarinFormsDemo</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <LinkDescription Include="Linker.xml" />
   </ItemGroup>
 </Project>

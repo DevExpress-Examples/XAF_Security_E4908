@@ -22,8 +22,8 @@ This example demonstrates how to protect your data with the [XAF Security System
 1. Add DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.2.2-pre-21250" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.2.2-pre-21250" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.2.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.2.4" />
     ```
 2. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
 

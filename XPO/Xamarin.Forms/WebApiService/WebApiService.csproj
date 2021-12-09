@@ -3,7 +3,7 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Xpo" Version="21.2.2-pre-21250" />
+    <PackageReference Include="DevExpress.Xpo" Version="21.2.4" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.0" />
     <PackageReference Include="System.configuration.configurationmanager" Version="5.0.0" />
   </ItemGroup>

@@ -23,7 +23,7 @@
       "destination": "wwwroot/devextreme/"
     },
     {
-      "library": "devextreme@21.2.2-alpha-21246-1323",
+      "library": "devextreme@21.2.4",
       "destination": "wwwroot/devextreme/"
     },
     {
