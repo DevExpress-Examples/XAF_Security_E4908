@@ -1,11 +1,8 @@
-﻿using DevExpress.Persistent.Base;
-using DevExpress.Persistent.BaseImpl.EF;
+﻿using DevExpress.Persistent.BaseImpl.EF;
 
 namespace BusinessObjectsLibrary.BusinessObjects {
-    [DefaultClassOptions]
     public class Employee : Person {
         private Department department;
-        [ImmediatePostData]
         public virtual Department Department {
             get {
                 return department;

@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using DevExpress.Persistent.Base;
 
 namespace BusinessObjectsLibrary.BusinessObjects {
-    [DefaultClassOptions]
-    [System.ComponentModel.DefaultProperty("Title")]
     public class Department : INotifyPropertyChanged {
         private string title;
         private string office;
         private IList<Employee> employees = new List<Employee>();
         private int id;
-        //[Browsable(false)]
-        [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
-        public Int32 ID {
+        public int ID {
             get { return id; }
             protected set { id = value; }
         }

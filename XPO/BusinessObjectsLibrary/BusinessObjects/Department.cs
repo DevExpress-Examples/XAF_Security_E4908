@@ -1,10 +1,7 @@
-﻿using DevExpress.Persistent.Base;
-using DevExpress.Persistent.BaseImpl;
+﻿using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 
 namespace BusinessObjectsLibrary.BusinessObjects {
-	[DefaultClassOptions]
-	[System.ComponentModel.DefaultProperty("Title")]
 	public class Department : BaseObject {
 		private string title;
 		private string office;
