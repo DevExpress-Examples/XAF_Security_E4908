@@ -731,9 +731,13 @@ static void UpdateDataBase() {
 
  To run an iOS application on a real device, you need to perform several additional steps:
  - In the [XamarinFormsDemo.iOS](XamarinFormsDemo.iOS/XamarinFormsDemo.iOS.csproj) project properties you need to set [Linker Behavior](https://docs.microsoft.com/en-us/xamarin/ios/deploy-test/linker?tabs=windows#linker-behavior) to [Don't Link](https://docs.microsoft.com/en-us/xamarin/ios/deploy-test/linker?tabs=windows#dont-link).
+
 ![](/images/Xamarin_iOS_Options.png)
+
  - Add the [Linker.xml](XamarinFormsDemo.iOS/Linker.xml) file to the XamarinFormsDemo.iOS project, which will contain [Custom Linker Configuration](https://docs.microsoft.com/en-us/xamarin/cross-platform/deploy-test/linker). For this file, you need to set the Build Action to LinkDescription.
+
 ![](/images/Xamarin_Linker_BuildAction.png)
+
  When adding new dependencies to the project, you must add the names of assemblies or namespaces from these assemblies to this file, which will be used in your project.
 
 ## Step 11. Run and Test the App
