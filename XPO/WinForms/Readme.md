@@ -76,7 +76,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 2: Implement the Main and Login Forms
 
-1. In Program.cs, create [MainForm](CS/MainForm.cs) using a custom constructor. `MainForm` is the MDI parent form for [EmployeeListForm](CS/EmployeeListForm.cs) and [EmployeeDetailForm](CS/EmployeeDetailForm.cs).
+1. In Program.cs, create [MainForm](MainForm.cs) using a custom constructor. `MainForm` is the MDI parent form for [EmployeeListForm](EmployeeListForm.cs) and [EmployeeDetailForm](EmployeeDetailForm.cs).
 
     ```csharp
     Application.EnableVisualStyles();
@@ -85,7 +85,7 @@ This example demonstrates how to access data protected by the [Security System](
     Application.Run(mainForm);
     ```
 
-2. Display the [LoginForm](CS/LoginForm.cs) on the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event. If the dialog returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), `EmployeeListForm` is created and shown.
+2. Display the [LoginForm](LoginForm.cs) on the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event. If the dialog returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), `EmployeeListForm` is created and shown.
 
     ```csharp
     private void MainForm_Load(object sender, EventArgs e) {
@@ -124,7 +124,7 @@ This example demonstrates how to access data protected by the [Security System](
     }
     ```
     
-4. [LoginForm](CS/LoginForm.cs) contains two TextBox controls for username and password, and the Login button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if logon was successful.
+4. [LoginForm](LoginForm.cs) contains two TextBox controls for username and password, and the Login button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if logon was successful.
 
     ```csharp
     private void Login_Click(object sender, EventArgs e) {
@@ -145,7 +145,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 3: Implement the List Form
 
-1. [EmployeeListForm](CS/EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
+1. [EmployeeListForm](EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and: 
     - Create a `EFCoreObjectSpace` instance to access protected data and use its data manipulation APIs (for instance, *IObjectSpace.GetObjects*) OR if you prefer, the familiar `UnitOfWork` object accessible through the *SecuredObjectSpace.Session* property.
     - Set [XPBindingSource.DataSource](https://docs.devexpress.com/XPO/DevExpress.Xpo.XPBindingSource.DataSource) to the Employees collection obtained from the secured object space.
     - Call the CanCreate method to check Create operation availability and thus determine whether the New button can be enabled.
@@ -242,7 +242,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 4: Implement the Detail Form
 
-1. [EmployeeDetailForm](CS/EmployeeDetailForm.cs) contains detailed information on the Employee object. Perform the following operation in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler: 
+1. [EmployeeDetailForm](EmployeeDetailForm.cs) contains detailed information on the Employee object. Perform the following operation in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler: 
 
     - Create a `SecuredObjectSpace` instance to get the current or create new Employee object.
     - Use the SecurityStrategy.CanDelete method to check Delete operation availability and thus determine if the Delete button can be enabled. The Delete button is always disabled if you create new object.

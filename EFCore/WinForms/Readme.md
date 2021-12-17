@@ -71,7 +71,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 2. Authentication. Implement the Login Form to Validate User Name and Password
 
-[LoginForm](CS/LoginForm.cs) contains two `TextEdit` controls for a user name and a password, and the **Log In** button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if a logon was successful.
+[LoginForm](LoginForm.cs) contains two `TextEdit` controls for a user name and a password, and the **Log In** button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if a logon was successful.
 
     ```csharp
     private readonly SecurityStrategyComplex security;
@@ -100,7 +100,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 3. Implement the Main Form to Show/Hide Login, List and Detail Forms 
 
-1. In *YourWinFormsApplication/Program.cs*, create [MainForm](CS/MainForm.cs) using a custom constructor with `SecurityStrategyComplex` / `SecuredEFCoreObjectSpaceProvider` from **Step 1**. `MainForm` is the MDI parent form for [EmployeeListForm](CS/EmployeeListForm.cs) and [EmployeeDetailForm](CS/EmployeeDetailForm.cs).
+1. In *YourWinFormsApplication/Program.cs*, create [MainForm](MainForm.cs) using a custom constructor with `SecurityStrategyComplex` / `SecuredEFCoreObjectSpaceProvider` from **Step 1**. `MainForm` is the MDI parent form for [EmployeeListForm](EmployeeListForm.cs) and [EmployeeDetailForm](EmployeeDetailForm.cs).
 
     ```csharp
     Application.EnableVisualStyles();
@@ -109,7 +109,7 @@ This example demonstrates how to access data protected by the [Security System](
     Application.Run(mainForm);
     ```
 
-2. Display the [LoginForm](CS/LoginForm.cs) in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler. If the dialog returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), `EmployeeListForm` is created.
+2. Display the [LoginForm](LoginForm.cs) in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler. If the dialog returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult), `EmployeeListForm` is created.
 
     ```csharp
     private void MainForm_Load(object sender, EventArgs e) {
@@ -156,9 +156,9 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 4. Authorization. Implement the List Form to Access and Manipulate Data/UI Based on User/Role Rights
 
-1. [EmployeeListForm](CS/EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and do the following: 
+1. [EmployeeListForm](EmployeeListForm.cs) contains a [DevExpress Grid View](https://docs.devexpress.com/WindowsForms/3464/Controls-and-Libraries/Data-Grid/Views/Grid-View) that displays a list of all Employees. Handle the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event and do the following: 
     - Create a `SecuredEFCoreObjectSpace` instance to access protected data and use its [data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/concepts/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, `IObjectSpace.GetObjects`) OR if you prefer, the familiar **DbContext** object accessible through the *EFCoreObjectSpace.DbContext* property.
-    - Set the grid's `DataSource` property to [BindingList\<Employee>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.localview-1.tobindinglist?view=efcore-2.1). You can see the code of the `GetBindingList<TEntity>` method in the [ObjectSpaceHelper.cs](CS/Utils/ObjectSpaceHelper.cs) file.
+    - Set the grid's `DataSource` property to [BindingList\<Employee>](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.changetracking.localview-1.tobindinglist?view=efcore-2.1). You can see the code of the `GetBindingList<TEntity>` method in the [ObjectSpaceHelper.cs](Utils/ObjectSpaceHelper.cs) file.
     - Call the `CanCreate` method to check the Create operation availability and thus determine whether the **New** button can be enabled.
 
     ```csharp
@@ -250,7 +250,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 5. Authorization. Implement the Detail Form to Access and Manipulate Data/UI Based on User/Role Rights
 
-1. [EmployeeDetailForm](CS/EmployeeDetailForm.cs) contains detailed information on the _Employee_ object. Perform the following operation in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler:     
+1. [EmployeeDetailForm](EmployeeDetailForm.cs) contains detailed information on the _Employee_ object. Perform the following operation in the [Form.Load](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.load) event handler:     
     - Create a `SecuredEFCoreObjectSpace` instance to get the current _Employee_ object or create a new one.
     - Use the `SecurityStrategy.CanDelete` method to check the Delete operation availability and thus determine if the **Delete** button can be enabled (note that this button is always disabled if you create new object).
         
