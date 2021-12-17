@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using DevExpress.ExpressApp;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.XtraEditors;
 

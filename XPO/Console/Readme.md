@@ -57,7 +57,7 @@ This example demonstrates how to access data protected by the [Security System](
     
     
     ```csharp
-    private static void CreateDemoData(string connectionString) {
+    static void CreateDemoData(string connectionString) {
         using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString)) {
             RegisterEntities(objectSpaceProvider);
             using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {

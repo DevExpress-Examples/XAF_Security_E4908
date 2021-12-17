@@ -1,18 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	<OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
-	<UseWindowsForms>true</UseWindowsForms>
-	<AssemblyName>WindowsFormsApplication</AssemblyName>
-	<RootNamespace>WindowsFormsApplication</RootNamespace>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="EmployeeListForm.resx" />
-    <EmbeddedResource Remove="LoginForm.resx" />
-    <EmbeddedResource Remove="MainForm.resx" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DevExpress.Win.Grid" Version="21.2.4" />

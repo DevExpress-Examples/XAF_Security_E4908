@@ -1,6 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.Windows.Forms;
+﻿using System.Configuration;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;

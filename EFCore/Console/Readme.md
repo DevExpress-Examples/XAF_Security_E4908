@@ -55,7 +55,7 @@ This example demonstrates how to access data protected by the [Security System](
 - Call CreateDemoData method at the beginning of the Main method of Program.cs:
 
     ```csharp
-    private static void CreateDemoData(string connectionString) {
+    static void CreateDemoData(string connectionString) {
         using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), (builder, _) => builder.UseSqlServer(connectionString)))
         using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
             new Updater(objectSpace).UpdateDatabase();

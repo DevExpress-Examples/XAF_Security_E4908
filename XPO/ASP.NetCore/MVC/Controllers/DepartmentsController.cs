@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using DevExpress.ExpressApp;
+﻿using DevExpress.ExpressApp;
 using DevExtreme.AspNet.Data;
 using DevExtreme.AspNet.Mvc;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using BusinessObjectsLibrary.BusinessObjects;
 

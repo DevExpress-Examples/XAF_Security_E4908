@@ -1,7 +1,6 @@
 ﻿using Blazor.ServerSide.Helpers;
 using DatabaseUpdater;
 using DevExpress.ExpressApp.Xpo;
-using Microsoft.AspNetCore.Builder;
 
 namespace Microsoft.Extensions.DependencyInjection {
     public static class ApplicationBuilderExtensions {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Windows.Forms;
-using Microsoft.Data.SqlClient;
-using DevExpress.ExpressApp;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.XtraEditors;
-using BusinessObjectsLibrary.BusinessObjects;
 
 namespace WindowsFormsApplication {
     public partial class LoginForm : XtraForm {

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using BusinessObjectsLibrary.BusinessObjects;
 
-namespace MvcApplication {
 public class SecurityProvider : IDisposable {
     public SecurityStrategyComplex Security { get; private set; }
     public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
@@ -68,5 +64,4 @@ public class SecurityProvider : IDisposable {
         Security?.Dispose();
         ((SecuredObjectSpaceProvider)ObjectSpaceProvider)?.Dispose();
     }
-}
 }

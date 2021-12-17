@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using DevExpress.ExpressApp.Xpo;
-using DevExtreme.OData;
+﻿using DevExpress.ExpressApp.Xpo;
 using DatabaseUpdater;
 
 namespace Microsoft.Extensions.DependencyInjection {
