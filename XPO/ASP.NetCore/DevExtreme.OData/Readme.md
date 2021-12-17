@@ -19,31 +19,30 @@ This example demonstrates how to protect your data with the [XAF Security System
 > If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ## Step 1: Configure the ASP.NET Core Server App
-For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-5.0&tabs=windows).
-- Configure the OData and MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
+For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows).
+- Configure the OData and MVC pipelines in the [Program.cs](Program.cs):
 
 	```csharp
-    public void ConfigureServices(IServiceCollection services) {
-		services.AddSingleton(Configuration);
-		services.AddHttpContextAccessor();
-        services.AddSingleton<XpoDataStoreProviderService>();
-    }
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-        if(env.IsDevelopment()) {
-            app.UseDeveloperExceptionPage();
-        } else {
-            app.UseHsts();
-        }
-        app.UseODataQueryRequest();
-        app.UseODataBatching();
+	var builder = WebApplication.CreateBuilder(args);
+	builder.Services.AddHttpContextAccessor();
+	builder.Services.AddSingleton<XpoDataStoreProviderService>();
 
-        app.UseRouting();
-        app.UseCors();
-        app.UseEndpoints(endpoints => {
-            endpoints.MapControllers();
-        });
-        app.UseDemoData(Configuration.GetConnectionString("ConnectionString"));
-    }
+	var app = builder.Build();
+	if (app.Environment.IsDevelopment()) {
+		app.UseDeveloperExceptionPage();
+	}
+	else {
+		app.UseHsts();
+	}
+	app.UseODataQueryRequest();
+	app.UseODataBatching();
+	app.UseRouting();
+	app.UseCors();
+	app.UseEndpoints(endpoints => {
+		endpoints.MapControllers();
+	});
+	app.UseDemoData(app.Configuration.GetConnectionString("ConnectionString"));
+	app.Run();
 	```
 - The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
 		
@@ -63,15 +62,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	}
 	```
 	
-- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
-
-	```csharp		
-	//...
-	public IConfiguration Configuration { get; }
-	public Startup(IConfiguration configuration) {
-		Configuration = configuration;
-	}
-	```
+- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. 
 	In _appsettings.json_, add the connection string.
 	``` json
 	"ConnectionStrings": {
@@ -84,7 +75,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 - Define the EDM model that contains data description for all used entities. We also need to define actions to log in/out a user and get the user permissions.
 
 	```csharp
-    private IEdmModel GetEdmModel() {
+    IEdmModel GetEdmModel() {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
         EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
         EntitySetConfiguration<Department> departments = builder.EntitySet<Department>("Departments");
@@ -149,27 +140,24 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	}
 	```
 
-- Enable the authentication service and configure the request pipeline with the authentication middleware in the `ConfigureServices` and `Configure` methods. 
+- Enable the authentication service and configure the request pipeline with the authentication middleware in the [Program.cs](Program.cs). 
 [UnauthorizedRedirectMiddleware](UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
 
 	```csharp
-	public void ConfigureServices(IServiceCollection services) {
-	    	// ...
-        services.AddControllers(mvcOptions => {
-            mvcOptions.EnableEndpointRouting = false;
-        }).AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents(GetEdmModel()));
-	    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-	    	  .AddCookie(); // !!!
-	}
-  	public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-	    // ...
-	    app.UseAuthentication(); // !!!
-	    app.UseMiddleware<UnauthorizedRedirectMiddleware>(); // !!!
-	    app.UseDefaultFiles();
-	    app.UseStaticFiles();
-	    app.UseHttpsRedirection();
-	    app.UseCookiePolicy();
-	}
+	var builder = WebApplication.CreateBuilder(args);
+	//...
+	builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+		.AddCookie();
+
+	var app = builder.Build();
+	//...
+	app.UseAuthentication();
+	app.UseMiddleware<UnauthorizedRedirectMiddleware>();
+	app.UseDefaultFiles();
+	app.UseStaticFiles();
+	app.UseHttpsRedirection();
+	app.UseCookiePolicy();
+
 	//...
 	public class UnauthorizedRedirectMiddleware {
 		// ...
@@ -186,7 +174,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	}
 	```
 
-- Call the UseDemoData method at the end of the Configure method of Startup.cs:
+- Call the UseDemoData method at the end of the [Program.cs](Program.cs).
 	
 	
 	```csharp
@@ -204,20 +192,18 @@ For detailed information about ASP.NET Core application configuration, see [offi
 
 ## Step 2: Initialize Data Store and XAF's Security System
 
-Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, 
+Register security system and authentication in the [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, 
 so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
 
 ```csharp
-public void ConfigureServices(IServiceCollection services) {
-    services.AddScoped((serviceProvider) => {
-        AuthenticationMixed authentication = new AuthenticationMixed();
-        authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-        authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-        authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-        return security;
-    });
-}	
+builder.Services.AddScoped((serviceProvider) => {
+    AuthenticationMixed authentication = new AuthenticationMixed();
+    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+    return security;
+});	
 ```
 
 The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
@@ -245,13 +231,10 @@ public class SecurityProvider : IDisposable {
 }
 ```
 
-- Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
+- Register `SecurityProvider`, in the [Program.cs](Program.cs).
 
 	```csharp
-	public void ConfigureServices(IServiceCollection services) {
-		// ...
-		services.AddScoped<SecurityProvider>();
-	}
+	builder.Services.AddScoped<SecurityProvider>();
 	```
 
 
