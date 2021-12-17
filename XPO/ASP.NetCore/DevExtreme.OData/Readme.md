@@ -70,7 +70,11 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	}
 	```
 		
-- Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
+- Register HttpContextAccessor in the [Program.cs](Program.cs) to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
+
+	```csharp
+	builder.Services.AddHttpContextAccessor();
+	```
 
 - Define the EDM model that contains data description for all used entities. We also need to define actions to log in/out a user and get the user permissions.
 
