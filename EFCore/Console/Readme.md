@@ -6,6 +6,7 @@ This example demonstrates how to access data protected by the [Security System](
  
 ## Prerequisites
 
+- [Visual Studio 2022 v17.0+](https://visualstudio.microsoft.com/vs/)
 - [.NET SDK 6.0+](https://dotnet.microsoft.com/download/dotnet-core)
 - [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
   
@@ -19,7 +20,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
 
-1. Create a new .NET 5 console application or use an existing application.
+1. Create a new .NET 6 console application or use an existing application.
 2. Add DevExpress NuGet packages to your project:
 
     ```xml

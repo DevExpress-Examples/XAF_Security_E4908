@@ -17,7 +17,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 1: Initialize Data Store and XAF's Security System
 
-1. Create a new .NET 5 WinForms application or use an existing application.
+1. Create a new .NET 6 WinForms application or use an existing application.
 2. Add DevExpress NuGet packages to your project:
 
     ```xml
