@@ -6,7 +6,7 @@ This example demonstrates how to access data protected by the [Security System](
  
 ## Prerequisites
 
-- [.NET SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
+- [.NET SDK 6.0+](https://dotnet.microsoft.com/download/dotnet-core)
 - [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
   
   *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*

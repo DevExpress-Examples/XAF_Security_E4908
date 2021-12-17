@@ -3,7 +3,9 @@ This example demonstrates how to access data protected by the [Security System](
 >If you are using EF Core for data access, [follow this tutorial](https://github.com/DevExpress-Examples/XAF_Security_E4908/tree/master/EFCore/WinForms).
 
 ### Prerequisites
-- [.NET SDK 5.0+](https://dotnet.microsoft.com/download/dotnet-core)
+
+- [Visual Studio 2022 v17.0+](https://visualstudio.microsoft.com/vs/)
+- [.NET SDK 6.0+](https://dotnet.microsoft.com/download/dotnet-core)
 - [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
   
   *We recommend that you select all products when you run the DevExpress installer. The installer registers local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*

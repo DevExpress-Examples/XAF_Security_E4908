@@ -11,7 +11,7 @@
 
 For general information on XAF's Security System API, please review [our landing page](https://www.devexpress.com/products/net/application_framework/security.xml) or watch [the overview video](https://www.youtube.com/watch?v=sIhWOXRWlOw).
 
-## Demos and Step-By-Step Tutorials for  .NET 5 and .NET Framework
+## Demos and Step-By-Step Tutorials for  .NET 6 and .NET Framework
 Please research the information below, because additional prerequisites may apply to certain platforms. If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
 
 #### DevExpress XPO
@@ -34,7 +34,7 @@ We detailed the main integration steps for any .NET Core application in [this vi
 
 ## Prerequisites
 
-- [Visual Studio 2019 v16.8+](https://visualstudio.microsoft.com/vs/) with the following workloads:
+- [Visual Studio 2022 v17.0+](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - *.NET desktop development*  |  *ASP.NET and web development*  |  *.NET Core cross-platform development*
 - Download and run the [Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
