@@ -34,57 +34,49 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 3. For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
 
-Configure the Blazor Application in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
+[Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the Blazor Application in the [Program.cs](Program.cs):
 
 ```csharp
-public void ConfigureServices(IServiceCollection services) {
-    services.AddRazorPages();
-    services.AddServerSideBlazor();
-    services.AddDevExpressBlazor();
-    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-    services.AddHttpContextAccessor();
-    services.AddSession();
-    services.AddSingleton(Configuration);
-    services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
-        string connectionString = Configuration.GetConnectionString("ConnectionString");
-        options.UseSqlServer(connectionString);
-        options.UseLazyLoadingProxies();        
-    }, ServiceLifetime.Scoped);
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddDevExpressBlazor();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
+builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+    string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+    options.UseSqlServer(connectionString);
+    options.UseLazyLoadingProxies();
+}, ServiceLifetime.Scoped);
+
+var app = builder.Build();
+if (app.Environment.IsDevelopment()) {
+    app.UseDeveloperExceptionPage();
+}
+else {
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
 }
 
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-    if(env.IsDevelopment()) {
-        app.UseDeveloperExceptionPage();
-    } else {
-        app.UseExceptionHandler("/Error");
-        app.UseHsts();
-    }
-    app.UseSession();
-    app.UseHttpsRedirection();
-    app.UseStaticFiles();
-    app.UseAuthentication();
-    app.UseDefaultFiles();
-    app.UseRouting();
-    app.UseEndpoints(endpoints => {
-        endpoints.MapFallbackToPage("/_Host");
-        endpoints.MapBlazorHub();
-    });
-    app.UseDemoData(Configuration.GetConnectionString("ConnectionString"));
-}
+app.UseSession();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseAuthentication();
+app.UseDefaultFiles();
+app.UseRouting();
+app.UseEndpoints(endpoints => {
+    endpoints.MapBlazorHub();
+    endpoints.MapFallbackToPage("/_Host");
+});
+app.UseDemoData<ApplicationDbContext>((builder, _) =>
+    builder.UseSqlServer(app.Configuration.GetConnectionString("ConnectionString")));
+app.Run();
 ```
 
-- Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-5.0) in the `ConfigureServices` method  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
+- Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-5.0) in the [Program.cs](Program.cs)  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
 
-- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
-
-    ```csharp        
-    //...
-    public IConfiguration Configuration { get; }
-    public Startup(IConfiguration configuration) {
-        Configuration = configuration;
-    }
-    ```
-    In _appsettings.json_, add the connection string.
+- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
     ``` json
     "ConnectionStrings": {
         "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"
@@ -93,9 +85,13 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 
     > **!NOTE:** The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MS SQL database. We do not recommend that you remove “MultipleActiveResultSets=True;“ from the connection string or set the MultipleActiveResultSets parameter to false.
     
-- Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
+- Register HttpContextAccessor in the [Program.cs](Program.cs) to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
 
-- Call the UseDemoData method at the end of the Configure method of Startup.cs:
+	```csharp
+	builder.Services.AddHttpContextAccessor();
+	```
+
+- Call the UseDemoData method at the end of the [Program.cs](Program.cs):
     
     
     ```csharp
@@ -111,27 +107,25 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
 
-Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, 
+Register security system and authentication in [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, 
 so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
 
 ```csharp
-public void ConfigureServices(IServiceCollection services) {
-    services.AddScoped((serviceProvider) => {
-        AuthenticationMixed authentication = new AuthenticationMixed();
-        authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-        authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-        authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-        return security;
-    });
-}    
+builder.Services.AddScoped((serviceProvider) => {
+    AuthenticationMixed authentication = new AuthenticationMixed();
+    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+    return security;
+});  
 ```
 
 
-Add security extension to `DbContextFactory`to allow your application to filter data based on user permissions. The `DbContextFactory` registers in [Startup.cs](Startup.cs):
+Add security extension to `DbContextFactory`to allow your application to filter data based on user permissions. The `DbContextFactory` registers in [Program.cs](Program.cs):
 
 ```csharp
-services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
     //...
     options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);    
 }, ServiceLifetime.Scoped);
@@ -162,13 +156,10 @@ public class SecurityProvider : IDisposable {
 }
 ```
 
-- Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
+- Register `SecurityProvider`, in the [Program.cs](Program.cs).
 
     ```csharp
-    public void ConfigureServices(IServiceCollection services) {
-        // ...
-        services.AddScoped<SecurityProvider>();
-    }
+    builder.Services.AddScoped<SecurityProvider>();
     ```
 
 
