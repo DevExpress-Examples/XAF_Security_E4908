@@ -24,65 +24,62 @@ This example demonstrates how to protect your data with the [XAF Security System
     <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.4" />
     <PackageReference Include="DevExtreme.AspNet.Core" Version="21.2.4" />
     ```
-3. [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-5.0&tabs=windows) the MVC pipelines in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
+3. [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the MVC pipelines in the [Program.cs](Program.cs):
     
     ```csharp
-    public void ConfigureServices(IServiceCollection services) {
-        JsonResolver resolver = new JsonResolver();
-        Action<MvcNewtonsoftJsonOptions> JsonOptions =
-            options => {
-                options.SerializerSettings.ContractResolver = resolver;
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            };
-        services.AddMvc(options => {
-            options.EnableEndpointRouting = false;
-        }).SetCompatibilityVersion(CompatibilityVersion.Latest);
-        services.AddControllers()
-            .AddNewtonsoftJson(JsonOptions);
-        services.AddSingleton(Configuration);
-        services.AddHttpContextAccessor();
-        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options => {
-                options.LoginPath = loginPath;
-            });
-        services.AddSingleton<XpoDataStoreProviderService>();
-    }
+    var builder = WebApplication.CreateBuilder(args);
+    string loginPath = "/Authentication";
+    JsonResolver resolver = new JsonResolver();
+    Action<MvcNewtonsoftJsonOptions> JsonOptions =
+    options => {
+        options.SerializerSettings.ContractResolver = resolver;
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    };
+    builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(JsonOptions);
+    builder.Services.AddHttpContextAccessor();
+    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+     .AddCookie(options => {
+         options.LoginPath = loginPath;
+     });
+     builder.Services.AddSingleton<XpoDataStoreProviderService>();
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-        if(env.IsDevelopment()) {
-            app.UseDeveloperExceptionPage();
-        } else {
-            app.UseExceptionHandler("/Home/Error");
-            app.UseHsts();
-        }
-        app.UseAuthentication();
-        app.UseDefaultFiles();
-        app.UseHttpsRedirection();
-        app.UseStaticFiles(new StaticFileOptions() {
-            OnPrepareResponse = context => {
-                if(context.Context.User.Identity.IsAuthenticated) {
-                    return;
-                } else {
-                    string referer = context.Context.Request.Headers["Referer"].ToString();
-                    string authenticationPagePath = loginPath;
-                    string vendorString = "vendor.css";
-                    if(context.Context.Request.Path.HasValue && context.Context.Request.Path.StartsWithSegments(authenticationPagePath)
-                        || referer != null && (referer.Contains(authenticationPagePath) || referer.Contains(vendorString))) {
-                        return;
-                    }
-                    context.Context.Response.Redirect(loginPath);
-                }
-            }
-        });
-        app.UseCookiePolicy();
-        app.UseMvc(routes => {
-            routes.MapRoute(
-                name: "default",
-                template: "{controller=Home}/{action=Index}/{id?}");
-        });
-        app.UseDemoData(Configuration.GetConnectionString("ConnectionString"));
+    var app = builder.Build();
+    if (app.Environment.IsDevelopment()) {
+        app.UseDeveloperExceptionPage();
     }
+    else {
+        app.UseExceptionHandler("/Home/Error");
+        app.UseHsts();
+    }
+    app.UseAuthentication();
+    app.UseDefaultFiles();
+    app.UseHttpsRedirection();
+    app.UseStaticFiles(new StaticFileOptions() {
+        OnPrepareResponse = context => {
+            if (context.Context.User.Identity.IsAuthenticated) {
+                return;
+            }
+            else {
+                string referer = context.Context.Request.Headers["Referer"].ToString();
+                string authenticationPagePath = loginPath;
+                string vendorString = "vendor.css";
+                if (context.Context.Request.Path.HasValue && context.Context.Request.Path.StartsWithSegments(authenticationPagePath)
+                    || referer != null && (referer.Contains(authenticationPagePath) || referer.Contains(vendorString))) {
+                    return;
+                }
+                context.Context.Response.Redirect(loginPath);
+            }
+        }
+    });
+    app.UseCookiePolicy();
+    app.UseRouting();
+    app.UseAuthorization();
+    app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+    app.UseDemoData(app.Configuration.GetConnectionString("ConnectionString"));
+    app.Run();
     ```
     
 4. The [JsonResolver](Helpers/JsonResolver.cs) is needed to serialize business objects correctly.
@@ -137,17 +134,7 @@ This example demonstrates how to protect your data with the [XAF Security System
     }
     ```
     
-6. The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider. 
-        
-    ```csharp        
-    //...
-    public IConfiguration Configuration { get; }
-    public Startup(IConfiguration configuration) {
-        Configuration = configuration;
-    }
-    ```
-    
-    In _appsettings.json_, add the connection string.
+6. The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
     
     ``` json
     "ConnectionStrings": {
@@ -160,7 +147,7 @@ This example demonstrates how to protect your data with the [XAF Security System
 8. Set the [StaticFileOptions.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
 with the logic which сhecks if the ASP.NET Core Identity is authenticated. And, if not, it redirects a user to the authentication page.
 
-9. Call the `UseDemoData` method at the end of the `Configure` method of _Startup.cs_:
+9. Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
     
     ```csharp
     public static IApplicationBuilder UseDemoData(this IApplicationBuilder app, string connectionString) {
@@ -178,19 +165,20 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
 
 ## Step 2: Initialize Data Store and XAF's Security System. Authentication and Permission Configuration
 
-1. Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register multiple authentication providers, so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
+1. Register security system and authentication in [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register multiple authentication providers, so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
 
     ```csharp
-    public void ConfigureServices(IServiceCollection services) {
-        services.AddScoped((serviceProvider) => {
-            AuthenticationMixed authentication = new AuthenticationMixed();
-            authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-            authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-            authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-            SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-            return security;
-        });
-    }
+    var builder = WebApplication.CreateBuilder(args);
+    //...
+    builder.Services.AddScoped((serviceProvider) => {
+        AuthenticationMixed authentication = new AuthenticationMixed();
+        authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+        authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+        authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+        security.RegisterXPOAdapterProviders();
+        return security;
+    });
     ```
 
 2. Create [MemberPermission](Helpers/MemberPermission.cs), [ObjectPermission](Helpers/ObjectPermission.cs) and [TypePermission](Helpers/TypePermission.cs) classes. These classes are used as containers to transfer permissions to the client side.
@@ -239,13 +227,12 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
         //...
     }
     ```
-4. Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
+4. Register `SecurityProvider`, in the [Program.cs](Program.cs).
 
     ```csharp
-    public void ConfigureServices(IServiceCollection services) {
-        // ...
-        services.AddScoped<SecurityProvider>();
-    }
+    var builder = WebApplication.CreateBuilder(args);
+    //...
+    builder.Services.AddScoped<SecurityProvider>();
     ```
 
 5. The `Initialize` method initializes `ObjectSpaceProvider` properties and performs [Login](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Security.SecurityStrategy.Logon(System.Object)) to Security System.
