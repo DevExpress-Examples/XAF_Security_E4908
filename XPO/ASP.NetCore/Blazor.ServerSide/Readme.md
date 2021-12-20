@@ -24,39 +24,38 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
 
-Configure the Blazor application in the `ConfigureServices` and `Configure` methods of [Startup.cs](Startup.cs):
+Configure the Blazor application in the [Program.cs](Program.cs):
 
 ```csharp
-public void ConfigureServices(IServiceCollection services) {
-    services.AddRazorPages();
-    services.AddServerSideBlazor();
-    services.AddDevExpressBlazor();
-    services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-    services.AddHttpContextAccessor();
-    services.AddSession();
-    services.AddSingleton<XpoDataStoreProviderService>();
-    services.AddSingleton(Configuration);
-}
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddDevExpressBlazor();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
+builder.Services.AddSingleton<XpoDataStoreProviderService>();
 
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-    if(env.IsDevelopment()) {
-        app.UseDeveloperExceptionPage();
-    } else {
-        app.UseExceptionHandler("/Error");
-        app.UseHsts();
-    }
-    app.UseSession();
-    app.UseHttpsRedirection();
-    app.UseStaticFiles();
-    app.UseAuthentication();
-    app.UseDefaultFiles();
-    app.UseRouting();
-    app.UseEndpoints(endpoints => {
-        endpoints.MapFallbackToPage("/_Host");
-        endpoints.MapBlazorHub();
-    });
-    app.UseDemoData(Configuration.GetConnectionString("ConnectionString"));
+var app = builder.Build();
+if (app.Environment.IsDevelopment()) {
+    app.UseDeveloperExceptionPage();
 }
+else {
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+app.UseSession();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseAuthentication();
+app.UseDefaultFiles();
+app.UseRouting();
+app.UseEndpoints(endpoints => {
+    endpoints.MapFallbackToPage("/_Host");
+    endpoints.MapBlazorHub();
+});
+app.UseDemoData(app.Configuration.GetConnectionString("ConnectionString"));
+app.Run();
 ```
 - The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
         
@@ -76,25 +75,20 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
     }
     ```    
 
-- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. We register it as a singleton to have access to connectionString from SecurityProvider.
-
-    ```csharp        
-    //...
-    public IConfiguration Configuration { get; }
-    public Startup(IConfiguration configuration) {
-        Configuration = configuration;
-    }
-    ```
-    In _appsettings.json_, add the connection string.
+- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
     ``` json
     "ConnectionStrings": {
         "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
     }
     ```
         
-- Register HttpContextAccessor in the `ConfigureServices` method to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
+- Register HttpContextAccessor in the [Program.cs](Program.cs) to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
 
-- Call the `UseDemoData` method at the end of the `Configure` method of _Startup.cs_:
+	```csharp
+	builder.Services.AddHttpContextAccessor();
+	```
+
+- Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
     
     
     ```csharp
@@ -112,19 +106,17 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
 
-Register security system and authentication in [Startup.cs](Startup.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
+Register security system and authentication in the [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
 
 ```csharp
-public void ConfigureServices(IServiceCollection services) {
-    services.AddScoped((serviceProvider) => {
-        AuthenticationMixed authentication = new AuthenticationMixed();
-        authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-        authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-        authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-        return security;
-    });
-}    
+builder.Services.AddScoped((serviceProvider) => {
+    AuthenticationMixed authentication = new AuthenticationMixed();
+    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+    return security;
+});  
 ```
 
 The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
@@ -152,13 +144,10 @@ public class SecurityProvider : IDisposable {
 }
 ```
 
-- Register `SecurityProvider`, in the `ConfigureServices` method in [Startup.cs](Startup.cs).
+- Register `SecurityProvider`, in the [Program.cs](Program.cs).
 
     ```csharp
-    public void ConfigureServices(IServiceCollection services) {
-        // ...
-        services.AddScoped<SecurityProvider>();
-    }
+    builder.Services.AddScoped<SecurityProvider>();
     ```
 
 
