@@ -27,7 +27,7 @@ This example demonstrates how to protect your data with the [XAF Security System
     ```
 2. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
 
-3. Configure the OData and MVC pipelines in the [Program.cs](Program.cs):
+3. [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the OData and MVC pipelines in the [Program.cs](Program.cs):
 
     ```csharp
     var builder = WebApplication.CreateBuilder(args);
