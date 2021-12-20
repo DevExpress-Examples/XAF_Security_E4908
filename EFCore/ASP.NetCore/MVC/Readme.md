@@ -145,9 +145,9 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
 2. Add security extension to `DbContextFactory`to allow your application to filter data based on user permissions. The `DbContextFactory` registers in the [Program.cs](Program.cs):
 
     ```csharp
-    services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+    builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
         //...
-        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);    
+        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance); //!!!
     }, ServiceLifetime.Scoped);
     ```
 
