@@ -6,6 +6,7 @@ using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using BusinessObjectsLibrary.BusinessObjects;
+using Blazor.ServerSide.Services;
 
 namespace Blazor.ServerSide.Helpers {
 	public class SecurityProvider : IDisposable {
@@ -13,7 +14,7 @@ namespace Blazor.ServerSide.Helpers {
 		public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
 		XpoDataStoreProviderService xpoDataStoreProviderService;
 		IHttpContextAccessor contextAccessor;
-		public SecurityProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, IHttpContextAccessor contextAccessor) {
+		public SecurityProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, IHttpContextAccessor contextAccessor, DemoDataInMemoryProvider demoDataInMemoryProvider) {
 			Security = security;
 			this.xpoDataStoreProviderService = xpoDataStoreProviderService;
 			this.contextAccessor = contextAccessor;
