@@ -11,19 +11,17 @@ using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.DC.Xpo;
 
 TypesInfo typesInfo = new TypesInfo();
-XpoTypeInfoSource xpoTypeInfoSource = typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
-RegisterEntities(typesInfo);
 string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 IXpoDataStoreProvider dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null);
 // ## Step 0. Preparation. Create or update database
-CreateDemoData(typesInfo, xpoTypeInfoSource, dataStoreProvider);
+CreateDemoData(typesInfo, dataStoreProvider);
 
 // ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
 AuthenticationStandard authentication = new AuthenticationStandard();
 SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
 security.RegisterXPOAdapterProviders();
 //SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
-SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, dataStoreProvider, typesInfo, xpoTypeInfoSource);
+SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, dataStoreProvider, typesInfo, null);
 
 // ## Step 2. Authentication. Log in as a 'User' with an Empty Password
 authentication.SetLogonParameters(new AuthenticationStandardLogonParameters(userName: "User", password: string.Empty));
@@ -49,15 +47,16 @@ security.Logoff();
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
 
-static void RegisterEntities(TypesInfo typesInfo) {
-	typesInfo.RegisterEntity(typeof(Employee));
-	typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-	typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+static void RegisterEntities(IObjectSpaceProvider objectSpaceProvider) {
+	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
+	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
 }
 
-static void CreateDemoData(TypesInfo typesInfo, XpoTypeInfoSource xpoTypeInfoSource, IXpoDataStoreProvider dataStoreProvider) {
-	using (var objectSpaceProvider = new XPObjectSpaceProvider(dataStoreProvider, typesInfo, xpoTypeInfoSource)) {
-		using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+static void CreateDemoData(TypesInfo typesInfo, IXpoDataStoreProvider dataStoreProvider) {
+	using (var objectSpaceProvider = new XPObjectSpaceProvider(dataStoreProvider, typesInfo, null)) {
+		RegisterEntities(objectSpaceProvider);
+		using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
 			new Updater(objectSpace).UpdateDatabase();
 		}
 	}
