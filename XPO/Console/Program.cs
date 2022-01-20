@@ -8,7 +8,6 @@ using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using BusinessObjectsLibrary.BusinessObjects;
 using DatabaseUpdater;
 using DevExpress.ExpressApp.DC;
-using DevExpress.ExpressApp.DC.Xpo;
 
 TypesInfo typesInfo = new TypesInfo();
 string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
