@@ -8,11 +8,13 @@ using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using BusinessObjectsLibrary.BusinessObjects;
 using DatabaseUpdater;
 using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp.DC.Xpo;
 
+// ## Step 0. Preparation. Create or update database
 TypesInfo typesInfo = new TypesInfo();
+RegisterEntities(typesInfo);
 string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 IXpoDataStoreProvider dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null);
-// ## Step 0. Preparation. Create or update database
 CreateDemoData(typesInfo, dataStoreProvider);
 
 // ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
@@ -46,15 +48,15 @@ security.Logoff();
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
 
-static void RegisterEntities(IObjectSpaceProvider objectSpaceProvider) {
-	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-	objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+static void RegisterEntities(TypesInfo typesInfo) {
+	typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
+	typesInfo.RegisterEntity(typeof(Employee));
+	typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+	typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
 }
 
 static void CreateDemoData(TypesInfo typesInfo, IXpoDataStoreProvider dataStoreProvider) {
 	using (var objectSpaceProvider = new XPObjectSpaceProvider(dataStoreProvider, typesInfo, null)) {
-		RegisterEntities(objectSpaceProvider);
 		using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
 			new Updater(objectSpace).UpdateDatabase();
 		}

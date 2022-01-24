@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
-using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using BusinessObjectsLibrary.BusinessObjects;
 
 public class SecurityProvider : IDisposable {
 	public SecurityStrategyComplex Security { get; private set; }
@@ -47,18 +45,12 @@ public class SecurityProvider : IDisposable {
 		}
 	}
 	private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-		SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(), true);
-		RegisterEntities(objectSpaceProvider);
+		SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(), security.TypesInfo, null);
 		return objectSpaceProvider;
 	}
 	private void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
 		IObjectSpace objectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();
 		security.Logon(objectSpace);
-	}
-	public static void RegisterEntities(IObjectSpaceProvider objectSpaceProvider) {
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
 	}
 	public void Dispose() {
 		Security?.Dispose();

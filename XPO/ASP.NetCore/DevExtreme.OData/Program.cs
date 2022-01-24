@@ -1,4 +1,6 @@
 using BusinessObjectsLibrary.BusinessObjects;
+using DevExpress.ExpressApp.DC.Xpo;
+using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
@@ -22,8 +24,15 @@ builder.Services.AddScoped((serviceProvider) => {
     authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
     authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
     authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+    TypesInfo typesInfo = serviceProvider.GetRequiredService<TypesInfo>();
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
+    security.RegisterXPOAdapterProviders();
     return security;
+});
+builder.Services.AddSingleton((serviceProvider) => {
+    TypesInfo typesInfo = new TypesInfo();
+    RegisterEntities(typesInfo);
+    return typesInfo;
 });
 
 var app = builder.Build();
@@ -48,7 +57,7 @@ app.UseCookiePolicy();
 app.UseEndpoints(endpoints => {
     endpoints.MapControllers();
 });
-app.UseDemoData(app.Configuration.GetConnectionString("ConnectionString"));
+app.UseDemoData();
 app.Run();
 
 IEdmModel GetEdmModel() {
@@ -78,5 +87,12 @@ IEdmModel GetEdmModel() {
     getTypePermissions.Parameter<string>("typeName");
     getTypePermissions.ReturnsFromEntitySet<TypePermission>("TypePermissions");
     return builder.GetEdmModel();
+}
+
+static void RegisterEntities(TypesInfo typesInfo) {
+    typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
+    typesInfo.RegisterEntity(typeof(Employee));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
 }
 
