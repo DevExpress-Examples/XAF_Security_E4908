@@ -181,7 +181,13 @@ This example demonstrates how to protect your data with the [XAF Security System
     }
     ```
 
-9. Call the UseDemoData method at the end of the [Program.cs](Program.cs):
+9. Register TypesInfo service in the [Program.cs](Program.cs). tIt is necessary for the correct work of the Security System.
+
+	```csharp
+	builder.Services.AddSingleton<TypesInfo>();
+	```
+
+10. Call the UseDemoData method at the end of the [Program.cs](Program.cs):
     
     
     ```csharp

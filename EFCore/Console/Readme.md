@@ -38,6 +38,10 @@ This example demonstrates how to access data protected by the [Security System](
     >
     > The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MS SQL database. We do not recommend that you remove `MultipleActiveResultSets=True;` from the connection string or set the `MultipleActiveResultSets` parameter to `false`.
     
+- Create an instanse of TypesInfo. It is necessary for the correct work of the Security System.
+    ```csharp
+    TypesInfo typesInfo = new TypesInfo();
+    ```
 - Initialize the Security System.
     
     ```csharp
