@@ -181,7 +181,7 @@ This example demonstrates how to protect your data with the [XAF Security System
     }
     ```
 
-9. Register TypesInfo service in the [Program.cs](Program.cs). tIt is necessary for the correct work of the Security System.
+9. Register TypesInfo service in the [Program.cs](Program.cs). It is necessary for the correct work of the Security System.
 
 	```csharp
 	builder.Services.AddSingleton<TypesInfo>();
