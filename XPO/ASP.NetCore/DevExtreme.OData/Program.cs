@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
+using DevExpress.ExpressApp.Xpo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,18 +19,22 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<SecurityProvider>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
-builder.Services.AddSingleton<XpoDataStoreProviderService>();
+builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
+    string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+    IXpoDataStoreProvider dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+    return dataStoreProvider;
+});
 builder.Services.AddScoped((serviceProvider) => {
     AuthenticationMixed authentication = new AuthenticationMixed();
     authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
     authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
     authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    TypesInfo typesInfo = serviceProvider.GetRequiredService<TypesInfo>();
+    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
     SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
     security.RegisterXPOAdapterProviders();
     return security;
 });
-builder.Services.AddSingleton((serviceProvider) => {
+builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
     TypesInfo typesInfo = new TypesInfo();
     RegisterEntities(typesInfo);
     return typesInfo;

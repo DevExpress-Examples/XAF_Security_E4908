@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using MvcApplication;
 using Newtonsoft.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using DevExpress.ExpressApp.DC;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +29,8 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, opt
     string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
     options.UseSqlServer(connectionString);
     options.UseLazyLoadingProxies();
-    options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);
+    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
+    options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);
 }, ServiceLifetime.Scoped);
 builder.Services.AddScoped<SecurityProvider>();
 builder.Services.AddScoped((serviceProvider) => {
@@ -35,9 +38,11 @@ builder.Services.AddScoped((serviceProvider) => {
     authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
     authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
     authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
     return security;
 });
+builder.Services.AddSingleton<ITypesInfo, TypesInfo>();
 
 var app = builder.Build();
 
@@ -74,6 +79,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.UseDemoData<ApplicationDbContext>((builder, _) =>
-    builder.UseSqlServer(app.Configuration.GetConnectionString("ConnectionString")));
+app.UseDemoData<ApplicationDbContext>(app.Configuration.GetConnectionString("ConnectionString"),
+    (builder, connectionString) =>
+    builder.UseSqlServer(connectionString));
 app.Run();

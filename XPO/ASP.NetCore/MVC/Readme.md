@@ -42,7 +42,11 @@ This example demonstrates how to protect your data with the [XAF Security System
      .AddCookie(options => {
          options.LoginPath = loginPath;
      });
-     builder.Services.AddSingleton<XpoDataStoreProviderService>();
+     builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
+		string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+		IXpoDataStoreProvider dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+		return dataStoreProvider;
+	});
 
     var app = builder.Build();
     if (app.Environment.IsDevelopment()) {
@@ -78,7 +82,7 @@ This example demonstrates how to protect your data with the [XAF Security System
     app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-    app.UseDemoData(app.Configuration.GetConnectionString("ConnectionString"));
+    app.UseDemoData();
     app.Run();
     ```
     
@@ -116,23 +120,7 @@ This example demonstrates how to protect your data with the [XAF Security System
     }
     ```
 
-5. The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
-        
-    ```csharp
-    public class XpoDataStoreProviderService {
-        private IXpoDataStoreProvider dataStoreProvider;
-        private string connectionString;
-        public XpoDataStoreProviderService(IConfiguration config) {
-            connectionString = config.GetConnectionString("ConnectionString");
-        }
-        public IXpoDataStoreProvider GetDataStoreProvider() {
-            if(dataStoreProvider == null) {
-                dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
-            }
-            return dataStoreProvider;
-        }
-    }
-    ```
+5. The `IXpoDataStoreProvider` provides access to the Data Store Provider object.
     
 6. The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
     
@@ -151,18 +139,34 @@ This example demonstrates how to protect your data with the [XAF Security System
 8. Set the [StaticFileOptions.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
 with the logic which сhecks if the ASP.NET Core Identity is authenticated. And, if not, it redirects a user to the authentication page.
 
-9. Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
+9. In the [Program.cs](Program.cs) file, register the `TypesInfo` service required for the correct operation of the Security System.
+
+	```csharp
+	builder.Services.AddSingleton<ITypesInfo, TypesInfo>();
+	```
+
+10. Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
+
+    ```csharp
+    typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
+    typesInfo.RegisterEntity(typeof(Employee));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+    ```
+
+11. Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
     
     ```csharp
-    public static IApplicationBuilder UseDemoData(this IApplicationBuilder app, string connectionString) {
-        using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString)) {
-            SecurityProvider.RegisterEntities(objectSpaceProvider);
-            using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
-                new Updater(objectSpace).UpdateDatabase();
-            }
-        }
-        return app;
-    }
+    public static WebApplication UseDemoData(this WebApplication app) {
+		IXpoDataStoreProvider xpoDataStoreProvider = app.Services.GetRequiredService<IXpoDataStoreProvider>();
+		ITypesInfo typesInfo = app.Services.GetRequiredService<ITypesInfo>();
+		using (var objectSpaceProvider = new XPObjectSpaceProvider(xpoDataStoreProvider, typesInfo, null)) {
+			using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+				new Updater(objectSpace).UpdateDatabase();
+			}
+		}
+		return app;
+	}
     ```
     
     For more details about how to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
@@ -179,7 +183,8 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
         authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
         authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
         authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+        ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
+        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
         security.RegisterXPOAdapterProviders();
         return security;
     });
@@ -218,11 +223,11 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
     public class SecurityProvider : IDisposable {
         public SecurityStrategyComplex Security { get; private set; }
         public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
-        private XpoDataStoreProviderService xpoDataStoreProviderService;
+        private IXpoDataStoreProvider xpoDataStoreProvider;
         private IHttpContextAccessor contextAccessor;
-        public SecurityProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, IHttpContextAccessor contextAccessor) {
+        public SecurityProvider(SecurityStrategyComplex security, IXpoDataStoreProvider xpoDataStoreProvider, IHttpContextAccessor contextAccessor) {
             Security = security;
-            this.xpoDataStoreProviderService = xpoDataStoreProviderService;
+            this.xpoDataStoreProvider = xpoDataStoreProvider;
             this.contextAccessor = contextAccessor;
             if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
                 Initialize();
@@ -257,16 +262,9 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
 
     ```csharp
     private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-        SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(), true);
-        RegisterEntities(objectSpaceProvider);
-        return objectSpaceProvider;
-    }
-    // Registers all business object types you use in the application.
-    public static void RegisterEntities(IObjectSpaceProvider objectSpaceProvider) {
-        objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-        objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-        objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
-    }
+		SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProvider, security.TypesInfo, null);
+		return objectSpaceProvider;
+	}
     ```
     
 7. The `InitConnection` method authenticates a user both in the Security System and in [ASP.NET Core HttpContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontext?view=aspnetcore-2.2). 

@@ -25,7 +25,7 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, opt
     string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
     options.UseSqlServer(connectionString);
     options.UseLazyLoadingProxies();
-    TypesInfo typesInfo = serviceProvider.GetRequiredService<TypesInfo>();
+    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
     options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);
 }, ServiceLifetime.Scoped);
 builder.Services.AddScoped((serviceProvider) => {
@@ -33,11 +33,11 @@ builder.Services.AddScoped((serviceProvider) => {
     authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
     authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
     authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    TypesInfo typesInfo = serviceProvider.GetRequiredService<TypesInfo>();
+    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
     SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
     return security;
 });
-builder.Services.AddSingleton<TypesInfo>();
+builder.Services.AddSingleton<ITypesInfo, TypesInfo>();
 
 var app = builder.Build();
 

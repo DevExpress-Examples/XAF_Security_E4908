@@ -21,7 +21,6 @@ CreateDemoData(typesInfo, dataStoreProvider);
 AuthenticationStandard authentication = new AuthenticationStandard();
 SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
 security.RegisterXPOAdapterProviders();
-//SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
 SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, dataStoreProvider, typesInfo, null);
 
 // ## Step 2. Authentication. Log in as a 'User' with an Empty Password
