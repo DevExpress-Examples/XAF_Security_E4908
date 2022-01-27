@@ -34,8 +34,14 @@ This example demonstrates how to access data protected by the [Security System](
     > **NOTE** 
     >
     >The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MS SQL database. Do not remove `MultipleActiveResultSets=True;` from the connection string or set the `MultipleActiveResultSets` parameter to `false`.
-    
-5. Initialize the Security System.
+
+5. Create an instance of `TypesInfo` required for the correct operation of the Security System.
+
+    ```csharp
+    TypesInfo typesInfo = new TypesInfo();
+    ```
+
+6. Initialize the Security System.
 
     ```csharp
     namespace WindowsFormsApplication {
@@ -44,26 +50,27 @@ This example demonstrates how to access data protected by the [Security System](
             static void Main() {
                 // ...
                 AuthenticationStandard authentication = new AuthenticationStandard();
-                SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+                SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
                 // ...
             }
         }
     }
     ```
 
-6. Create a **SecuredEFCoreObjectSpaceProvider** object. It allows you to create a **EFCoreObjectSpace** to ensure a secured data access.
+7. Create a **SecuredEFCoreObjectSpaceProvider** object. It allows you to create a **EFCoreObjectSpace** to ensure a secured data access.
     
     ```csharp
     string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
     SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
-        (builder, _) => builder.UseSqlServer(connectionString));
+        typesInfo, connectionString, (builder, connectionString) => builder.UseSqlServer(connectionString));
     ```
-7. Add a `CreateDemoData` method and call it at the beginning of the `Main` method in _Program.cs_:
+8. Add a `CreateDemoData` method and call it at the beginning of the `Main` method in _Program.cs_:
     
     ```csharp
-    private static void CreateDemoData(string connectionString) {
-        using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), (builder, _) => builder.UseSqlServer(connectionString)))
-        using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+    private static void CreateDemoData(string connectionString, TypesInfo typesInfo) {
+        using (var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), typesInfo, connectionString,
+    (builder, connectionString) => builder.UseSqlServer(connectionString)))
+        using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
             new Updater(objectSpace).UpdateDatabase();
         }
     }

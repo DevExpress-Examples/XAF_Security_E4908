@@ -52,7 +52,7 @@ namespace Blazor.ServerSide.Helpers {
         }
 
         private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, xafDbContextFactory);
+            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, xafDbContextFactory, security.TypesInfo);
             return objectSpaceProvider;
         }
         private void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {

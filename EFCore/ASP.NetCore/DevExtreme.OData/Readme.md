@@ -52,8 +52,9 @@ This example demonstrates how to protect your data with the [XAF Security System
     app.UseEndpoints(endpoints => {
         endpoints.MapControllers();
     });
-    app.UseDemoData<ApplicationDbContext>((builder, _) =>
-        builder.UseSqlServer(app.Configuration.GetConnectionString("ConnectionString")));
+    app.UseDemoData<ApplicationDbContext>(app.Configuration.GetConnectionString("ConnectionString"),
+        (builder, connectionString) =>
+        builder.UseSqlServer(connectionString));
     app.Run();
     ```
     > For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-5.0&tabs=windows).
@@ -181,16 +182,25 @@ This example demonstrates how to protect your data with the [XAF Security System
     }
     ```
 
-9. Call the UseDemoData method at the end of the [Program.cs](Program.cs):
+9. In the [Program.cs](Program.cs) file, register the `TypesInfo` service required for the correct operation of the Security System.
+
+	```csharp
+	builder.Services.AddSingleton<ITypesInfo, TypesInfo>();
+	```
+
+10. Call the UseDemoData method at the end of the [Program.cs](Program.cs):
     
     
     ```csharp
-    public static IApplicationBuilder UseDemoData<TContext>(this IApplicationBuilder app, EFCoreDatabaseProviderHandler databaseProviderHandler) where TContext : DbContext {
-        using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(TContext), databaseProviderHandler))
-        using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
-            new Updater(objectSpace).UpdateDatabase();
+    public static class ApplicationBuilderExtensions {
+        public static WebApplication UseDemoData<TContext>(this WebApplication app, string connectionString, EFCoreDatabaseProviderHandler databaseProviderHandler) where TContext : DbContext {
+            ITypesInfo typesInfo = app.Services.GetRequiredService<ITypesInfo>();
+            using (var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(TContext), typesInfo, connectionString, databaseProviderHandler))
+            using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+                new Updater(objectSpace).UpdateDatabase();
+            }
+            return app;
         }
-        return app;
     }
     ```
     For more details about how to create demo data from code, see the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
@@ -206,8 +216,8 @@ This example demonstrates how to protect your data with the [XAF Security System
         AuthenticationMixed authentication = new AuthenticationMixed();
         authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
         authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-        authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+        ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
+        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
         return security;
     });
     ```
@@ -216,7 +226,8 @@ This example demonstrates how to protect your data with the [XAF Security System
     ```csharp
     builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
         //...
-        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance);    
+        ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
+        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);    
     }, ServiceLifetime.Scoped);
     ```
 
@@ -256,7 +267,9 @@ This example demonstrates how to protect your data with the [XAF Security System
 
     ```csharp
     private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-        SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, xafDbContextFactory);
+        TypesInfo typesInfo = serviceProvider.GetRequiredService<TypesInfo>();
+        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);    
+    }, ServiceLifetime.Scoped);
         return objectSpaceProvider;
     }
     ```
