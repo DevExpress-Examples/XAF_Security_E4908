@@ -16,5 +16,8 @@ namespace BusinessObjectsLibrary.BusinessObjects {
                 SetPropertyValue(nameof(Department), ref department, value);
             }
         }
+        public override string FullName {
+            get { return $"{FirstName} {LastName}"; }
+        }
     }
 }
