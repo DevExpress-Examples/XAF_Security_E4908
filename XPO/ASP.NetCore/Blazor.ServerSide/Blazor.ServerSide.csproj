@@ -4,10 +4,71 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Blazor" Version="21.2.4" />
+    <!--<PackageReference Include="DevExpress.Blazor" Version="21.2.4" />
     <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.4" />-->
     <PackageReference Include="DevExtreme.AspNet.Data" Version="2.8.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.2.3" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="System.Security.Permissions" Version="6.0.0" />
+	<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.4" />
+    <PackageReference Include="System.CodeDom" Version="5.0.0" />
+	  <!---->
+	  <Reference Include="DevExpress.Data.v22.1">
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.Data.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.ExpressApp.Security.Xpo.v22.1">
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Security.Xpo.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.ExpressApp.Xpo.v22.1">
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Xpo.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.ExpressApp.v22.1">
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.ExpressApp.Security.v22.1">
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Security.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Blazor.v22.1">
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.Blazor.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Persistent.Base.v22.1">
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.Persistent.Base.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Persistent.BaseImpl.Xpo.v22.1">
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.Persistent.BaseImpl.Xpo.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.ExpressApp.WebApi.v22.1">
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.WebApi.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Xpo.v22.1">
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.Xpo.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Microsoft.AspNetCore.OData">
+		  <HintPath>C:\Work\AspNetCoreOData\bin\AnyCPU\Debug\netcoreapp3.1\Microsoft.AspNetCore.OData.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Microsoft.OData.Edm">
+		  <HintPath>C:\Work\odata.net\bin\AnyCPU\Debug\Test\netcoreapp3.1\Microsoft.OData.Edm.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Microsoft.OData.Core">
+		  <HintPath>C:\Work\odata.net\bin\AnyCPU\Debug\Test\netcoreapp3.1\Microsoft.OData.Core.dll </HintPath>
+	  </Reference>
+	  <Reference Include="Microsoft.OData.ModelBuilder">
+		  <HintPath>C:\Work\ModelBuilder\src\Microsoft.OData.ModelBuilder\bin\Debug\netstandard2.0\Microsoft.OData.ModelBuilder.dll </HintPath>
+	  </Reference>
+	  
+	  <StaticWebAsset Include="C:\Work\DXSource\2022.1\Bin\NETCore\staticwebassets\DevExpress.Blazor\wwwroot\**">
+		  <SourceType>Package</SourceType>
+		  <SourceId>DevExpress.Blazor</SourceId>
+		  <ContentRoot>C:\Work\DXSource\2022.1\Bin\NETCore\staticwebassets\DevExpress.Blazor\wwwroot\</ContentRoot>
+		  <BasePath>_content/DevExpress.Blazor</BasePath>
+		  <RelativePath>%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
+	  </StaticWebAsset>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
