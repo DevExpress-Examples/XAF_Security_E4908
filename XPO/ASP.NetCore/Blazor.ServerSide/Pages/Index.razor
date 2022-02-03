@@ -1,7 +1,9 @@
 ﻿@page "/"
 @attribute [Authorize]
 @implements IDisposable
-@inject SecurityProvider securityProvider
+@inject IObjectSpaceProviderService objectSpaceProviderService
+@inject IPrincipalProviderInitializer principalProviderInitializer
+@inject ISecurityProvider securityProvider;
 
 <div style="text-align: right; margin: 10px">
     <a class="ml-md-auto btn btn-primary" href="/logout">Log Out</a>
@@ -40,15 +42,15 @@
             </DxDataGridComboBoxColumn>
             <DxDataGridCommandColumn Width="100px">
                 <HeaderCellTemplate>
-                    @if(securityProvider.Security.CanCreate<Employee>()) {
+                    @if(Security.CanCreate<Employee>()) {
                         <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
                     }
                 </HeaderCellTemplate>
                 <CellTemplate>
-                    @if(securityProvider.Security.CanWrite(context)) {
+                    @if(Security.CanWrite(context)) {
                         <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
                     }
-                    @if(securityProvider.Security.CanDelete(context)) {
+                    @if(Security.CanDelete(context)) {
                         <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
                     }
                 </CellTemplate>
@@ -111,10 +113,15 @@
     Employee employee = null;
     IObjectSpace objectSpace;
 
-    protected override void OnInitialized() {
-        objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+    protected SecurityStrategy Security => securityProvider.GetSecurity();
+
+    protected override async Task OnInitializedAsync() {
+        await principalProviderInitializer.InitializeUserAsync();
+        objectSpace = objectSpaceProviderService.CreateObjectSpace<Employee>();
         employees = objectSpace.GetObjectsQuery<Employee>();
         departments = objectSpace.GetObjectsQuery<Department>();
+
+        await base.OnInitializedAsync();
     }
     Task OnRowRemoving(object item) {
         objectSpace.Delete(item);
@@ -128,7 +135,7 @@
         await grid.CancelRowEdit();
     }
     public void Dispose() {
-        securityProvider?.Dispose();
+        objectSpaceProviderService?.Dispose();
         objectSpace?.Dispose();
     }
     Task StartRowEdit(object item) {

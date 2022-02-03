@@ -11,10 +11,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.TryAddScoped<IWebApiObjectSpaceProvider, WebApiObjectSpaceProvider>();
-builder.Services.TryAddScoped<ITypesInfoProvider2, TypesInfoProvider>();
-//builder.Services.TryAddScoped<AuthenticateService>();
-
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
@@ -23,23 +19,23 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();
 builder.Services.AddSingleton<XpoDataStoreProviderService>();
-builder.Services.TryAddScoped<SecurityProvider>();
-builder.Services.AddScoped<ILogonDataProtector, LogonDataProtector>();
-//builder.Services.AddScoped<ISecurityUser>
-/*builder.Services.AddScoped((serviceProvider) => {
-    AuthenticationMixed authentication = new AuthenticationMixed();
-    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-    return security;
-});*/
+
+builder.Services.AddScoped<IObjectSpaceProviderService, ObjectSpaceProviderService>();
+builder.Services.AddScoped(serviceProvider => (IWebApiObjectSpaceProvider)serviceProvider.GetService<IObjectSpaceProviderService>());
+builder.Services.AddScoped(serviceProvider => (ITypesInfoProvider2)serviceProvider.GetService<IObjectSpaceProviderService>());
+
+builder.Services.AddScoped<XafSecurityAuthenticationService>();
+builder.Services.AddScoped<XafSecurityLoginService>();
+builder.Services.AddScoped<IPrincipalProvider, PrincipalProvider>();
+builder.Services.TryAddScoped(serviceProvider => (IPrincipalProviderInitializer)serviceProvider.GetService<IPrincipalProvider>());
+builder.Services.AddScoped<ILogonParameterProvider, LogonParameterProvider>();
+//builder.Services.AddScoped<ILogonDataProtector, LogonDataProtector>();
 builder.Services.AddXafSecurity(options => {
     options.RoleType = typeof(DevExpress.Persistent.BaseImpl.PermissionPolicy.PermissionPolicyRole);
     options.UserType = typeof(PermissionPolicyUser);
     options.Events.OnSecurityStrategyCreated = securityStrategy => ((SecurityStrategy)securityStrategy).RegisterXPOAdapterProviders();
     options.SupportNavigationPermissionsForTypes = false;
-}).AddExternalAuthentication<HttpContextPrincipalProvider>()
+}).AddExternalAuthentication<PrincipalProvider>()
             .AddAuthenticationStandard(options => {
                 options.IsSupportChangePassword = true;
             });
@@ -94,13 +90,15 @@ else {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-//app.UseMiddleware<SignInMiddleware>();
 app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseDefaultFiles();
 app.UseRouting();
+app.UseAuthorization();
+app.UseMiddleware<LogOutMiddleware>();
+app.UseMiddleware<PrincipalProviderInitializerMiddleware>();
 app.UseEndpoints(endpoints => {
     endpoints.MapFallbackToPage("/_Host");
     endpoints.MapBlazorHub();

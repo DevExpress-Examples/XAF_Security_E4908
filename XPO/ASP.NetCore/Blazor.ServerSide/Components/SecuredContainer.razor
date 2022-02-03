@@ -2,10 +2,10 @@
 @using DevExpress.ExpressApp
 @using DevExpress.ExpressApp.Security
 
-@inject SecurityProvider SecurityProvider
+@inject ISecurityProvider security
 
 @if(HasAccess) {
-	@ChildContent(!SecurityProvider.Security.CanWrite(CurrentObject, PropertyName))
+	@ChildContent(!Security.CanWrite(CurrentObject, PropertyName))
 }
 else {
 	@if(IsEditor) {
@@ -18,12 +18,13 @@ else {
 
 @code{
 	public string ProtectedContent = "*******";
-
+	
 	[CascadingParameter] private IObjectSpace ObjectSpace { get; set; }
 	[Parameter] public object CurrentObject { get; set; }
 	[Parameter] public string PropertyName { get; set; }
 	[Parameter] public bool IsEditor { get; set; }
 	[Parameter] public RenderFragment<bool> ChildContent { get; set; }
 
-	private bool HasAccess => ObjectSpace.IsNewObject(CurrentObject) ? SecurityProvider.Security.CanWrite(CurrentObject.GetType(), PropertyName) : SecurityProvider.Security.CanRead(CurrentObject, PropertyName);
+	private SecurityStrategy Security => security.GetSecurity();
+	private bool HasAccess => ObjectSpace.IsNewObject(CurrentObject) ? Security.CanWrite(CurrentObject.GetType(), PropertyName) : Security.CanRead(CurrentObject, PropertyName);
 }
