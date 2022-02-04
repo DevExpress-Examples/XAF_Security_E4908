@@ -1,6 +1,7 @@
 ﻿using DevExpress.ExpressApp.Xpo;
 
 public class XpoDataStoreProviderService {
+	//TODO Add thread save logic
 	private IXpoDataStoreProvider dataStoreProvider;
 	private string connectionString;
 	public XpoDataStoreProviderService(IConfiguration config) {

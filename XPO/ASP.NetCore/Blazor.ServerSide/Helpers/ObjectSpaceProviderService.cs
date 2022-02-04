@@ -8,12 +8,13 @@ using DevExpress.ExpressApp.WebApi.Services;
 namespace Blazor.ServerSide.Helpers {
     public interface IObjectSpaceProviderService : IDisposable {
         IObjectSpace CreateObjectSpace(Type entityType);
+        //TODO make extension
         IObjectSpace CreateObjectSpace<T>();
         IObjectSpace CreateNonSecuredObjectSpace(Type entityType);
         IObjectSpace CreateNonSecuredObjectSpace<T>();
     }
 
-    public class ObjectSpaceProviderService : IObjectSpaceProviderService, IWebApiObjectSpaceProvider, ITypesInfoProvider2 {
+    public class ObjectSpaceProviderService : IObjectSpaceProviderService, IObjectSpaceFactory {
         readonly ISecurityStrategyBase security;
         readonly XpoDataStoreProviderService xpoDataStoreProviderService;
         readonly XafSecurityLoginService xafSecurityLoginService;
@@ -29,7 +30,6 @@ namespace Blazor.ServerSide.Helpers {
 
         IObjectSpaceProvider CreateObjectSpaceProvider(ISecurityStrategyBase security) {
             SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider((ISelectDataSecurityProvider)security, xpoDataStoreProviderService.GetDataStoreProvider(), true);
-            objectSpaceProvider.RegisterDemoEntities();
             return objectSpaceProvider;
         }
 
@@ -47,14 +47,14 @@ namespace Blazor.ServerSide.Helpers {
             return objectSpaceProvider;
         }
 
-        IObjectSpaceProvider GetNonSecuredObjectSpaceProvider(Type entityType) {
+        INonsecuredObjectSpaceProvider GetNonSecuredObjectSpaceProvider(Type entityType) {
             if (nonSecuredObjectSpaceProvider is null)
                 nonSecuredObjectSpaceProvider = CreateObjectSpaceProvider(security);
-            return nonSecuredObjectSpaceProvider;
+            return (INonsecuredObjectSpaceProvider)nonSecuredObjectSpaceProvider;
         }
 
         IObjectSpace CreateObjectSpace(Type entityType) => GetObjectSpaceProvider(entityType).CreateObjectSpace();
-        IObjectSpace CreateNonSecuredObjectSpace(Type entityType) => GetNonSecuredObjectSpaceProvider(entityType).CreateObjectSpace();
+        IObjectSpace CreateNonSecuredObjectSpace(Type entityType) => GetNonSecuredObjectSpaceProvider(entityType).CreateNonsecuredObjectSpace();
 
         IObjectSpace IObjectSpaceProviderService.CreateObjectSpace(Type entityType) => CreateObjectSpace(entityType);
 
@@ -64,11 +64,11 @@ namespace Blazor.ServerSide.Helpers {
 
         IObjectSpace IObjectSpaceProviderService.CreateNonSecuredObjectSpace<T>() => CreateNonSecuredObjectSpace(typeof(T));
 
-        IObjectSpace IWebApiObjectSpaceProvider.CreateObjectSpace(Type objectType) => CreateObjectSpace(objectType);
+        IObjectSpace IObjectSpaceFactory.CreateObjectSpace(Type objectType) => CreateObjectSpace(objectType);
 
-        IObjectSpace IWebApiObjectSpaceProvider.CreateNonSecuredObjectSpace(Type objectType) => CreateNonSecuredObjectSpace(objectType);
+        IObjectSpace IObjectSpaceFactory.CreateNonSecuredObjectSpace(Type objectType) => CreateNonSecuredObjectSpace(objectType);
 
-        ITypesInfo ITypesInfoProvider2.GetTypesInfo() => GetNonSecuredObjectSpaceProvider(typeof(Employee)).TypesInfo;
+        //ITypesInfo ITypesInfoProvider2.GetTypesInfo() => GetNonSecuredObjectSpaceProvider(typeof(Employee)).TypesInfo;
 
         void IDisposable.Dispose() {
             if (objectSpaceProvider is IDisposable disposable) {

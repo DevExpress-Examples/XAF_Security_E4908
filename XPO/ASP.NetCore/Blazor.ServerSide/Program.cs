@@ -7,7 +7,6 @@ using DevExpress.ExpressApp.WebApi.Swashbuckle;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.OData;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,18 +17,9 @@ builder.Services.AddDevExpressBlazor();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();
-builder.Services.AddSingleton<XpoDataStoreProviderService>();
 
-builder.Services.AddScoped<IObjectSpaceProviderService, ObjectSpaceProviderService>();
-builder.Services.AddScoped(serviceProvider => (IWebApiObjectSpaceProvider)serviceProvider.GetService<IObjectSpaceProviderService>());
-builder.Services.AddScoped(serviceProvider => (ITypesInfoProvider2)serviceProvider.GetService<IObjectSpaceProviderService>());
+builder.Services.AddXafSecurityObjectsLayer();
 
-builder.Services.AddScoped<XafSecurityAuthenticationService>();
-builder.Services.AddScoped<XafSecurityLoginService>();
-builder.Services.AddScoped<IPrincipalProvider, PrincipalProvider>();
-builder.Services.TryAddScoped(serviceProvider => (IPrincipalProviderInitializer)serviceProvider.GetService<IPrincipalProvider>());
-builder.Services.AddScoped<ILogonParameterProvider, LogonParameterProvider>();
-//builder.Services.AddScoped<ILogonDataProtector, LogonDataProtector>();
 builder.Services.AddXafSecurity(options => {
     options.RoleType = typeof(DevExpress.Persistent.BaseImpl.PermissionPolicy.PermissionPolicyRole);
     options.UserType = typeof(PermissionPolicyUser);
@@ -52,8 +42,7 @@ builder.Services.AddSwaggerGen(c => {
     c.EnableAnnotations();
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "MainDemo", Version = "v1" });
 
-    c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme()
-    {
+    c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme() {
         Type = SecuritySchemeType.Http,
         Name = "Bearer",
         Scheme = "bearer",
@@ -85,8 +74,7 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwaggerUI(c => {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "MainDemo WebApi v1");
     });
-}
-else {
+} else {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
@@ -107,3 +95,4 @@ app.UseEndpoints(endpoints => {
 app.UseDemoData(app.Configuration.GetConnectionString("ConnectionString"));
 
 app.Run();
+
