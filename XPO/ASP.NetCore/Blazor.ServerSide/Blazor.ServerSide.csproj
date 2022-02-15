@@ -1,70 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
-	<ItemGroup>
-		<!--<Compile Include="d:\work\DXSource\2022.1\XAF\DevExpress.ExpressApp.Blazor.DemoServices\DemoDataApplicationProvider.cs" Link="DemoServices\DemoDataApplicationProvider.cs" />-->
-		<Compile Include="d:\work\DXSource\2022.1\XAF\DevExpress.ExpressApp.Blazor.DemoServices\DemoDataMiddleware.cs" Link="DemoServices\DemoDataMiddleware.cs" />
-		<Compile Include="d:\work\DXSource\2022.1\XAF\DevExpress.ExpressApp.Blazor.DemoServices\DemoDataStoreProvider.cs" Link="DemoServices\DemoDataStoreProvider.cs" />
-		<Compile Include="d:\work\DXSource\2022.1\XAF\DevExpress.ExpressApp.Blazor.DemoServices\SharedDataService.cs" Link="DemoServices\SharedDataService.cs" />
-
-		<!--<PackageReference Include="DevExpress.Blazor" Version="21.2.4" />
+  <PropertyGroup>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.Blazor" Version="21.2.4" />
     <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.4" />-->
-		<PackageReference Include="DevExtreme.AspNet.Data" Version="2.8.6" />
-		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-
-		<PackageReference Include="System.Drawing.Common" Version="5.0.0" />
-
-		<Reference Include="DevExpress.Persistent.Base.v22.1">
-			<HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.Persistent.Base.v22.1.dll</HintPath>
-		</Reference>
-		<Reference Include="DevExpress.Persistent.BaseImpl.Xpo.v22.1">
-			<HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.Persistent.BaseImpl.Xpo.v22.1.dll</HintPath>
-		</Reference>
-		<Reference Include="DevExpress.ExpressApp.Security.v22.1">
-			<HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Security.v22.1.dll</HintPath>
-		</Reference>
-		<Reference Include="DevExpress.Xpo.v22.1">
-			<HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.Xpo.v22.1.dll</HintPath>
-		</Reference>
-		<Reference Include="DevExpress.Data.v22.1">
-			<HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.Data.v22.1.dll</HintPath>
-		</Reference>
-		<Reference Include="DevExpress.ExpressApp.Xpo.v22.1">
-			<HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Xpo.v22.1.dll</HintPath>
-		</Reference>
-		<Reference Include="DevExpress.ExpressApp.Security.Xpo.v22.1">
-			<HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Security.Xpo.v22.1.dll</HintPath>
-		</Reference>
-		<Reference Include="DevExpress.Blazor.v22.1">
-			<HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.Blazor.v22.1.dll</HintPath>
-		</Reference>
-		<Reference Include="DevExpress.ExpressApp.v22.1">
-			<HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.v22.1.dll</HintPath>
-		</Reference>
-		<Reference Include="DevExpress.ExpressApp.Blazor.v22.1">
-			<HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Blazor.v22.1.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
-		<ProjectReference Include="..\..\DatabaseUpdater\DatabaseUpdater.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<StaticWebAsset Include="d:\work\DXSource\2022.1\Bin\NETCore\staticwebassets\DevExpress.Blazor\wwwroot\**">
-			<SourceType>Package</SourceType>
-			<SourceId>DevExpress.Blazor</SourceId>
-			<ContentRoot>d:\work\DXSource\2022.1\Bin\NETCore\staticwebassets\DevExpress.Blazor\wwwroot\</ContentRoot>
-			<BasePath>_content/DevExpress.Blazor</BasePath>
-			<RelativePath>%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
-		</StaticWebAsset>
-	</ItemGroup>
-	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<Exec Command="dotnet restore Blazor.ServerSide.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
-			<Output PropertyName="ExitCode" TaskParameter="ExitCode" />
-		</Exec>
-		<Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
-	</Target>
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.4" />
+    <PackageReference Include="DevExtreme.AspNet.Data" Version="2.8.6" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
+    <ProjectReference Include="..\..\DatabaseUpdater\DatabaseUpdater.csproj" />
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="dotnet restore Blazor.ServerSide.csproj" ConsoleToMSBuild="true" ContinueOnError="false" IgnoreStandardErrorWarningFormat="true" LogStandardErrorAsError="false" IgnoreExitCode="true">
+      <Output PropertyName="ExitCode" TaskParameter="ExitCode" />
+    </Exec>
+    <Error Condition="$(ErrorCode) != ''" ContinueOnError="false" Text="The DevExpress packages were not restored. Make sure you've configured your NuGet feed: https://nuget.devexpress.com/ " />
+  </Target>
 </Project>

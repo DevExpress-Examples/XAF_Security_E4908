@@ -1,6 +1,5 @@
 ﻿@page "/"
 @namespace Blazor.ServerSide.Pages
-@inject Blazor.ServerSide.Services.InitialApplicationStateProvider InitialApplicationStateProvider
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = null;
@@ -24,8 +23,7 @@
     @if(isIEOrEdgeLegacy) {
         <component type="typeof(Blazor.ServerSide.Shared.BrowserNotSupported)" render-mode="Static" />
     } else {
-        @*TODO Minakov Prerender mode <component type="typeof(Blazor.ServerSide.App)" render-mode="ServerPrerendered" param-InitialApplicationState="InitialApplicationStateProvider.Create()" />*@
-        <component type="typeof(Blazor.ServerSide.App)" render-mode="Server" param-InitialApplicationState="InitialApplicationStateProvider.Create()" />
+        <component type="typeof(Blazor.ServerSide.App)" render-mode="ServerPrerendered" />
         <script src="_framework/blazor.server.js"></script>
     }
     @Html.AntiForgeryToken()

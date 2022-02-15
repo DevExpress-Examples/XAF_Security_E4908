@@ -1,42 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <!--<PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.4" />-->
-	  <Reference Include="DevExpress.Persistent.Base.v22.1">
-		  <HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.Persistent.Base.v22.1.dll</HintPath>
-		  <Private>False</Private>
-	  </Reference>
-	  <Reference Include="DevExpress.Persistent.BaseImpl.Xpo.v22.1">
-		  <HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.Persistent.BaseImpl.Xpo.v22.1.dll</HintPath>
-		  <Private>False</Private>
-	  </Reference>
-	  <Reference Include="DevExpress.ExpressApp.Security.v22.1">
-		  <HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Security.v22.1.dll</HintPath>
-		  <Private>False</Private>
-	  </Reference>
-	  <Reference Include="DevExpress.Xpo.v22.1">
-		  <Private>False</Private>
-		  <HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.Xpo.v22.1.dll</HintPath>
-	  </Reference>
-	  <Reference Include="DevExpress.Data.v22.1">
-		  <Private>False</Private>
-		  <HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.Data.v22.1.dll</HintPath>
-	  </Reference>
-	  <Reference Include="DevExpress.ExpressApp.Xpo.v22.1">
-		  <HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Xpo.v22.1.dll</HintPath>
-		  <Private>False</Private>
-	  </Reference>
-	  <Reference Include="DevExpress.ExpressApp.Security.Xpo.v22.1">
-		  <Private>False</Private>
-		  <HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Security.Xpo.v22.1.dll</HintPath>
-	  </Reference>
-	  <Reference Include="DevExpress.ExpressApp.v22.1">
-		  <Private>False</Private>
-		  <HintPath>d:\work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.v22.1.dll</HintPath>
-	  </Reference>
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="21.2.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.4" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Employees.xml" />

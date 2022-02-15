@@ -1,6 +1,5 @@
-using DatabaseUpdater;
+﻿using DatabaseUpdater;
 using DevExpress.ExpressApp.DC;
-
 using DevExpress.ExpressApp.Xpo;
 
 namespace Microsoft.Extensions.DependencyInjection {

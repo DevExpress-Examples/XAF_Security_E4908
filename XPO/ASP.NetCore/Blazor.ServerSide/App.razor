@@ -19,14 +19,3 @@
         </CascadingAuthenticationState>
     </NotFound>
 </Router>
-
-@code {
-    [Inject]
-    Blazor.ServerSide.Services.InitialApplicationStateInitializer InitialApplicationStateInitializer { get; set; }
-    [Parameter]
-    public Blazor.ServerSide.Services.InitialApplicationState InitialApplicationState { get; set; }
-    protected override void OnInitialized() {
-        InitialApplicationStateInitializer.Initialize(InitialApplicationState);
-        base.OnInitialized();
-    }
-}
