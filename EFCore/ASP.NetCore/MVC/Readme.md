@@ -83,8 +83,9 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.UseDemoData<ApplicationDbContext>((builder, _) =>
-    builder.UseSqlServer(app.Configuration.GetConnectionString("ConnectionString")));
+app.UseDemoData<ApplicationDbContext>(app.Configuration.GetConnectionString("ConnectionString"),
+    (builder, connectionString) =>
+    builder.UseSqlServer(connectionString));
 app.Run();
 ```
 
@@ -111,15 +112,24 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
 
 7. Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-5.0) in the [Program.cs](Program.cs)  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
 
-8. Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
+8. In the [Program.cs](Program.cs) file, register the `TypesInfo` service required for the correct operation of the Security System.
+
+	```csharp
+	builder.Services.AddSingleton<ITypesInfo, TypesInfo>();
+	``` 
+
+9. Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
     
     ```csharp
-    public static IApplicationBuilder UseDemoData<TContext>(this IApplicationBuilder app, EFCoreDatabaseProviderHandler databaseProviderHandler) where TContext : DbContext {
-        using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(TContext), databaseProviderHandler))
-        using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
-            new Updater(objectSpace).UpdateDatabase();
+    public static class ApplicationBuilderExtensions {
+        public static WebApplication UseDemoData<TContext>(this WebApplication app, string connectionString, EFCoreDatabaseProviderHandler databaseProviderHandler) where TContext : DbContext {
+            ITypesInfo typesInfo = app.Services.GetRequiredService<ITypesInfo>();
+            using (var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(TContext), typesInfo, connectionString, databaseProviderHandler))
+            using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+                new Updater(objectSpace).UpdateDatabase();
+            }
+            return app;
         }
-        return app;
     }
     ```
 
@@ -137,7 +147,8 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
         authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
         authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
         authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+        ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
+        SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
         return security;
     });
     ```
@@ -147,7 +158,8 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
     ```csharp
     builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
         //...
-        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), XafTypesInfo.Instance); //!!!
+        ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
+        options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);    
     }, ServiceLifetime.Scoped);
     ```
 
@@ -222,7 +234,7 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
 
     ```csharp
     private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-        SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, xafDbContextFactory);
+        SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, xafDbContextFactory, security.TypesInfo));
         return objectSpaceProvider;
     }
     ```

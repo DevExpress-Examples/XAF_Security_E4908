@@ -8,10 +8,12 @@ using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using BusinessObjectsLibrary.BusinessObjects;
 using DatabaseUpdater;
+using DevExpress.ExpressApp.DC;
 
-string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 // ## Step 0. Preparation. Create or update database
-CreateDemoData(connectionString);
+TypesInfo typesInfo = new TypesInfo();
+string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+CreateDemoData(connectionString, typesInfo);
 
 // ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
 AuthenticationStandard authentication = new AuthenticationStandard();
@@ -43,8 +45,9 @@ security.Logoff();
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
 
-static void CreateDemoData(string connectionString) {
-    using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), (builder, _) => builder.UseSqlServer(connectionString)))
+static void CreateDemoData(string connectionString, TypesInfo typesInfo) {
+    using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), typesInfo, connectionString, 
+        (builder, connectionString) => builder.UseSqlServer(connectionString)))
     using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
         new Updater(objectSpace).UpdateDatabase();
     }

@@ -31,43 +31,46 @@ This example demonstrates how to access data protected by the [Security System](
     ```xml
     <add name="ConnectionString" connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True"/>
     ```
-    
-4. Initialize the Security System.
-    
+
+4. Create an instance of `TypesInfo` required for the correct operation of the Security System.
     ```csharp
-    AuthenticationStandard authentication = new AuthenticationStandard();
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-    security.RegisterXPOAdapterProviders();
+    TypesInfo typesInfo = new TypesInfo();
     ```
 
-5. Create a **SecuredObjectSpaceProvider** object. It allows you to create a **XPObjectSpace** to ensure a secured data access.
-    
-    ```csharp
-    string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-    SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, connectionString, null);
-    ```
-
-6. Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
+5. Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
 
     ```csharp
-    objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-    objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-    objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+    typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
+    typesInfo.RegisterEntity(typeof(Employee));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
     ```
-7. Call the `CreateDemoData` method at the beginning of the `Main` method of _Program.cs_:
-    
-    
+
+6. Call the `CreateDemoData` method at the beginning of the `Main` method of _Program.cs_:
     ```csharp
-    static void CreateDemoData(string connectionString) {
-        using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString)) {
-            RegisterEntities(objectSpaceProvider);
-            using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+    static void CreateDemoData(TypesInfo typesInfo, IXpoDataStoreProvider dataStoreProvider) {
+        using (var objectSpaceProvider = new XPObjectSpaceProvider(dataStoreProvider, typesInfo, null)) {
+            using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
                 new Updater(objectSpace).UpdateDatabase();
             }
         }
     }
     ```
     For more details about how to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+    
+7. Initialize the Security System.
+    
+    ```csharp
+    AuthenticationStandard authentication = new AuthenticationStandard();
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
+    security.RegisterXPOAdapterProviders();
+    ```
+
+8. Create a **SecuredObjectSpaceProvider** object. It allows you to create a **XPObjectSpace** to ensure a secured data access.
+    
+    ```csharp
+    SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, dataStoreProvider, typesInfo, null);
+    ```
 
 ## Step 2. Authentication. Log in as a 'User' with an Empty Password
 

@@ -61,8 +61,8 @@ namespace DatabaseUpdater {
                 userRole.AddObjectPermissionFromLambda<Department>(SecurityOperations.Read, t => t.Title.Contains(protectedDepartment), SecurityPermissionState.Allow);
                 userRole.AddTypePermission<Department>(SecurityOperations.Read, SecurityPermissionState.Deny);
                 // Allow users to read and modify employee records and their fields by criteria.
-                userRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
-                userRole.AddTypePermissionsRecursively<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
+                userRole.AddTypePermission<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
+                userRole.AddTypePermission<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
 
                 userRole.AddObjectPermissionFromLambda<Employee>(SecurityOperations.Delete, t => t.Department.Title.Contains(protectedDepartment), SecurityPermissionState.Allow);
                 userRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Write, nameof(Employee.LastName), t => !t.Department.Title.Contains(protectedDepartment), SecurityPermissionState.Deny);

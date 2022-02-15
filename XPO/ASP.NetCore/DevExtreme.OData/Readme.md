@@ -25,7 +25,11 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	```csharp
 	var builder = WebApplication.CreateBuilder(args);
 	builder.Services.AddHttpContextAccessor();
-	builder.Services.AddSingleton<XpoDataStoreProviderService>();
+	builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
+		string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+		IXpoDataStoreProvider dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+		return dataStoreProvider;
+	});
 
 	var app = builder.Build();
 	if (app.Environment.IsDevelopment()) {
@@ -41,27 +45,11 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	app.UseEndpoints(endpoints => {
 		endpoints.MapControllers();
 	});
-	app.UseDemoData(app.Configuration.GetConnectionString("ConnectionString"));
+	app.UseDemoData();
 	app.Run();
 	```
-- The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
+- The `IXpoDataStoreProvider` provides access to the Data Store Provider object.
 		
-	```csharp
-	public class XpoDataStoreProviderService {
-		private IXpoDataStoreProvider dataStoreProvider;
-		private string connectionString;
-		public XpoDataStoreProviderService(IConfiguration config) {
-			connectionString = config.GetConnectionString("ConnectionString");
-		}
-		public IXpoDataStoreProvider GetDataStoreProvider() {
-			if(dataStoreProvider == null) {
-				dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
-			}
-			return dataStoreProvider;
-		}
-	}
-	```
-	
 - The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. 
 	In _appsettings.json_, add the connection string.
 	``` json
@@ -178,19 +166,35 @@ For detailed information about ASP.NET Core application configuration, see [offi
 	}
 	```
 
+- In the [Program.cs](Program.cs) file, register the `TypesInfo` service required for the correct operation of the Security System.
+
+	```csharp
+	builder.Services.AddSingleton<ITypesInfo, TypesInfo>();
+	```
+
+- Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
+
+    ```csharp
+    typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
+    typesInfo.RegisterEntity(typeof(Employee));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+    ```
+
 - Call the UseDemoData method at the end of the [Program.cs](Program.cs).
 	
 	
 	```csharp
-    public static IApplicationBuilder UseDemoData(this IApplicationBuilder app, string connectionString) {
-        using(var objectSpaceProvider = new XPObjectSpaceProvider(connectionString)) {
-            SecurityProvider.RegisterEntities(objectSpaceProvider);
-            using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
-                new Updater(objectSpace).UpdateDatabase();
-            }
-        }
-        return app;
-    }
+	public static WebApplication UseDemoData(this WebApplication app) {
+		IXpoDataStoreProvider xpoDataStoreProvider = app.Services.GetRequiredService<IXpoDataStoreProvider>();
+		ITypesInfo typesInfo = app.Services.GetRequiredService<ITypesInfo>();
+		using (var objectSpaceProvider = new XPObjectSpaceProvider(xpoDataStoreProvider, typesInfo, null)) {
+			using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+				new Updater(objectSpace).UpdateDatabase();
+			}
+		}
+		return app;
+	}
     ```
     For more details about how to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
 
@@ -205,7 +209,8 @@ builder.Services.AddScoped((serviceProvider) => {
     authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
     authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
     authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
     return security;
 });	
 ```
@@ -216,11 +221,11 @@ The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functi
 public class SecurityProvider : IDisposable {
     public SecurityStrategyComplex Security { get; private set; }
     public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
-    XpoDataStoreProviderService xpoDataStoreProviderService;
+    IXpoDataStoreProvider xpoDataStoreProvider;
     IHttpContextAccessor contextAccessor;
-    public SecurityProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, IHttpContextAccessor contextAccessor) {
+    public SecurityProvider(SecurityStrategyComplex security, IXpoDataStoreProvider xpoDataStoreProvider, IHttpContextAccessor contextAccessor) {
         Security = security;
-        this.xpoDataStoreProviderService = xpoDataStoreProviderService;
+        this.xpoDataStoreProvider = xpoDataStoreProvider;
         this.contextAccessor = contextAccessor;
         if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
             Initialize();
@@ -242,33 +247,12 @@ public class SecurityProvider : IDisposable {
 	```
 
 
-- The `GetObjectSpaceProvider` method provides access to the Object Space Provider. The [XpoDataStoreProviderService](Helpers/XpoDataStoreProviderService.cs) class provides access to the Data Store Provider object.
+- The `GetObjectSpaceProvider` method provides access to the Object Space Provider.
 
 	```csharp
 	private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-		SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(), true);
-		RegisterEntities(objectSpaceProvider);
+		SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProvider, security.TypesInfo, null);
 		return objectSpaceProvider;
-	}
-	//...
-	public class XpoDataStoreProviderService {
-		private IXpoDataStoreProvider dataStoreProvider;
-		private string connectionString;
-		public XpoDataStoreProviderService(IConfiguration config) {
-			connectionString = config.GetConnectionString("ConnectionString");
-		}
-		public IXpoDataStoreProvider GetDataStoreProvider() {
-			if(dataStoreProvider == null) {
-				dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
-			}
-			return dataStoreProvider;
-		}
-	}
-	// Registers all business object types you use in the application.
-	private void RegisterEntities(SecuredObjectSpaceProvider objectSpaceProvider) {
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-		objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
 	}
 	```
 	

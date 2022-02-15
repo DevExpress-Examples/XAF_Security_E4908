@@ -11,5 +11,8 @@ namespace BusinessObjectsLibrary.BusinessObjects {
                 SetReferencePropertyValue(ref department, value);
             }
         }
+        public new string FullName {
+            get { return $"{FirstName} {LastName}"; }
+        }
     }
 }

@@ -4,17 +4,16 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.ClientServer;
-using DevExpress.Persistent.BaseImpl.PermissionPolicy;
-using BusinessObjectsLibrary.BusinessObjects;
+using DevExpress.ExpressApp.Xpo;
 
 public class SecurityProvider : IDisposable {
     public SecurityStrategyComplex Security { get; private set; }
     public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
-    XpoDataStoreProviderService xpoDataStoreProviderService;
+    IXpoDataStoreProvider xpoDataStoreProvider;
     IHttpContextAccessor contextAccessor;
-    public SecurityProvider(SecurityStrategyComplex security, XpoDataStoreProviderService xpoDataStoreProviderService, IHttpContextAccessor contextAccessor) {
+    public SecurityProvider(SecurityStrategyComplex security, IXpoDataStoreProvider xpoDataStoreProvider, IHttpContextAccessor contextAccessor) {
         Security = security;
-        this.xpoDataStoreProviderService = xpoDataStoreProviderService;
+        this.xpoDataStoreProvider = xpoDataStoreProvider;
         this.contextAccessor = contextAccessor;
         if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
             Initialize();
@@ -47,18 +46,12 @@ public class SecurityProvider : IDisposable {
         Login(Security, ObjectSpaceProvider);
     }
     private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-        SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProviderService.GetDataStoreProvider(), true);
-        RegisterEntities(objectSpaceProvider);
+        SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProvider, security.TypesInfo, null);
         return objectSpaceProvider;
     }
     private void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
         IObjectSpace objectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();
         security.Logon(objectSpace);
-    }
-    public static void RegisterEntities(IObjectSpaceProvider objectSpaceProvider) {
-        objectSpaceProvider.TypesInfo.RegisterEntity(typeof(Employee));
-        objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-        objectSpaceProvider.TypesInfo.RegisterEntity(typeof(PermissionPolicyRole));
     }
     public void Dispose() {
         Security?.Dispose();

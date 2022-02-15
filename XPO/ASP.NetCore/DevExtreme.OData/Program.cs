@@ -1,4 +1,6 @@
 using BusinessObjectsLibrary.BusinessObjects;
+using DevExpress.ExpressApp.DC.Xpo;
+using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
+using DevExpress.ExpressApp.Xpo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,14 +19,25 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<SecurityProvider>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
-builder.Services.AddSingleton<XpoDataStoreProviderService>();
+builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
+    string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+    IXpoDataStoreProvider dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+    return dataStoreProvider;
+});
 builder.Services.AddScoped((serviceProvider) => {
     AuthenticationMixed authentication = new AuthenticationMixed();
     authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
     authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
     authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
+    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
+    security.RegisterXPOAdapterProviders();
     return security;
+});
+builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
+    TypesInfo typesInfo = new TypesInfo();
+    RegisterEntities(typesInfo);
+    return typesInfo;
 });
 
 var app = builder.Build();
@@ -48,7 +62,7 @@ app.UseCookiePolicy();
 app.UseEndpoints(endpoints => {
     endpoints.MapControllers();
 });
-app.UseDemoData(app.Configuration.GetConnectionString("ConnectionString"));
+app.UseDemoData();
 app.Run();
 
 IEdmModel GetEdmModel() {
@@ -78,5 +92,12 @@ IEdmModel GetEdmModel() {
     getTypePermissions.Parameter<string>("typeName");
     getTypePermissions.ReturnsFromEntitySet<TypePermission>("TypePermissions");
     return builder.GetEdmModel();
+}
+
+static void RegisterEntities(TypesInfo typesInfo) {
+    typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
+    typesInfo.RegisterEntity(typeof(Employee));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
 }
 
