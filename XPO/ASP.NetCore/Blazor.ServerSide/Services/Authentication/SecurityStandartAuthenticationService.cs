@@ -1,18 +1,19 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.Internal;
+using DevExpress.ExpressApp.Services;
 using System.Security.Claims;
 
-namespace Blazor.ServerSide.Helpers {
-    public class XafSecurityAuthenticationService {
+namespace Blazor.ServerSide.Services {
+    public class SecurityStandartAuthenticationService {
 
         readonly ISecurityUserProvider securityUserProvider;
         readonly ISecurityStrategyBase security;
-        readonly IObjectSpaceProviderService objectSpaceProviderService;
+        readonly IObjectSpaceFactory objectSpaceFactory;
 
-        public XafSecurityAuthenticationService(ISecurityStrategyBase security, IObjectSpaceProviderService objectSpaceProviderService, ISecurityUserProvider securityUserProvider) {
+        public SecurityStandartAuthenticationService(ISecurityStrategyBase security, IObjectSpaceFactory objectSpaceFactory, ISecurityUserProvider securityUserProvider) {
             this.security = security;
-            this.objectSpaceProviderService = objectSpaceProviderService;
+            this.objectSpaceFactory = objectSpaceFactory;
             this.securityUserProvider = securityUserProvider;
         }
 
@@ -27,7 +28,7 @@ namespace Blazor.ServerSide.Helpers {
         }
 
         public ClaimsPrincipal Authenticate(string userName, string password) {
-            using (IObjectSpace loginObjectSpace = objectSpaceProviderService.CreateNonSecuredObjectSpace(security.UserType)) {
+            using (IObjectSpace loginObjectSpace = objectSpaceFactory.CreateNonSecuredObjectSpace(security.UserType)) {
                 AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
                 security.Logoff();
                 try {

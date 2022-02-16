@@ -1,6 +1,4 @@
-﻿using Blazor.ServerSide.Helpers;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Security;
+﻿using Blazor.ServerSide.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +8,10 @@ using System.Security.Claims;
 
 namespace Blazor.ServerSide.Pages {
     public class LoginModel : PageModel {
-        readonly XafSecurityAuthenticationService xafSecurityAuthenticationService;
+        readonly SecurityStandartAuthenticationService xafSecurityAuthentication;
 
-        public LoginModel(XafSecurityAuthenticationService xafSecurityAuthenticationService) {
-            this.xafSecurityAuthenticationService = xafSecurityAuthenticationService;
+        public LoginModel(SecurityStandartAuthenticationService xafSecurityAuthentication) {
+            this.xafSecurityAuthentication = xafSecurityAuthentication;
         }
 
         [BindProperty]
@@ -28,7 +26,7 @@ namespace Blazor.ServerSide.Pages {
             Response.Cookies.Append("userName", Input.UserName ?? string.Empty);
             if (ModelState.IsValid) {
 
-                ClaimsPrincipal principal = xafSecurityAuthenticationService.Authenticate(Input.UserName, Input.Password);
+                ClaimsPrincipal principal = xafSecurityAuthentication.Authenticate(Input.UserName, Input.Password);
                 if (principal != null) {
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                     return Redirect("/");

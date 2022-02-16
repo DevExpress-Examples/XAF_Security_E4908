@@ -1,7 +1,7 @@
 ﻿@page "/"
 @attribute [Authorize]
 @implements IDisposable
-@inject IObjectSpaceProviderService objectSpaceProviderService
+@inject IObjectSpaceFactory objectSpaceFactory
 @inject IPrincipalProviderInitializer principalProviderInitializer
 @inject ISecurityProvider securityProvider;
 
@@ -117,7 +117,7 @@
 
     protected override async Task OnInitializedAsync() {
         await principalProviderInitializer.InitializeUserAsync();
-        objectSpace = objectSpaceProviderService.CreateObjectSpace<Employee>();
+        objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
         employees = objectSpace.GetObjectsQuery<Employee>();
         departments = objectSpace.GetObjectsQuery<Department>();
 
@@ -135,7 +135,7 @@
         await grid.CancelRowEdit();
     }
     public void Dispose() {
-        objectSpaceProviderService?.Dispose();
+        ((IDisposable)objectSpaceFactory).Dispose();
         objectSpace?.Dispose();
     }
     Task StartRowEdit(object item) {

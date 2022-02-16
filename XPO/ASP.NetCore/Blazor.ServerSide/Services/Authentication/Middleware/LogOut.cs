@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 
 namespace Blazor.ServerSide.Services {
-    public class LogOutMiddleware {
+    public class LogOut {
 
         private readonly RequestDelegate next;
-        public LogOutMiddleware(RequestDelegate next) {
+        public LogOut(RequestDelegate next) {
             this.next = next;
         }
-        public async Task Invoke(HttpContext context, ILogger<LogOutMiddleware> logger = null) {
+        public async Task Invoke(HttpContext context, ILogger<LogOut> logger = null) {
             string requestPath = context.Request.Path.Value.TrimStart('/');
             //related to XafSecurityLoginService
             if (requestPath.StartsWith("api/logout", StringComparison.Ordinal)) {

@@ -1,4 +1,3 @@
-using Blazor.ServerSide.Helpers;
 using Blazor.ServerSide.Services;
 using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp.Security;
@@ -26,17 +25,18 @@ builder.Services.AddXafSecurity(options => {
     options.Events.OnSecurityStrategyCreated = securityStrategy => ((SecurityStrategy)securityStrategy).RegisterXPOAdapterProviders();
     options.SupportNavigationPermissionsForTypes = false;
 }).AddExternalAuthentication<PrincipalProvider>()
-            .AddAuthenticationStandard(options => {
-                options.IsSupportChangePassword = true;
-            });
+        .AddAuthenticationStandard(options => {
+            options.IsSupportChangePassword = true;
+        });
+
 builder.Services.AddXafWebApi(options => {
     options.BusinessObject<Department>();
     options.BusinessObject<Employee>();
 });
-builder.Services.AddControllers().AddOData(options => {
+builder.Services.AddControllers().AddOData((options, serviceProvider) => {
     options
         .EnableQueryFeatures(100)
-        .AddRouteComponents("api/odata", new XafApplicationEdmModelBuilder(builder.Services).GetEdmModel());
+        .AddRouteComponents("api/odata", new XafApplicationEdmModelBuilder(serviceProvider).GetEdmModel());
 });
 builder.Services.AddSwaggerGen(c => {
     c.EnableAnnotations();
@@ -85,14 +85,14 @@ app.UseAuthentication();
 app.UseDefaultFiles();
 app.UseRouting();
 app.UseAuthorization();
-app.UseMiddleware<LogOutMiddleware>();
-app.UseMiddleware<PrincipalProviderInitializerMiddleware>();
+app.UseMiddleware<LogOut>();
+app.UseMiddleware<PrincipalProviderInitializer>();
 app.UseEndpoints(endpoints => {
     endpoints.MapFallbackToPage("/_Host");
     endpoints.MapBlazorHub();
     endpoints.MapControllers();
 });
-app.UseDemoData(app.Configuration.GetConnectionString("ConnectionString"));
+app.UseDemoData();
 
 app.Run();
 

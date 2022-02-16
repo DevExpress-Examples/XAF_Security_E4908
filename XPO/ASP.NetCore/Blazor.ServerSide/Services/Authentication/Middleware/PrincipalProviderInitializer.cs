@@ -1,9 +1,9 @@
-﻿using Blazor.ServerSide.Helpers;
+﻿using Blazor.ServerSide.Services;
 
 namespace Blazor.ServerSide.Services {
-    public class PrincipalProviderInitializerMiddleware {
+    public class PrincipalProviderInitializer {
         private readonly RequestDelegate next;
-        public PrincipalProviderInitializerMiddleware(RequestDelegate next) {
+        public PrincipalProviderInitializer(RequestDelegate next) {
             this.next = next;
         }
         public async Task Invoke(HttpContext context, IPrincipalProviderInitializer principalProviderInitializer) {
