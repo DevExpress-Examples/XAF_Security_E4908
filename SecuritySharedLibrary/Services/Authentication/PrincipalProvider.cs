@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Principal;
 
-namespace Blazor.ServerSide.Services {
+namespace SecutirySharedLibrary.Services {
     public interface IPrincipalProviderInitializer {
         public Task InitializeUserAsync();
         public void InitializeUser(IPrincipal principal);
@@ -15,9 +15,9 @@ namespace Blazor.ServerSide.Services {
         public PrincipalProvider(AuthenticationStateProvider authenticationStateProvider) {
             this.authenticationStateProvider = authenticationStateProvider;
         }
-        private IPrincipal user;
+        private IPrincipal? user;
 
-        public IPrincipal User {
+        public IPrincipal? User {
             get {
                 if (!isUser) {
                     throw new Exception("User is not initialized");

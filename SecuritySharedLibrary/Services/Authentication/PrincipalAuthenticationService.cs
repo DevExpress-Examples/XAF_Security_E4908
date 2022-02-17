@@ -3,14 +3,14 @@ using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace Blazor.ServerSide.Services {
+namespace SecutirySharedLibrary.Services {
 
     public class PrincipalAuthenticationService : IDisposable {
         readonly ISecurityStrategyBase security;
         readonly IPrincipalProvider principalProvider;
         readonly NavigationManager navigationManager;
 
-        IObjectSpace loginObjectSpace;
+        IObjectSpace? loginObjectSpace;
         bool isLoginOperationExecuted;
 
         public PrincipalAuthenticationService(ISecurityStrategyBase security, NavigationManager navigationManager, IPrincipalProvider principalProvider) {
@@ -19,11 +19,11 @@ namespace Blazor.ServerSide.Services {
             this.principalProvider = principalProvider;
         }
 
-        private bool IsUserAuthenticated => principalProvider.User?.Identity.IsAuthenticated ?? false;
+        private bool IsUserAuthenticated => principalProvider.User?.Identity?.IsAuthenticated ?? false;
 
         public void XafSecurityEnsureLogon(IObjectSpaceFactory objectSpaceFactory) {
             if (!isLoginOperationExecuted && IsUserAuthenticated) {
-                loginObjectSpace = objectSpaceFactory.CreateNonSecuredObjectSpace(security.UserType);// GetNonSecuredObjectSpaceProvider(security.UserType).CreateNonsecuredObjectSpace();
+                loginObjectSpace = objectSpaceFactory.CreateNonSecuredObjectSpace(security.UserType);
                 try {
                     isLoginOperationExecuted = true;
                     security.Logon(loginObjectSpace);

@@ -1,8 +1,7 @@
-﻿using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Security;
+﻿using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Services;
 
-namespace Blazor.ServerSide.Services {
+namespace SecutirySharedLibrary.Services {
     public interface ISecurityProvider {
         SecurityStrategy GetSecurity();
     }

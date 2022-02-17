@@ -4,7 +4,7 @@ using DevExpress.ExpressApp.Security.Internal;
 using DevExpress.ExpressApp.Services;
 using System.Security.Claims;
 
-namespace Blazor.ServerSide.Services {
+namespace SecutirySharedLibrary.Services {
     public class SecurityStandartAuthenticationService {
 
         readonly ISecurityUserProvider securityUserProvider;
@@ -20,14 +20,15 @@ namespace Blazor.ServerSide.Services {
         private ClaimsPrincipal CreatePrincipal(string userKey, string userName) {
             List<Claim> claims = new List<Claim>{
                 new Claim(ClaimTypes.NameIdentifier, userKey),
-                new Claim(ClaimTypes.Name, userName)
+                new Claim(ClaimTypes.Name, userName),
+                new Claim(SecurityDefaults.AuthenticationPassed, SecurityDefaults.AuthenticationPassed)
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, SecurityDefaults.PasswordAuthentication, ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             ClaimsPrincipal principal = new ClaimsPrincipal(id);
             return principal;
         }
 
-        public ClaimsPrincipal Authenticate(string userName, string password) {
+        public ClaimsPrincipal? Authenticate(string userName, string password) {
             using (IObjectSpace loginObjectSpace = objectSpaceFactory.CreateNonSecuredObjectSpace(security.UserType)) {
                 AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
                 security.Logoff();

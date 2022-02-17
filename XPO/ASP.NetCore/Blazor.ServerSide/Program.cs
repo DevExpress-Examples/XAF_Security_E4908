@@ -1,12 +1,13 @@
-using Blazor.ServerSide.Services;
-using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.WebApi.Services;
-using DevExpress.ExpressApp.WebApi.Swashbuckle;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OpenApi.Models;
+using SecutirySharedLibrary.Services;
+using SecutirySharedLibrary.Middleware;
+using DevExpress.ExpressApp.Xpo;
+using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp.DC.Xpo;
+using BusinessObjectsLibrary.BusinessObjects;
+using Blazor.ServerSide.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +18,23 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();
 
-builder.Services.AddXafSecurityObjectsLayer();
+builder.Services.AddXafSecurityObjectsLayer<ObjectSpaceFactory>(options => {
+    options.Events.CustomizeTypesInfo = (typesInfo, s) => {
+        XpoTypesInfoHelper.ForceInitialize();
+        ((TypesInfo)typesInfo).GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
+        typesInfo.RegisterEntity(typeof(Employee));
+        typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+        typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+    };
+});
+
+builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
+    var connectionString = serviceProvider.GetRequiredService<IConfiguration>().GetConnectionString("ConnectionString");
+    return XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+});
 
 builder.Services.AddXafSecurity(options => {
-    options.RoleType = typeof(DevExpress.Persistent.BaseImpl.PermissionPolicy.PermissionPolicyRole);
+    options.RoleType = typeof(PermissionPolicyRole);
     options.UserType = typeof(PermissionPolicyUser);
     options.Events.OnSecurityStrategyCreated = securityStrategy => ((SecurityStrategy)securityStrategy).RegisterXPOAdapterProviders();
     options.SupportNavigationPermissionsForTypes = false;
@@ -29,51 +43,10 @@ builder.Services.AddXafSecurity(options => {
             options.IsSupportChangePassword = true;
         });
 
-builder.Services.AddXafWebApi(options => {
-    options.BusinessObject<Department>();
-    options.BusinessObject<Employee>();
-});
-builder.Services.AddControllers().AddOData((options, serviceProvider) => {
-    options
-        .EnableQueryFeatures(100)
-        .AddRouteComponents("api/odata", new XafApplicationEdmModelBuilder(serviceProvider).GetEdmModel());
-});
-builder.Services.AddSwaggerGen(c => {
-    c.EnableAnnotations();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "MainDemo", Version = "v1" });
-
-    c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme() {
-        Type = SecuritySchemeType.Http,
-        Name = "Bearer",
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header
-    });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                    {
-                        {
-                            new OpenApiSecurityScheme() {
-                                Reference = new OpenApiReference() {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "JWT"
-                                }
-                            },
-                            new string[0]
-                        },
-                });
-
-    c.SchemaFilter<XpoSchemaFilter>();
-});
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment()) {
     app.UseDeveloperExceptionPage();
-
-    app.UseSwagger();
-    app.UseSwaggerUI(c => {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MainDemo WebApi v1");
-    });
 } else {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
@@ -84,13 +57,11 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseDefaultFiles();
 app.UseRouting();
-app.UseAuthorization();
 app.UseMiddleware<LogOut>();
 app.UseMiddleware<PrincipalProviderInitializer>();
 app.UseEndpoints(endpoints => {
     endpoints.MapFallbackToPage("/_Host");
     endpoints.MapBlazorHub();
-    endpoints.MapControllers();
 });
 app.UseDemoData();
 

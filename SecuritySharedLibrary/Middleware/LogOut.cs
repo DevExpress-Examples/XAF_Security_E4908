@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 
-namespace Blazor.ServerSide.Services {
+namespace SecutirySharedLibrary.Middleware {
     public class LogOut {
 
         private readonly RequestDelegate next;
         public LogOut(RequestDelegate next) {
             this.next = next;
         }
-        public async Task Invoke(HttpContext context, ILogger<LogOut> logger = null) {
+        public async Task Invoke(HttpContext context) {
             string requestPath = context.Request.Path.Value.TrimStart('/');
-            //related to XafSecurityLoginService
+            //related to PrincipalAuthenticationService
             if (requestPath.StartsWith("api/logout", StringComparison.Ordinal)) {
                 await context.SignOutAsync();
                 context.Response.Redirect("/Login");

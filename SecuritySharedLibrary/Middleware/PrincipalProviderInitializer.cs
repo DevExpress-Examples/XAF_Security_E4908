@@ -1,6 +1,7 @@
-﻿using Blazor.ServerSide.Services;
+﻿using Microsoft.AspNetCore.Http;
+using SecutirySharedLibrary.Services;
 
-namespace Blazor.ServerSide.Services {
+namespace SecutirySharedLibrary.Middleware {
     public class PrincipalProviderInitializer {
         private readonly RequestDelegate next;
         public PrincipalProviderInitializer(RequestDelegate next) {

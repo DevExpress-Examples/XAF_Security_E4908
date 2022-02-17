@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29424.173
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.ServerSide", "ASP.NetCore\Blazor.ServerSide\Blazor.ServerSide.csproj", "{6972CA79-FA4D-422C-BFDA-CCF21741A995}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjectsLibrary", "BusinessObjectsLibrary\BusinessObjectsLibrary.csproj", "{7C95F62E-EAFE-43E1-A79D-8D15B5840A41}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseUpdater", "DatabaseUpdater\DatabaseUpdater.csproj", "{CE88C0FE-06E3-4751-B178-0A6824005D87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritySharedLibrary", "..\SecuritySharedLibrary\SecuritySharedLibrary.csproj", "{299B2B03-0ABE-41DE-B074-0C116CB9620D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,6 +18,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.EasyTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.EasyTest|Any CPU.Build.0 = Debug|Any CPU
+		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C95F62E-EAFE-43E1-A79D-8D15B5840A41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7C95F62E-EAFE-43E1-A79D-8D15B5840A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C95F62E-EAFE-43E1-A79D-8D15B5840A41}.EasyTest|Any CPU.ActiveCfg = Debug|Any CPU
@@ -28,12 +36,12 @@ Global
 		{CE88C0FE-06E3-4751-B178-0A6824005D87}.EasyTest|Any CPU.Build.0 = Debug|Any CPU
 		{CE88C0FE-06E3-4751-B178-0A6824005D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE88C0FE-06E3-4751-B178-0A6824005D87}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.EasyTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.EasyTest|Any CPU.Build.0 = Debug|Any CPU
-		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6972CA79-FA4D-422C-BFDA-CCF21741A995}.Release|Any CPU.Build.0 = Release|Any CPU
+		{299B2B03-0ABE-41DE-B074-0C116CB9620D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{299B2B03-0ABE-41DE-B074-0C116CB9620D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{299B2B03-0ABE-41DE-B074-0C116CB9620D}.EasyTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{299B2B03-0ABE-41DE-B074-0C116CB9620D}.EasyTest|Any CPU.Build.0 = Debug|Any CPU
+		{299B2B03-0ABE-41DE-B074-0C116CB9620D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{299B2B03-0ABE-41DE-B074-0C116CB9620D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

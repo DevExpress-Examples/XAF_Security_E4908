@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+	  <PackageReference Include="DevExtreme.AspNet.Data" Version="2.8.6" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.2" />
+	  <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+
+	  <Reference Include="DevExpress.Data.v22.1">
+		  <Private>False</Private>
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.Data.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.ExpressApp.v22.1">
+		  <Private>False</Private>
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.ExpressApp.Security.v22.1">
+		  <Private>False</Private>
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.ExpressApp.Security.v22.1.dll</HintPath>
+	  </Reference>
+	  <Reference Include="DevExpress.Persistent.Base.v22.1">
+		  <Private>False</Private>
+		  <HintPath>C:\Work\DXSource\2022.1\Bin\NETCore\DevExpress.Persistent.Base.v22.1.dll</HintPath>
+	  </Reference>
+  </ItemGroup>
+
+</Project>
