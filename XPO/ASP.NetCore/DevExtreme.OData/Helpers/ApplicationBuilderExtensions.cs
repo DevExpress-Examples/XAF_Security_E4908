@@ -1,15 +1,12 @@
-﻿using DevExpress.ExpressApp.Xpo;
-using DatabaseUpdater;
-using DevExpress.ExpressApp.DC;
-using DevExpress.ExpressApp.DC.Xpo;
+﻿using DatabaseUpdater;
+using DevExpress.ExpressApp.Core;
 
 namespace Microsoft.Extensions.DependencyInjection {
     public static class ApplicationBuilderExtensions {
         public static WebApplication UseDemoData(this WebApplication app) {
-            IXpoDataStoreProvider xpoDataStoreProvider = app.Services.GetRequiredService<IXpoDataStoreProvider>();
-            ITypesInfo typesInfo = app.Services.GetRequiredService<ITypesInfo>();
-            using (var objectSpaceProvider = new XPObjectSpaceProvider(xpoDataStoreProvider, typesInfo, null)) {
-                using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+            using(var scope = app.Services.CreateScope()) {
+                var updatingObjectSpaceFactory = scope.ServiceProvider.GetRequiredService<IUpdatingObjectSpaceFactory>();
+                using(var objectSpace = updatingObjectSpaceFactory.CreateUpdatingObjectSpace(typeof(BusinessObjectsLibrary.BusinessObjects.Employee), true)) {
                     new Updater(objectSpace).UpdateDatabase();
                 }
             }

@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using DevExpress.ExpressApp;
 using BusinessObjectsLibrary.BusinessObjects;
+using DevExpress.ExpressApp.Core;
 
 namespace DevExtreme.OData.Controllers {
 	public class DepartmentsController : ODataController, IDisposable {
-		SecurityProvider securityProvider;
 		IObjectSpace objectSpace;
-		public DepartmentsController(SecurityProvider securityProvider) {
-			this.securityProvider = securityProvider;
-			objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+		public DepartmentsController(IObjectSpaceFactory securityProvider) {
+			objectSpace = securityProvider.CreateObjectSpace<Department>();
 		}
 		[HttpGet]
 		[EnableQuery]
@@ -26,7 +25,6 @@ namespace DevExtreme.OData.Controllers {
 		}
 		public void Dispose() {
 			objectSpace?.Dispose();
-			securityProvider?.Dispose();
 		}
 	}
 }

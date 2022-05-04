@@ -1,14 +1,11 @@
 ﻿@inject NavigationManager navigationManager
+@inject IPrincipalProvider principalProvider
+@inject ISecurityProvider securityProvider
+@inject IObjectSpaceFactory objectSpaceFactory
 
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-            <NotAuthorized>
-                @{
-                    string returnUrl = $"~/{navigationManager.ToBaseRelativePath(navigationManager.Uri)}";
-                    navigationManager.NavigateTo($"Login?returnUrl={returnUrl}", forceLoad: true);
-                }
-            </NotAuthorized>
         </AuthorizeRouteView>
     </Found>
     <NotFound>
@@ -19,3 +16,25 @@
         </CascadingAuthenticationState>
     </NotFound>
 </Router>
+@code{
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        //Fast check
+        if (!principalProvider.User.Identity.IsAuthenticated) {
+            string returnUrl = $"~/{navigationManager.ToBaseRelativePath(navigationManager.Uri)}";
+            navigationManager.NavigateTo($"Login?returnUrl={returnUrl}", forceLoad: true);
+        }else{
+            try {
+                //Hard check - forse logon
+                securityProvider.GetSecurity();
+            } catch  {
+                //The authentication token exists but isn't valid
+                navigationManager.NavigateTo($"/logout", forceLoad: true);
+
+                //TODO add returnUrl support 
+                //string returnUrl = $"~/{navigationManager.ToBaseRelativePath(navigationManager.Uri)}";
+                //navigationManager.NavigateTo($"api/logout?returnUrl={returnUrl}", forceLoad: true);            
+            }
+        }
+    }
+}

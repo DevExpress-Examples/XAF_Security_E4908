@@ -1,10 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using DevExpress.ExpressApp.EFCore;
-using DatabaseUpdater;
-using DevExpress.ExpressApp.DC;
+﻿using DatabaseUpdater;
 using DevExpress.ExpressApp.Core;
 
-namespace Microsoft.Extensions.DependencyInjection {
+namespace Blazor.ServerSide.Services {
     public static class ApplicationBuilderExtensions {
         public static WebApplication UseDemoData(this WebApplication app) {
             using(var scope = app.Services.CreateScope()) {

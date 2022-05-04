@@ -5,14 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OData.Query;
 using DevExpress.ExpressApp;
 using BusinessObjectsLibrary.BusinessObjects;
+using DevExpress.ExpressApp.Core;
 
 namespace DevExtreme.OData.Controllers {
     public class EmployeesController : ODataController, IDisposable {
-        SecurityProvider securityProvider;
         IObjectSpace objectSpace;
-        public EmployeesController(SecurityProvider securityProvider) {
-            this.securityProvider = securityProvider;
-            objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+        public EmployeesController(IObjectSpaceFactory objectSpaceFactory) {
+            objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
         }
         [HttpGet]
         [EnableQuery]
@@ -53,7 +52,6 @@ namespace DevExtreme.OData.Controllers {
         }
         public void Dispose() {
             objectSpace?.Dispose();
-            securityProvider?.Dispose();
         }
     }
 }

@@ -1,4 +1,4 @@
-using BusinessObjectsLibrary.BusinessObjects;
+﻿using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp.DC.Xpo;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
@@ -9,40 +9,52 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using DevExpress.ExpressApp.Xpo;
+using DevExpress.ExpressApp.Core;
+using DevExtreme.OData.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(mvcOptions => {
-    mvcOptions.EnableEndpointRouting = false;
-}).AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents(GetEdmModel()));
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<SecurityProvider>();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
-builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
-    string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
-    IXpoDataStoreProvider dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
-    return dataStoreProvider;
-});
-builder.Services.AddScoped((serviceProvider) => {
-    AuthenticationMixed authentication = new AuthenticationMixed();
-    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
-    security.RegisterXPOAdapterProviders();
-    return security;
-});
-builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
-    TypesInfo typesInfo = new TypesInfo();
-    RegisterEntities(typesInfo);
-    return typesInfo;
-});
+builder.Services
+    .AddControllers(mvcOptions => {
+        mvcOptions.EnableEndpointRouting = false;
+    })
+    .AddOData(opt => opt
+        .Count()
+        .Filter()
+        .Expand()
+        .Select()
+        .OrderBy()
+        .SetMaxTop(null)
+        .AddRouteComponents(GetEdmModel())
+    );
 
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
+
+builder.Services
+    .AddSingleton<ITypesInfo>((serviceProvider) => {
+        TypesInfo typesInfo = new TypesInfo();
+        typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
+        typesInfo.RegisterEntity(typeof(Employee));
+        typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+        typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+        return typesInfo;
+    })
+    .AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
+    .AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
+        var connectionString = serviceProvider.GetRequiredService<IConfiguration>().GetConnectionString("ConnectionString");
+        return XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+    });
+builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
+    options.RoleType = typeof(PermissionPolicyRole);
+    options.UserType = typeof(PermissionPolicyUser);
+    options.Events.OnSecurityStrategyCreated = strategy => ((SecurityStrategy)strategy).RegisterXPOAdapterProviders();
+    options.SupportNavigationPermissionsForTypes = false;
+}).AddAuthenticationStandard();
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment()) {
+if(app.Environment.IsDevelopment()) {
     app.UseDeveloperExceptionPage();
 }
 else {
@@ -63,6 +75,7 @@ app.UseEndpoints(endpoints => {
     endpoints.MapControllers();
 });
 app.UseDemoData();
+
 app.Run();
 
 IEdmModel GetEdmModel() {
@@ -93,11 +106,3 @@ IEdmModel GetEdmModel() {
     getTypePermissions.ReturnsFromEntitySet<TypePermission>("TypePermissions");
     return builder.GetEdmModel();
 }
-
-static void RegisterEntities(TypesInfo typesInfo) {
-    typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
-    typesInfo.RegisterEntity(typeof(Employee));
-    typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-    typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
-}
-

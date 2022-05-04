@@ -1,47 +1,63 @@
-using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.ExpressApp.Security;
+﻿using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Core;
+using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp.Security;
+using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using DevExtreme.OData;
+using DevExtreme.OData.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
-using DevExpress.Persistent.BaseImpl.EF;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using DevExpress.ExpressApp.DC;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(mvcOptions => {
-    mvcOptions.EnableEndpointRouting = false;
-}).AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents(GetEdmModel()));
+builder.Services
+    .AddControllers(mvcOptions => {
+        mvcOptions.EnableEndpointRouting = false;
+    })
+    .AddOData(opt => opt
+        .Count()
+        .Filter()
+        .Expand()
+        .Select()
+        .OrderBy()
+        .SetMaxTop(null)
+        .AddRouteComponents(GetEdmModel())
+    );
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<SecurityProvider>();
-builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
-    string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
-    options.UseSqlServer(connectionString);
-    options.UseLazyLoadingProxies();
-    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
-    options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);
-}, ServiceLifetime.Scoped);
-builder.Services.AddScoped((serviceProvider) => {
-    AuthenticationMixed authentication = new AuthenticationMixed();
-    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
-    return security;
-});
-builder.Services.AddSingleton<ITypesInfo, TypesInfo>();
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
 
+
+builder.Services
+    .AddSingleton<ITypesInfo>(s => {
+        var typesInfo = XafTypesInfo.Instance;
+        typesInfo.RegisterEntity(typeof(Employee));
+        typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+        typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+        return typesInfo;
+    })
+    .AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
+    .AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+        string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+        options.UseSqlServer(connectionString);
+        options.UseLazyLoadingProxies();
+        options.UseSecurity(serviceProvider);
+    }, ServiceLifetime.Scoped);
+
+builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
+    options.RoleType = typeof(PermissionPolicyRole);
+    options.UserType = typeof(PermissionPolicyUser);
+    options.SupportNavigationPermissionsForTypes = false;
+}).AddAuthenticationStandard();
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment()) {
+if(app.Environment.IsDevelopment()) {
     app.UseDeveloperExceptionPage();
 }
 else {
@@ -61,9 +77,7 @@ app.UseCookiePolicy();
 app.UseEndpoints(endpoints => {
     endpoints.MapControllers();
 });
-app.UseDemoData<ApplicationDbContext>(app.Configuration.GetConnectionString("ConnectionString"),
-    (builder, connectionString) =>
-    builder.UseSqlServer(connectionString));
+app.UseDemoData();
 
 app.Run();
 
