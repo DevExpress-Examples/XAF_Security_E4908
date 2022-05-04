@@ -1,16 +1,18 @@
 ﻿using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.ExpressApp.DC.Xpo;
+using DevExpress.ExpressApp.Core;
 using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp.DC.Xpo;
 using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.WebApi.Services;
+using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
+using DevExtreme.OData.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using DevExpress.ExpressApp.Xpo;
-using DevExpress.ExpressApp.Core;
-using DevExtreme.OData.Services;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +20,7 @@ builder.Services
     .AddControllers(mvcOptions => {
         mvcOptions.EnableEndpointRouting = false;
     })
-    .AddOData(opt => opt
+    .AddOData((opt, services) => opt
         .Count()
         .Filter()
         .Expand()
@@ -26,11 +28,13 @@ builder.Services
         .OrderBy()
         .SetMaxTop(null)
         .AddRouteComponents(GetEdmModel())
+        .AddRouteComponents("api/odata", new EdmModelBuilder(services).GetEdmModel())
     );
 
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
+builder.Services.AddAuthorization();
 
 builder.Services
     .AddSingleton<ITypesInfo>((serviceProvider) => {
@@ -46,11 +50,16 @@ builder.Services
         var connectionString = serviceProvider.GetRequiredService<IConfiguration>().GetConnectionString("ConnectionString");
         return XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
     });
+
+builder.Services.AddXafWebApi(builder.Configuration, options => {
+    options.BusinessObject<Employee>();
+    options.BusinessObject<Department>();
+}).AddXpoServices();
+
 builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
     options.RoleType = typeof(PermissionPolicyRole);
     options.UserType = typeof(PermissionPolicyUser);
     options.Events.OnSecurityStrategyCreated = strategy => ((SecurityStrategy)strategy).RegisterXPOAdapterProviders();
-    options.SupportNavigationPermissionsForTypes = false;
 }).AddAuthenticationStandard();
 var app = builder.Build();
 
@@ -66,6 +75,7 @@ app.UseODataBatching();
 app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseMiddleware<UnauthorizedRedirectMiddleware>();
 app.UseDefaultFiles();
 app.UseStaticFiles();

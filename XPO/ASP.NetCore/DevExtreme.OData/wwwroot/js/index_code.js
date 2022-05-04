@@ -4,7 +4,7 @@
 		remoteOperations: { paging: true, filtering: true, sorting: true },
 		dataSource: new DevExpress.data.DataSource({
 			store: new DevExpress.data.ODataStore({
-				url: "Employees",
+				url: "api/odata/Employee",
 				version: 4,
 				key: "Oid",
 				keyType: "Guid",
@@ -52,7 +52,7 @@
 				dataField: "Department.Oid",
 				lookup: {
 					dataSource: new DevExpress.data.ODataStore({
-						url: "Departments",
+						url: "api/odata/Department",
 						version: 4,
 						key: "Oid",
 						keyType: "Guid"
