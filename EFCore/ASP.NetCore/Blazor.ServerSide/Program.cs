@@ -38,7 +38,6 @@ builder.Services
 builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
     options.RoleType = typeof(PermissionPolicyRole);
     options.UserType = typeof(PermissionPolicyUser);
-    options.SupportNavigationPermissionsForTypes = false;
 }).AddAuthenticationStandard();
 
 var app = builder.Build();
