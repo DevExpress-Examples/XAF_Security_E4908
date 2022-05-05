@@ -8,8 +8,8 @@ using DevExpress.ExpressApp.Core;
 namespace DevExtreme.OData.Controllers {
 	public class DepartmentsController : ODataController, IDisposable {
 		IObjectSpace objectSpace;
-		public DepartmentsController(IObjectSpaceFactory securityProvider) {
-			objectSpace = securityProvider.CreateObjectSpace<Department>();
+		public DepartmentsController(IObjectSpaceFactory objectSpaceFactory) {
+			objectSpace = objectSpaceFactory.CreateObjectSpace<Department>();
 		}
 		[HttpGet]
 		[EnableQuery]

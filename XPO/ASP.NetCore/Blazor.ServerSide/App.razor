@@ -20,7 +20,7 @@
     protected override void OnInitialized() {
         base.OnInitialized();
         //Fast check
-        if (!principalProvider.User.Identity.IsAuthenticated) {
+        if (!principalProvider.IsAuthenticated()) {
             string returnUrl = $"~/{navigationManager.ToBaseRelativePath(navigationManager.Uri)}";
             navigationManager.NavigateTo($"Login?returnUrl={returnUrl}", forceLoad: true);
         }else{
