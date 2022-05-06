@@ -23,10 +23,9 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 ## Step 1. Configure the Blazor Application
 
-1. Add DevExpress NuGet packages to your project:
+1. Add EFCore DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.Blazor" Version="21.2.4" />
     <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.2.4" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.2.4" />
     ```
@@ -34,200 +33,163 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 3. For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
 
-[Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the Blazor Application in the [Program.cs](Program.cs):
+- [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the Blazor Application in the [Program.cs](Program.cs):
 
-```csharp
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddDevExpressBlazor();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddSession();
-builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
-    string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
-    options.UseSqlServer(connectionString);
-    options.UseLazyLoadingProxies();
-}, ServiceLifetime.Scoped);
+	```csharp
+	var builder = WebApplication.CreateBuilder(args);
+	builder.Services.AddRazorPages();
+	builder.Services.AddServerSideBlazor();
+	builder.Services.AddDevExpressBlazor();
+	builder.Services.AddSession();
 
-var app = builder.Build();
-if (app.Environment.IsDevelopment()) {
-    app.UseDeveloperExceptionPage();
-}
-else {
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
+	var app = builder.Build();
+	if (app.Environment.IsDevelopment()) {
+	    app.UseDeveloperExceptionPage();
+	}
+	else {
+	    app.UseExceptionHandler("/Error");
+	    app.UseHsts();
+	}
 
-app.UseSession();
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseAuthentication();
-app.UseDefaultFiles();
-app.UseRouting();
-app.UseEndpoints(endpoints => {
-    endpoints.MapBlazorHub();
-    endpoints.MapFallbackToPage("/_Host");
-});
-app.UseDemoData<ApplicationDbContext>(app.Configuration.GetConnectionString("ConnectionString"),
-    (builder, connectionString) =>
-    builder.UseSqlServer(connectionString));
-app.Run();
-```
+	app.UseSession();
+	app.UseHttpsRedirection();
+	app.UseRouting();
+	app.UseEndpoints(endpoints => {
+	    endpoints.MapBlazorHub();
+	    endpoints.MapFallbackToPage("/_Host");
+	});
+	app.Run();
+	```
 
-- Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-5.0) in the [Program.cs](Program.cs)  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
 
-- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
+- Enable the authentication service and configure the request pipeline with the authentication middleware in the [Program.cs](Program.cs). 
+[UnauthorizedRedirectMiddleware](UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
+
+	```csharp
+	var builder = WebApplication.CreateBuilder(args);
+	//...
+	builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+		.AddCookie();
+	builder.Services.AddAuthorization();
+
+	var app = builder.Build();
+	//...
+	app.UseAuthentication();
+	app.UseAuthorization();
+	app.UseMiddleware<UnauthorizedRedirectMiddleware>();
+	app.UseDefaultFiles();
+	app.UseStaticFiles();
+	app.UseHttpsRedirection();
+	app.UseCookiePolicy();
+
+	//...
+	public class UnauthorizedRedirectMiddleware {
+		// ...
+		public async Task InvokeAsync(HttpContext context) {
+			if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
+				|| IsAllowAnonymous(context)) {
+				await _next(context);
+			}
+			else {
+				context.Response.Redirect(authenticationPagePath);
+			}
+		}
+		// ...
+	}
+	```
+
+## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
+
+- Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
+	```C#
+    builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
+        TypesInfo typesInfo = new TypesInfo();
+        typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
+        typesInfo.RegisterEntity(typeof(Employee));
+        typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+        typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+        return typesInfo;
+    })
+	```
+
+- Register your [ObjectSpaceProviderFactory.cs](./Services/ObjectSpaceProviderFactory.cs) implementation of `IObjectSpaceProviderFactory` interface that will manage Object Spaces for your business objects.
+	```C#
+    builder.Services.AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
+	
+	// ...
+	
+    public class ObjectSpaceProviderFactory : IObjectSpaceProviderFactory {
+        readonly ISecurityStrategyBase security;
+        readonly ITypesInfo typesInfo;
+        readonly IDbContextFactory<ApplicationDbContext> dbFactory;
+
+        public ObjectSpaceProviderFactory(ISecurityStrategyBase security, ITypesInfo typesInfo, IDbContextFactory<ApplicationDbContext> dbFactory) {
+            this.security = security;
+            this.typesInfo = typesInfo;
+            this.dbFactory = dbFactory;
+        }
+
+        IEnumerable<IObjectSpaceProvider> IObjectSpaceProviderFactory.CreateObjectSpaceProviders() {
+            yield return new SecuredEFCoreObjectSpaceProvider((ISelectDataSecurityProvider)security, dbFactory, typesInfo);
+        }
+    }
+	```
+
+- Set up database connection settings in your Data Store Provider object. Add security extension to `DbContextFactory` to allow your application to filter data based on user permissions.
+	```csharp
+    builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+        string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+        options.UseSqlServer(connectionString);
+        options.UseLazyLoadingProxies();
+        options.UseSecurity(serviceProvider);
+    }, ServiceLifetime.Scoped);
+	```
+		
+	The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
     ``` json
     "ConnectionStrings": {
         "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"
     }
     ```
 
-    > **!NOTE:** The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MS SQL database. We do not recommend that you remove “MultipleActiveResultSets=True;“ from the connection string or set the MultipleActiveResultSets parameter to false.
-    
-- Register HttpContextAccessor in the [Program.cs](Program.cs) to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
+    > **NOTE** The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MS SQL database. We do not recommend that you remove “MultipleActiveResultSets=True;“ from the connection string or set the MultipleActiveResultSets parameter to false.
+	
+- Register security system and authentication in the [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. We register [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
 
 	```csharp
-	builder.Services.AddHttpContextAccessor();
+	builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
+		options.RoleType = typeof(PermissionPolicyRole);
+		options.UserType = typeof(PermissionPolicyUser);
+	}).AddAuthenticationStandard();
 	```
 
-- In the [Program.cs](Program.cs) file, register the `TypesInfo` service required for the correct operation of the Security System.
-
+- Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
+	
 	```csharp
-	builder.Services.AddSingleton<ITypesInfo, TypesInfo>();
-	``` 
-
-- Call the UseDemoData method at the end of the [Program.cs](Program.cs):
-    
-    
-    ```csharp
-    public static class ApplicationBuilderExtensions {
-        public static WebApplication UseDemoData<TContext>(this WebApplication app, string connectionString, EFCoreDatabaseProviderHandler databaseProviderHandler) where TContext : DbContext {
-            ITypesInfo typesInfo = app.Services.GetRequiredService<ITypesInfo>();
-            using (var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(TContext), typesInfo, connectionString, databaseProviderHandler))
-            using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
-                new Updater(objectSpace).UpdateDatabase();
-            }
-            return app;
-        }
-    }
+	public static WebApplication UseDemoData(this WebApplication app) {
+        using var scope = app.Services.CreateScope();
+        var updatingObjectSpaceFactory = scope.ServiceProvider.GetRequiredService<IUpdatingObjectSpaceFactory>();
+        using var objectSpace = updatingObjectSpaceFactory
+            .CreateUpdatingObjectSpace(typeof(BusinessObjectsLibrary.BusinessObjects.Employee), true));
+        new Updater(objectSpace).UpdateDatabase();
+        return app;
+	}
     ```
     For more details about how to create demo data from code, see the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
-
-## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
-
-Register security system and authentication in [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, 
-so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
-
-```csharp
-builder.Services.AddScoped((serviceProvider) => {
-    AuthenticationMixed authentication = new AuthenticationMixed();
-    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
-    return security;
-});  
-```
-
-
-Add security extension to `DbContextFactory`to allow your application to filter data based on user permissions. The `DbContextFactory` registers in [Program.cs](Program.cs):
-
-```csharp
-builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
-    //...
-    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
-    options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);
-```
-
-The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
-
-```csharp
-public class SecurityProvider : IDisposable {
-    public SecurityStrategyComplex Security { get; private set; }
-    public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
-    IHttpContextAccessor contextAccessor;
-    IDbContextFactory<ApplicationDbContext> xafDbContextFactory;
-    public SecurityProvider(SecurityStrategyComplex security, IDbContextFactory<ApplicationDbContext> xafDbContextFactory, IHttpContextAccessor contextAccessor) {
-        this.xafDbContextFactory = xafDbContextFactory;
-        Security = security;
-        this.contextAccessor = contextAccessor;
-        if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
-            Initialize();
-        }
-    }
-    public void Initialize() {
-        ((AuthenticationMixed)Security.Authentication).SetupAuthenticationProvider(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
-        ObjectSpaceProvider = GetObjectSpaceProvider(Security);
-        Login(Security, ObjectSpaceProvider);
-    }
-    //...
-}
-```
-
-- Register `SecurityProvider`, in the [Program.cs](Program.cs).
-
-    ```csharp
-    builder.Services.AddScoped<SecurityProvider>();
-    ```
-
-
-- The `GetObjectSpaceProvider` method provides access to the Object Space Provider.
-
-    ```csharp
-    private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-        SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, xafDbContextFactory);
-        return objectSpaceProvider;
-    }
-    ```
-    
-- The `InitConnection` method authenticates a user both in the Security System and in [ASP.NET Core HttpContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontext?view=aspnetcore-2.2). 
-A user is identified by the user name and password parameters.
-
-    ```csharp
-    public bool InitConnection(string userName, string password) {
-        AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
-        Security.Logoff();
-        ((AuthenticationMixed)Security.Authentication).SetupAuthenticationProvider(typeof(AuthenticationStandardProvider).Name, parameters);
-        IObjectSpaceProvider objectSpaceProvider = GetObjectSpaceProvider(Security);
-        try {
-            Login(Security, objectSpaceProvider);
-            SignIn(contextAccessor.HttpContext, userName);
-            return true;
-        } catch {
-            return false;
-        }
-    }
-    //...
-    // Logs into the Security System.
-    private void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
-        IObjectSpace objectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();
-        security.Logon(objectSpace);
-    }
-    // Signs into HttpContext and creates a cookie.
-    private void SignIn(HttpContext httpContext, string userName) {
-        List<Claim> claims = new List<Claim>{
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
-            };
-        ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-        ClaimsPrincipal principal = new ClaimsPrincipal(id);
-        httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-    }
-    ```
 
 ## Step 3. Pages
 
 [Login.cshtml](Pages/Login.cshtml) is a login page that allows you to log into the application.
 
-[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses SecurityProveder and implements the Login logic.
+[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic.
 
 ```csharp
 public IActionResult OnPost() {
     Response.Cookies.Append("userName", Input.UserName ?? string.Empty);
     if(ModelState.IsValid) {
-        if(securityProvider.InitConnection(Input.UserName, Input.Password)) {
+        ClaimsPrincipal principal = authenticationStandard.Authenticate(new AuthenticationStandardLogonParameters(Input.UserName, Input.Password));
+        if(principal != null) {
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             return Redirect("/");
         }
         ModelState.AddModelError("Error", "User name or password is incorrect");
@@ -239,15 +201,9 @@ public IActionResult OnPost() {
 [Logout.cshtml.cs](Pages/Logout.cshtml.cs) class implements the Logout logic
 
 ```csharp
-public void OnGet() {
-    Input = new InputModel();
-    string userName = Request.Cookies["userName"]?.ToString();
-    Input.UserName = userName ?? "User";
-}
-public class InputModel {
-    [Required(ErrorMessage = "User name is required")]
-    public string UserName { get; set; }
-    public string Password { get; set; }
+public IActionResult OnGet() {
+    this.HttpContext.SignOutAsync();
+    return Redirect("/Login");
 }
 ```
 
@@ -260,6 +216,7 @@ protected override void OnInitialized() {
     objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
     employees = objectSpace.GetObjectsQuery<Employee>();
     departments = objectSpace.GetObjectsQuery<Department>();
+    base.OnInitialized();
 }
 ```
 
@@ -289,15 +246,15 @@ To show/hide the `New`, `Edit`, `Delete` actions, use the appropriate `CanXXX` m
 ```razor
 <DxDataGridCommandColumn Width="100px">
     <HeaderCellTemplate>
-        @if(securityProvider.Security.CanCreate<Employee>()) {
+        @if(Security.CanCreate<Employee>()) {
             <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
         }
     </HeaderCellTemplate>
     <CellTemplate>
-        @if(securityProvider.Security.CanWrite(context)) {
+        @if(Security.CanWrite(context)) {
             <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
         }
-        @if(securityProvider.Security.CanDelete(context)) {
+        @if(Security.CanDelete(context)) {
             <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
         }
     </CellTemplate>
