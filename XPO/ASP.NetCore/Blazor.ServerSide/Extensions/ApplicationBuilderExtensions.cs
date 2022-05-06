@@ -7,7 +7,7 @@ namespace Blazor.ServerSide.Services {
             using var scope = app.Services.CreateScope();
             var updatingObjectSpaceFactory = scope.ServiceProvider.GetRequiredService<IUpdatingObjectSpaceFactory>();
             using var objectSpace = updatingObjectSpaceFactory
-                .CreateUpdatingObjectSpace(typeof(BusinessObjectsLibrary.BusinessObjects.Employee), true));
+                .CreateUpdatingObjectSpace(typeof(BusinessObjectsLibrary.BusinessObjects.Employee), true);
             new Updater(objectSpace).UpdateDatabase();
             return app;
         }
