@@ -3,6 +3,7 @@ using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Core;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.WebApi.Services;
 using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using DevExtreme.OData.Services;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +20,7 @@ builder.Services
     .AddControllers(mvcOptions => {
         mvcOptions.EnableEndpointRouting = false;
     })
-    .AddOData(opt => opt
+    .AddOData((opt, services) => opt
         .Count()
         .Filter()
         .Expand()
@@ -26,13 +28,13 @@ builder.Services
         .OrderBy()
         .SetMaxTop(null)
         .AddRouteComponents(GetEdmModel())
+        .AddRouteComponents("api/odata", new EdmModelBuilder(services).GetEdmModel())
     );
 
-builder.Services.AddHttpContextAccessor();
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
-
+builder.Services.AddAuthorization();
 
 builder.Services
     .AddSingleton<ITypesInfo>(s => {
@@ -50,15 +52,48 @@ builder.Services
         options.UseSecurity(serviceProvider);
     }, ServiceLifetime.Scoped);
 
+builder.Services.AddXafWebApi(builder.Configuration, options => {
+    options.BusinessObject<Employee>();
+    options.BusinessObject<Department>();
+});
+
 builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
     options.RoleType = typeof(PermissionPolicyRole);
     options.UserType = typeof(PermissionPolicyUser);
-    options.SupportNavigationPermissionsForTypes = false;
 }).AddAuthenticationStandard();
+
+builder.Services.AddSwaggerGen(c => {
+    c.EnableAnnotations();
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "MainDemo", Version = "v1" });
+
+    c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme() {
+        Type = SecuritySchemeType.Http,
+        Name = "Bearer",
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement() {
+        {
+            new OpenApiSecurityScheme() {
+                Reference = new OpenApiReference() {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "JWT"
+                }
+            },
+            new string[0]
+        },
+    });
+});
+
 var app = builder.Build();
 
 if(app.Environment.IsDevelopment()) {
     app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MainDemo WebApi v1");
+    });
 }
 else {
     app.UseHsts();
@@ -69,6 +104,7 @@ app.UseODataBatching();
 app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseMiddleware<UnauthorizedRedirectMiddleware>();
 app.UseDefaultFiles();
 app.UseStaticFiles();
