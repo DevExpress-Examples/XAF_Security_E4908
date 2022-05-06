@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
@@ -9,8 +10,8 @@ using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Core;
 
 namespace DevExtreme.OData.Controllers {
-	public class ActionsController : ODataController, IDisposable {
-		readonly IObjectSpaceFactory objectSpaceFactory;
+    public class ActionsController : ODataController {
+        readonly IObjectSpaceFactory objectSpaceFactory;
         readonly SecurityStrategy security;
         readonly ITypesInfo typesInfo;
         public ActionsController(ISecurityProvider securityProvider, IObjectSpaceFactory objectSpaceFactory, ITypesInfo typesInfo) {
@@ -18,75 +19,64 @@ namespace DevExtreme.OData.Controllers {
             this.objectSpaceFactory = objectSpaceFactory;
             this.security = (SecurityStrategy)securityProvider.GetSecurity();
         }
-		[HttpPost("/GetPermissions")]
-		public ActionResult GetPermissions(ODataActionParameters parameters) {
-			ActionResult result = NoContent();
-			if(parameters.ContainsKey("keys") && parameters.ContainsKey("typeName")) {
-				IEnumerable<int> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => int.Parse(k));
-				string typeName = parameters["typeName"].ToString();
-				ITypeInfo typeInfo = typesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeName);
-				using(IObjectSpace objectSpace = objectSpaceFactory.CreateObjectSpace(typeInfo.Type)) {
-					if(typeInfo != null) {
-						IList entityList = objectSpace.GetObjects(typeInfo.Type, new InOperator(typeInfo.KeyMember.Name, keys));
-						List<ObjectPermission> objectPermissions = new List<ObjectPermission>();
-						foreach(object entity in entityList) {
-							ObjectPermission objectPermission = CreateObjectPermission(typeInfo, entity);
-							objectPermissions.Add(objectPermission);
-						}
-						result = Ok(objectPermissions);
-					}
-				}
-			}
-			return result;
-		}
-		[HttpGet("/GetTypePermissions")]
-		public ActionResult GetTypePermissions(string typeName) {
-			ActionResult result = NoContent();
-            ITypeInfo typeInfo = typesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeName);
-            using(IObjectSpace objectSpace = objectSpaceFactory.CreateObjectSpace(typeInfo.Type)) {
+
+        [HttpPost("/GetPermissions")]
+        public ActionResult GetPermissions(ODataActionParameters parameters) {
+            if(parameters.ContainsKey("keys") && parameters.ContainsKey("typeName")) {
+                string typeName = parameters["typeName"].ToString();
+
+                ITypeInfo typeInfo = typesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeName);
                 if(typeInfo != null) {
-					TypePermission typePermission = CreateTypePermission(typeInfo);
-					result = Ok(typePermission);
-				}
-			}
-            return result;
-		}
+                    Type type = typeInfo.Type;
+                    using IObjectSpace objectSpace = objectSpaceFactory.CreateObjectSpace(type);
+                    IEnumerable<Guid> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => Guid.Parse(k));
+                    IEnumerable<ObjectPermission> objectPermissions = objectSpace
+                        .GetObjects(type, new InOperator(typeInfo.KeyMember.Name, keys))
+                        .Cast<object>()
+                        .Select(entity => CreateObjectPermission(typeInfo, entity));
+
+                    return Ok(objectPermissions);
+                }
+            }
+            return NoContent();
+        }
+
+        [HttpGet("/GetTypePermissions")]
+        public ActionResult GetTypePermissions(string typeName) {
+            ITypeInfo typeInfo = typesInfo.PersistentTypes.FirstOrDefault(t => t.Name == typeName);
+            if(typeInfo != null) {
+                Type type = typeInfo.Type;
+                using IObjectSpace objectSpace = objectSpaceFactory.CreateObjectSpace(type);
+
+                var result = new TypePermission {
+                    Key = type.Name,
+                    Create = security.CanCreate(type)
+                };
+                foreach(IMemberInfo member in GetPersistentMembers(typeInfo)) {
+                    result.Data.Add(member.Name, security.CanWrite(type, member.Name));
+                }
+                return Ok(result);
+            }
+            return NoContent();
+        }
+
         private ObjectPermission CreateObjectPermission(ITypeInfo typeInfo, object entity) {
-            Type type = typeInfo.Type;
-            ObjectPermission objectPermission = new ObjectPermission();
-            objectPermission.Key = typeInfo.KeyMember.GetValue(entity).ToString();
-            objectPermission.Write = security.CanWrite(entity);
-            objectPermission.Delete = security.CanDelete(entity);
-            IEnumerable<IMemberInfo> members = GetPersistentMembers(typeInfo);
-            foreach(IMemberInfo member in members) {
-                MemberPermission memberPermission = CreateMemberPermission(entity, type, member);
-                objectPermission.Data.Add(member.Name, memberPermission);
+            var objectPermission = new ObjectPermission {
+                Key = typeInfo.KeyMember.GetValue(entity).ToString(),
+                Write = security.CanWrite(entity),
+                Delete = security.CanDelete(entity)
+            };
+            foreach(IMemberInfo member in GetPersistentMembers(typeInfo)) {
+                objectPermission.Data.Add(member.Name, new MemberPermission {
+                    Read = security.CanRead(entity, member.Name),
+                    Write = security.CanWrite(entity, member.Name)
+                });
             }
             return objectPermission;
         }
-        private MemberPermission CreateMemberPermission(object entity, Type type, IMemberInfo member) {
-            return new MemberPermission {
-                Read = security.CanRead(entity, member.Name),
-                Write = security.CanWrite(entity, member.Name)
-            };
-        }
+
         private static IEnumerable<IMemberInfo> GetPersistentMembers(ITypeInfo typeInfo) {
-			return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
-		}
-        private TypePermission CreateTypePermission(ITypeInfo typeInfo) {
-            Type type = typeInfo.Type;
-            TypePermission typePermission = new TypePermission();
-            typePermission.Key = type.Name;
-            typePermission.Create = security.CanCreate(type);
-            IEnumerable<IMemberInfo> members = GetPersistentMembers(typeInfo);
-            foreach(IMemberInfo member in members) {
-                bool writePermission = security.CanWrite(type, member.Name);
-                typePermission.Data.Add(member.Name, writePermission);
-            }
-            return typePermission;
+            return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
         }
-		public void Dispose() {
-			security?.Dispose();
-		}
-	}
+    }
 }

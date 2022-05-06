@@ -41,15 +41,15 @@
             </DxDataGridComboBoxColumn>
             <DxDataGridCommandColumn Width="100px">
                 <HeaderCellTemplate>
-                    @if(((SecurityStrategy)securityProvider.GetSecurity()).CanCreate<Employee>()) {
+                    @if(Security.CanCreate<Employee>()) {
                         <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
                     }
                 </HeaderCellTemplate>
                 <CellTemplate>
-                    @if(((SecurityStrategy)securityProvider.GetSecurity()).CanWrite(context)) {
+                    @if(Security.CanWrite(context)) {
                         <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
                     }
-                    @if(((SecurityStrategy)securityProvider.GetSecurity()).CanDelete(context)) {
+                    @if(Security.CanDelete(context)) {
                         <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
                     }
                 </CellTemplate>
@@ -105,15 +105,17 @@
     </DxDataGrid>
 </CascadingValue>
 
-@code{
+@code {
     IQueryable<Employee> employees;
     IQueryable<Department> departments;
     DxDataGrid<Employee> grid;
     Employee employee = null;
     IObjectSpace objectSpace;
-        
+
+	SecurityStrategy Security => (SecurityStrategy)securityProvider.GetSecurity();
+
     protected override void OnInitialized() {
-        objectSpace = objectSpaceFactory.CreateObjectSpace(typeof(Employee));
+        objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
         employees = objectSpace.GetObjectsQuery<Employee>();
         departments = objectSpace.GetObjectsQuery<Department>();
         base.OnInitialized();

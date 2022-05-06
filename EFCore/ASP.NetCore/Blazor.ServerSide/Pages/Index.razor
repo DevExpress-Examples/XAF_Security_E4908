@@ -2,9 +2,9 @@
 @attribute [Authorize]
 @implements IDisposable
 @inject IObjectSpaceFactory objectSpaceFactory
-@inject ISecurityProvider securityProvider;
+@inject ISecurityProvider securityProvider
 
-<div style="text-align:right; margin: 10px">
+<div style="text-align: right; margin: 10px">
     <a class="ml-md-auto btn btn-primary" href="/logout">Log Out</a>
 </div>
 
@@ -41,15 +41,15 @@
             </DxDataGridComboBoxColumn>
             <DxDataGridCommandColumn Width="100px">
                 <HeaderCellTemplate>
-                    @if(((SecurityStrategy)securityProvider.GetSecurity()).CanCreate<Employee>()) {
+                    @if(Security.CanCreate<Employee>()) {
                         <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
                     }
                 </HeaderCellTemplate>
                 <CellTemplate>
-                    @if(((SecurityStrategy)securityProvider.GetSecurity()).CanWrite(context)) {
+                    @if(Security.CanWrite(context)) {
                         <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
                     }
-                    @if(((SecurityStrategy)securityProvider.GetSecurity()).CanDelete(context)) {
+                    @if(Security.CanDelete(context)) {
                         <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
                     }
                 </CellTemplate>
@@ -108,17 +108,19 @@
 @code {
     IQueryable<Employee> employees;
     IQueryable<Department> departments;
-    IObjectSpace objectSpace;
-    Employee employee = null;
     DxDataGrid<Employee> grid;
+    Employee employee = null;
+    IObjectSpace objectSpace;
+
+	SecurityStrategy Security => (SecurityStrategy)securityProvider.GetSecurity();
 
     protected override void OnInitialized() {
         objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
         employees = objectSpace.GetObjectsQuery<Employee>();
         departments = objectSpace.GetObjectsQuery<Department>();
-
         base.OnInitialized();
     }
+
     Task OnRowRemoving(object item) {
         objectSpace.Delete(item);
         objectSpace.CommitChanges();
