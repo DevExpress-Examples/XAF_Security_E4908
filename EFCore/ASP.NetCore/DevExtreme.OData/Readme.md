@@ -69,16 +69,9 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
 	```csharp
     IEdmModel GetEdmModel() {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
-        EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
-        EntitySetConfiguration<Department> departments = builder.EntitySet<Department>("Departments");
-        EntitySetConfiguration<Party> parties = builder.EntitySet<Party>("Parties");
         EntitySetConfiguration<ObjectPermission> objectPermissions = builder.EntitySet<ObjectPermission>("ObjectPermissions");
         EntitySetConfiguration<MemberPermission> memberPermissions = builder.EntitySet<MemberPermission>("MemberPermissions");
         EntitySetConfiguration<TypePermission> typePermissions = builder.EntitySet<TypePermission>("TypePermissions");
-
-        employees.EntityType.HasKey(t => t.ID);
-        departments.EntityType.HasKey(t => t.ID);
-        parties.EntityType.HasKey(t => t.ID);
 
         ActionConfiguration login = builder.Action("Login");
         login.Parameter<string>("userName");
@@ -174,7 +167,6 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
 	```C#
     builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
         TypesInfo typesInfo = new TypesInfo();
-        typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
         typesInfo.RegisterEntity(typeof(Employee));
         typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
         typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
@@ -188,20 +180,19 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
 	
 	// ...
 	
-	public class ObjectSpaceProviderFactory : IObjectSpaceProviderFactory {
+    public class ObjectSpaceProviderFactory : IObjectSpaceProviderFactory {
         readonly ISecurityStrategyBase security;
-        readonly IXpoDataStoreProvider xpoDataStoreProvider;
         readonly ITypesInfo typesInfo;
+        readonly IDbContextFactory<ApplicationDbContext> dbFactory;
 
-        public ObjectSpaceProviderFactory(ISecurityStrategyBase security, IXpoDataStoreProvider xpoDataStoreProvider, ITypesInfo typesInfo) {
+        public ObjectSpaceProviderFactory(ISecurityStrategyBase security, ITypesInfo typesInfo, IDbContextFactory<ApplicationDbContext> dbFactory) {
             this.security = security;
             this.typesInfo = typesInfo;
-            this.xpoDataStoreProvider = xpoDataStoreProvider;
-
+            this.dbFactory = dbFactory;
         }
 
         IEnumerable<IObjectSpaceProvider> IObjectSpaceProviderFactory.CreateObjectSpaceProviders() {
-            yield return new SecuredObjectSpaceProvider((ISelectDataSecurityProvider)security, xpoDataStoreProvider, typesInfo, null, true);
+            yield return new SecuredEFCoreObjectSpaceProvider((ISelectDataSecurityProvider)security, dbFactory, typesInfo);
         }
     }
 	```
@@ -255,7 +246,7 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
 	builder.Services.AddXafWebApi(builder.Configuration, options => {
 	    options.BusinessObject<Employee>();
 	    options.BusinessObject<Department>();
-	}).AddXpoServices();
+	});
 	```
 
 - [AccountController](Controllers/AccountController.cs) handles the Login and Logout operations.
@@ -311,7 +302,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
                 if(typeInfo != null) {
                     Type type = typeInfo.Type;
                     using IObjectSpace objectSpace = objectSpaceFactory.CreateObjectSpace(type);
-                    IEnumerable<Guid> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => Guid.Parse(k));
+                    IEnumerable<int> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => int.Parse(k));
                     IEnumerable<ObjectPermission> objectPermissions = objectSpace
                         .GetObjects(type, new InOperator(typeInfo.KeyMember.Name, keys))
                         .Cast<object>()
