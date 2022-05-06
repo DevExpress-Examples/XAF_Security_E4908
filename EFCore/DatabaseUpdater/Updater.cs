@@ -65,7 +65,7 @@ namespace DatabaseUpdater {
 
                 userRole.AddObjectPermissionFromLambda<Employee>(SecurityOperations.Delete, t => !t.Email.Contains(protectedEmail), SecurityPermissionState.Allow);
                 userRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Write, nameof(Employee.LastName), t => t.Email.Contains(protectedEmail), SecurityPermissionState.Deny);
-                userRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Read, nameof(Employee.Department), t => t.Email.Contains(protectedEmail), SecurityPermissionState.Deny);
+                userRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Write, nameof(Employee.Department), t => t.Email.Contains(protectedEmail), SecurityPermissionState.Deny);
                 // For more information on criteria language syntax (both string and strongly-typed formats), see https://docs.devexpress.com/CoreLibraries/4928/.
             }
             return userRole;

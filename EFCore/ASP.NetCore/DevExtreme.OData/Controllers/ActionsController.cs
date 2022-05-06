@@ -29,11 +29,12 @@ namespace DevExtreme.OData.Controllers {
                 if(typeInfo != null) {
                     Type type = typeInfo.Type;
                     using IObjectSpace objectSpace = objectSpaceFactory.CreateObjectSpace(type);
-                    IEnumerable<Guid> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => Guid.Parse(k));
+                    IEnumerable<int> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => int.Parse(k));
                     IEnumerable<ObjectPermission> objectPermissions = objectSpace
                         .GetObjects(type, new InOperator(typeInfo.KeyMember.Name, keys))
                         .Cast<object>()
-                        .Select(entity => CreateObjectPermission(typeInfo, entity));
+                        .Select(entity => CreateObjectPermission(typeInfo, entity))
+                        .ToList();
 
                     return Ok(objectPermissions);
                 }

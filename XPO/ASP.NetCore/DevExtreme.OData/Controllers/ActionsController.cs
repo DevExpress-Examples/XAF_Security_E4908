@@ -32,8 +32,9 @@ namespace DevExtreme.OData.Controllers {
                     IEnumerable<Guid> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => Guid.Parse(k));
                     IEnumerable<ObjectPermission> objectPermissions = objectSpace
                         .GetObjects(type, new InOperator(typeInfo.KeyMember.Name, keys))
-                        .Cast<object>()
-                        .Select(entity => CreateObjectPermission(typeInfo, entity));
+                        .Cast<object>() 
+                        .Select(entity => CreateObjectPermission(typeInfo, entity))
+                        .ToList();
 
                     return Ok(objectPermissions);
                 }
