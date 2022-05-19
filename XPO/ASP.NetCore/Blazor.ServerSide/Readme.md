@@ -24,158 +24,192 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
 
-- Configure the Blazor application in the [Program.cs](Program.cs):
+Configure the Blazor application in the [Program.cs](Program.cs):
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddDevExpressBlazor();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
+builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
+    string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+    IXpoDataStoreProvider dataStoreProvider = XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+    return dataStoreProvider;
+});
+
+var app = builder.Build();
+if (app.Environment.IsDevelopment()) {
+    app.UseDeveloperExceptionPage();
+}
+else {
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+app.UseSession();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseAuthentication();
+app.UseDefaultFiles();
+app.UseRouting();
+app.UseEndpoints(endpoints => {
+    endpoints.MapFallbackToPage("/_Host");
+    endpoints.MapBlazorHub();
+});
+app.UseDemoData();
+app.Run();
+```
+- The `IXpoDataStoreProvider` provides access to the Data Store Provider object.
+
+- The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
+    ``` json
+    "ConnectionStrings": {
+        "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+    }
+    ```
+        
+- Register HttpContextAccessor in the [Program.cs](Program.cs) to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
 
 	```csharp
-	var builder = WebApplication.CreateBuilder(args);
-	builder.Services.AddRazorPages();
-	builder.Services.AddServerSideBlazor();
-	builder.Services.AddDevExpressBlazor();
-	builder.Services.AddSession();
-
-	var app = builder.Build();
-	if (app.Environment.IsDevelopment()) {
-	    app.UseDeveloperExceptionPage();
-	}
-	else {
-	    app.UseExceptionHandler("/Error");
-	    app.UseHsts();
-	}
-	app.UseSession();
-	app.UseHttpsRedirection();
-	app.UseRouting();
-	app.UseEndpoints(endpoints => {
-	    endpoints.MapFallbackToPage("/_Host");
-	    endpoints.MapBlazorHub();
-	});
-	app.Run();
+	builder.Services.AddHttpContextAccessor();
 	```
 
-- Enable the authentication service and configure the request pipeline with the authentication middleware in the [Program.cs](Program.cs). 
-[UnauthorizedRedirectMiddleware](UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
+- In the [Program.cs](Program.cs) file, register the `TypesInfo` service required for the correct operation of the Security System.
 
 	```csharp
-	var builder = WebApplication.CreateBuilder(args);
-	//...
-	builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-		.AddCookie();
-	builder.Services.AddAuthorization();
-
-	var app = builder.Build();
-	//...
-	app.UseAuthentication();
-	app.UseAuthorization();
-	app.UseMiddleware<UnauthorizedRedirectMiddleware>();
-	app.UseDefaultFiles();
-	app.UseStaticFiles();
-	app.UseHttpsRedirection();
-	app.UseCookiePolicy();
-
-	//...
-	public class UnauthorizedRedirectMiddleware {
-		// ...
-		public async Task InvokeAsync(HttpContext context) {
-			if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
-				|| IsAllowAnonymous(context)) {
-				await _next(context);
-			}
-			else {
-				context.Response.Redirect(authenticationPagePath);
-			}
-		}
-		// ...
-	}
+	builder.Services.AddSingleton<ITypesInfo, TypesInfo>();
 	```
-## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
 
 - Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
-	```C#
-    builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
-        TypesInfo typesInfo = new TypesInfo();
-        typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
-        typesInfo.RegisterEntity(typeof(Employee));
-        typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
-        typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
-        return typesInfo;
-    })
-	```
 
-- Register your [ObjectSpaceProviderFactory.cs](./Services/ObjectSpaceProviderFactory.cs) implementation of `IObjectSpaceProviderFactory` interface that will manage Object Spaces for your business objects.
-	```C#
-    builder.Services.AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
-	
-	// ...
-	
-	public class ObjectSpaceProviderFactory : IObjectSpaceProviderFactory {
-        readonly ISecurityStrategyBase security;
-        readonly IXpoDataStoreProvider xpoDataStoreProvider;
-        readonly ITypesInfo typesInfo;
-
-        public ObjectSpaceProviderFactory(ISecurityStrategyBase security, IXpoDataStoreProvider xpoDataStoreProvider, ITypesInfo typesInfo) {
-            this.security = security;
-            this.typesInfo = typesInfo;
-            this.xpoDataStoreProvider = xpoDataStoreProvider;
-
-        }
-
-        IEnumerable<IObjectSpaceProvider> IObjectSpaceProviderFactory.CreateObjectSpaceProviders() {
-            yield return new SecuredObjectSpaceProvider((ISelectDataSecurityProvider)security, xpoDataStoreProvider, typesInfo, null, true);
-        }
-    }
-	```
-
-- Set up database connection settings in your Data Store Provider object. In XPO, it is `IXpoDataStoreProvider`.
-	```csharp
-	    builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
-	        var connectionString = serviceProvider.GetRequiredService<IConfiguration>().GetConnectionString("ConnectionString");
-	        return XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
-    	});
-	```
-		
-	The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
-	``` json
-	"ConnectionStrings": {
-		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
-	}
-	```
-
-- Register security system and authentication in the [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. We register [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
-
-	```csharp
-	builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
-		options.RoleType = typeof(PermissionPolicyRole);
-		options.UserType = typeof(PermissionPolicyUser);
-		options.Events.OnSecurityStrategyCreated = strategy => ((SecurityStrategy)strategy).RegisterXPOAdapterProviders();
-	}).AddAuthenticationStandard();
-	```
+    ```csharp
+    typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
+    typesInfo.RegisterEntity(typeof(Employee));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+    typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+    ```
 
 - Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
-	
-	```csharp
-	public static WebApplication UseDemoData(this WebApplication app) {
-        using var scope = app.Services.CreateScope();
-        var updatingObjectSpaceFactory = scope.ServiceProvider.GetRequiredService<IUpdatingObjectSpaceFactory>();
-        using var objectSpace = updatingObjectSpaceFactory
-            .CreateUpdatingObjectSpace(typeof(BusinessObjectsLibrary.BusinessObjects.Employee), true));
-        new Updater(objectSpace).UpdateDatabase();
-        return app;
+    
+    
+    ```csharp
+    public static WebApplication UseDemoData(this WebApplication app) {
+		IXpoDataStoreProvider xpoDataStoreProvider = app.Services.GetRequiredService<IXpoDataStoreProvider>();
+		ITypesInfo typesInfo = app.Services.GetRequiredService<ITypesInfo>();
+		using (var objectSpaceProvider = new XPObjectSpaceProvider(xpoDataStoreProvider, typesInfo, null)) {
+			using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
+				new Updater(objectSpace).UpdateDatabase();
+			}
+		}
+		return app;
 	}
     ```
     For more details about how to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
+
+## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
+
+Register security system and authentication in the [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. The `AuthenticationMixed` class allows you to register several authentication providers, so you can use both [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication.
+
+```csharp
+builder.Services.AddScoped((serviceProvider) => {
+    AuthenticationMixed authentication = new AuthenticationMixed();
+    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
+    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
+    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
+    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
+    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
+    return security;
+});  
+```
+
+The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
+
+```csharp
+public class SecurityProvider : IDisposable {
+    public SecurityStrategyComplex Security { get; private set; }
+    public IObjectSpaceProvider ObjectSpaceProvider { get; private set; }
+    IXpoDataStoreProvider xpoDataStoreProvider;
+    IHttpContextAccessor contextAccessor;
+    public SecurityProvider(SecurityStrategyComplex security, IXpoDataStoreProvider xpoDataStoreProvider, IHttpContextAccessor contextAccessor) {
+        Security = security;
+        this.xpoDataStoreProvider = xpoDataStoreProvider;
+        this.contextAccessor = contextAccessor;
+        if(contextAccessor.HttpContext.User.Identity.IsAuthenticated) {
+            Initialize();
+        }
+    }
+     public void Initialize() {
+        ((AuthenticationMixed)Security.Authentication).SetupAuthenticationProvider(typeof(IdentityAuthenticationProvider).Name, contextAccessor.HttpContext.User.Identity);
+        ObjectSpaceProvider = GetObjectSpaceProvider(Security);
+        Login(Security, ObjectSpaceProvider);
+    }
+    //...
+}
+```
+
+- Register `SecurityProvider`, in the [Program.cs](Program.cs).
+
+    ```csharp
+    builder.Services.AddScoped<SecurityProvider>();
+    ```
+
+
+- The `GetObjectSpaceProvider` method provides access to the Object Space Provider. 
+
+    ```csharp
+    private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
+		SecuredObjectSpaceProvider objectSpaceProvider = new SecuredObjectSpaceProvider(security, xpoDataStoreProvider, security.TypesInfo, null);
+		return objectSpaceProvider;
+	}
+    ```
+    
+- The `InitConnection` method authenticates a user both in the Security System and in [ASP.NET Core HttpContext](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.httpcontext?view=aspnetcore-2.2). 
+A user is identified by the user name and password parameters.
+
+    ```csharp
+    public bool InitConnection(string userName, string password) {
+        AuthenticationStandardLogonParameters parameters = new AuthenticationStandardLogonParameters(userName, password);
+        Security.Logoff();
+        ((AuthenticationMixed)Security.Authentication).SetupAuthenticationProvider(typeof(AuthenticationStandardProvider).Name, parameters);
+        IObjectSpaceProvider objectSpaceProvider = GetObjectSpaceProvider(Security);
+        try {
+            Login(Security, objectSpaceProvider);
+            SignIn(contextAccessor.HttpContext, userName);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+    //...
+    // Logs into the Security System.
+    private void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
+        IObjectSpace objectSpace = ((INonsecuredObjectSpaceProvider)objectSpaceProvider).CreateNonsecuredObjectSpace();
+        security.Logon(objectSpace);
+    }
+    // Signs into HttpContext and creates a cookie.
+    private void SignIn(HttpContext httpContext, string userName) {
+        List<Claim> claims = new List<Claim>{
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
+        ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+        ClaimsPrincipal principal = new ClaimsPrincipal(id);
+        httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+    }
+    ```
 
 ## Step 3. Pages
 
 [Login.cshtml](Pages/Login.cshtml) is a login page that allows you to log into the application.
 
-[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic.
+[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses SecurityProveder and implements the Login logic.
 
 ```csharp
 public IActionResult OnPost() {
     Response.Cookies.Append("userName", Input.UserName ?? string.Empty);
     if(ModelState.IsValid) {
-        ClaimsPrincipal principal = authenticationStandard.Authenticate(new AuthenticationStandardLogonParameters(Input.UserName, Input.Password));
-        if(principal != null) {
-            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+        if(securityProvider.InitConnection(Input.UserName, Input.Password)) {
             return Redirect("/");
         }
         ModelState.AddModelError("Error", "User name or password is incorrect");
@@ -187,9 +221,15 @@ public IActionResult OnPost() {
 [Logout.cshtml.cs](Pages/Logout.cshtml.cs) class implements the Logout logic
 
 ```csharp
-public IActionResult OnGet() {
-    this.HttpContext.SignOutAsync();
-    return Redirect("/Login");
+public void OnGet() {
+    Input = new InputModel();
+    string userName = Request.Cookies["userName"]?.ToString();
+    Input.UserName = userName ?? "User";
+}
+public class InputModel {
+    [Required(ErrorMessage = "User name is required")]
+    public string UserName { get; set; }
+    public string Password { get; set; }
 }
 ```
 
@@ -202,7 +242,6 @@ protected override void OnInitialized() {
     objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
     employees = objectSpace.GetObjectsQuery<Employee>();
     departments = objectSpace.GetObjectsQuery<Department>();
-    base.OnInitialized();
 }
 ```
 
@@ -232,15 +271,15 @@ To show/hide the `New`, `Edit`, `Delete` actions, use the appropriate `CanXXX` m
 ```razor
 <DxDataGridCommandColumn Width="100px">
     <HeaderCellTemplate>
-        @if(Security.CanCreate<Employee>()) {
+        @if(securityProvider.Security.CanCreate<Employee>()) {
             <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
         }
     </HeaderCellTemplate>
     <CellTemplate>
-        @if(Security.CanWrite(context)) {
+        @if(securityProvider.Security.CanWrite(context)) {
             <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
         }
-        @if(Security.CanDelete(context)) {
+        @if(securityProvider.Security.CanDelete(context)) {
             <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
         }
     </CellTemplate>
