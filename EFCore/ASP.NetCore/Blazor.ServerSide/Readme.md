@@ -144,7 +144,7 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, opt
     options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);
 ```
 
-The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
+The SecurityProvider class contains helper functions that provide access to XAF Security System functionality.
 
 ```csharp
 public class SecurityProvider : IDisposable {

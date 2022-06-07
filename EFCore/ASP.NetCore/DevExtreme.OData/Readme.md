@@ -312,7 +312,7 @@ A user is identified by the user name and password parameters.
 
 ## Step 3: Implement OData Controllers for CRUD, Login, Logoff, etc.
 
-1. [EmployeesController](Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
+1. EmployeesController has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
 
     ```csharp
     public class EmployeesController : ODataController, IDisposable {
@@ -378,7 +378,7 @@ A user is identified by the user name and password parameters.
     
     [JsonParser](Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
 
-2. [DepartmentsController](Controllers/DepartmentsController.cs) has methods to get access to Department objects.
+2. DepartmentsController has methods to get access to Department objects.
  
     ```csharp
     public class DepartmentsController : ODataController, IDisposable {
