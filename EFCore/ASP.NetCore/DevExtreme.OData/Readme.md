@@ -233,7 +233,7 @@ This example demonstrates how to protect your data with the [XAF Security System
     }, ServiceLifetime.Scoped);
     ```
 
-    The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
+    The SecurityProvider class contains helper functions that provide access to XAF Security System functionality.
 
     ```csharp
     public class SecurityProvider : IDisposable {
