@@ -75,17 +75,24 @@ For detailed information about the ASP.NET Core application configuration, see [
 
 	//...
 	public class UnauthorizedRedirectMiddleware {
-		// ...
-		public async Task InvokeAsync(HttpContext context) {
-			if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
-				|| IsAllowAnonymous(context)) {
-				await _next(context);
-			}
-			else {
-				context.Response.Redirect(authenticationPagePath);
-			}
-		}
-		// ...
+	    private const string authenticationPagePath = "/Authentication.html";
+	    private readonly RequestDelegate _next;
+	    public UnauthorizedRedirectMiddleware(RequestDelegate next) {
+	        _next = next;
+	    }
+	    public async Task InvokeAsync(HttpContext context) {
+	        if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
+	            || IsAllowAnonymous(context)) {
+	            await _next(context);
+	        } else {
+	            context.Response.Redirect(authenticationPagePath);
+	        }
+	    }
+	    private static bool IsAllowAnonymous(HttpContext context) {
+	        string referer = context.Request.Headers["Referer"];
+	        return context.Request.Path.HasValue && context.Request.Path.StartsWithSegments(authenticationPagePath)
+	            || referer != null && referer.Contains(authenticationPagePath);
+	    }
 	}
 	```
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
@@ -102,7 +109,7 @@ For detailed information about the ASP.NET Core application configuration, see [
     })
 	```
 
-- Register your [ObjectSpaceProviderFactory.cs](./Services/ObjectSpaceProviderFactory.cs) implementation of `IObjectSpaceProviderFactory` interface that will manage Object Spaces for your business objects.
+- Register ObjectSpaceProviders that will be used in you application by implementing the [ObjectSpaceProviderFactory.cs](./Services/ObjectSpaceProviderFactory.cs) [IObjectSpaceProviderFactory]() interface.
 	```C#
     builder.Services.AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
 	
@@ -128,20 +135,20 @@ For detailed information about the ASP.NET Core application configuration, see [
 
 - Set up database connection settings in your Data Store Provider object. In XPO, it is `IXpoDataStoreProvider`.
 	```csharp
-	    builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
-	        var connectionString = serviceProvider.GetRequiredService<IConfiguration>().GetConnectionString("ConnectionString");
-	        return XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
-    	});
+    builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
+        var connectionString = serviceProvider.GetRequiredService<IConfiguration>().GetConnectionString("ConnectionString");
+        return XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
+	});
 	```
 		
-	The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
+	The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. Add the database connection string to it.
 	``` json
 	"ConnectionStrings": {
 		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 	}
 	```
 
-- Register security system and authentication in the [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. We register [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
+- Register security system and authentication in the [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
 
 	```csharp
 	builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
@@ -151,7 +158,7 @@ For detailed information about the ASP.NET Core application configuration, see [
 	}).AddAuthenticationStandard();
 	```
 
-- Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
+- Update the database using the following `UseDemoData` method at the end of the [Program.cs](Program.cs):
 	
 	```csharp
 	public static WebApplication UseDemoData(this WebApplication app) {
@@ -169,9 +176,13 @@ For detailed information about the ASP.NET Core application configuration, see [
 
 [Login.cshtml](Pages/Login.cshtml) is a login page that allows you to log into the application.
 
-[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic.
+[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic. It authenticates user with the AuthenticationStandard authentication and return a ClaimsPrincipal object with all the necessary XAF Security data. That principal is then authenticated to the ASP.NET Core Identity authentication.
 
 ```csharp
+readonly IStandardAuthenticationService authenticationStandard;
+
+// ...
+
 public IActionResult OnPost() {
     Response.Cookies.Append("userName", Input.UserName ?? string.Empty);
     if(ModelState.IsValid) {
@@ -195,13 +206,13 @@ public IActionResult OnGet() {
 }
 ```
 
-[Index.razor](Pages/Index.razor) is the main page. It configures the [Blazor Data Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxDataGrid-1) and allows a use to log out.
+[Index.razor](Pages/Index.razor) is the main page. It configures the [Blazor Data Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxDataGrid-1) and also allows user to log out.
 
 The `OnInitialized` method creates an ObjectSpace instance and gets Employee and Department objects.
 
 ```csharp
 protected override void OnInitialized() {
-    objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+    objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
     employees = objectSpace.GetObjectsQuery<Employee>();
     departments = objectSpace.GetObjectsQuery<Department>();
     base.OnInitialized();
@@ -212,7 +223,7 @@ The `HandleValidSubmit` method saves changes if data is valid.
 
 ```csharp
 async Task HandleValidSubmit() {
-    ObjectSpace.CommitChanges();
+    objectSpace.CommitChanges();
     await grid.Refresh();
     employee = null;
     await grid.CancelRowEdit();
@@ -223,13 +234,13 @@ The `OnRowRemoving` method removes an object.
 
 ```csharp
 Task OnRowRemoving(object item) {
-    ObjectSpace.Delete(item);
-    ObjectSpace.CommitChanges();
+    objectSpace.Delete(item);
+    objectSpace.CommitChanges();
     return grid.Refresh();
 }
 ```
 
-To show/hide the `New`, `Edit`, `Delete` actions, use the appropriate `CanXXX` methods of the Security System.
+To show/hide the `New`, `Edit`, `Delete` actions, use the appropriate `CanCreate`, `CanEdit` and `CanDelete` methods of the Security System.
 
 ```razor
 <DxDataGridCommandColumn Width="100px">
@@ -279,7 +290,7 @@ To show the `*******` text instead of the default text, check the Read permissio
 Use the `CanWrite` method of the Security System to check if a user is allowed to edit a property and an editor should be created for this property.
 
 ```razor
-private bool HasAccess => ObjectSpace.IsNewObject(CurrentObject) ?
+private bool HasAccess => objectSpace.IsNewObject(CurrentObject) ?
     SecurityProvider.Security.CanWrite(CurrentObject.GetType(), PropertyName) :
     SecurityProvider.Security.CanRead(CurrentObject, PropertyName);
 ```

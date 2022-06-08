@@ -21,7 +21,7 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
 
 ## Step 1: Configure the ASP.NET Core Server App
 For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows).
-- Configure the OData and MVC pipelines in the [Program.cs](Program.cs):
+- [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the OData and MVC pipelines in the [Program.cs](Program.cs):
 
 	```csharp
 	var builder = WebApplication.CreateBuilder(args);
@@ -141,17 +141,24 @@ For detailed information about ASP.NET Core application configuration, see [offi
 
 	//...
 	public class UnauthorizedRedirectMiddleware {
-		// ...
-		public async Task InvokeAsync(HttpContext context) {
-			if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
-				|| IsAllowAnonymous(context)) {
-				await _next(context);
-			}
-			else {
-				context.Response.Redirect(authenticationPagePath);
-			}
-		}
-		// ...
+	    private const string authenticationPagePath = "/Authentication.html";
+	    private readonly RequestDelegate _next;
+	    public UnauthorizedRedirectMiddleware(RequestDelegate next) {
+	        _next = next;
+	    }
+	    public async Task InvokeAsync(HttpContext context) {
+	        if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
+	            || IsAllowAnonymous(context)) {
+	            await _next(context);
+	        } else {
+	            context.Response.Redirect(authenticationPagePath);
+	        }
+	    }
+	    private static bool IsAllowAnonymous(HttpContext context) {
+	        string referer = context.Request.Headers["Referer"];
+	        return context.Request.Path.HasValue && context.Request.Path.StartsWithSegments(authenticationPagePath)
+	            || referer != null && referer.Contains(authenticationPagePath);
+	    }
 	}
 	```
 
@@ -169,7 +176,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
     })
 	```
 
-- Register your [ObjectSpaceProviderFactory.cs](./Services/ObjectSpaceProviderFactory.cs) implementation of `IObjectSpaceProviderFactory` interface that will manage Object Spaces for your business objects.
+- Register ObjectSpaceProviders that will be used in you application by implementing the [ObjectSpaceProviderFactory.cs](./Services/ObjectSpaceProviderFactory.cs) [IObjectSpaceProviderFactory]() interface.
 	```C#
     builder.Services.AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
 	
@@ -201,14 +208,14 @@ For detailed information about ASP.NET Core application configuration, see [offi
     	});
 	```
 		
-	The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
+	The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. Add the database connection string to it.
 	``` json
 	"ConnectionStrings": {
 		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 	}
 	```
 
-- Register security system and authentication in the [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. We register [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
+- Register security system and authentication in the [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
 
 	```csharp
 	builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
@@ -217,8 +224,8 @@ For detailed information about ASP.NET Core application configuration, see [offi
 		options.Events.OnSecurityStrategyCreated = strategy => ((SecurityStrategy)strategy).RegisterXPOAdapterProviders();
 	}).AddAuthenticationStandard();
 	```
-	
-- Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
+
+- Update the database using the following `UseDemoData` method at the end of the [Program.cs](Program.cs):
 	
 	```csharp
 	public static WebApplication UseDemoData(this WebApplication app) {

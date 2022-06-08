@@ -86,17 +86,24 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 	//...
 	public class UnauthorizedRedirectMiddleware {
-		// ...
-		public async Task InvokeAsync(HttpContext context) {
-			if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
-				|| IsAllowAnonymous(context)) {
-				await _next(context);
-			}
-			else {
-				context.Response.Redirect(authenticationPagePath);
-			}
-		}
-		// ...
+	    private const string authenticationPagePath = "/Authentication.html";
+	    private readonly RequestDelegate _next;
+	    public UnauthorizedRedirectMiddleware(RequestDelegate next) {
+	        _next = next;
+	    }
+	    public async Task InvokeAsync(HttpContext context) {
+	        if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
+	            || IsAllowAnonymous(context)) {
+	            await _next(context);
+	        } else {
+	            context.Response.Redirect(authenticationPagePath);
+	        }
+	    }
+	    private static bool IsAllowAnonymous(HttpContext context) {
+	        string referer = context.Request.Headers["Referer"];
+	        return context.Request.Path.HasValue && context.Request.Path.StartsWithSegments(authenticationPagePath)
+	            || referer != null && referer.Contains(authenticationPagePath);
+	    }
 	}
 	```
 
@@ -114,7 +121,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
     })
 	```
 
-- Register your [ObjectSpaceProviderFactory.cs](./Services/ObjectSpaceProviderFactory.cs) implementation of `IObjectSpaceProviderFactory` interface that will manage Object Spaces for your business objects.
+- Register ObjectSpaceProviders that will be used in you application by implementing the [ObjectSpaceProviderFactory.cs](./Services/ObjectSpaceProviderFactory.cs) [IObjectSpaceProviderFactory]() interface.
 	```C#
     builder.Services.AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
 	
@@ -137,7 +144,8 @@ You will also see how to execute Create, Write, and Delete data operations and t
     }
 	```
 
-- Set up database connection settings in your Data Store Provider object. Add security extension to `DbContextFactory` to allow your application to filter data based on user permissions.
+
+- Set up database connection settings in your Data Store Provider object. In EFCore, it is `DbContextFactory`.  Add security extension to it to allow your application to filter data based on user permissions.
 	```csharp
     builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
         string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
@@ -147,7 +155,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
     }, ServiceLifetime.Scoped);
 	```
 		
-	The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
+	The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. Add the database connection string to it.
     ``` json
     "ConnectionStrings": {
         "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"
@@ -155,8 +163,8 @@ You will also see how to execute Create, Write, and Delete data operations and t
     ```
 
     > **NOTE** The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MS SQL database. We do not recommend that you remove “MultipleActiveResultSets=True;“ from the connection string or set the MultipleActiveResultSets parameter to false.
-	
-- Register security system and authentication in the [Program.cs](Program.cs). We register it as a scoped to have access to SecurityStrategyComplex from SecurityProvider. We register [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
+
+- Register security system and authentication in the [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
 
 	```csharp
 	builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
@@ -165,7 +173,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
 	}).AddAuthenticationStandard();
 	```
 
-- Call the `UseDemoData` method at the end of the [Program.cs](Program.cs):
+- Update the database using the following `UseDemoData` method at the end of the [Program.cs](Program.cs):
 	
 	```csharp
 	public static WebApplication UseDemoData(this WebApplication app) {
@@ -183,9 +191,13 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 [Login.cshtml](Pages/Login.cshtml) is a login page that allows you to log into the application.
 
-[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic.
+[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic. It authenticates user with the AuthenticationStandard authentication and return a ClaimsPrincipal object with all the necessary XAF Security data. That principal is then authenticated to the ASP.NET Core Identity authentication.
 
 ```csharp
+readonly IStandardAuthenticationService authenticationStandard;
+
+// ...
+
 public IActionResult OnPost() {
     Response.Cookies.Append("userName", Input.UserName ?? string.Empty);
     if(ModelState.IsValid) {
@@ -209,13 +221,13 @@ public IActionResult OnGet() {
 }
 ```
 
-[Index.razor](Pages/Index.razor) is the main page. It configures the [Blazor Data Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxDataGrid-1) and allows a use to log out.
+[Index.razor](Pages/Index.razor) is the main page. It configures the [Blazor Data Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxDataGrid-1) and also allows a user to log out.
 
 The `OnInitialized` method creates an ObjectSpace instance and gets Employee and Department objects.
 
 ```csharp
 protected override void OnInitialized() {
-    objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+    objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
     employees = objectSpace.GetObjectsQuery<Employee>();
     departments = objectSpace.GetObjectsQuery<Department>();
     base.OnInitialized();
@@ -226,7 +238,7 @@ The `HandleValidSubmit` method saves changes if data is valid.
 
 ```csharp
 async Task HandleValidSubmit() {
-    ObjectSpace.CommitChanges();
+    objectSpace.CommitChanges();
     await grid.Refresh();
     employee = null;
     await grid.CancelRowEdit();
@@ -237,13 +249,13 @@ The `OnRowRemoving` method removes an object.
 
 ```csharp
 Task OnRowRemoving(object item) {
-    ObjectSpace.Delete(item);
-    ObjectSpace.CommitChanges();
+    objectSpace.Delete(item);
+    objectSpace.CommitChanges();
     return grid.Refresh();
 }
 ```
 
-To show/hide the `New`, `Edit`, `Delete` actions, use the appropriate `CanXXX` methods of the Security System.
+To show/hide the `New`, `Edit`, `Delete` actions, use the appropriate `CanCreate`, `CanEdit` and `CanDelete` methods of the Security System.
 
 ```razor
 <DxDataGridCommandColumn Width="100px">
@@ -293,7 +305,7 @@ To show the `*******` text instead of the default text, check the Read permissio
 Use the `CanWrite` method of the Security System to check if a user is allowed to edit a property and an editor should be created for this property.
 
 ```razor
-private bool HasAccess => ObjectSpace.IsNewObject(CurrentObject) ?
+private bool HasAccess => objectSpace.IsNewObject(CurrentObject) ?
     SecurityProvider.Security.CanWrite(CurrentObject.GetType(), PropertyName) :
     SecurityProvider.Security.CanRead(CurrentObject, PropertyName);
 ```
