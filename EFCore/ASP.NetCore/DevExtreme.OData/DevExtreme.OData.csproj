@@ -1,15 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-	  <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="microsoft.aspnetcore.odata" Version="8.0.1" />
+    <PackageReference Include="microsoft.aspnetcore.odata" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver" Version="5.0.12" />
-    <PackageReference Include="microsoft.odata.core" Version="7.9.0" />
+    <PackageReference Include="microsoft.odata.core" Version="7.9.4" />
     <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
     <PackageReference Include="microsoft.web.librarymanager.build" Version="2.1.113" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.1.1" />
+    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="22.1.1" />
     <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="22.1.1" />
   </ItemGroup>
   <ItemGroup>
