@@ -13,6 +13,8 @@
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.1.1" />
     <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="22.1.1" />
     <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="22.1.1" />
+	  <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.4" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />

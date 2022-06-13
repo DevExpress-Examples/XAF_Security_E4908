@@ -64,7 +64,7 @@ builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
 
 builder.Services.AddSwaggerGen(c => {
     c.EnableAnnotations();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "MainDemo", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "DevExtreme.OData", Version = "v1" });
 
     c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme() {
         Type = SecuritySchemeType.Http,
@@ -92,7 +92,7 @@ if(app.Environment.IsDevelopment()) {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(c => {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MainDemo WebApi v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevExtreme.OData");
     });
 }
 else {
