@@ -8,8 +8,8 @@
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.1.1" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="22.1.1" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.1.*" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="22.1.*" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
   </ItemGroup>
   <ItemGroup>
