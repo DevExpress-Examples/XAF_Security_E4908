@@ -35,7 +35,7 @@
             <DxDataGridComboBoxColumn Field="@nameof(Employee.Department)" Data="@departments" TextFieldName="@nameof(Department.Title)">
                 <DisplayTemplate>
                     <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.Department)">
-                        @(((Employee)context).Department.Title)
+                        @(((Employee)context).Department?.Title)
                     </SecuredContainer>
                 </DisplayTemplate>
             </DxDataGridComboBoxColumn>
