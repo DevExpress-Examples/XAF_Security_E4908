@@ -10,9 +10,9 @@
     <PackageReference Include="microsoft.odata.core" Version="7.9.4" />
     <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
     <PackageReference Include="microsoft.web.librarymanager.build" Version="2.1.113" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.1.1" />
-    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="22.1.1" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="22.1.1" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.1.*" />
+    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="22.1.*" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="22.1.*" />
 	  <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.4" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
