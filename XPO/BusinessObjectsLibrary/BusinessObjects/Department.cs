@@ -30,5 +30,8 @@ namespace BusinessObjectsLibrary.BusinessObjects {
 				return GetCollection<Employee>(nameof(Employees));
 			}
 		}
+		public override string ToString() {
+			return Title;
+		}
 	}
 }
