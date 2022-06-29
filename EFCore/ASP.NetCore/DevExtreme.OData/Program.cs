@@ -1,48 +1,99 @@
-using BusinessObjectsLibrary.BusinessObjects;
-using DevExpress.ExpressApp.Security;
+﻿using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Core;
+using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.WebApi.Services;
+using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using DevExtreme.OData;
+using DevExtreme.OData.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
-using DevExpress.Persistent.BaseImpl.EF;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using DevExpress.ExpressApp.DC;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(mvcOptions => {
-    mvcOptions.EnableEndpointRouting = false;
-}).AddOData(opt => opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(null).AddRouteComponents(GetEdmModel()));
+builder.Services
+    .AddControllers(mvcOptions => {
+        mvcOptions.EnableEndpointRouting = false;
+    })
+    .AddOData((opt, services) => opt
+        .Count()
+        .Filter()
+        .Expand()
+        .Select()
+        .OrderBy()
+        .SetMaxTop(null)
+        .AddRouteComponents(GetEdmModel())
+        .AddRouteComponents("api/odata", new EdmModelBuilder(services).GetEdmModel())
+    );
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<SecurityProvider>();
-builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
-    string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
-    options.UseSqlServer(connectionString);
-    options.UseLazyLoadingProxies();
-    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
-    options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);
-}, ServiceLifetime.Scoped);
-builder.Services.AddScoped((serviceProvider) => {
-    AuthenticationMixed authentication = new AuthenticationMixed();
-    authentication.LogonParametersType = typeof(AuthenticationStandardLogonParameters);
-    authentication.AddAuthenticationStandardProvider(typeof(PermissionPolicyUser));
-    authentication.AddIdentityAuthenticationProvider(typeof(PermissionPolicyUser));
-    ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
-    SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication, typesInfo);
-    return security;
+builder.Services.AddAuthorization();
+
+builder.Services
+    .AddSingleton<ITypesInfo>(s => {
+        var typesInfo = new TypesInfo();
+        typesInfo.RegisterEntity(typeof(Employee));
+        typesInfo.RegisterEntity(typeof(PermissionPolicyUser));
+        typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
+        return typesInfo;
+    })
+    .AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
+    .AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
+        string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+        options.UseSqlServer(connectionString);
+        options.UseLazyLoadingProxies();
+        options.UseSecurity(serviceProvider);
+    }, ServiceLifetime.Scoped);
+
+builder.Services.AddXafWebApi(builder.Configuration, options => {
+    options.BusinessObject<Employee>();
+    options.BusinessObject<Department>();
 });
-builder.Services.AddSingleton<ITypesInfo, TypesInfo>();
+
+builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
+    options.RoleType = typeof(PermissionPolicyRole);
+    options.UserType = typeof(PermissionPolicyUser);
+}).AddAuthenticationStandard();
+
+builder.Services.AddSwaggerGen(c => {
+    c.EnableAnnotations();
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "DevExtreme.OData", Version = "v1" });
+
+    c.AddSecurityDefinition("JWT", new OpenApiSecurityScheme() {
+        Type = SecuritySchemeType.Http,
+        Name = "Bearer",
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement() {
+        {
+            new OpenApiSecurityScheme() {
+                Reference = new OpenApiReference() {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "JWT"
+                }
+            },
+            new string[0]
+        },
+    });
+});
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment()) {
+if(app.Environment.IsDevelopment()) {
     app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevExtreme.OData");
+    });
 }
 else {
     app.UseHsts();
@@ -53,6 +104,7 @@ app.UseODataBatching();
 app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseMiddleware<UnauthorizedRedirectMiddleware>();
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -61,29 +113,19 @@ app.UseCookiePolicy();
 app.UseEndpoints(endpoints => {
     endpoints.MapControllers();
 });
-app.UseDemoData<ApplicationDbContext>(app.Configuration.GetConnectionString("ConnectionString"),
-    (builder, connectionString) =>
-    builder.UseSqlServer(connectionString));
+app.UseDemoData();
 
 app.Run();
 
 IEdmModel GetEdmModel() {
     ODataModelBuilder builder = new ODataConventionModelBuilder();
-    EntitySetConfiguration<Employee> employees = builder.EntitySet<Employee>("Employees");
-    EntitySetConfiguration<Department> departments = builder.EntitySet<Department>("Departments");
-    EntitySetConfiguration<Party> parties = builder.EntitySet<Party>("Parties");
     EntitySetConfiguration<ObjectPermission> objectPermissions = builder.EntitySet<ObjectPermission>("ObjectPermissions");
     EntitySetConfiguration<MemberPermission> memberPermissions = builder.EntitySet<MemberPermission>("MemberPermissions");
     EntitySetConfiguration<TypePermission> typePermissions = builder.EntitySet<TypePermission>("TypePermissions");
 
-    employees.EntityType.HasKey(t => t.ID);
-    departments.EntityType.HasKey(t => t.ID);
-    parties.EntityType.HasKey(t => t.ID);
-
     ActionConfiguration login = builder.Action("Login");
     login.Parameter<string>("userName");
     login.Parameter<string>("password");
-
 
     builder.Action("Logout");
 

@@ -1,3 +1,5 @@
+> # Under construction for 22.1 release
+
 This example demonstrates how to protect your data with the [XAF Security System](https://docs.devexpress.com/eXpressAppFramework/113366/Concepts/Security-System/Security-System-Overview) in the following client-server web app:
 
 - Server: an OData v7 service built with [ASP.NET Core Web API](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-5.0).
@@ -215,7 +217,7 @@ builder.Services.AddScoped((serviceProvider) => {
 });	
 ```
 
-The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
+The SecurityProvider class contains helper functions that provide access to XAF Security System functionality.
 
 ```csharp
 public class SecurityProvider : IDisposable {
@@ -292,7 +294,7 @@ A user is identified by the user name and password parameters.
 
 ## Step 3: Implement OData Controllers for CRUD, Login, Logoff, etc.
 
-- [EmployeesController](Controllers/EmployeesController.cs) has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
+- EmployeesController has methods to implement CRUD logic with Employee objects. The `Get` method allows access to Employee objects.
 
 	```csharp
 	public class EmployeesController : ODataController, IDisposable {
@@ -356,7 +358,7 @@ A user is identified by the user name and password parameters.
 	
 	[JsonParser](Helpers/JsonParser.cs) is a helper class to obtain business object properties values from the `JObject` object.
 
-- [DepartmentsController](Controllers/DepartmentsController.cs) has methods to get access to Department objects.
+- DepartmentsController has methods to get access to Department objects.
  
 	```csharp
 	public class DepartmentsController : ODataController, IDisposable {

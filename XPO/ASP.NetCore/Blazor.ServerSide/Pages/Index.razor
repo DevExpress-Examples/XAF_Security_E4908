@@ -1,7 +1,8 @@
 ﻿@page "/"
 @attribute [Authorize]
 @implements IDisposable
-@inject SecurityProvider securityProvider
+@inject IObjectSpaceFactory objectSpaceFactory
+@inject ISecurityProvider securityProvider
 
 <div style="text-align: right; margin: 10px">
     <a class="ml-md-auto btn btn-primary" href="/logout">Log Out</a>
@@ -34,21 +35,21 @@
             <DxDataGridComboBoxColumn Field="@nameof(Employee.Department)" Data="@departments" TextFieldName="@nameof(Department.Title)">
                 <DisplayTemplate>
                     <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.Department)">
-                        @(((Employee)context).Department.Title)
+                        @(((Employee)context).Department?.Title)
                     </SecuredContainer>
                 </DisplayTemplate>
             </DxDataGridComboBoxColumn>
             <DxDataGridCommandColumn Width="100px">
                 <HeaderCellTemplate>
-                    @if(securityProvider.Security.CanCreate<Employee>()) {
+                    @if(Security.CanCreate<Employee>()) {
                         <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
                     }
                 </HeaderCellTemplate>
                 <CellTemplate>
-                    @if(securityProvider.Security.CanWrite(context)) {
+                    @if(Security.CanWrite(context)) {
                         <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
                     }
-                    @if(securityProvider.Security.CanDelete(context)) {
+                    @if(Security.CanDelete(context)) {
                         <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
                     }
                 </CellTemplate>
@@ -104,18 +105,22 @@
     </DxDataGrid>
 </CascadingValue>
 
-@code{
+@code {
     IQueryable<Employee> employees;
     IQueryable<Department> departments;
     DxDataGrid<Employee> grid;
     Employee employee = null;
     IObjectSpace objectSpace;
 
+	SecurityStrategy Security => (SecurityStrategy)securityProvider.GetSecurity();
+
     protected override void OnInitialized() {
-        objectSpace = securityProvider.ObjectSpaceProvider.CreateObjectSpace();
+        objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
         employees = objectSpace.GetObjectsQuery<Employee>();
         departments = objectSpace.GetObjectsQuery<Department>();
-    }
+        base.OnInitialized();
+    }    
+
     Task OnRowRemoving(object item) {
         objectSpace.Delete(item);
         objectSpace.CommitChanges();
@@ -128,7 +133,6 @@
         await grid.CancelRowEdit();
     }
     public void Dispose() {
-        securityProvider?.Dispose();
         objectSpace?.Dispose();
     }
     Task StartRowEdit(object item) {

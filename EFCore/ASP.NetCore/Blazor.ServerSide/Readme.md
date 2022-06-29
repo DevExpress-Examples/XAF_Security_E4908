@@ -1,3 +1,5 @@
+> # Under construction for 22.1 release
+
 This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Blazor application.
 You will also see how to execute Create, Write, and Delete data operations and take security permissions into account.
 
@@ -142,7 +144,7 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, opt
     options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);
 ```
 
-The [SecurityProvider](Helpers/SecurityProvider.cs) class contains helper functions that provide access to XAF Security System functionality.
+The SecurityProvider class contains helper functions that provide access to XAF Security System functionality.
 
 ```csharp
 public class SecurityProvider : IDisposable {

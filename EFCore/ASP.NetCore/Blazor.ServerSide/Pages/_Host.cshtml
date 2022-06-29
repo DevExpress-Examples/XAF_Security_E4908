@@ -13,7 +13,7 @@
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
-    <link href="_content/DevExpress.Blazor/dx-blazor.css" rel="stylesheet" />
+    <link href="_content/DevExpress.Blazor.Themes/blazing-berry.bs4.min.css" rel="stylesheet" />
 </head>
 <body>
     @{
@@ -23,7 +23,7 @@
     @if(isIEOrEdgeLegacy) {
         <component type="typeof(Blazor.ServerSide.Shared.BrowserNotSupported)" render-mode="Static" />
     } else {
-        <component type="typeof(App)" render-mode="ServerPrerendered" />
+        <component type="typeof(App)" render-mode="Server" />
         <script src="_framework/blazor.server.js"></script>
     }
     @Html.AntiForgeryToken()

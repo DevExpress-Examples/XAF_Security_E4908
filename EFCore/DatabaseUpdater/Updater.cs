@@ -55,16 +55,17 @@ namespace DatabaseUpdater {
             if(userRole == null) {
                 userRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
                 userRole.Name = DefaultUserRoleName;
-                // Allow users to read departments only if their title contains 'Development'. 
-                const string protectedDepartment = "Development";
-                userRole.AddObjectPermissionFromLambda<Department>(SecurityOperations.Read, t => t.Title.Contains(protectedDepartment), SecurityPermissionState.Allow);
-                userRole.AddTypePermission<Department>(SecurityOperations.Read, SecurityPermissionState.Deny);
+                // Allow users to read emails only if they don't contains '@internal.com'.
+                const string protectedEmail = "@internal.com";
+                userRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Read, nameof(Employee.Email), t => !t.Email.Contains(protectedEmail), SecurityPermissionState.Allow);
+                userRole.AddMemberPermission<Employee>(SecurityOperations.Read, nameof(Employee.Email), "", SecurityPermissionState.Deny);
                 // Allow users to read and modify employee records and their fields by criteria.
                 userRole.AddTypePermission<Employee>(SecurityOperations.Read, SecurityPermissionState.Allow);
                 userRole.AddTypePermission<Employee>(SecurityOperations.Write, SecurityPermissionState.Allow);
-     
-                userRole.AddObjectPermissionFromLambda<Employee>(SecurityOperations.Delete, t => t.Department.Title.Contains(protectedDepartment) , SecurityPermissionState.Allow);
-                userRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Write, nameof(Employee.LastName), t => !t.Department.Title.Contains(protectedDepartment), SecurityPermissionState.Deny);
+
+                userRole.AddObjectPermissionFromLambda<Employee>(SecurityOperations.Delete, t => !t.Email.Contains(protectedEmail), SecurityPermissionState.Allow);
+                userRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Write, nameof(Employee.LastName), t => t.Email.Contains(protectedEmail), SecurityPermissionState.Deny);
+                userRole.AddMemberPermissionFromLambda<Employee>(SecurityOperations.Write, nameof(Employee.Department), t => t.Email.Contains(protectedEmail), SecurityPermissionState.Deny);
                 // For more information on criteria language syntax (both string and strongly-typed formats), see https://docs.devexpress.com/CoreLibraries/4928/.
             }
             return userRole;

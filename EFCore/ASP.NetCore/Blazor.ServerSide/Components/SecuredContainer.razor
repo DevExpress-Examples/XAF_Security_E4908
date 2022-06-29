@@ -1,19 +1,18 @@
-﻿@using DevExpress.ExpressApp
-@using DevExpress.ExpressApp.Security
-
-@inject SecurityProvider SecurityProvider
+﻿@inject ISecurityProvider securityProvider
 
 @if(HasAccess) {
-    @ChildContent(!SecurityProvider.Security.CanWrite(CurrentObject, PropertyName))
-} else {
+    @ChildContent(!Security.CanWrite(CurrentObject, PropertyName))
+}
+else {
     @if(IsEditor) {
         <DxTextBox @bind-Text=ProtectedContent ReadOnly=true></DxTextBox>
-    } else {
+    }
+    else {
         @ProtectedContent
     }
 }
 
-@code{
+@code {
     public string ProtectedContent = "*******";
 
     [CascadingParameter] private IObjectSpace ObjectSpace { get; set; }
@@ -22,5 +21,11 @@
     [Parameter] public bool IsEditor { get; set; }
     [Parameter] public RenderFragment<bool> ChildContent { get; set; }
 
-    private bool HasAccess => ObjectSpace.IsNewObject(CurrentObject) ? SecurityProvider.Security.CanWrite(CurrentObject.GetType(), PropertyName) : SecurityProvider.Security.CanRead(CurrentObject, PropertyName);
+    private SecurityStrategy Security { get; set; }
+    private bool HasAccess => ObjectSpace.IsNewObject(CurrentObject) ? Security.CanWrite(CurrentObject.GetType(), PropertyName) : Security.CanRead(CurrentObject, PropertyName);
+
+    protected override void OnInitialized() {
+        Security = (SecurityStrategy)securityProvider.GetSecurity();
+        base.OnInitialized();
+    }
 }
