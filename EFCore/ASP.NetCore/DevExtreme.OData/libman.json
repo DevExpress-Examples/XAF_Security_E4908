@@ -19,7 +19,7 @@
       "destination": "wwwroot/devextreme/js/"
     },
     {
-      "library": "bootstrap@5.0.2",
+      "library": "bootstrap@5.1.3",
       "destination": "wwwroot/devextreme/"
     },
     {
