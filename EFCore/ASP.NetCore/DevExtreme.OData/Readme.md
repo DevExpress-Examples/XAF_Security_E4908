@@ -30,44 +30,44 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
 
 3. [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the OData and MVC pipelines in the [Program.cs](Program.cs):
 
-	```csharp
-	var builder = WebApplication.CreateBuilder(args);
+    ```csharp
+    var builder = WebApplication.CreateBuilder(args);
 
-	builder.Services
-	    .AddControllers(mvcOptions => {
-	        mvcOptions.EnableEndpointRouting = false;
-	    })
-	    .AddOData((opt, services) => opt
-	        .Count()
-	        .Filter()
-	        .Expand()
-	        .Select()
-	        .OrderBy()
-	        .SetMaxTop(null)
-	        .AddRouteComponents(GetEdmModel())
-	        .AddRouteComponents("api/odata", new EdmModelBuilder(services).GetEdmModel())
-	    );
-		
-	var app = builder.Build();
-	if (app.Environment.IsDevelopment()) {
-		app.UseDeveloperExceptionPage();
-	}
-	else {
-		app.UseHsts();
-	}
-	app.UseODataQueryRequest();
-	app.UseODataBatching();
-	app.UseRouting();
-	app.UseCors();
-	app.UseEndpoints(endpoints => {
-		endpoints.MapControllers();
-	});
-	app.Run();
-	```
+    builder.Services
+        .AddControllers(mvcOptions => {
+            mvcOptions.EnableEndpointRouting = false;
+        })
+        .AddOData((opt, services) => opt
+            .Count()
+            .Filter()
+            .Expand()
+            .Select()
+            .OrderBy()
+            .SetMaxTop(null)
+            .AddRouteComponents(GetEdmModel())
+            .AddRouteComponents("api/odata", new EdmModelBuilder(services).GetEdmModel())
+        );
+        
+    var app = builder.Build();
+    if (app.Environment.IsDevelopment()) {
+        app.UseDeveloperExceptionPage();
+    }
+    else {
+        app.UseHsts();
+    }
+    app.UseODataQueryRequest();
+    app.UseODataBatching();
+    app.UseRouting();
+    app.UseCors();
+    app.UseEndpoints(endpoints => {
+        endpoints.MapControllers();
+    });
+    app.Run();
+    ```
 
 - Define the EDM model that contains data description for all used entities. We also need to define actions to log in/out a user and get the user permissions.
 
-	```csharp
+    ```csharp
     IEdmModel GetEdmModel() {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
         EntitySetConfiguration<ObjectPermission> objectPermissions = builder.EntitySet<ObjectPermission>("ObjectPermissions");
@@ -89,90 +89,90 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
         getTypePermissions.ReturnsFromEntitySet<TypePermission>("TypePermissions");
         return builder.GetEdmModel();
     }
-	```
+    ```
 
-	The [MemberPermission](Helpers/MemberPermission.cs), [ObjectPermission](Helpers/ObjectPermission.cs) and [TypePermission](Helpers/TypePermission.cs) classes are used as containers to transfer permissions to the client side.
+    The [MemberPermission](Helpers/MemberPermission.cs), [ObjectPermission](Helpers/ObjectPermission.cs) and [TypePermission](Helpers/TypePermission.cs) classes are used as containers to transfer permissions to the client side.
 
-	```csharp
-	public class MemberPermission {
-		[Key]
-		public Guid Key { get; set; }
-		public bool Read { get; set; }
-		public bool Write { get; set; }
-		public MemberPermission() {
-			Key = Guid.NewGuid();
-		}
-	}
-	//...
-	public class ObjectPermission {
-		public IDictionary<string, object> Data { get; set; }
-		[Key]
-		public string Key { get; set; }
-		public bool Write { get; set; }
-		public bool Delete { get; set; }
-		public ObjectPermission() {
-			Data = new Dictionary<string, object>();
-		}
-	}
-	//...
-	public class TypePermission {
-		public IDictionary<string, object> Data { get; set; }
-		[Key]
-		public string Key { get; set; }
-		public bool Create { get; set; }
-		public TypePermission() {
-			Data = new Dictionary<string, object>();
-		}
-	}
-	```
+    ```csharp
+    public class MemberPermission {
+        [Key]
+        public Guid Key { get; set; }
+        public bool Read { get; set; }
+        public bool Write { get; set; }
+        public MemberPermission() {
+            Key = Guid.NewGuid();
+        }
+    }
+    //...
+    public class ObjectPermission {
+        public IDictionary<string, object> Data { get; set; }
+        [Key]
+        public string Key { get; set; }
+        public bool Write { get; set; }
+        public bool Delete { get; set; }
+        public ObjectPermission() {
+            Data = new Dictionary<string, object>();
+        }
+    }
+    //...
+    public class TypePermission {
+        public IDictionary<string, object> Data { get; set; }
+        [Key]
+        public string Key { get; set; }
+        public bool Create { get; set; }
+        public TypePermission() {
+            Data = new Dictionary<string, object>();
+        }
+    }
+    ```
 
 - Enable the authentication service and configure the request pipeline with the authentication middleware in the [Program.cs](Program.cs). 
 [UnauthorizedRedirectMiddleware](UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
 
-	```csharp
-	var builder = WebApplication.CreateBuilder(args);
-	//...
-	builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-		.AddCookie();
-	builder.Services.AddAuthorization();
+    ```csharp
+    var builder = WebApplication.CreateBuilder(args);
+    //...
+    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie();
+    builder.Services.AddAuthorization();
 
-	var app = builder.Build();
-	//...
-	app.UseAuthentication();
-	app.UseAuthorization();
-	app.UseMiddleware<UnauthorizedRedirectMiddleware>();
-	app.UseDefaultFiles();
-	app.UseStaticFiles();
-	app.UseHttpsRedirection();
-	app.UseCookiePolicy();
+    var app = builder.Build();
+    //...
+    app.UseAuthentication();
+    app.UseAuthorization();
+    app.UseMiddleware<UnauthorizedRedirectMiddleware>();
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+    app.UseHttpsRedirection();
+    app.UseCookiePolicy();
 
-	//...
-	public class UnauthorizedRedirectMiddleware {
-	    private const string authenticationPagePath = "/Authentication.html";
-	    private readonly RequestDelegate _next;
-	    public UnauthorizedRedirectMiddleware(RequestDelegate next) {
-	        _next = next;
-	    }
-	    public async Task InvokeAsync(HttpContext context) {
-	        if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
-	            || IsAllowAnonymous(context)) {
-	            await _next(context);
-	        } else {
-	            context.Response.Redirect(authenticationPagePath);
-	        }
-	    }
-	    private static bool IsAllowAnonymous(HttpContext context) {
-	        string referer = context.Request.Headers["Referer"];
-	        return context.Request.Path.HasValue && context.Request.Path.StartsWithSegments(authenticationPagePath)
-	            || referer != null && referer.Contains(authenticationPagePath);
-	    }
-	}
-	```
+    //...
+    public class UnauthorizedRedirectMiddleware {
+        private const string authenticationPagePath = "/Authentication.html";
+        private readonly RequestDelegate _next;
+        public UnauthorizedRedirectMiddleware(RequestDelegate next) {
+            _next = next;
+        }
+        public async Task InvokeAsync(HttpContext context) {
+            if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
+                || IsAllowAnonymous(context)) {
+                await _next(context);
+            } else {
+                context.Response.Redirect(authenticationPagePath);
+            }
+        }
+        private static bool IsAllowAnonymous(HttpContext context) {
+            string referer = context.Request.Headers["Referer"];
+            return context.Request.Path.HasValue && context.Request.Path.StartsWithSegments(authenticationPagePath)
+                || referer != null && referer.Contains(authenticationPagePath);
+        }
+    }
+    ```
 
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
 
 - Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
-	```C#
+    ```csharp
     builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
         TypesInfo typesInfo = new TypesInfo();
         typesInfo.RegisterEntity(typeof(Employee));
@@ -180,14 +180,14 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
         typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
         return typesInfo;
     })
-	```
+    ```
 
-- Register ObjectSpaceProviders that will be used in you application by implementing the [ObjectSpaceProviderFactory.cs](./Services/ObjectSpaceProviderFactory.cs) [IObjectSpaceProviderFactory]() interface.
-	```C#
+- Register ObjectSpaceProviders that will be used in your application. To do this, [implement](./Services/ObjectSpaceProviderFactory.cs) the `IObjectSpaceProviderFactory` interface.
+    ```csharp
     builder.Services.AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
-	
-	// ...
-	
+    
+    // ...
+    
     public class ObjectSpaceProviderFactory : IObjectSpaceProviderFactory {
         readonly ISecurityStrategyBase security;
         readonly ITypesInfo typesInfo;
@@ -203,20 +203,20 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
             yield return new SecuredEFCoreObjectSpaceProvider((ISelectDataSecurityProvider)security, dbFactory, typesInfo);
         }
     }
-	```
+    ```
 
 - Set up database connection settings in your Data Store Provider object. Add security extension to `DbContextFactory` to allow your application to filter data based on user permissions.
-	```csharp
+    ```csharp
     builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
         string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
         options.UseSqlServer(connectionString);
         options.UseLazyLoadingProxies();
         options.UseSecurity(serviceProvider);
     }, ServiceLifetime.Scoped);
-	```
-		
-	The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. Add the database connection string to it.
-    ``` json
+    ```
+        
+    The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
+    ```json
     "ConnectionStrings": {
         "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EFCoreTestDB;Integrated Security=True;MultipleActiveResultSets=True"
     }
@@ -226,41 +226,41 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
 
 - Register security system and authentication in the [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
 
-	```csharp
-	builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
-		options.RoleType = typeof(PermissionPolicyRole);
-		options.UserType = typeof(PermissionPolicyUser);
-	}).AddAuthenticationStandard();
-	```
+    ```csharp
+    builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
+        options.RoleType = typeof(PermissionPolicyRole);
+        options.UserType = typeof(PermissionPolicyUser);
+    }).AddAuthenticationStandard();
+    ```
 
-- Update the database using the following `UseDemoData` method at the end of the [Program.cs](Program.cs):
-	
-	```csharp
-	public static WebApplication UseDemoData(this WebApplication app) {
+- Call the `UseDemoData` method at the end of the [Program.cs](Program.cs) to update the database:
+    
+    ```csharp
+    public static WebApplication UseDemoData(this WebApplication app) {
         using var scope = app.Services.CreateScope();
         var updatingObjectSpaceFactory = scope.ServiceProvider.GetRequiredService<IUpdatingObjectSpaceFactory>();
         using var objectSpace = updatingObjectSpaceFactory
             .CreateUpdatingObjectSpace(typeof(BusinessObjectsLibrary.BusinessObjects.Employee), true));
         new Updater(objectSpace).UpdateDatabase();
         return app;
-	}
+    }
     ```
     For more details about how to create demo data from code, see the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
 
 ## Step 3. XAF Web API and OData Controllers for CRUD, Login, Logoff, etc.
 
 - Register your business objects in [XAF Web Api]() to automatically implement CRUD logic & controllers for them.
-	```C#
-	builder.Services.AddXafWebApi(builder.Configuration, options => {
-	    options.BusinessObject<Employee>();
-	    options.BusinessObject<Department>();
-	});
-	```
+    ```csharp
+    builder.Services.AddXafWebApi(builder.Configuration, options => {
+        options.BusinessObject<Employee>();
+        options.BusinessObject<Department>();
+    });
+    ```
 
 - [AccountController](Controllers/AccountController.cs) handles the Login and Logout operations.
 The `Login` method is called when a user clicks the `Login` button on the login page. The `Logoff` method is called when a user clicks the `Logoff` button on the main page. A user is identified by the standard logon parameters, which are user name and password.
 
-	```csharp
+    ```csharp
     public class AccountController : ODataController {
         readonly IStandardAuthenticationService authenticationStandard;
 
@@ -273,7 +273,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
         public ActionResult Login(string userName, string password) {
             Response.Cookies.Append("userName", userName ?? string.Empty);
             ClaimsPrincipal principal = authenticationStandard.Authenticate(
-				new AuthenticationStandardLogonParameters(userName, password));
+                new AuthenticationStandardLogonParameters(userName, password));
             if(principal != null) {
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                 return Ok();
@@ -287,10 +287,10 @@ The `Login` method is called when a user clicks the `Login` button on the login 
             return Ok();
         }
     }
-	```
+    ```
 
-- [ActionsController](Controllers/ActionsController.cs) contains additional methods that process permissions. The `GetPermissions` method gathers permissions for all objects on the DevExtreme Data Grid current page and sends them to the client side as part of the response. 	The `GetTypePermissions` method gathers permissions for the type on the DevExtreme Data Grid's current page and sends them to the client side as part of the response.
-	```csharp
+- [ActionsController](Controllers/ActionsController.cs) contains additional methods that process permissions. The `GetPermissions` method gathers permissions for all objects on the DevExtreme Data Grid current page and sends them to the client side as part of the response. The `GetTypePermissions` method gathers permissions for the type on the DevExtreme Data Grid's current page and sends them to the client side as part of the response.
+    ```csharp
     public class ActionsController : ODataController {
         readonly IObjectSpaceFactory objectSpaceFactory;
         readonly SecurityStrategy security;
@@ -360,8 +360,8 @@ The `Login` method is called when a user clicks the `Login` button on the login 
             return typeInfo.Members.Where(p => p.IsVisible && p.IsProperty && (p.IsPersistent || p.IsList));
         }
     }
-	```
-	
+    ```
+    
 ## Step 4: Implement the Client-Side App
 1. The authentication page ([Authentication.html](wwwroot/Authentication.html)) and the main page([Index.html](wwwroot/Index.html)) represent the client side UI.
 2. [authentication_code.js](wwwroot/js/authentication_code.js) gathers data from the login page and attempts to log the user in.
