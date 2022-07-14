@@ -28,77 +28,77 @@ For detailed information about the ASP.NET Core application configuration, see [
 
 - Configure the Blazor application in the [Program.cs](Program.cs):
 
-	```csharp
-	var builder = WebApplication.CreateBuilder(args);
-	builder.Services.AddRazorPages();
-	builder.Services.AddServerSideBlazor();
-	builder.Services.AddDevExpressBlazor();
-	builder.Services.AddSession();
+    ```csharp
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Services.AddRazorPages();
+    builder.Services.AddServerSideBlazor();
+    builder.Services.AddDevExpressBlazor();
+    builder.Services.AddSession();
 
-	var app = builder.Build();
-	if (app.Environment.IsDevelopment()) {
-	    app.UseDeveloperExceptionPage();
-	}
-	else {
-	    app.UseExceptionHandler("/Error");
-	    app.UseHsts();
-	}
-	app.UseSession();
-	app.UseHttpsRedirection();
-	app.UseRouting();
-	app.UseEndpoints(endpoints => {
-	    endpoints.MapFallbackToPage("/_Host");
-	    endpoints.MapBlazorHub();
-	});
-	app.Run();
-	```
+    var app = builder.Build();
+    if (app.Environment.IsDevelopment()) {
+        app.UseDeveloperExceptionPage();
+    }
+    else {
+        app.UseExceptionHandler("/Error");
+        app.UseHsts();
+    }
+    app.UseSession();
+    app.UseHttpsRedirection();
+    app.UseRouting();
+    app.UseEndpoints(endpoints => {
+        endpoints.MapFallbackToPage("/_Host");
+        endpoints.MapBlazorHub();
+    });
+    app.Run();
+    ```
 
 - Enable the authentication service and configure the request pipeline with the authentication middleware in the [Program.cs](Program.cs). 
 [UnauthorizedRedirectMiddleware](UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
 
-	```csharp
-	var builder = WebApplication.CreateBuilder(args);
-	//...
-	builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-		.AddCookie();
-	builder.Services.AddAuthorization();
+    ```csharp
+    var builder = WebApplication.CreateBuilder(args);
+    //...
+    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie();
+    builder.Services.AddAuthorization();
 
-	var app = builder.Build();
-	//...
-	app.UseAuthentication();
-	app.UseAuthorization();
-	app.UseMiddleware<UnauthorizedRedirectMiddleware>();
-	app.UseDefaultFiles();
-	app.UseStaticFiles();
-	app.UseHttpsRedirection();
-	app.UseCookiePolicy();
+    var app = builder.Build();
+    //...
+    app.UseAuthentication();
+    app.UseAuthorization();
+    app.UseMiddleware<UnauthorizedRedirectMiddleware>();
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+    app.UseHttpsRedirection();
+    app.UseCookiePolicy();
 
-	//...
-	public class UnauthorizedRedirectMiddleware {
-	    private const string authenticationPagePath = "/Authentication.html";
-	    private readonly RequestDelegate _next;
-	    public UnauthorizedRedirectMiddleware(RequestDelegate next) {
-	        _next = next;
-	    }
-	    public async Task InvokeAsync(HttpContext context) {
-	        if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
-	            || IsAllowAnonymous(context)) {
-	            await _next(context);
-	        } else {
-	            context.Response.Redirect(authenticationPagePath);
-	        }
-	    }
-	    private static bool IsAllowAnonymous(HttpContext context) {
-	        string referer = context.Request.Headers["Referer"];
-	        return context.Request.Path.HasValue && context.Request.Path.StartsWithSegments(authenticationPagePath)
-	            || referer != null && referer.Contains(authenticationPagePath);
-	    }
-	}
-	```
+    //...
+    public class UnauthorizedRedirectMiddleware {
+        private const string authenticationPagePath = "/Authentication.html";
+        private readonly RequestDelegate _next;
+        public UnauthorizedRedirectMiddleware(RequestDelegate next) {
+            _next = next;
+        }
+        public async Task InvokeAsync(HttpContext context) {
+            if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
+                || IsAllowAnonymous(context)) {
+                await _next(context);
+            } else {
+                context.Response.Redirect(authenticationPagePath);
+            }
+        }
+        private static bool IsAllowAnonymous(HttpContext context) {
+            string referer = context.Request.Headers["Referer"];
+            return context.Request.Path.HasValue && context.Request.Path.StartsWithSegments(authenticationPagePath)
+                || referer != null && referer.Contains(authenticationPagePath);
+        }
+    }
+    ```
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
 
 - Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
-	```C#
+    ```csharp
     builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
         TypesInfo typesInfo = new TypesInfo();
         typesInfo.GetOrAddEntityStore(ti => new XpoTypeInfoSource(ti));
@@ -107,15 +107,15 @@ For detailed information about the ASP.NET Core application configuration, see [
         typesInfo.RegisterEntity(typeof(PermissionPolicyRole));
         return typesInfo;
     })
-	```
+    ```
 
-- Register ObjectSpaceProviders that will be used in you application by implementing the [ObjectSpaceProviderFactory.cs](./Services/ObjectSpaceProviderFactory.cs) [IObjectSpaceProviderFactory]() interface.
-	```C#
+- Register ObjectSpaceProviders that will be used in your application. To do this, [implement](./Services/ObjectSpaceProviderFactory.cs) the `IObjectSpaceProviderFactory` interface.
+    ```csharp
     builder.Services.AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
-	
-	// ...
-	
-	public class ObjectSpaceProviderFactory : IObjectSpaceProviderFactory {
+    
+    // ...
+    
+    public class ObjectSpaceProviderFactory : IObjectSpaceProviderFactory {
         readonly ISecurityStrategyBase security;
         readonly IXpoDataStoreProvider xpoDataStoreProvider;
         readonly ITypesInfo typesInfo;
@@ -131,44 +131,44 @@ For detailed information about the ASP.NET Core application configuration, see [
             yield return new SecuredObjectSpaceProvider((ISelectDataSecurityProvider)security, xpoDataStoreProvider, typesInfo, null, true);
         }
     }
-	```
+    ```
 
 - Set up database connection settings in your Data Store Provider object. In XPO, it is `IXpoDataStoreProvider`.
-	```csharp
+    ```csharp
     builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
         var connectionString = serviceProvider.GetRequiredService<IConfiguration>().GetConnectionString("ConnectionString");
         return XPObjectSpaceProvider.GetDataStoreProvider(connectionString, null, true);
-	});
-	```
-		
-	The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. Add the database connection string to it.
-	``` json
-	"ConnectionStrings": {
-		"ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
-	}
-	```
+    });
+    ```
+        
+    The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
+    ```json
+    "ConnectionStrings": {
+        "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+    }
+    ```
 
 - Register security system and authentication in the [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
 
-	```csharp
-	builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
-		options.RoleType = typeof(PermissionPolicyRole);
-		options.UserType = typeof(PermissionPolicyUser);
-		options.Events.OnSecurityStrategyCreated = strategy => ((SecurityStrategy)strategy).RegisterXPOAdapterProviders();
-	}).AddAuthenticationStandard();
-	```
+    ```csharp
+    builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
+        options.RoleType = typeof(PermissionPolicyRole);
+        options.UserType = typeof(PermissionPolicyUser);
+        options.Events.OnSecurityStrategyCreated = strategy => ((SecurityStrategy)strategy).RegisterXPOAdapterProviders();
+    }).AddAuthenticationStandard();
+    ```
 
-- Update the database using the following `UseDemoData` method at the end of the [Program.cs](Program.cs):
-	
-	```csharp
-	public static WebApplication UseDemoData(this WebApplication app) {
+- Call the `UseDemoData` method at the end of the [Program.cs](Program.cs) to update the database:
+    
+    ```csharp
+    public static WebApplication UseDemoData(this WebApplication app) {
         using var scope = app.Services.CreateScope();
         var updatingObjectSpaceFactory = scope.ServiceProvider.GetRequiredService<IUpdatingObjectSpaceFactory>();
         using var objectSpace = updatingObjectSpaceFactory
             .CreateUpdatingObjectSpace(typeof(BusinessObjectsLibrary.BusinessObjects.Employee), true));
         new Updater(objectSpace).UpdateDatabase();
         return app;
-	}
+    }
     ```
     For more details about how to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
 
@@ -206,9 +206,9 @@ public IActionResult OnGet() {
 }
 ```
 
-[Index.razor](Pages/Index.razor) is the main page. It configures the [Blazor Data Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxDataGrid-1) and also allows user to log out.
+[Index.razor](Pages/Index.razor) is the main page. It configures the [Blazor Data Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxDataGrid-1) and allows a user to log out.
 
-The `OnInitialized` method creates an ObjectSpace instance and gets Employee and Department objects.
+The `OnInitialized` method creates an ObjectSpace instance and gets `Employee` and `Department` objects.
 
 ```csharp
 protected override void OnInitialized() {
