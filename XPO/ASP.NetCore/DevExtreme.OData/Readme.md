@@ -1,4 +1,3 @@
-> # Under construction for 22.1 release
 This example demonstrates how to expose your data with [XAF Web API]() and protect it with [XAF Security System](https://docs.devexpress.com/eXpressAppFramework/113366/Concepts/Security-System/Security-System-Overview) in the following client-server web app:
 
 - Server: an OData v7 service built with [ASP.NET Core Web API](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-5.0).

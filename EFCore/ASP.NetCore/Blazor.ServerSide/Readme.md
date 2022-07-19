@@ -1,5 +1,3 @@
-> # Under construction for 22.1 release
-
 This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Blazor application.
 You will also see how to execute Create, Write, and Delete data operations and take security permissions into account.
 
