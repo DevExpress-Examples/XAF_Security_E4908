@@ -191,7 +191,6 @@ For detailed information about ASP.NET Core application configuration, see [offi
             this.security = security;
             this.typesInfo = typesInfo;
             this.xpoDataStoreProvider = xpoDataStoreProvider;
-
         }
 
         IEnumerable<IObjectSpaceProvider> IObjectSpaceProviderFactory.CreateObjectSpaceProviders() {
