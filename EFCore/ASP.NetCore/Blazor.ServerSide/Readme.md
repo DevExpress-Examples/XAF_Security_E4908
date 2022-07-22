@@ -60,51 +60,6 @@ You will also see how to execute Create, Write, and Delete data operations and t
     });
     app.Run();
     ```
-
-
-- Enable the authentication service and configure the request pipeline with the authentication middleware in the [Program.cs](Program.cs). 
-[UnauthorizedRedirectMiddleware](UnauthorizedRedirectMiddleware.cs) сhecks if the ASP.NET Core Identity is authenticated. If not, it redirects a user to the authentication page.
-
-    ```csharp
-    var builder = WebApplication.CreateBuilder(args);
-    //...
-    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        .AddCookie();
-    builder.Services.AddAuthorization();
-
-    var app = builder.Build();
-    //...
-    app.UseAuthentication();
-    app.UseAuthorization();
-    app.UseMiddleware<UnauthorizedRedirectMiddleware>();
-    app.UseDefaultFiles();
-    app.UseStaticFiles();
-    app.UseHttpsRedirection();
-    app.UseCookiePolicy();
-
-    //...
-    public class UnauthorizedRedirectMiddleware {
-        private const string authenticationPagePath = "/Authentication.html";
-        private readonly RequestDelegate _next;
-        public UnauthorizedRedirectMiddleware(RequestDelegate next) {
-            _next = next;
-        }
-        public async Task InvokeAsync(HttpContext context) {
-            if(context.User != null && context.User.Identity != null && context.User.Identity.IsAuthenticated
-                || IsAllowAnonymous(context)) {
-                await _next(context);
-            } else {
-                context.Response.Redirect(authenticationPagePath);
-            }
-        }
-        private static bool IsAllowAnonymous(HttpContext context) {
-            string referer = context.Request.Headers["Referer"];
-            return context.Request.Path.HasValue && context.Request.Path.StartsWithSegments(authenticationPagePath)
-                || referer != null && referer.Contains(authenticationPagePath);
-        }
-    }
-    ```
-
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
 
 - Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
@@ -119,7 +74,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
     })
     ```
 
-- Register ObjectSpaceProviders that will be used in your application. To do this, [implement](./Services/ObjectSpaceProviderFactory.cs) the `IObjectSpaceProviderFactory` interface.
+- Register ObjectSpaceProviders that will be used in your application. To do this, [implement](./Helpers/ObjectSpaceProviderFactory.cs) the `IObjectSpaceProviderFactory` interface.
     ```csharp
     builder.Services.AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
     
