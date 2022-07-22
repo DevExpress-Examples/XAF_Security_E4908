@@ -64,7 +64,7 @@ For detailed information about the ASP.NET Core application configuration, see [
     })
     ```
 
-- Register ObjectSpaceProviders that will be used in your application. To do this, [implement](./Helpers/ObjectSpaceProviderFactory.cs) the `IObjectSpaceProviderFactory` interface.
+- Register ObjectSpaceProviders that will be used in your application. To do this, [implement](./Services/ObjectSpaceProviderFactory.cs) the `IObjectSpaceProviderFactory` interface.
     ```csharp
     builder.Services.AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
     
