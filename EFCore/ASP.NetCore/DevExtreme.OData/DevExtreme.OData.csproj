@@ -8,8 +8,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver" Version="5.0.12" />
     <PackageReference Include="microsoft.odata.core" Version="7.9.0" />
-    <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
-    <PackageReference Include="microsoft.web.librarymanager.build" Version="2.1.113" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
