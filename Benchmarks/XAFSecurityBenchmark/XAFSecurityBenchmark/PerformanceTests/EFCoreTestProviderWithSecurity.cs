@@ -17,9 +17,9 @@ namespace XAFSecurityBenchmark.PerformanceTests {
             EFCoreDBUpdater.InitializeInstance(nameof(CustomPermissionPolicyUser.ID));
         }
 
-        protected override IObjectSpaceProvider CreateUpdatingObjectSpaceProvider() => new EFCoreObjectSpaceProvider(typeof(EFCoreContext), null);
+        protected override IObjectSpaceProvider CreateUpdatingObjectSpaceProvider() => new EFCoreObjectSpaceProvider<EFCoreContext>((EFCoreDatabaseProviderHandler<EFCoreContext>)null);
         protected override IObjectSpaceProvider CreateSecuredObjectSpaceProvider(ISelectDataSecurityProvider selectDataSecurityProvider) =>
-            new SecuredEFCoreObjectSpaceProvider(selectDataSecurityProvider, typeof(EFCoreContext), (optionsBuilder, connectionString) => {
+            new SecuredEFCoreObjectSpaceProvider<EFCoreContext>(selectDataSecurityProvider, (optionsBuilder, connectionString) => {
                 optionsBuilder
                     .UseSqlServer(TestSetConfig.EFCoreConnectionStrings)
                     .UseLazyLoadingProxies()
