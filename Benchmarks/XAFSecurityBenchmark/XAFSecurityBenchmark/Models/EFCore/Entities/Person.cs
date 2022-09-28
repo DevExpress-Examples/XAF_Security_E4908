@@ -9,8 +9,6 @@ using DevExpress.Persistent.Base.General;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
 
-    [DefaultProperty(nameof(FullName))]
-    [ImageName("BO_Person")]
     public class Person : Party, IPerson {
 
         public virtual String FirstName { get; set; }

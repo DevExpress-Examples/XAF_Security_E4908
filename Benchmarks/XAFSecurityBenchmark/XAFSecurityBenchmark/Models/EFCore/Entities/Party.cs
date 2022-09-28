@@ -9,7 +9,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
 
-    [DefaultProperty(nameof(DisplayName))]
     public abstract class Party {
 
         [Key]
