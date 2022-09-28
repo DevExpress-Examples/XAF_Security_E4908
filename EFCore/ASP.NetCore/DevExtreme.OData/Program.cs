@@ -49,6 +49,7 @@ builder.Services
         string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
         options.UseSqlServer(connectionString);
         options.UseLazyLoadingProxies();
+        options.UseChangeTrackingProxies();
         options.UseSecurity(serviceProvider);
     }, ServiceLifetime.Scoped);
 

@@ -29,6 +29,7 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, opt
     string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
     options.UseSqlServer(connectionString);
     options.UseLazyLoadingProxies();
+    options.UseChangeTrackingProxies();
     ITypesInfo typesInfo = serviceProvider.GetRequiredService<ITypesInfo>();
     options.UseSecurity(serviceProvider.GetRequiredService<SecurityStrategyComplex>(), typesInfo);
 }, ServiceLifetime.Scoped);
@@ -81,5 +82,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.UseDemoData<ApplicationDbContext>(app.Configuration.GetConnectionString("ConnectionString"),
     (builder, connectionString) =>
-    builder.UseSqlServer(connectionString));
+    builder.UseSqlServer(connectionString).UseChangeTrackingProxies());
 app.Run();

@@ -19,7 +19,7 @@ namespace Blazor.ServerSide.Services {
         }
 
         IEnumerable<IObjectSpaceProvider> IObjectSpaceProviderFactory.CreateObjectSpaceProviders() {
-            yield return new SecuredEFCoreObjectSpaceProvider((ISelectDataSecurityProvider)security, dbFactory, typesInfo);
+            yield return new SecuredEFCoreObjectSpaceProvider<ApplicationDbContext>((ISelectDataSecurityProvider)security, dbFactory, typesInfo);
         }
     }
 }

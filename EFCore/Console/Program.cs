@@ -18,7 +18,7 @@ CreateDemoData(connectionString, typesInfo);
 // ## Step 1. Initialization. Create a Secured Data Store and Set Authentication Options
 AuthenticationStandard authentication = new AuthenticationStandard();
 SecurityStrategyComplex security = new SecurityStrategyComplex(typeof(PermissionPolicyUser), typeof(PermissionPolicyRole), authentication);
-SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
+var objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider<ApplicationDbContext>(security,
     (builder, _) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies());
 
 // ## Step 2. Authentication. Log in as a 'User' with an Empty Password
@@ -46,7 +46,7 @@ Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
 
 static void CreateDemoData(string connectionString, TypesInfo typesInfo) {
-    using(var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), typesInfo, connectionString, 
+    using(var objectSpaceProvider = new EFCoreObjectSpaceProvider<ApplicationDbContext>(typesInfo, connectionString, 
         (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies()))
     using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
         new Updater(objectSpace).UpdateDatabase();
