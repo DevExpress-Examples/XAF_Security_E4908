@@ -3,7 +3,6 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.2-pre-22271" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.2-pre-*" />
   </ItemGroup>
