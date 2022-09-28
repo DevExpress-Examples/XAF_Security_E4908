@@ -28,6 +28,7 @@ namespace XAFSecurityBenchmark.Models.EFCore {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if(!optionsBuilder.IsConfigured) {
                 optionsBuilder.UseSqlServer(TestSetConfig.EFCoreConnectionStrings);
+                optionsBuilder.UseChangeTrackingProxies();
             }
         }
 

@@ -9,5 +9,10 @@ namespace BusinessObjectsLibrary.BusinessObjects {
         public DbSet<Department> Departments { get; set; }
         public DbSet<PermissionPolicyRole> PermissionPolicyRoles { get; set; }
         public DbSet<PermissionPolicyUser> PermissionPolicyUsers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangingAndChangedNotificationsWithOriginalValues);
+        }
     }
 }

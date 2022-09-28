@@ -20,7 +20,10 @@ namespace XAFSecurityBenchmark.PerformanceTests {
         protected override IObjectSpaceProvider CreateUpdatingObjectSpaceProvider() => new EFCoreObjectSpaceProvider(typeof(EFCoreContext), null);
         protected override IObjectSpaceProvider CreateSecuredObjectSpaceProvider(ISelectDataSecurityProvider selectDataSecurityProvider) =>
             new SecuredEFCoreObjectSpaceProvider(selectDataSecurityProvider, typeof(EFCoreContext), (optionsBuilder, connectionString) => {
-                optionsBuilder.UseSqlServer(TestSetConfig.EFCoreConnectionStrings).UseLazyLoadingProxies();
+                optionsBuilder
+                    .UseSqlServer(TestSetConfig.EFCoreConnectionStrings)
+                    .UseLazyLoadingProxies()
+                    .UseChangeTrackingProxies();
             });
 
         protected override ITransactionHelper CreateObjectHelper(IObjectSpace objectSpace) => new EFCoreSecuredObjectHelper(objectSpace);
