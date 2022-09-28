@@ -14,7 +14,7 @@ namespace XAFSecurityBenchmark.Models.EFCore {
                 return department;
             }
             set {
-                department = value;
+                SetReferencePropertyValue(ref department, value);
             }
         }
 

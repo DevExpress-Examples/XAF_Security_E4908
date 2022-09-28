@@ -126,8 +126,8 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
         public void UpdateQueryOptimizationStatistics() => UpdateQueryOptimizationStatistics(dataContext);
         public void UpdateQueryOptimizationStatistics(DbContext dataContext) {
             dataContext.Database.ExecuteSqlRaw("UPDATE STATISTICS[ContactDemoTask]");
-            dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<Party>()}]");
-            dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<Task>()}]");
+            dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<Contact>()}]");
+            dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<DemoTask>()}]");
             dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<Department>()}]");
             dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<Position>()}]");
             dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<PermissionPolicyUser>()}]");
