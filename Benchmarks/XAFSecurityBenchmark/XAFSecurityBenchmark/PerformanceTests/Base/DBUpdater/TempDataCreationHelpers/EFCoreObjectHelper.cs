@@ -25,34 +25,34 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
         }
 
         public IContact CreateContact() {
-            var contact = new Contact();
+            var contact = dataContext.CreateProxy<Contact>();
             dataContext.Contacts.Add(contact);
             return contact;
         }
         public IDemoTask CreateTask() {
-            var task = new DemoTask();
+            var task = dataContext.CreateProxy<DemoTask>();
             dataContext.Tasks.Add(task);
             return task;
         }
         public IPhoneNumber CreatePhoneNumber(IContact forContact) {
-            var phoneNumber = new PhoneNumber();
-            phoneNumber.Party = (Party)forContact;
+            var phoneNumber = dataContext.CreateProxy<PhoneNumber>();
             dataContext.PhoneNumbers.Add(phoneNumber);
+            phoneNumber.Party = (Party)forContact;
             return phoneNumber;
         }
         public IAddress CreateAddress() {
-            var address = new Address();
+            var address = dataContext.CreateProxy<Address>();
             dataContext.Addresses.Add(address);
             return address;
         }
         public ICountry CreateCountry(IAddress forAddress) {
-            var country = new Country();
+            var country = dataContext.CreateProxy<Country>();
             forAddress.Country = country;
             dataContext.Countries.Add(country);
             return country;
         }
         public IPosition CreatePosition() {
-            var position = new Position();
+            var position = dataContext.CreateProxy<Position>();
             dataContext.Positions.Add(position);
             return position;
         }
@@ -68,7 +68,7 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
 
 
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<PhoneNumber>()}] DROP CONSTRAINT FK_PhoneNumbers_Party_PartyID");
-            ExecuteSqlRaw($"ALTER TABLE [{GetTableName<DemoTask>()}] DROP CONSTRAINT FK_Task_Party_AssignedToID");
+            ExecuteSqlRaw($"ALTER TABLE [{GetTableName<DemoTask>()}] DROP CONSTRAINT FK_Tasks_Party_AssignedToID");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Contact>()}] DROP CONSTRAINT FK_Party_Addresses_Address1ID");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Contact>()}] DROP CONSTRAINT FK_Party_Addresses_Address2ID");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Contact>()}] DROP CONSTRAINT FK_Party_Departments_DepartmentID");
@@ -82,7 +82,7 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<PortfolioFileData>()}] DROP CONSTRAINT FK_PortfolioFileData_FileData_FileID");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<PortfolioFileData>()}] DROP CONSTRAINT FK_PortfolioFileData_Resumes_ResumeForeignKey");
             ExecuteSqlRaw($"ALTER TABLE [ContactDemoTask] DROP CONSTRAINT FK_ContactDemoTask_Party_ContactsID");
-            ExecuteSqlRaw($"ALTER TABLE [ContactDemoTask] DROP CONSTRAINT FK_ContactDemoTask_Task_TasksID");
+            ExecuteSqlRaw($"ALTER TABLE [ContactDemoTask] DROP CONSTRAINT FK_ContactDemoTask_Tasks_TasksID");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Location>()}] DROP CONSTRAINT FK_Location_Party_ContactRef");
 
             ExecuteSqlRaw($"TRUNCATE TABLE [{GetTableName<Contact>()}]");
@@ -97,7 +97,7 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
             ExecuteSqlRaw($"TRUNCATE TABLE [ContactDemoTask]");
 
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<PhoneNumber>()}] ADD CONSTRAINT FK_PhoneNumbers_Party_PartyID FOREIGN KEY(PartyID) REFERENCES {GetTableName<Contact>()}(ID)");
-            ExecuteSqlRaw($"ALTER TABLE [{GetTableName<DemoTask>()}] ADD CONSTRAINT FK_Task_Party_AssignedToID FOREIGN KEY(AssignedToID) REFERENCES {GetTableName<Contact>()}(ID)");
+            ExecuteSqlRaw($"ALTER TABLE [{GetTableName<DemoTask>()}] ADD CONSTRAINT FK_Tasks_Party_AssignedToID FOREIGN KEY(AssignedToID) REFERENCES {GetTableName<Contact>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Contact>()}] ADD CONSTRAINT FK_Party_Addresses_Address1ID FOREIGN KEY(Address1ID) REFERENCES {GetTableName<Address>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Contact>()}] ADD CONSTRAINT FK_Party_Addresses_Address2ID FOREIGN KEY(Address2ID) REFERENCES {GetTableName<Address>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Contact>()}] ADD CONSTRAINT FK_Party_Departments_DepartmentID FOREIGN KEY(DepartmentID) REFERENCES {GetTableName<Department>()}(ID)");
@@ -111,7 +111,7 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<PortfolioFileData>()}] ADD CONSTRAINT FK_PortfolioFileData_FileData_FileID FOREIGN KEY(FileID) REFERENCES {GetTableName<PortfolioFileData>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<PortfolioFileData>()}] ADD CONSTRAINT FK_PortfolioFileData_Resumes_ResumeForeignKey FOREIGN KEY(ResumeForeignKey) REFERENCES {GetTableName<Resume>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [ContactDemoTask] ADD CONSTRAINT FK_ContactDemoTask_Party_ContactsID FOREIGN KEY(ContactsID) REFERENCES {GetTableName<Contact>()}(ID)");
-            ExecuteSqlRaw($"ALTER TABLE [ContactDemoTask] ADD CONSTRAINT FK_ContactDemoTask_Task_TasksID FOREIGN KEY(TasksID) REFERENCES {GetTableName<DemoTask>()}(ID)");
+            ExecuteSqlRaw($"ALTER TABLE [ContactDemoTask] ADD CONSTRAINT FK_ContactDemoTask_Tasks_TasksID FOREIGN KEY(TasksID) REFERENCES {GetTableName<DemoTask>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Location>()}] ADD CONSTRAINT FK_Location_Party_ContactRef FOREIGN KEY(ContactRef) REFERENCES {GetTableName<Contact>()}(ID)");
 
             string GetTableName<T>() => dataContext.Model.FindEntityType(typeof(T)).GetTableName();
