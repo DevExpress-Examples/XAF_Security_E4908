@@ -1,32 +1,88 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using DevExpress.Persistent.BaseImpl.EF;
-using XAFSecurityBenchmark.Models.Base;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
+using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp;
+using DevExpress.Persistent.Base;
+using System.ComponentModel.DataAnnotations;
+using DevExpress.Persistent.Base.General;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
-    public class DemoTask : Task, IDemoTask {
-        public DemoTask()
-            : base() {
-            Priority = Base.Enums.Priority.Normal;
-            Contacts = new List<Contact>();
+
+    public class Task : ITask, IXafEntityObject, IObjectSpaceLink {
+
+        [Key]
+        public virtual int ID { get; set; }
+
+        public virtual DateTime? DateCompleted { get; set; }
+        public virtual String Subject { get; set; }
+
+        [FieldSize(FieldSizeAttribute.Unlimited)]
+        public virtual String Description { get; set; }
+
+        public virtual DateTime? DueDate { get; set; }
+        public virtual DateTime? StartDate { get; set; }
+
+        [Browsable(false)]
+        [NotMapped]
+        public int Status_Int { get; set; }
+
+        public virtual int PercentCompleted { get; set; }
+        public virtual Party AssignedTo { get; set; }
+
+        private TaskStatus status;
+
+        [Column(nameof(Status_Int))]
+        public virtual TaskStatus Status {
+            get {
+                return status;
+            }
+            set {
+                status = value;
+                if (isLoaded) {
+                    if (value == TaskStatus.Completed) {
+                        DateCompleted = DateTime.Now;
+                    } else {
+                        DateCompleted = null;
+                    }
+                }
+            }
         }
 
-        public virtual IList<Contact> Contacts { get; set; }
-        private Base.Enums.Priority priority;
-        public Base.Enums.Priority Priority {
-            get { return priority; }
-            set { SetPropertyValue(ref priority, value); }
+        [Action(ImageName = "State_Task_Completed")]
+        public void MarkCompleted() {
+            Status = TaskStatus.Completed;
         }
 
-        public override string ToString() {
-            return Subject;
-        }
-        public int ActualWorkHours { get; set; }
-        public int EstimatedWorkHours { get; set; }
+        #region ITask
 
-        public void SetAssignedTo(IContact contact) {
-            AssignedTo = (Party)contact;
+        DateTime ITask.DueDate { get { return DueDate.GetValueOrDefault(); } set { DueDate = value; } }
+        DateTime ITask.StartDate { get { return StartDate.GetValueOrDefault(); } set { StartDate = value; } }
+        TaskStatus ITask.Status { get { return Status; } set { Status = value; } }
+        DateTime ITask.DateCompleted { get { return DateCompleted.GetValueOrDefault(); } }
+
+        #endregion
+
+        #region IXafEntityObject
+
+        private bool isLoaded = false;
+        public virtual void OnCreated() { }
+        public virtual void OnSaving() { }
+        public virtual void OnLoaded() {
+            isLoaded = true;
         }
+
+        #endregion
+
+        #region IObjectSpaceLink
+
+        IObjectSpace objectSpace;
+        IObjectSpace IObjectSpaceLink.ObjectSpace {
+            get { return objectSpace; }
+            set { objectSpace = value; }
+        }        
+
+        #endregion
     }
 }

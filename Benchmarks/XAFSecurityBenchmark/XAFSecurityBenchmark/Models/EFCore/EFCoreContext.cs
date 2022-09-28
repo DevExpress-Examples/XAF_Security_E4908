@@ -34,7 +34,7 @@ namespace XAFSecurityBenchmark.Models.EFCore {
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Party>().HasMany(c => c.PhoneNumbers).WithOne(p => p.Party).IsRequired();
-
+            modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangingAndChangedNotificationsWithOriginalValues);
 
             modelBuilder.Entity<Contact>()
                 .HasOne(r => r.Location)

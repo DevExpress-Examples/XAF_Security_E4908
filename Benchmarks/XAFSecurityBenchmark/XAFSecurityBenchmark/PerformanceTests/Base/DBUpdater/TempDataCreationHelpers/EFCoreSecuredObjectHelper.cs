@@ -1,7 +1,6 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.EFCore;
 using DevExpress.Persistent.Base.General;
-using DevExpress.Persistent.BaseImpl.EF;
 using Microsoft.EntityFrameworkCore;
 using XAFSecurityBenchmark.Models.Base;
 using XAFSecurityBenchmark.Models.EFCore;

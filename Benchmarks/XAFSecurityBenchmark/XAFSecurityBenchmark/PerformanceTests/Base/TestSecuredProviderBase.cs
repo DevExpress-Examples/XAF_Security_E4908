@@ -12,8 +12,8 @@ namespace XAFSecurityBenchmark.PerformanceTests {
     public abstract class TestSecuredProviderBase<UserType, RoleType, ContactType, TaskType, DepartmentType> : TestProviderBase
         where UserType : class, IAuthenticationStandardUser, ICustomPermissionPolicyUser
         where RoleType : class, IPermissionPolicyRole
-        where ContactType : class, IPerson, IContact
-        where TaskType : class, ITask
+        where ContactType : class, IContact
+        where TaskType : class, IDemoTask
         where DepartmentType : class, IDepartment {
         protected IObjectSpaceProvider securedObjectSpaceProvider;
         private IObjectSpace securedObjectSpace;

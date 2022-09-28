@@ -30,7 +30,7 @@ namespace XAFSecurityBenchmark.PerformanceTests {
         protected override IDBUpdater DBUpdater => EFCoreDBUpdater.Instance;
 
         public override string ToString() {
-            return "EF Core 5 (Security)";
+            return "EF Core 6 (Security)";
         }
     }
 }

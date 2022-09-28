@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using DevExpress.Persistent.Base.General;
-using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using Microsoft.EntityFrameworkCore;
 using XAFSecurityBenchmark.Models.Base;
@@ -105,7 +104,7 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Contact>()}] ADD CONSTRAINT FK_Party_Party_ManagerID FOREIGN KEY(ManagerID) REFERENCES {GetTableName<Contact>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Contact>()}] ADD CONSTRAINT FK_Party_Positions_PositionID FOREIGN KEY(PositionID) REFERENCES {GetTableName<Position>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Address>()}] ADD CONSTRAINT FK_Addresses_Countries_CountryID FOREIGN KEY(CountryID) REFERENCES {GetTableName<Country>()}(ID)");
-            ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Resume>()}] ADD CONSTRAINT FK_Resumes_FileData_FileID FOREIGN KEY(FileID) REFERENCES {GetTableName<FileData>()}(ID)");
+            ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Resume>()}] ADD CONSTRAINT FK_Resumes_FileData_FileID FOREIGN KEY(FileID) REFERENCES {GetTableName<DevExpress.Persistent.BaseImpl.EF.FileData>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Resume>()}] ADD CONSTRAINT FK_Resumes_Party_ContactID FOREIGN KEY(ContactID) REFERENCES {GetTableName<Contact>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [{GetTableName<Department>()}] ADD CONSTRAINT FK_Departments_Party_DepartmentHeadID FOREIGN KEY(DepartmentHeadID) REFERENCES {GetTableName<Department>()}(ID)");
             ExecuteSqlRaw($"ALTER TABLE [DepartmentPosition] ADD CONSTRAINT FK_DepartmentPosition_Positions_PositionsID FOREIGN KEY(PositionsID) REFERENCES Positions(ID)");
