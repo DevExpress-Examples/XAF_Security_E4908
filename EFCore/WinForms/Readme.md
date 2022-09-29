@@ -19,9 +19,9 @@ This example demonstrates how to access data protected by the [Security System](
 2. Add DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.Win.Grid" Version="21.2.4" />
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.2.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.2.4" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="22.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
     ```
 3. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
 
@@ -61,15 +61,15 @@ This example demonstrates how to access data protected by the [Security System](
     
     ```csharp
     string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-    SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
-        typesInfo, connectionString, (builder, connectionString) => builder.UseSqlServer(connectionString));
+    var objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security,
+        typesInfo, connectionString, (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies());
     ```
 8. Add a `CreateDemoData` method and call it at the beginning of the `Main` method in _Program.cs_:
     
     ```csharp
     private static void CreateDemoData(string connectionString, TypesInfo typesInfo) {
         using (var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), typesInfo, connectionString,
-    (builder, connectionString) => builder.UseSqlServer(connectionString)))
+    (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies()))
         using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
             new Updater(objectSpace).UpdateDatabase();
         }

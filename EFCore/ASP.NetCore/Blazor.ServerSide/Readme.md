@@ -26,8 +26,8 @@ You will also see how to execute Create, Write, and Delete data operations and t
 1. Add EFCore DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.2.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.2.4" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
     ```
 2. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
 
@@ -92,7 +92,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
         }
 
         IEnumerable<IObjectSpaceProvider> IObjectSpaceProviderFactory.CreateObjectSpaceProviders() {
-            yield return new SecuredEFCoreObjectSpaceProvider((ISelectDataSecurityProvider)security, dbFactory, typesInfo);
+            yield return new SecuredEFCoreObjectSpaceProvider<ApplicationDbContext>((ISelectDataSecurityProvider)security, dbFactory, typesInfo);
         }
     }
     ```
@@ -104,6 +104,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
         string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
         options.UseSqlServer(connectionString);
         options.UseLazyLoadingProxies();
+        options.UseChangeTrackingProxies();
         options.UseSecurity(serviceProvider);
     }, ServiceLifetime.Scoped);
     ```
