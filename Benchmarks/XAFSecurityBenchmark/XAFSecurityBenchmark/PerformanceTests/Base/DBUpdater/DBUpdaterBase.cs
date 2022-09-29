@@ -123,7 +123,8 @@ namespace XAFSecurityBenchmark.PerformanceTests.DBUpdater {
                 userRole.AddTypePermission<TaskType>(SecurityOperations.FullObjectAccess, SecurityPermissionState.Deny);
                 userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess, $"[Contacts][[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()]", SecurityPermissionState.Allow);
 
-                if(typeof(TaskType).IsSubclassOf(typeof(DevExpress.Persistent.BaseImpl.Task))) {
+                if(typeof(TaskType).IsSubclassOf(typeof(DevExpress.Persistent.BaseImpl.Task))
+                    || typeof(TaskType).IsSubclassOf(typeof(XAFSecurityBenchmark.Models.EFCore.Task))) {
                     userRole.AddObjectPermission<TaskType>(SecurityOperations.FullObjectAccess, $"[AssignedTo].<Contact>[Department].[Users][[{keyPropertyName}] == CurrentUserId()].Exists()", SecurityPermissionState.Allow);
                 }
                 else {
