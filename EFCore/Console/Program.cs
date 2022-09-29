@@ -27,17 +27,17 @@ IObjectSpace loginObjectSpace = objectSpaceProvider.CreateNonsecuredObjectSpace(
 security.Logon(loginObjectSpace);
 
 // ## Step 3. Authorization. Access and Manipulate Data/UI Based on User/Role Rights
-Console.WriteLine($"{"Full Name",-40}{"Email",-40}");
+Console.WriteLine($"{"Full Name",-40}{"Department",-40}");
 using(IObjectSpace securedObjectSpace = objectSpaceProvider.CreateObjectSpace()) {
     // User cannot read protected entities like PermissionPolicyRole.
     Debug.Assert(securedObjectSpace.GetObjects<PermissionPolicyRole>().Count == 0);
     foreach(Employee employee in securedObjectSpace.GetObjects<Employee>()) { // User can read Employee data.
         // User can read Department data by criteria.
-        bool canRead = security.CanRead(securedObjectSpace, employee, memberName: nameof(Employee.Email));
-        Debug.Assert(!canRead == (employee.Email == null));
+        bool canRead = security.CanRead(securedObjectSpace, employee, memberName: nameof(Employee.Department));
+        Debug.Assert(!canRead == (employee.Department == null));
         // Mask protected property values when User has no 'Read' permission.
-        var email = canRead ? employee.Email : "*******";
-        Console.WriteLine($"{employee.FullName,-40}{email,-40}");
+        var department = canRead ? employee.Department.Title : "*******";
+        Console.WriteLine($"{employee.FullName,-40}{department,-40}");
     }
 }
 security.Logoff();
