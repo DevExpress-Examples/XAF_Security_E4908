@@ -61,14 +61,14 @@ This example demonstrates how to access data protected by the [Security System](
     
     ```csharp
     string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-    var objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security,
+    var objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider<ApplicationDbContext>(security,
         typesInfo, connectionString, (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies());
     ```
 8. Add a `CreateDemoData` method and call it at the beginning of the `Main` method in _Program.cs_:
     
     ```csharp
     private static void CreateDemoData(string connectionString, TypesInfo typesInfo) {
-        using (var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), typesInfo, connectionString,
+        using (var objectSpaceProvider = new EFCoreObjectSpaceProvider<ApplicationDbContext>(typesInfo, connectionString,
     (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies()))
         using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
             new Updater(objectSpace).UpdateDatabase();

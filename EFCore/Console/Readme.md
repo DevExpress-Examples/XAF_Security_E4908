@@ -62,7 +62,7 @@ This example demonstrates how to access data protected by the [Security System](
 
     ```csharp
     private static void CreateDemoData(string connectionString, TypesInfo typesInfo) {
-        using (var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), typesInfo, connectionString,
+        using (var objectSpaceProvider = new EFCoreObjectSpaceProvider<ApplicationDbContext>(typesInfo, connectionString,
     (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies()))
         using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
             new Updater(objectSpace).UpdateDatabase();
