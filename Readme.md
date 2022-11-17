@@ -32,7 +32,7 @@ We detailed the universal integration steps for any .NET app in [this video](htt
 #### Prerequisites to Run the Demos
 
 - [Visual Studio 2022 v17.0+](https://visualstudio.microsoft.com/vs/) with the following workloads:
-  - *.NET desktop development*  |  *ASP.NET and web development*  |  *.NET Core cross-platform development*
+  - *.NET desktop development*  |  *ASP.NET and web development* 
 - Download and run the [Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
   - *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
   - For the .NET Framework examples, you need to install DevExpress products with the installer.
