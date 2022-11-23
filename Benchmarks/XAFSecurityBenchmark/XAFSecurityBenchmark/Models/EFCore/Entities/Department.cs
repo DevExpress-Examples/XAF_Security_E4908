@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using XAFSecurityBenchmark.Models.Base;
+using DevExpress.Persistent.BaseImpl.EF;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
 
-    public class Department : IDepartment {
-        public virtual Int32 ID { get; set; }
+    public class Department : BaseObject, IDepartment {
         public virtual String Title { get; set; }
         public virtual String Office { get; set; }
         public virtual IList<Position> Positions { get; set; } = new ObservableCollection<Position>();

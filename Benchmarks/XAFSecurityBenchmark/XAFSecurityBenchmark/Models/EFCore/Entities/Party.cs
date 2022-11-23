@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel;
 using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
-using System.ComponentModel.DataAnnotations;
+using DevExpress.Persistent.BaseImpl.EF;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
 
-    public abstract class Party {
-
-        [Key]
-        [VisibleInDetailView(false), VisibleInListView(false), VisibleInLookupListView(false)]
-        public virtual Int32 ID { get; set; }
+    public abstract class Party : BaseObject {
 
         public virtual Byte[] Photo { get; set; }
 

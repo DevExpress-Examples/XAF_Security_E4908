@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DevExpress.ExpressApp;
@@ -7,9 +6,9 @@ using DevExpress.Persistent.BaseImpl.EF;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
     public class PortfolioFileData : FileAttachment, IXafEntityObject {
-        public virtual Int32 DocumentType_Int { get; set; }
+        public virtual int DocumentType_Int { get; set; }
 
-        public virtual int ResumeForeignKey { get; set; }
+        public virtual Guid ResumeForeignKey { get; set; }
 
         [Required]
         [ForeignKey(nameof(ResumeForeignKey))]
@@ -23,11 +22,9 @@ namespace XAFSecurityBenchmark.Models.EFCore {
 
         #region IXafEntityObject
 
-        public void OnCreated() {
+        public override void OnCreated() {
             DocumentType = DocumentType.Unknown;
         }
-        public void OnLoaded() { }
-        public void OnSaving() { }
 
         #endregion
     }

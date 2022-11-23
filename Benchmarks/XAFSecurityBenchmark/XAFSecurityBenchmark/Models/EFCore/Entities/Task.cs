@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp;
 using DevExpress.Persistent.Base;
-using System.ComponentModel.DataAnnotations;
 using DevExpress.Persistent.Base.General;
+using DevExpress.Persistent.BaseImpl.EF;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
 
-    public class Task : ITask, IXafEntityObject, IObjectSpaceLink {
-
-        [Key]
-        public virtual int ID { get; set; }
+    public class Task : BaseObject, ITask {
 
         public virtual DateTime? DateCompleted { get; set; }
         public virtual String Subject { get; set; }
@@ -67,21 +63,9 @@ namespace XAFSecurityBenchmark.Models.EFCore {
         #region IXafEntityObject
 
         private bool isLoaded = false;
-        public virtual void OnCreated() { }
-        public virtual void OnSaving() { }
-        public virtual void OnLoaded() {
+        public override void OnLoaded() {
             isLoaded = true;
         }
-
-        #endregion
-
-        #region IObjectSpaceLink
-
-        IObjectSpace objectSpace;
-        IObjectSpace IObjectSpaceLink.ObjectSpace {
-            get { return objectSpace; }
-            set { objectSpace = value; }
-        }        
 
         #endregion
     }

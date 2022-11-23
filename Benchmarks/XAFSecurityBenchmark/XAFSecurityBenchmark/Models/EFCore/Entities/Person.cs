@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Filtering;
-using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Base.General;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
