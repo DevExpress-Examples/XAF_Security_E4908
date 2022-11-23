@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DevExpress.Persistent.BaseImpl.EF;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace BusinessObjectsLibrary.BusinessObjects {
-    public class Department {
-        public virtual int ID { get; set; }
+    public class Department : BaseObject {
 
         public virtual string Title { get; set; }
 

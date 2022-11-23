@@ -1,10 +1,9 @@
 ﻿using DevExpress.ExpressApp.DC;
+using DevExpress.Persistent.BaseImpl.EF;
 using System;
 
 namespace BusinessObjectsLibrary.BusinessObjects {
-    public class Employee {
-
-        public virtual int ID { get; set; }
+    public class Employee : BaseObject {
 
         public virtual String FirstName { get; set; }
 
