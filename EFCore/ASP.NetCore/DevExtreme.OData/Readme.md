@@ -310,7 +310,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
                 if(typeInfo != null) {
                     Type type = typeInfo.Type;
                     using IObjectSpace objectSpace = objectSpaceFactory.CreateObjectSpace(type);
-                    IEnumerable<int> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => int.Parse(k));
+                    IEnumerable<Guid> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => Guid.Parse(k));
                     IEnumerable<ObjectPermission> objectPermissions = objectSpace
                         .GetObjects(type, new InOperator(typeInfo.KeyMember.Name, keys))
                         .Cast<object>()

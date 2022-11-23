@@ -7,7 +7,7 @@
 				url: "api/odata/Employee",
 				version: 4,
 				key: "ID",
-				keyType: "Int32",
+				keyType: "Guid",
 				onLoaded: onLoaded
 			}),
 			expand: ["Department"]
@@ -55,7 +55,7 @@
 						url: "api/odata/Department",
 						version: 4,
 						key: "ID",
-						keyType: "Int32"
+						keyType: "Guid"
 					}),
 					displayExpr: "Title",
 					valueExpr: "ID"
