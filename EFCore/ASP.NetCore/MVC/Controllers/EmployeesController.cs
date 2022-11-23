@@ -26,7 +26,7 @@ namespace MvcApplication.Controllers {
 			return DataSourceLoader.Load(employees, loadOptions);
 		}
 		[HttpDelete]
-		public ActionResult Delete(int key) {
+		public ActionResult Delete(Guid key) {
 			Employee existing = objectSpace.GetObjectByKey<Employee>(key);
 			if(existing != null) {
 				objectSpace.Delete(existing);
@@ -36,7 +36,7 @@ namespace MvcApplication.Controllers {
 			return NotFound();
 		}
 		[HttpPut]
-		public ActionResult Update(int key, string values) {
+		public ActionResult Update(Guid key, string values) {
 			Employee employee = objectSpace.GetObjectByKey<Employee>(key);
 			if(employee != null) {
 				JsonParser.ParseJObject<Employee>(JObject.Parse(values), employee, objectSpace);

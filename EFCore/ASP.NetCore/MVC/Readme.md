@@ -303,7 +303,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
     
     ```csharp
     [HttpDelete]
-    public ActionResult Delete(int key) {
+    public ActionResult Delete(Guid key) {
         Employee existing = objectSpace.GetObjectByKey<Employee>(key);
         if(existing != null) {
             objectSpace.Delete(existing);
@@ -318,7 +318,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
     
     ```csharp
     [HttpPut]
-    public ActionResult Update(int key, string values) {
+    public ActionResult Update(Guid key, string values) {
         Employee employee = objectSpace.GetObjectByKey<Employee>(key);
         if(employee != null) {
             JsonParser.ParseJObject<Employee>(JObject.Parse(values), employee, objectSpace);
