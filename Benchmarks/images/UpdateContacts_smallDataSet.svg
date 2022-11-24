@@ -1,0 +1,454 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" width="1434" height="637">
+  <defs>
+    <clipPath id="def_1">
+      <path d="M 70, 10 L 1210, 10 L 1210, 576 L 70, 576 L 70, 10 Z" />
+    </clipPath>
+    <clipPath id="def_2">
+      <path d="M 70, 10 L 1210, 10 L 1210, 576 L 70, 576 L 70, 10 Z" />
+    </clipPath>
+    <clipPath id="def_3">
+      <path d="M 70, 10 L 1210, 10 L 1210, 576 L 70, 576 L 70, 10 Z" />
+    </clipPath>
+    <clipPath id="def_4">
+      <path d="M 70, 10 L 1210, 10 L 1210, 576 L 70, 576 L 70, 10 Z" />
+    </clipPath>
+    <clipPath id="def_5">
+      <path d="M 70, 10 L 1210, 10 L 1210, 576 L 70, 576 L 70, 10 Z" />
+    </clipPath>
+    <clipPath id="def_6">
+      <path d="M 70, 10 L 1210, 10 L 1210, 576 L 70, 576 L 70, 10 Z" />
+    </clipPath>
+    <clipPath id="def_7">
+      <path d="M 58, 586 L 84, 586 L 84, 604 L 58, 604 Z" />
+    </clipPath>
+    <clipPath id="def_8">
+      <path d="M 270, 586 L 311, 586 L 311, 604 L 270, 604 Z" />
+    </clipPath>
+    <clipPath id="def_9">
+      <path d="M 489, 586 L 530, 586 L 530, 604 L 489, 604 Z" />
+    </clipPath>
+    <clipPath id="def_10">
+      <path d="M 708, 586 L 749, 586 L 749, 604 L 708, 604 Z" />
+    </clipPath>
+    <clipPath id="def_11">
+      <path d="M 927, 586 L 968, 586 L 968, 604 L 927, 604 Z" />
+    </clipPath>
+    <clipPath id="def_12">
+      <path d="M 1146, 586 L 1187, 586 L 1187, 604 L 1146, 604 Z" />
+    </clipPath>
+    <clipPath id="def_13">
+      <path d="M 582, 607 L 702, 607 L 702, 632 L 582, 632 Z" />
+    </clipPath>
+    <clipPath id="def_14">
+      <path d="M 41, 566 L 67, 566 L 67, 584 L 41, 584 Z" />
+    </clipPath>
+    <clipPath id="def_15">
+      <path d="M 33, 536 L 67, 536 L 67, 554 L 33, 554 Z" />
+    </clipPath>
+    <clipPath id="def_16">
+      <path d="M 33, 507 L 67, 507 L 67, 525 L 33, 525 Z" />
+    </clipPath>
+    <clipPath id="def_17">
+      <path d="M 33, 477 L 67, 477 L 67, 495 L 33, 495 Z" />
+    </clipPath>
+    <clipPath id="def_18">
+      <path d="M 26, 447 L 67, 447 L 67, 465 L 26, 465 Z" />
+    </clipPath>
+    <clipPath id="def_19">
+      <path d="M 26, 417 L 67, 417 L 67, 435 L 26, 435 Z" />
+    </clipPath>
+    <clipPath id="def_20">
+      <path d="M 26, 388 L 67, 388 L 67, 406 L 26, 406 Z" />
+    </clipPath>
+    <clipPath id="def_21">
+      <path d="M 26, 358 L 67, 358 L 67, 376 L 26, 376 Z" />
+    </clipPath>
+    <clipPath id="def_22">
+      <path d="M 26, 328 L 67, 328 L 67, 346 L 26, 346 Z" />
+    </clipPath>
+    <clipPath id="def_23">
+      <path d="M 26, 298 L 67, 298 L 67, 316 L 26, 316 Z" />
+    </clipPath>
+    <clipPath id="def_24">
+      <path d="M 26, 269 L 67, 269 L 67, 287 L 26, 287 Z" />
+    </clipPath>
+    <clipPath id="def_25">
+      <path d="M 26, 239 L 67, 239 L 67, 257 L 26, 257 Z" />
+    </clipPath>
+    <clipPath id="def_26">
+      <path d="M 26, 209 L 67, 209 L 67, 227 L 26, 227 Z" />
+    </clipPath>
+    <clipPath id="def_27">
+      <path d="M 26, 179 L 67, 179 L 67, 197 L 26, 197 Z" />
+    </clipPath>
+    <clipPath id="def_28">
+      <path d="M 26, 150 L 67, 150 L 67, 168 L 26, 168 Z" />
+    </clipPath>
+    <clipPath id="def_29">
+      <path d="M 26, 120 L 67, 120 L 67, 138 L 26, 138 Z" />
+    </clipPath>
+    <clipPath id="def_30">
+      <path d="M 26, 90 L 67, 90 L 67, 108 L 26, 108 Z" />
+    </clipPath>
+    <clipPath id="def_31">
+      <path d="M 26, 60 L 67, 60 L 67, 78 L 26, 78 Z" />
+    </clipPath>
+    <clipPath id="def_32">
+      <path d="M 26, 31 L 67, 31 L 67, 49 L 26, 49 Z" />
+    </clipPath>
+    <clipPath id="def_33">
+      <path d="M 5.0000401, 381 L 4.9999571, 201 L 29.9999561, 200.9999847 L 30.0000401, 380.9999695 Z" />
+    </clipPath>
+    <clipPath id="def_34">
+      <path d="M 1220, 10 L 1424, 10 L 1424, 155 L 1220, 155 Z" />
+    </clipPath>
+  </defs>
+  <g>
+    <rect x="0" y="0" width="1434" height="637" fill="#ffffff" fill-opacity="1" shape-rendering="optimizeSpeed" />
+  </g>
+  <g clip-path="url(#def_1)">
+    <rect x="70" y="10" width="1140" height="566" fill="#ffffff" fill-opacity="1" shape-rendering="optimizeSpeed" />
+  </g>
+  <g clip-path="url(#def_2)">
+    <line x1="70.5" y1="575" x2="70.5" y2="10" fill="none" fill-opacity="0" stroke="#bfbfbf" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="289.5" y1="575" x2="289.5" y2="10" fill="none" fill-opacity="0" stroke="#bfbfbf" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="508.5" y1="575" x2="508.5" y2="10" fill="none" fill-opacity="0" stroke="#bfbfbf" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="727.5" y1="575" x2="727.5" y2="10" fill="none" fill-opacity="0" stroke="#bfbfbf" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="946.5" y1="575" x2="946.5" y2="10" fill="none" fill-opacity="0" stroke="#bfbfbf" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="1165.5" y1="575" x2="1165.5" y2="10" fill="none" fill-opacity="0" stroke="#bfbfbf" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="114.5" y1="575" x2="114.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="158.5" y1="575" x2="158.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="201.5" y1="575" x2="201.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="245.5" y1="575" x2="245.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="333.5" y1="575" x2="333.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="377.5" y1="575" x2="377.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="420.5" y1="575" x2="420.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="464.5" y1="575" x2="464.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="552.5" y1="575" x2="552.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="596.5" y1="575" x2="596.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="640.5" y1="575" x2="640.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="683.5" y1="575" x2="683.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="771.5" y1="575" x2="771.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="815.5" y1="575" x2="815.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="859.5" y1="575" x2="859.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="902.5" y1="575" x2="902.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="990.5" y1="575" x2="990.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="1034.5" y1="575" x2="1034.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="1078.5" y1="575" x2="1078.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="1121.5" y1="575" x2="1121.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="1209.5" y1="575" x2="1209.5" y2="10" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="575.5" x2="1209" y2="575.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="545.5" x2="1209" y2="545.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="516.5" x2="1209" y2="516.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="486.5" x2="1209" y2="486.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="456.5" x2="1209" y2="456.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="426.5" x2="1209" y2="426.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="397.5" x2="1209" y2="397.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="367.5" x2="1209" y2="367.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="337.5" x2="1209" y2="337.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="307.5" x2="1209" y2="307.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="278.5" x2="1209" y2="278.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="248.5" x2="1209" y2="248.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="218.5" x2="1209" y2="218.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="188.5" x2="1209" y2="188.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="159.5" x2="1209" y2="159.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="129.5" x2="1209" y2="129.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="99.5" x2="1209" y2="99.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="69.5" x2="1209" y2="69.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="40.5" x2="1209" y2="40.5" fill="none" fill-opacity="0" stroke="#a5a5a5" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="565.5" x2="1209" y2="565.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="555.5" x2="1209" y2="555.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="535.5" x2="1209" y2="535.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="525.5" x2="1209" y2="525.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="506.5" x2="1209" y2="506.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="496.5" x2="1209" y2="496.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="476.5" x2="1209" y2="476.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="466.5" x2="1209" y2="466.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="446.5" x2="1209" y2="446.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="436.5" x2="1209" y2="436.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="416.5" x2="1209" y2="416.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="406.5" x2="1209" y2="406.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="387.5" x2="1209" y2="387.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="377.5" x2="1209" y2="377.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="357.5" x2="1209" y2="357.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="347.5" x2="1209" y2="347.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="327.5" x2="1209" y2="327.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="317.5" x2="1209" y2="317.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="297.5" x2="1209" y2="297.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="288.5" x2="1209" y2="288.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="268.5" x2="1209" y2="268.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="258.5" x2="1209" y2="258.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="238.5" x2="1209" y2="238.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="228.5" x2="1209" y2="228.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="208.5" x2="1209" y2="208.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="198.5" x2="1209" y2="198.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="178.5" x2="1209" y2="178.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="169.5" x2="1209" y2="169.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="149.5" x2="1209" y2="149.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="139.5" x2="1209" y2="139.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="119.5" x2="1209" y2="119.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="109.5" x2="1209" y2="109.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="89.5" x2="1209" y2="89.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="79.5" x2="1209" y2="79.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="59.5" x2="1209" y2="59.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="50.5" x2="1209" y2="50.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="30.5" x2="1209" y2="30.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="70" y1="20.5" x2="1209" y2="20.5" fill="none" fill-opacity="0" stroke="#f2f2f2" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+  </g>
+  <g clip-path="url(#def_3)">
+    <polyline points="91.9038467, 571.8752441 113.8076935, 570.9334106 179.5192261, 568.6453857 289.0384521, 565.4263916 617.5961304, 555.2461548 1165.1922607, 537.0368042" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="1" stroke-width="4" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="geometricPrecision" />
+    <ellipse cx="92" cy="572" rx="11" ry="11" fill="#000000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="92" cy="572" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="114" cy="571" rx="11" ry="11" fill="#000000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="114" cy="571" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="180" cy="569" rx="11" ry="11" fill="#000000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="180" cy="569" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="289" cy="565" rx="11" ry="11" fill="#000000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="289" cy="565" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="618" cy="555" rx="11" ry="11" fill="#000000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="618" cy="555" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="1165" cy="537" rx="11" ry="11" fill="#000000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="1165" cy="537" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+  </g>
+  <g clip-path="url(#def_4)">
+    <polyline points="91.9038467, 557.7294922 113.8076935, 550.9783325 179.5192261, 535.3346558 289.0384521, 505.0197754 617.5961304, 425.6910095 1165.1922607, 293.563324" fill="none" fill-opacity="0" stroke="#0000ff" stroke-opacity="1" stroke-width="4" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="geometricPrecision" />
+    <ellipse cx="92" cy="558" rx="11" ry="11" fill="#0000ff" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="92" cy="558" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#0000eb" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="114" cy="551" rx="11" ry="11" fill="#0000ff" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="114" cy="551" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#0000eb" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="180" cy="535" rx="11" ry="11" fill="#0000ff" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="180" cy="535" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#0000eb" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="289" cy="505" rx="11" ry="11" fill="#0000ff" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="289" cy="505" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#0000eb" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="618" cy="426" rx="11" ry="11" fill="#0000ff" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="618" cy="426" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#0000eb" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="1165" cy="294" rx="11" ry="11" fill="#0000ff" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="1165" cy="294" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#0000eb" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+  </g>
+  <g clip-path="url(#def_5)">
+    <polyline points="91.9038467, 568.09021 113.8076935, 564.8306274 179.5192261, 556.8452148 289.0384521, 542.4744263 617.5961304, 501.9564819 1165.1922607, 423.6042175" fill="none" fill-opacity="0" stroke="#008000" stroke-opacity="1" stroke-width="4" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="geometricPrecision" />
+    <ellipse cx="92" cy="568" rx="11" ry="11" fill="#008000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="92" cy="568" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#007500" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="114" cy="565" rx="11" ry="11" fill="#008000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="114" cy="565" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#007500" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="180" cy="557" rx="11" ry="11" fill="#008000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="180" cy="557" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#007500" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="289" cy="542" rx="11" ry="11" fill="#008000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="289" cy="542" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#007500" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="618" cy="502" rx="11" ry="11" fill="#008000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="618" cy="502" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#007500" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="1165" cy="424" rx="11" ry="11" fill="#008000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="1165" cy="424" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#007500" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+  </g>
+  <g clip-path="url(#def_6)">
+    <polyline points="91.9038467, 555.6020508 113.8076935, 543.1386108 179.5192261, 515.8583374 289.0384521, 465.8600159 617.5961304, 322.8283386 1165.1922607, 61.363636" fill="none" fill-opacity="0" stroke="#ff0000" stroke-opacity="1" stroke-width="4" stroke-linecap="butt" stroke-linejoin="bevel" shape-rendering="geometricPrecision" />
+    <ellipse cx="92" cy="556" rx="11" ry="11" fill="#ff0000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="92" cy="556" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#eb0000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="114" cy="543" rx="11" ry="11" fill="#ff0000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="114" cy="543" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#eb0000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="180" cy="516" rx="11" ry="11" fill="#ff0000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="180" cy="516" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#eb0000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="289" cy="466" rx="11" ry="11" fill="#ff0000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="289" cy="466" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#eb0000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="618" cy="323" rx="11" ry="11" fill="#ff0000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="618" cy="323" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#eb0000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <ellipse cx="1165" cy="61" rx="11" ry="11" fill="#ff0000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="1165" cy="61" rx="11" ry="11" fill="none" fill-opacity="0" stroke="#eb0000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+  </g>
+  <g clip-path="url(#def_7)">
+    <text x="0" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(70 595)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">0</text>
+  </g>
+  <g clip-path="url(#def_8)">
+    <text x="0" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(289 595)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">100</text>
+  </g>
+  <g clip-path="url(#def_9)">
+    <text x="0" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(508 595)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">200</text>
+  </g>
+  <g clip-path="url(#def_10)">
+    <text x="0" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(727 595)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">300</text>
+  </g>
+  <g clip-path="url(#def_11)">
+    <text x="0" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(946 595)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">400</text>
+  </g>
+  <g clip-path="url(#def_12)">
+    <text x="0" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(1165 595)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">500</text>
+  </g>
+  <g clip-path="url(#def_13)">
+    <text x="0" y="6.666666" dx="0" dy="0" font-family="Tahoma" font-size="18.66666603088379" text-anchor="middle" style="white-space: pre;" transform="translate(640 619)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">Item Count</text>
+  </g>
+  <g clip-path="url(#def_14)">
+    <text x="-6" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 575)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">0</text>
+  </g>
+  <g clip-path="url(#def_15)">
+    <text x="-10" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 545)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">30</text>
+  </g>
+  <g clip-path="url(#def_16)">
+    <text x="-10" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 516)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">60</text>
+  </g>
+  <g clip-path="url(#def_17)">
+    <text x="-10" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 486)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">90</text>
+  </g>
+  <g clip-path="url(#def_18)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 456)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">120</text>
+  </g>
+  <g clip-path="url(#def_19)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 426)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">150</text>
+  </g>
+  <g clip-path="url(#def_20)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 397)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">180</text>
+  </g>
+  <g clip-path="url(#def_21)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 367)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">210</text>
+  </g>
+  <g clip-path="url(#def_22)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 337)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">240</text>
+  </g>
+  <g clip-path="url(#def_23)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 307)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">270</text>
+  </g>
+  <g clip-path="url(#def_24)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 278)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">300</text>
+  </g>
+  <g clip-path="url(#def_25)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 248)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">330</text>
+  </g>
+  <g clip-path="url(#def_26)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 218)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">360</text>
+  </g>
+  <g clip-path="url(#def_27)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 188)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">390</text>
+  </g>
+  <g clip-path="url(#def_28)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 159)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">420</text>
+  </g>
+  <g clip-path="url(#def_29)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 129)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">450</text>
+  </g>
+  <g clip-path="url(#def_30)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 99)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">480</text>
+  </g>
+  <g clip-path="url(#def_31)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 69)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">510</text>
+  </g>
+  <g clip-path="url(#def_32)">
+    <text x="-14" y="4.333333" dx="0" dy="0" font-family="Tahoma" font-size="13.333333015441895" text-anchor="middle" style="white-space: pre;" transform="translate(59 40)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">540</text>
+  </g>
+  <g clip-path="url(#def_33)">
+    <text x="0" y="6.666666" dx="0" dy="0" font-family="Tahoma" font-size="18.66666603088379" text-anchor="middle" style="white-space: pre;" transform="translate(17 293)rotate(270)" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">Time, milliseconds</text>
+  </g>
+  <g>
+    <rect x="70" y="10" width="1140" height="1" fill="#c8c8c8" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="70" y="575" width="1140" height="1" fill="#c8c8c8" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="70" y="10" width="1" height="566" fill="#c8c8c8" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="1209" y="10" width="1" height="566" fill="#c8c8c8" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="70" y="575" width="1140" height="3" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="70" y="578" width="1" height="5" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="289" y="578" width="1" height="5" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="508" y="578" width="1" height="5" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="727" y="578" width="1" height="5" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="946" y="578" width="1" height="5" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="1165" y="578" width="1" height="5" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="114" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="158" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="201" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="245" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="333" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="377" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="420" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="464" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="552" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="596" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="640" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="683" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="771" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="815" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="859" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="902" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="990" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="1034" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="1078" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="1121" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="1209" y="578" width="1" height="2" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <rect x="68" y="10" width="3" height="566" fill="#7f7f7f" fill-opacity="1" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="575" x2="68" y2="575" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="545" x2="68" y2="545" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="516" x2="68" y2="516" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="486" x2="68" y2="486" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="456" x2="68" y2="456" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="426" x2="68" y2="426" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="397" x2="68" y2="397" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="367" x2="68" y2="367" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="337" x2="68" y2="337" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="307" x2="68" y2="307" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="278" x2="68" y2="278" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="248" x2="68" y2="248" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="218" x2="68" y2="218" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="188" x2="68" y2="188" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="159" x2="68" y2="159" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="129" x2="68" y2="129" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="99" x2="68" y2="99" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="69" x2="68" y2="69" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="63" y1="40" x2="68" y2="40" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="565" x2="68" y2="565" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="555" x2="68" y2="555" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="535" x2="68" y2="535" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="525" x2="68" y2="525" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="506" x2="68" y2="506" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="496" x2="68" y2="496" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="476" x2="68" y2="476" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="466" x2="68" y2="466" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="446" x2="68" y2="446" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="436" x2="68" y2="436" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="416" x2="68" y2="416" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="406" x2="68" y2="406" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="387" x2="68" y2="387" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="377" x2="68" y2="377" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="357" x2="68" y2="357" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="347" x2="68" y2="347" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="327" x2="68" y2="327" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="317" x2="68" y2="317" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="297" x2="68" y2="297" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="288" x2="68" y2="288" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="268" x2="68" y2="268" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="258" x2="68" y2="258" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="238" x2="68" y2="238" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="228" x2="68" y2="228" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="208" x2="68" y2="208" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="198" x2="68" y2="198" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="178" x2="68" y2="178" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="169" x2="68" y2="169" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="149" x2="68" y2="149" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="139" x2="68" y2="139" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="119" x2="68" y2="119" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="109" x2="68" y2="109" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="89" x2="68" y2="89" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="79" x2="68" y2="79" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="59" x2="68" y2="59" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="50" x2="68" y2="50" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="30" x2="68" y2="30" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <line x1="66" y1="20" x2="68" y2="20" fill="none" fill-opacity="0" stroke="#7f7f7f" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="optimizeSpeed" />
+    <rect x="1220" y="10" width="204" height="145" fill="#ffffff" fill-opacity="1" shape-rendering="optimizeSpeed" />
+  </g>
+  <g clip-path="url(#def_34)">
+    <line x1="1230" y1="29" x2="1249" y2="29" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="0.3137254901960784" stroke-width="1" stroke-linecap="round" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="1230" y1="29" x2="1249" y2="29" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <ellipse cx="1239" cy="29" rx="8" ry="8" fill="#000000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="1239" cy="29" rx="8" ry="8" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <text x="1252" y="34.666667" dx="0" dy="0" font-family="Tahoma" font-size="14.666666984558105" style="white-space: pre;" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">EF Core 6 (No Security)</text>
+    <line x1="1230" y1="64" x2="1249" y2="64" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="0.3137254901960784" stroke-width="1" stroke-linecap="round" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="1230" y1="64" x2="1249" y2="64" fill="none" fill-opacity="0" stroke="#0000ff" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <ellipse cx="1239" cy="64" rx="8" ry="8" fill="#0000ff" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="1239" cy="64" rx="8" ry="8" fill="none" fill-opacity="0" stroke="#0000eb" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <text x="1252" y="69.666667" dx="0" dy="0" font-family="Tahoma" font-size="14.666666984558105" style="white-space: pre;" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">EF Core 6 (Security)</text>
+    <line x1="1230" y1="99" x2="1249" y2="99" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="0.3137254901960784" stroke-width="1" stroke-linecap="round" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="1230" y1="99" x2="1249" y2="99" fill="none" fill-opacity="0" stroke="#008000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <ellipse cx="1239" cy="99" rx="8" ry="8" fill="#008000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="1239" cy="99" rx="8" ry="8" fill="none" fill-opacity="0" stroke="#007500" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <text x="1252" y="104.666667" dx="0" dy="0" font-family="Tahoma" font-size="14.666666984558105" style="white-space: pre;" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">XPO (No Security)</text>
+    <line x1="1230" y1="134" x2="1249" y2="134" fill="none" fill-opacity="0" stroke="#000000" stroke-opacity="0.3137254901960784" stroke-width="1" stroke-linecap="round" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <line x1="1230" y1="134" x2="1249" y2="134" fill="none" fill-opacity="0" stroke="#ff0000" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="bevel" shape-rendering="optimizeSpeed" />
+    <ellipse cx="1239" cy="134" rx="8" ry="8" fill="#ff0000" fill-opacity="1" shape-rendering="geometricPrecision" />
+    <ellipse cx="1239" cy="134" rx="8" ry="8" fill="none" fill-opacity="0" stroke="#eb0000" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" shape-rendering="geometricPrecision" />
+    <text x="1252" y="139.666667" dx="0" dy="0" font-family="Tahoma" font-size="14.666666984558105" style="white-space: pre;" fill="#595959" fill-opacity="1" stroke="none" stroke-opacity="0" stroke-width="0" shape-rendering="optimizeSpeed">XPO (Security)</text>
+  </g>
+</svg>

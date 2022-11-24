@@ -89,7 +89,7 @@ For more information, see the test object creation logic in the [TemporaryTestOb
 
 ## Test Results
 
-We ran all benchmarks against .NET 5 and used AnyCPU release builds (include warm-up). The test machine had Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v13.0.4001.0, i7-6700 CPU @4.0GHz / 32GB RAM / SSD. 
+We ran all benchmarks against .NET 6 and used AnyCPU release builds (include warm-up). The test machine had Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v15.00.4153, i7-8565U CPU 1.80GHz / 16GB RAM / SSD. 
 
 Needless to say, lower numbers are better.
 
@@ -100,17 +100,17 @@ Needless to say, lower numbers are better.
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getContacts_largeDataSet.svg" width="100%"/>
 </p>
 
-|Item Count | EF Core 5 (No Security), ms | EF Core 5 (Security), ms | XPO (No Security), ms | XPO (Security), ms |
-|------------|----------------------------|-------------------------|----------------------|-------------------|
-|10          |1.370                       |12.734                   |2.781                 |7.149              |
-|20          |1.415                       |17.683                   |3.760                 |7.304              |
-|50          |1.708                       |26.966                   |5.051                 |12.335             |
-|100         |2.017                       |44.743                   |7.246                 |20.567             |
-|250         |3.065                       |101.844                  |15.311                |48.055             |
-|500         |4.741                       |196.163                  |26.649                |94.178             |
-|1000        |8.098                       |407.876                  |53.689                |188.849            |
-|2500        |18.643                      |1,139.486                |154.995               |474.939            |
-|5000        |19.457                      |2,847.249                |268.775               |967.130            |
+|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
+|10                            |1.904                         |13.237                        |3.475                         |10.158                        |
+|20                            |2.249                         |17.960                        |4.524                         |15.155                        |
+|50                            |2.754                         |30.723                        |6.009                         |28.735                        |
+|100                           |3.523                         |51.336                        |9.222                         |46.193                        |
+|250                           |5.505                         |108.844                       |18.272                        |105.792                       |
+|500                           |8.761                         |204.412                       |31.274                        |206.597                       |
+|1000                          |13.526                        |411.823                       |63.029                        |403.873                       |
+|2500                          |28.082                        |1027.268                      |169.442                       |999.144                       |
+|5000                          |50.257                        |2024.886                      |290.555                       |1959.855                      |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetContacts](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L87-L89)
 
@@ -123,17 +123,17 @@ Needless to say, lower numbers are better.
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getTasks_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count | EF Core 5 (No Security), ms | EF Core 5 (Security), ms | XPO (No Security), ms | XPO (Security), ms |
-|------------|--------------------------|---------------------------|----------------------|-----------------------|
-|10          |1.581                     |26.763                     |4.184                 |38.900                 |
-|20          |1.865                     |37.863                     |6.792                 |88.789                 |
-|50          |2.449                     |75.082                     |12.080                |202.839                |
-|100         |3.284                     |134.820                    |21.896                |416.492                |
-|250         |19.132                    |325.692                    |44.621                |1,069.608              |
-|500         |22.137                    |634.178                    |79.334                |2,084.031              |
-|1000        |28.301                    |1,253.319                  |153.552               |4,192.824              |
-|2500        |47.406                    |3,105.556                  |304.600               |10,222.239             |
-|5000        |78.365                    |6,198.760                  |558.145               |20,674.707             | 
+|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
+|10                            |2.222                         |23.294                        |5.123                         |14.047                        |
+|20                            |2.535                         |36.954                        |6.564                         |22.771                        |
+|50                            |3.318                         |77.508                        |12.511                        |44.269                        |
+|100                           |4.160                         |140.400                       |20.393                        |74.721                        |
+|250                           |6.812                         |342.428                       |48.244                        |178.487                       |
+|500                           |25.695                        |648.484                       |88.491                        |341.301                       |
+|1000                          |30.496                        |1293.597                      |199.272                       |642.491                       |
+|2500                          |45.456                        |3179.451                      |403.430                       |1529.463                      |
+|5000                          |69.999                        |6415.489                      |659.386                       |2891.915                      |
 
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetTasks](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L91-L93)
@@ -147,17 +147,17 @@ Needless to say, lower numbers are better.
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertContact_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count | EF Core 5 (No Security), ms | EF Core 5 (Security), ms | XPO (No Security), ms | XPO (Security), ms |
-|------------|----------------------------|-------------------------|----------------------|-----------------------|
-|10          |37.689                      |49.538                   |9.610                 |17.945                 |
-|20          |48.919                      |63.285                   |16.315                |30.597                 |
-|50          |111.202                     |130.787                  |40.767                |62.213                 |
-|100         |191.713                     |219.141                  |76.946                |115.297                |
-|250         |323.199                     |377.414                  |188.958               |283.511                |
-|500         |519.324                     |612.042                  |375.124               |558.222                |
-|1000        |934.478                     |1,101.866                |762.798               |1,143.385              |
-|2500        |2,251.004                   |2,706.443                |2,015.533             |3,217.575              |
-|5000        |4,434.771                   |5,261.035                |4,336.850             |6,529.839              |
+|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
+|10                            |21.740                        |54.970                        |11.757                        |18.214                        |
+|20                            |33.928                        |75.622                        |19.265                        |39.455                        |
+|50                            |83.777                        |158.878                       |43.589                        |57.055                        |
+|100                           |152.922                       |286.023                       |81.416                        |113.413                       |
+|250                           |277.036                       |575.107                       |204.544                       |282.959                       |
+|500                           |450.097                       |1031.882                      |395.238                       |545.208                       |
+|1000                          |857.256                       |2004.542                      |802.991                       |1093.585                      |
+|2500                          |2196.741                      |5030.960                      |2059.204                      |2790.443                      |
+|5000                          |4192.897                      |9783.412                      |4353.825                      |5978.855                      |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L75-L77)
 
@@ -170,17 +170,17 @@ Needless to say, lower numbers are better.
   <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertEmptyContact_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count | EF Core 5 (No Security), ms | EF Core 5 (Security), ms | XPO (No Security), ms | XPO (Security), ms |
-|------------|----------------------------|-------------------------|----------------------|-----------------------|
-|10          |16.224                      |21.824                   |6.256                 |8.557                  |
-|20          |21.386                      |28.582                   |10.476                |12.832                 |
-|50          |49.791                      |59.096                   |23.785                |28.845                 |
-|100         |67.251                      |82.284                   |44.266                |50.461                 |
-|250         |122.076                     |148.043                  |104.173               |123.448                |
-|500         |191.099                     |235.686                  |207.360               |242.628                |
-|1000        |333.375                     |413.528                  |410.068               |475.639                |
-|2500        |776.824                     |949.982                  |1,027.423             |1,216.567              |
-|5000        |1,514.629                   |1,864.973                |2,102.060             |2,503.027              |
+|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
+|10                            |12.351                        |18.745                        |7.931                         |11.182                        |
+|20                            |17.377                        |26.514                        |12.484                        |15.663                        |
+|50                            |42.629                        |69.339                        |25.344                        |31.612                        |
+|100                           |56.552                        |82.926                        |48.453                        |67.295                        |
+|250                           |107.527                       |163.434                       |116.923                       |133.885                       |
+|500                           |171.849                       |268.958                       |221.225                       |262.004                       |
+|1000                          |304.661                       |482.842                       |438.013                       |515.553                       |
+|2500                          |711.427                       |1153.885                      |1110.996                      |1326.815                      |
+|5000                          |1492.304                      |2360.035                      |2306.539                      |2792.178                      |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertEmptyContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L71-L73)
 
@@ -188,22 +188,22 @@ Needless to say, lower numbers are better.
 ### Scenario #5. Load, update, and save Contacts for a specific User
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateContact_smallDataSet.svg" width="100%"/>
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateContacts_smallDataSet.svg" width="100%"/>
   
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateContact_largeDataSet.svg" width="100%"/> 
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateContacts_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count | EF Core 5 (No Security), ms | EF Core 5 (Security), ms | XPO (No Security), ms | XPO (Security), ms |
-|------------|----------------------------|-------------------------|----------------------|-----------------------|
-|10          |2.810                       |15.952                   |5.582                 |10.709                 |
-|20          |3.857                       |23.704                   |8.366                 |16.588                 |
-|50          |6.304                       |35.559                   |15.322                |35.404                 |
-|100         |10.674                      |62.368                   |27.150                |60.569                 |
-|250         |22.372                      |139.360                  |64.693                |140.151                |
-|500         |41.286                      |273.831                  |131.991               |285.815                |
-|1000        |83.497                      |559.966                  |246.728               |601.347                |
-|2500        |211.406                     |1,539.082                |647.841               |1,603.247              |
-|5000        |465.541                     |3,636.916                |1,267.308             |3,158.913              |
+|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
+|10                            |3.152                         |17.421                        |6.970                         |19.567                        |
+|20                            |4.102                         |24.231                        |10.258                        |32.139                        |
+|50                            |6.410                         |40.011                        |18.313                        |59.657                        |
+|100                           |9.657                         |70.590                        |32.809                        |110.091                       |
+|250                           |19.926                        |150.610                       |73.680                        |254.369                       |
+|500                           |38.294                        |283.889                       |152.715                       |518.112                       |
+|1000                          |74.632                        |561.530                       |282.567                       |1031.548                      |
+|2500                          |206.279                       |1385.225                      |737.442                       |2737.980                      |
+|5000                          |470.039                       |2925.012                      |1433.632                      |5225.906                      |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateContacts](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L79-L81)
 
@@ -211,21 +211,21 @@ Needless to say, lower numbers are better.
 ### Scenario #6. Load, update, and save Tasks for a specific User
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateTask_smallDataSet.svg" width="100%"/>
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateTasks_smallDataSet.svg" width="100%"/>
   
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateTask_largeDataSet.svg" width="100%"/> 
+  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateTasks_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count | EF Core 5 (No Security), ms | EF Core 5 (Security), ms | XPO (No Security), ms | XPO (Security), ms |
-|------------|----------------------------|-------------------------|----------------------|-----------------------|
-|10          |1.475                       |22.537                   |5.841                 |90.147                 |
-|20          |1.881                       |37.966                   |8.603                 |169.677                |
-|50          |2.813                       |79.589                   |14.698                |407.658                |
-|100         |3.662                       |136.937                  |26.857                |794.231                |
-|250         |12.763                      |325.457                  |66.651                |1,966.607              |
-|500         |18.088                      |647.989                  |113.578               |3,939.288              |
-|1000        |25.225                      |1,281.299                |236.457               |7,834.771              |
-|2500        |49.258                      |3,161.325                |542.876               |19,379.141             |
-|5000        |90.776                      |6,267.947                |1,043.535             |38,638.566             |
+|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
+|10                            |1.780                         |25.029                        |7.230                         |23.505                        |
+|20                            |2.081                         |41.265                        |10.562                        |37.975                        |
+|50                            |2.844                         |87.256                        |20.130                        |77.818                        |
+|100                           |3.513                         |159.189                       |33.420                        |138.679                       |
+|250                           |6.205                         |392.286                       |72.776                        |337.622                       |
+|500                           |15.883                        |788.095                       |134.111                       |651.398                       |
+|1000                          |22.818                        |1528.384                      |284.931                       |1345.228                      |
+|2500                          |41.588                        |3834.232                      |650.563                       |3169.336                      |
+|5000                          |75.629                        |7398.532                      |1203.302                      |6218.685                      |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateTasks](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L83-L85) 
