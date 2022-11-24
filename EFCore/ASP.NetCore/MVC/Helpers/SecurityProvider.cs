@@ -48,7 +48,7 @@ public class SecurityProvider : IDisposable {
     }
 
     private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-        SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, xafDbContextFactory, security.TypesInfo);
+        var objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider<ApplicationDbContext>(security, xafDbContextFactory, security.TypesInfo);
         return objectSpaceProvider;
     }
     private void Login(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
@@ -57,7 +57,7 @@ public class SecurityProvider : IDisposable {
     }
     public void Dispose() {
         Security?.Dispose();
-        ((SecuredEFCoreObjectSpaceProvider)ObjectSpaceProvider)?.Dispose();
+        ((IDisposable)ObjectSpaceProvider)?.Dispose();
     }
 }
 

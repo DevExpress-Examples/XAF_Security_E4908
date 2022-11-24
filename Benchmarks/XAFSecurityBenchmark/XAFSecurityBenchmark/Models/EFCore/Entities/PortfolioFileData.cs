@@ -1,21 +1,14 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DevExpress.ExpressApp;
 using DevExpress.Persistent.BaseImpl.EF;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
-    public class PortfolioFileData : FileAttachment {
-        public PortfolioFileData()
-            : base() {
-            DocumentType = DocumentType.Unknown;
-        }
+    public class PortfolioFileData : FileAttachment, IXafEntityObject {
+        public virtual int DocumentType_Int { get; set; }
 
-        [Browsable(false)]
-        public Int32 DocumentType_Int { get; protected set; }
-
-        [Browsable(false)]
-        public int ResumeForeignKey { get; set; }
+        public virtual Guid ResumeForeignKey { get; set; }
 
         [Required]
         [ForeignKey(nameof(ResumeForeignKey))]
@@ -26,7 +19,16 @@ namespace XAFSecurityBenchmark.Models.EFCore {
             get { return (DocumentType)DocumentType_Int; }
             set { DocumentType_Int = (Int32)value; }
         }
+
+        #region IXafEntityObject
+
+        public override void OnCreated() {
+            DocumentType = DocumentType.Unknown;
+        }
+
+        #endregion
     }
+
     public enum DocumentType {
         SourceCode = 1,
         Tests = 2,

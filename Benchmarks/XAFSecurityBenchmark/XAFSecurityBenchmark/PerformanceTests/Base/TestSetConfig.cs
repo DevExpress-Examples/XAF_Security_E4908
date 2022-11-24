@@ -26,7 +26,7 @@ namespace XAFSecurityBenchmark.PerformanceTests {
         public static string EFCoreConnectionStrings => ConfigurationManager.ConnectionStrings["ConnectionString_EFCore"].ConnectionString;
 
         public TestSetConfig() {
-            var job = Job.Default.WithRuntime(CoreRuntime.Core50);
+            var job = Job.Default.WithRuntime(CoreRuntime.Core60);
                 //.WithMaxIterationCount(85);
             job.Run.RunStrategy = BenchmarkDotNet.Engines.RunStrategy.Throughput;
             AddJob(job);
@@ -66,6 +66,14 @@ namespace XAFSecurityBenchmark.PerformanceTests {
             }
 
             public IEnumerable<IGrouping<string, BenchmarkCase>> GetLogicalGroupOrder(IEnumerable<IGrouping<string, BenchmarkCase>> logicalGroups) {
+                return logicalGroups;
+            }
+
+            public IEnumerable<BenchmarkCase> GetExecutionOrder(ImmutableArray<BenchmarkCase> benchmarksCase, IEnumerable<BenchmarkLogicalGroupRule> order = null) {
+                return benchmarksCase;
+            }
+
+            public IEnumerable<IGrouping<string, BenchmarkCase>> GetLogicalGroupOrder(IEnumerable<IGrouping<string, BenchmarkCase>> logicalGroups, IEnumerable<BenchmarkLogicalGroupRule> order = null) {
                 return logicalGroups;
             }
         }

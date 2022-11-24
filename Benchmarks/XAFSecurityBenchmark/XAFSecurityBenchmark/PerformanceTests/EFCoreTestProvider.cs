@@ -31,7 +31,8 @@ namespace XAFSecurityBenchmark.PerformanceTests {
         public override void InsertEmptyContact(int recordsCount) {
             ICustomPermissionPolicyUser currentUser = GetUser();
             for(int i = 0; i < recordsCount; i++) {
-                var contact = new Contact() { FirstName = $"Contact{i}" };
+                var contact = dataContext.CreateProxy<Contact>();
+                contact.FirstName = $"Contact{i}";
                 ((IContact)contact).SetDepartment(currentUser.Department);
                 dataContext.Contacts.Add(contact);
             }
@@ -41,10 +42,10 @@ namespace XAFSecurityBenchmark.PerformanceTests {
             ICustomPermissionPolicyUser currentUser = GetUser();
             var objectHelper = new EFCoreObjectHelper(() => dataContext);
             objectHelper.BeginTransaction();
-            for(int i = 0; i < recordsCount; i++) {
-                var contact = new Contact();
-                objectHelper.FillContact(contact, currentUser.Department, i);
+            for (int i = 0; i < recordsCount; i++) {
+                var contact = dataContext.CreateProxy<Contact>();
                 dataContext.Contacts.Add(contact);
+                objectHelper.FillContact(contact, currentUser.Department, i);
             }
             dataContext.SaveChanges();
         }
@@ -87,7 +88,7 @@ namespace XAFSecurityBenchmark.PerformanceTests {
         }
 
         public override string ToString() {
-            return "EF Core 5 (No Security)";
+            return "EF Core 6 (No Security)";
         }
     }
 }

@@ -9,9 +9,9 @@
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />
-    <PackageReference Include="DevExpress.Win.Grid" Version="22.1.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="22.2.2-beta" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />

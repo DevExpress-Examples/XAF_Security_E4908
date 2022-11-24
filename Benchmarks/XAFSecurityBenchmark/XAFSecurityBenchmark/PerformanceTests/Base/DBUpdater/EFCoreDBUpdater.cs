@@ -15,14 +15,14 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
         private static IDBUpdater _instance = null;
         public static IDBUpdater Instance => _instance;
         public static void InitializeInstance(string keyPropertyName) {
-            if(_instance == null) {
+            if (_instance == null) {
                 _instance = new EFCoreDBUpdater(keyPropertyName);
             }
         }
 
         protected EFCoreDBUpdater(string keyPropertyName) : base(keyPropertyName) { }
 
-        protected override IObjectSpaceProvider CreateUpdatingObjectSpaceProvider() => new EFCoreObjectSpaceProvider(typeof(EFCoreContext), null);
+        protected override IObjectSpaceProvider CreateUpdatingObjectSpaceProvider() => new EFCoreObjectSpaceProvider<EFCoreContext>((EFCoreDatabaseProviderHandler<EFCoreContext>)null);
         protected override ITransactionHelper CreateUpdatingObjectHelper(IObjectSpace updatingObjectSpace) => new EFCoreObjectHelper(() => new EFCoreContext());
     }
 }

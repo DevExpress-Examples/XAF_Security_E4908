@@ -25,8 +25,8 @@ namespace WindowsFormsApplication {
                 authentication,
                 typesInfo
             );
-            SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
-                typesInfo, connectionString, (builder, connectionString) => builder.UseSqlServer(connectionString));
+            var objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider<ApplicationDbContext>(security,
+                typesInfo, connectionString, (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies());
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -34,8 +34,8 @@ namespace WindowsFormsApplication {
             Application.Run(mainForm);
         }
         private static void CreateDemoData(string connectionString, TypesInfo typesInfo) {
-            using (var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), typesInfo, connectionString,
-        (builder, connectionString) => builder.UseSqlServer(connectionString)))
+            using (var objectSpaceProvider = new EFCoreObjectSpaceProvider<ApplicationDbContext>(typesInfo, connectionString,
+        (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies()))
             using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
                 new Updater(objectSpace).UpdateDatabase();
             }

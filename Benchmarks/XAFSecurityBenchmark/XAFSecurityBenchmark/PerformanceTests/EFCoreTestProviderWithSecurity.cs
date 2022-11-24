@@ -17,17 +17,20 @@ namespace XAFSecurityBenchmark.PerformanceTests {
             EFCoreDBUpdater.InitializeInstance(nameof(CustomPermissionPolicyUser.ID));
         }
 
-        protected override IObjectSpaceProvider CreateUpdatingObjectSpaceProvider() => new EFCoreObjectSpaceProvider(typeof(EFCoreContext), null);
+        protected override IObjectSpaceProvider CreateUpdatingObjectSpaceProvider() => new EFCoreObjectSpaceProvider<EFCoreContext>((EFCoreDatabaseProviderHandler<EFCoreContext>)null);
         protected override IObjectSpaceProvider CreateSecuredObjectSpaceProvider(ISelectDataSecurityProvider selectDataSecurityProvider) =>
-            new SecuredEFCoreObjectSpaceProvider(selectDataSecurityProvider, typeof(EFCoreContext), (optionsBuilder, connectionString) => {
-                optionsBuilder.UseSqlServer(TestSetConfig.EFCoreConnectionStrings).UseLazyLoadingProxies();
+            new SecuredEFCoreObjectSpaceProvider<EFCoreContext>(selectDataSecurityProvider, (optionsBuilder, connectionString) => {
+                optionsBuilder
+                    .UseSqlServer(TestSetConfig.EFCoreConnectionStrings)
+                    .UseLazyLoadingProxies()
+                    .UseChangeTrackingProxies();
             });
 
         protected override ITransactionHelper CreateObjectHelper(IObjectSpace objectSpace) => new EFCoreSecuredObjectHelper(objectSpace);
         protected override IDBUpdater DBUpdater => EFCoreDBUpdater.Instance;
 
         public override string ToString() {
-            return "EF Core 5 (Security)";
+            return "EF Core 6 (Security)";
         }
     }
 }

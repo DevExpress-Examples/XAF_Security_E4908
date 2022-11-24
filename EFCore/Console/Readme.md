@@ -24,8 +24,8 @@ This example demonstrates how to access data protected by the [Security System](
 2. Add DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.2.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.2.4" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
     ```
 3. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
 4. Open the application configuration file (_App.config__. Add the following line to this file.
@@ -54,16 +54,16 @@ This example demonstrates how to access data protected by the [Security System](
     
     ```csharp
     string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-    SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, typeof(ApplicationDbContext),
-        typesInfo, connectionString, (builder, connectionString) => builder.UseSqlServer(connectionString));
+    var objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider<ApplicationDbContext>(security,
+        typesInfo, connectionString, (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies());
     ```
 
 - Call CreateDemoData method at the beginning of the Main method of Program.cs:
 
     ```csharp
     private static void CreateDemoData(string connectionString, TypesInfo typesInfo) {
-        using (var objectSpaceProvider = new EFCoreObjectSpaceProvider(typeof(ApplicationDbContext), typesInfo, connectionString,
-    (builder, connectionString) => builder.UseSqlServer(connectionString)))
+        using (var objectSpaceProvider = new EFCoreObjectSpaceProvider<ApplicationDbContext>(typesInfo, connectionString,
+    (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies()))
         using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
             new Updater(objectSpace).UpdateDatabase();
         }

@@ -4,7 +4,7 @@ This example demonstrates how to protect your data with the [XAF Security System
 - [Visual Studio 2022 v17.0+](https://visualstudio.microsoft.com/vs/) with the following workloads:
   - **ASP.NET and web development**
   - **.NET Core cross-platform development**
-- [.NET SDK 6.0+](https://dotnet.microsoft.com/download/dotnet-core)
+- [.NET SDK 6.0+](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 - Download and run the [Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
   
   *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
@@ -20,9 +20,9 @@ This example demonstrates how to protect your data with the [XAF Security System
 2. Add DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.2.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.2.4" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="21.2.4" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="22.2.3" />
     ```
 3. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
 
@@ -47,6 +47,7 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, opt
     string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
     options.UseSqlServer(connectionString);
     options.UseLazyLoadingProxies();
+    options.UseChangeTrackingProxies();
 }, ServiceLifetime.Scoped);
 
 var app = builder.Build();
@@ -85,7 +86,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.UseDemoData<ApplicationDbContext>(app.Configuration.GetConnectionString("ConnectionString"),
     (builder, connectionString) =>
-    builder.UseSqlServer(connectionString));
+    builder.UseSqlServer(connectionString).UseChangeTrackingProxies());
 app.Run();
 ```
 
@@ -110,7 +111,7 @@ app.Run();
 6. Set the [StaticFileOptions.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
 with the logic which сhecks if the ASP.NET Core Identity is authenticated. And, if not, it redirects a user to the authentication page.
 
-7. Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-5.0) in the [Program.cs](Program.cs)  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
+7. Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-6.0) in the [Program.cs](Program.cs)  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
 
 8. In the [Program.cs](Program.cs) file, register the `TypesInfo` service required for the correct operation of the Security System.
 
@@ -234,7 +235,7 @@ with the logic which сhecks if the ASP.NET Core Identity is authenticated. And,
 
     ```csharp
     private IObjectSpaceProvider GetObjectSpaceProvider(SecurityStrategyComplex security) {
-        SecuredEFCoreObjectSpaceProvider objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider(security, xafDbContextFactory, security.TypesInfo));
+        var objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider<ApplicationDbContext>(security, xafDbContextFactory, security.TypesInfo));
         return objectSpaceProvider;
     }
     ```
@@ -302,7 +303,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
     
     ```csharp
     [HttpDelete]
-    public ActionResult Delete(int key) {
+    public ActionResult Delete(Guid key) {
         Employee existing = objectSpace.GetObjectByKey<Employee>(key);
         if(existing != null) {
             objectSpace.Delete(existing);
@@ -317,7 +318,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
     
     ```csharp
     [HttpPut]
-    public ActionResult Update(int key, string values) {
+    public ActionResult Update(Guid key, string values) {
         Employee employee = objectSpace.GetObjectByKey<Employee>(key);
         if(employee != null) {
             JsonParser.ParseJObject<Employee>(JObject.Parse(values), employee, objectSpace);

@@ -1,6 +1,6 @@
 This example demonstrates how to expose your data with [XAF Web API]() and protect it with [XAF Security System](https://docs.devexpress.com/eXpressAppFramework/113366/Concepts/Security-System/Security-System-Overview) in the following client-server web app:
 
-- Server: an OData v7 service built with [ASP.NET Core Web API](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-5.0).
+- Server: an OData v7 service built with [ASP.NET Core Web API](https://docs.microsoft.com/en-us/aspnet/core/?view=aspnetcore-6.0).
 - Client: an HTML/JavaScript app with the [DevExtreme Data Grid](https://js.devexpress.com/Overview/DataGrid/).
 
 ## Prerequisites
@@ -22,8 +22,8 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
 1. Add EFCore DevExpress NuGet packages to your project:
 
     ```xml
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="21.2.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="21.2.4" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
     ```
 2. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
 
@@ -199,7 +199,7 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
         }
 
         IEnumerable<IObjectSpaceProvider> IObjectSpaceProviderFactory.CreateObjectSpaceProviders() {
-            yield return new SecuredEFCoreObjectSpaceProvider((ISelectDataSecurityProvider)security, dbFactory, typesInfo);
+            yield return new SecuredEFCoreObjectSpaceProvider<ApplicationDbContext>((ISelectDataSecurityProvider)security, dbFactory, typesInfo);
         }
     }
     ```
@@ -210,6 +210,7 @@ This example demonstrates how to expose your data with [XAF Web API]() and prote
         string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
         options.UseSqlServer(connectionString);
         options.UseLazyLoadingProxies();
+        options.UseChangeTrackingProxies();
         options.UseSecurity(serviceProvider);
     }, ServiceLifetime.Scoped);
     ```
@@ -309,7 +310,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
                 if(typeInfo != null) {
                     Type type = typeInfo.Type;
                     using IObjectSpace objectSpace = objectSpaceFactory.CreateObjectSpace(type);
-                    IEnumerable<int> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => int.Parse(k));
+                    IEnumerable<Guid> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => Guid.Parse(k));
                     IEnumerable<ObjectPermission> objectPermissions = objectSpace
                         .GetObjects(type, new InOperator(typeInfo.KeyMember.Name, keys))
                         .Cast<object>()

@@ -25,8 +25,8 @@ namespace XAFSecurityBenchmark.PerformanceTests.DBUpdater {
         where MemberPermissions : class, IPermissionPolicyMemberPermissionsObject
         where ObjectPermissions : class, IPermissionPolicyObjectPermissionsObject
         where NavigationPermission : class, IPermissionPolicyNavigationPermissionObject
-        where ContactType : class, IPerson, IContact
-        where TaskType : class, ITask
+        where ContactType : class, IContact
+        where TaskType : class, IDemoTask
         where DepartmentType : class, IDepartment {
 
         private IObjectSpaceProvider updatingObjectSpaceProvider;

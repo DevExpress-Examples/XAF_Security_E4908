@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using XAFSecurityBenchmark.PerformanceTests;
 
@@ -28,12 +25,13 @@ namespace XAFSecurityBenchmark.Models.EFCore {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if(!optionsBuilder.IsConfigured) {
                 optionsBuilder.UseSqlServer(TestSetConfig.EFCoreConnectionStrings);
+                optionsBuilder.UseChangeTrackingProxies();
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Party>().HasMany(c => c.PhoneNumbers).WithOne(p => p.Party).IsRequired();
-
+            modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangingAndChangedNotificationsWithOriginalValues);
 
             modelBuilder.Entity<Contact>()
                 .HasOne(r => r.Location)
