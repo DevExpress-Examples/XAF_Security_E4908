@@ -27,7 +27,7 @@ Contact us if you cannot compile or run any of these demo apps or have questions
 This project uses the following business objects:
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/ClassDiagram.png"  /> 
+  <img src="../Benchmarks/images/ClassDiagram.png"  /> 
 </p>
 
 ### Users and Permissions
@@ -96,8 +96,8 @@ Needless to say, lower numbers are better.
 ### Scenario #1. Load Contacts for a specific User
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getContacts_smallDataSet.svg" width="100%" /> 
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getContacts_largeDataSet.svg" width="100%"/>
+  <img src="../Benchmarks/images/getContacts_smallDataSet.svg" width="100%" /> 
+  <img src="../Benchmarks/images/getContacts_largeDataSet.svg" width="100%"/>
 </p>
 
 |Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
@@ -118,9 +118,9 @@ Needless to say, lower numbers are better.
 ### Scenario #2. Load Tasks for a specific User
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getTasks_smallDataSet.svg" width="100%"/>
+  <img src="../Benchmarks/images/getTasks_smallDataSet.svg" width="100%"/>
   
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/getTasks_largeDataSet.svg" width="100%"/> 
+  <img src="../Benchmarks/images/getTasks_largeDataSet.svg" width="100%"/> 
 </p>
 
 |Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
@@ -142,9 +142,9 @@ Needless to say, lower numbers are better.
 ### Scenario #3. Create a Contact and its associated data (20 Tasks, PhoneNumbers, Positions, Addresses)
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertContact_smallDataSet.svg" width="100%"/>
+  <img src="../Benchmarks/images/insertContact_smallDataSet.svg" width="100%"/>
   
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertContact_largeDataSet.svg" width="100%"/> 
+  <img src="../Benchmarks/images/insertContact_largeDataSet.svg" width="100%"/> 
 </p>
 
 |Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
@@ -165,9 +165,9 @@ Needless to say, lower numbers are better.
 ### Scenario #4. Create a Contact without associated data
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertEmptyContact_smallDataSet.svg" width="100%"/>
+  <img src="../Benchmarks/images/insertEmptyContact_smallDataSet.svg" width="100%"/>
   
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/insertEmptyContact_largeDataSet.svg" width="100%"/> 
+  <img src="../Benchmarks/images/insertEmptyContact_largeDataSet.svg" width="100%"/> 
 </p>
 
 |Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
@@ -188,9 +188,9 @@ Needless to say, lower numbers are better.
 ### Scenario #5. Load, update, and save Contacts for a specific User
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateContacts_smallDataSet.svg" width="100%"/>
+  <img src="../Benchmarks/images/updateContacts_smallDataSet.svg" width="100%"/>
   
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateContacts_largeDataSet.svg" width="100%"/> 
+  <img src="../Benchmarks/images/updateContacts_largeDataSet.svg" width="100%"/> 
 </p>
 
 |Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
@@ -211,9 +211,9 @@ Needless to say, lower numbers are better.
 ### Scenario #6. Load, update, and save Tasks for a specific User
 
 <p float="left">
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateTasks_smallDataSet.svg" width="100%"/>
+  <img src="../Benchmarks/images/updateTasks_smallDataSet.svg" width="100%"/>
   
-  <img src="https://raw.githubusercontent.com/DevExpress-Examples/XAF_Security_E4908/master/Benchmarks/images/updateTasks_largeDataSet.svg" width="100%"/> 
+  <img src="../Benchmarks/images/updateTasks_largeDataSet.svg" width="100%"/> 
 </p>
 
 |Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
