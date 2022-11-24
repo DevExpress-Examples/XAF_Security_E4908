@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using XAFSecurityBenchmark.Models.Base;
 using DevExpress.Persistent.BaseImpl.EF;
+using System.ComponentModel;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
 
+    [DefaultProperty(nameof(Department.Title))]
     public class Department : BaseObject, IDepartment {
         public virtual String Title { get; set; }
         public virtual String Office { get; set; }
@@ -21,6 +23,14 @@ namespace XAFSecurityBenchmark.Models.EFCore {
 
         public void AddPositions(IPosition position) {
             Positions.Add((Position)position);
+        }
+
+        public override bool Equals(object obj) {
+            return obj is Department department &&
+                   ID.Equals(department.ID);
+        }
+        public override int GetHashCode() {
+            return ID.GetHashCode();
         }
     }
 }
