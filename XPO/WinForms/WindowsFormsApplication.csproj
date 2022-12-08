@@ -9,9 +9,9 @@
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Win.Grid" Version="22.2.2-beta" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="22.2.2-beta" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.2.2-beta" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="22.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="22.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.2.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />

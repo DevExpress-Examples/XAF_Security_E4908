@@ -36,9 +36,9 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.2-beta" />
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.2-beta" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.2.2-beta" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="22.2.2-beta" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.3" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="22.2.3" />
   </ItemGroup>
 </Project>

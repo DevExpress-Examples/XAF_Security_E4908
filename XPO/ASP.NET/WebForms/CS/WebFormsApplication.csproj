@@ -48,10 +48,10 @@
     <PackageReference Include="AspNet.ScriptManager.bootstrap" Version="3.4.1" />
     <PackageReference Include="AspNet.ScriptManager.jQuery" Version="3.3.1" />
     <PackageReference Include="bootstrap" Version="3.4.1" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.2.2-beta" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="22.2.2-beta" />
-    <PackageReference Include="DevExpress.Web" Version="22.2.2-beta" />
-    <PackageReference Include="DevExpress.Web.Themes" Version="22.2.2-beta" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="22.2.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="22.2.3" />
+    <PackageReference Include="DevExpress.Web" Version="22.2.3" />
+    <PackageReference Include="DevExpress.Web.Themes" Version="22.2.3" />
     <PackageReference Include="jQuery" Version="3.3.1" />
     <PackageReference Include="Microsoft.AspNet.FriendlyUrls" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNet.FriendlyUrls.Core" Version="1.0.2" />

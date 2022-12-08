@@ -4,6 +4,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.2-beta" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
   </ItemGroup>
 </Project>
