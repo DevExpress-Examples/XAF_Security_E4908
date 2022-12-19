@@ -87,7 +87,7 @@ For information on how to create user and password from code, see the [Updater.c
 
 ## Step 3. Authorization. Access and Manipulate Data/UI Based on User/Role Rights
 
-1. Create an **ObjectSpace** instance to access protected data and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*) **OR** if you prefer, the familiar **UnitOfWork** object accessible through the *SecuredObjectSpace.Session* property.
+1. Create an **ObjectSpace** instance to access protected data and use [its data manipulation APIs](https://docs.devexpress.com/eXpressAppFramework/113711/data-manipulation-and-business-logic/create-read-update-and-delete-data) (for instance, *IObjectSpace.GetObjects*) **OR** if you prefer, the familiar **UnitOfWork** object accessible through the *XPObjectSpace.Session* property.
     
     ```csharp
     StringBuilder stringBuilder = new StringBuilder();
