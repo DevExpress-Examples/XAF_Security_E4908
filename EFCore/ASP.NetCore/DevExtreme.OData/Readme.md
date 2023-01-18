@@ -517,7 +517,7 @@ If the Read permission is denied, it displays the "*******" placeholder in data 
         if (e.rowType === "data") {
             var key = e.key;
             var objectPermission = getPermission(key.toString());
-            if (!e.column.command) {
+            if (!e.column.command && e.column.dataField != undefined) {
                 var dataField = e.column.dataField.split('.')[0];
                 if (!objectPermission[dataField].Read) {
                     e.cellElement.text("*******");
