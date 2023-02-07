@@ -81,7 +81,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 [LoginForm](LoginForm.cs) contains two `TextEdit` controls for a user name and a password, and the **Log In** button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if a logon was successful.
 
-    ```csharp
+```csharp
     private readonly SecurityStrategyComplex security;
     private readonly IObjectSpaceProvider objectSpaceProvider;
     public LoginForm(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider, string userName) {
@@ -104,7 +104,7 @@ This example demonstrates how to access data protected by the [Security System](
             XtraMessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
-    ```
+```
 
 ## Step 3. Implement the Main Form to Show/Hide Login, List and Detail Forms 
 
