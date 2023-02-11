@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+             Title="{Binding Title}"
+             IconImageSource="browse"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:models="clr-namespace:MAUI.Models"
+             xmlns:viewModels="clr-namespace:MAUI.ViewModels"
+             ios:Page.UseSafeArea="true"
+             x:Class="MAUI.Views.ItemsPage">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False"/>
+    </Shell.BackButtonBehavior>
+    <ContentPage.ToolbarItems >
+        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}"   />
+        <ToolbarItem Text="ShapeIt" Command="{Binding ShapeItCommand}"   />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <dxcv:DXCollectionView x:Name="ItemsListView"
+            ItemsSource="{Binding Items}"
+                SelectionMode="None">
+            <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <StackLayout Padding="18,20,10,01" x:DataType="models:Post">
+                                <Label Text="{Binding Title}"
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemTextStyle}"
+                                        FontFamily="Roboto"
+                                        FontSize="14"
+                                        TextColor="{StaticResource NormalText}"/>
+                                <Label Text="{Binding Content}"
+                                        LineBreakMode="NoWrap"
+                                        Style="{DynamicResource ListItemDetailTextStyle}"
+                                        FontFamily="Roboto"
+                                        FontSize="12"
+                                        TextColor="{StaticResource NormalLightText}"/>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ItemsViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}">
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+            </dxcv:DXCollectionView>
+    </ContentPage.Content>
+</ContentPage>

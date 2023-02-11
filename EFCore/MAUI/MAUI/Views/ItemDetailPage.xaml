@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource NormalBackgroundColor}"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="true"
+             x:Class="MAUI.Views.ItemDetailPage">
+    <ContentPage.ToolbarItems >
+        <ToolbarItem Text="Archive" Command="{Binding ArchiveCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <StackLayout Spacing="5" Padding="15">
+        <Label Text="Title:" FontFamily="Roboto" FontSize="12" TextColor="{StaticResource NormalLightText}"/>
+        <Label Text="{Binding Title}" FontFamily="Roboto" FontSize="14" TextColor="{StaticResource NormalText}" Margin="0, 0, 0, 15"/>
+        <Label Text="Content:" FontFamily="Roboto" FontSize="12" TextColor="{StaticResource NormalLightText}" />
+        <Label Text="{Binding Content}" FontFamily="Roboto" FontSize="14" TextColor="{StaticResource NormalText}"/>
+        <Label Text="Author:"></Label>
+        <Image   Source="{Binding Thumbnail}"></Image>
+    </StackLayout>
+
+</ContentPage>
