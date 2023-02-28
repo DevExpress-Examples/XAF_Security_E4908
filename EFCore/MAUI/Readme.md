@@ -197,7 +197,31 @@ This example demonstrates how to use our [Secured WebAPI](https://docs.devexpres
    ```cs
    public virtual MediaDataObject Photo { get; set; }
    ```
-## Step 5.  [Create A Predefined Static Report](https://docs.devexpress.com/eXpressAppFramework/113645/shape-export-print-data/reports/create-predefined-static-reports) to display the Post business objects.
+
+## Step 5. Set Up a Development Database Connection
+
+The XAF Solution Wizard generates the connection string and startup code required store persistent data in a [SQL Server Express LocalDB](https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb) database, which is only available on Microsoft Windows. If you are planning to develop your Web API backend on a non-Windows machine, consider using [SQLite](https://www.sqlite.org/) instead.
+
+To use SQLite, add the [Microsoft.EntityFrameworkCore.Sqlite](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite) **v6** NuGet package to your project's dependencies. After that, add the following code to the `ConfigureServices` method within _startup.cs_:
+
+```cs
+public void ConfigureServices(IServiceCollection services) {
+   // ...
+   services.AddDbContextFactory<WebAPIEFCoreDbContext>((serviceProvider, options) => { 
+      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+         string connectionString = Configuration.GetConnectionString("ConnectionString");
+         options.UseSqlServer(connectionString);
+      }
+      else {
+         string sqliteDBPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WebAPIDemo.db");
+         options.UseSqlite($"Data Source={sqliteDBPath}");
+      }
+      // ...
+   }
+}
+```
+
+## Step 6.  [Create A Predefined Static Report](https://docs.devexpress.com/eXpressAppFramework/113645/shape-export-print-data/reports/create-predefined-static-reports) to display the Post business objects.
 
 1. Add the Report component using the VS New Item wizard.
 2. Drag and drop a CollectionDataSource component from the VS toolbox and change its ObjectTypeName to `WebAPI.BusinessObjects.Post`.
@@ -212,7 +236,7 @@ This example demonstrates how to use our [Secured WebAPI](https://docs.devexpres
         return new ModuleUpdater[] { new DatabaseUpdate.Updater(objectSpace, versionFromDB),predefinedReportsUpdater };
     }
    ```
-## Step 6. [Use the Swagger UI to test the WebApi project](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman) custom and build-in endpoints. 
+## Step 7. [Use the Swagger UI to test the WebApi project](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman) custom and build-in endpoints. 
 
 > **NOTE** 
 >
@@ -220,7 +244,7 @@ This example demonstrates how to use our [Secured WebAPI](https://docs.devexpres
 
   ![](../../images/MAUI/Swagger.png) 
 
-## Step 7. Create the MAUI project.
+## Step 8. Create the MAUI project.
 > **NOTE** 
 >
 > Debugging configurations for both iOS and Android can be complex, so it is not feasible to provide all possible scenarios. In this demo, we tested using Windows 10 with Visual Studio 2022. For iOS, we utilized the paired remote Mac method, and for Android, we utilized the built-in emulator..
@@ -232,7 +256,7 @@ This example demonstrates how to use our [Secured WebAPI](https://docs.devexpres
 2. Choose both the `IOS & Android` platform, the `Tabbed` layout and the `Collection View`, the `Data Editors` and the `Data Forms`
   ![](../../images/MAUI/MAUINewProjectWizardConfig.png)
 
-## Step 8. Clean-Refactor the wizard generated project.
+## Step 9. Clean-Refactor the wizard generated project.
 1. Refactor the Model/Item.cs to Post, replace all project references.
    ```cs
    public class Post {
@@ -317,7 +341,7 @@ This example demonstrates how to use our [Secured WebAPI](https://docs.devexpres
      Task Authenticate(string userName,string password); 
    }
    ```
-## Step 9. Bind the MAUI pages with the IDataStore interface.
+## Step 10. Bind the MAUI pages with the IDataStore interface.
 1. Register Routes and initial navigation in the App.xaml.cs
    ```cs
    public App() {
@@ -466,7 +490,7 @@ This example demonstrates how to use our [Secured WebAPI](https://docs.devexpres
     }
   
     ```
-## Step 10. Implement the IDataStore methods inside the WebAPIService.cs
+## Step 11. Implement the IDataStore methods inside the WebAPIService.cs
 1. Add constants and readonly fields. Use the `On.Platform` syntax to declare iOS/Android debug URLs.
 
    ```cs
