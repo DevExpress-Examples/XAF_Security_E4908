@@ -36,12 +36,11 @@ public class Updater : ModuleUpdater {
         if (ObjectSpace.IsNewObject(editorUser)) {
             //create Editor User/Role
             editorUser.UserName="Editor";
-
+            editorUser.SetPassword("");
             var editorRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
             editorRole.Name = "EditorRole";
             editorRole.AddTypePermission<Post>(SecurityOperations.CRUDAccess, SecurityPermissionState.Allow);
             editorRole.AddTypePermission<ApplicationUser>(SecurityOperations.CRUDAccess, SecurityPermissionState.Allow);
-
             editorUser.Roles.Add(editorRole);
             editorUser.Roles.Add(defaultRole);
             editorUser.Photo = ObjectSpace.CreateObject<MediaDataObject>();
@@ -51,6 +50,7 @@ public class Updater : ModuleUpdater {
             //create Viewer User/Role
             var viewerUser = ObjectSpace.CreateObject<ApplicationUser>();
             viewerUser.UserName = "Viewer";
+            viewerUser.SetPassword("");
             viewerUser.Photo = ObjectSpace.CreateObject<MediaDataObject>();
             viewerUser.Photo.MediaData = GetResourceByName("John");
             var viewerRole = ObjectSpace.CreateObject<PermissionPolicyRole>();

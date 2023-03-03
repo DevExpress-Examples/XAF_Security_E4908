@@ -8,7 +8,7 @@
 
 		Task<bool> UserCanCreatePostAsync();
 
-		Task<byte[]> GetAuthorPhotoAsync(int postId);
+		Task<byte[]> GetAuthorPhotoAsync(Guid postId);
 
 		Task ArchivePostAsync(T post);
 

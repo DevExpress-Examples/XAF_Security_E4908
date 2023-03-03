@@ -22,7 +22,7 @@ namespace MAUI.ViewModels {
 		public ImageSource Thumbnail 
 			=> ImageSource.FromStream(() => new MemoryStream(_photoBytes));
 
-		public int Id { get; set; }
+		public Guid Id { get; set; }
 		public Post Post { get; set; }
 		string _title;
 		private string _photo;
@@ -44,10 +44,10 @@ namespace MAUI.ViewModels {
 
 		public async Task LoadItemId(string itemId) {
 			try {
-				_photoBytes = await DataStore.GetAuthorPhotoAsync(Convert.ToInt32(itemId));
+				_photoBytes = await DataStore.GetAuthorPhotoAsync(Guid.Parse(itemId));
 				OnPropertyChanged(nameof(Thumbnail));
 				Post = await DataStore.GetItemAsync(itemId);
-				Id = Post.PostId;
+				Id = Post.ID;
 				Title = Post.Title;
 				Content = Post.Content;
 				
