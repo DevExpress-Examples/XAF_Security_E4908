@@ -23,7 +23,6 @@ namespace MAUI.ViewModels {
 			set => SetProperty(ref _content, value);
 		}
 
-
 		[DataFormDisplayOptions(IsVisible = false)]
 		public Command SaveCommand { get; }
 
@@ -42,6 +41,7 @@ namespace MAUI.ViewModels {
 				Title = Title,
 				Content = Content
 			});
+			
 			await Navigation.NavigateToAsync<ItemsViewModel>();
 		}
 	}
