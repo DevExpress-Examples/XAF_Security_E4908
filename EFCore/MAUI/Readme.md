@@ -11,14 +11,14 @@ This example demonstrates how to use our [Web API Service](https://docs.devexpre
 
 - [Visual Studio 2022 v17.0+](https://visualstudio.microsoft.com/vs/)
 - [.NET SDK 6.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/) or add [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) to Visual Studio NuGet feeds.
+- [Download and install DevExpress .NET MAUI Project Templates for Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=DevExpress.MauiVSTemplates2022)
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/). Make sure to enable the **Cross-Platform .NET App UI & Web API Service (XAF)** option in the list of products to install. It will register local NuGet package sources and item / project templates required to follow through this tutorial. 
+
+  Alternatively, if you only want to run the example project or use it as a boilerplate for your application, you can manually register the your [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) in Visual Studio as described in the following article: [Setup Visual Studio's NuGet Package Manager](https://docs.devexpress.com/GeneralInformation/116698/installation/install-devexpress-controls-using-nuget-packages/setup-visual-studios-nuget-package-manager)
   
-  *We recommend that you select all products when you run the DevExpress installer. It will register local NuGet package sources and item / project templates required for these tutorials. You can uninstall unnecessary components later.*
-
-> **NOTE** 
->
-> If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
-
+  > **NOTE** 
+  >
+  > If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ## Step 1. Web API initialization: [Create Web API project using the XAF solution wizard](https://docs.devexpress.com/eXpressAppFramework/403401/backend-web-api-service/create-new-application-with-web-api-service).
 
@@ -285,8 +285,6 @@ See the [Test the Web API with Swagger or Postman](https://docs.devexpress.com/e
 > **NOTE** 
 >
 > Debugging configurations for both iOS and Android can be complex, so it is not feasible to provide all possible scenarios. In this demo, we tested using Windows 10 with Visual Studio 2022. For iOS, we utilized the paired remote Mac method, and for Android, we utilized the built-in emulator..
-
-> The .NET MAUI project does not have any dependencies to the XAF assemblies. However, for convenience, we will use the DevExpress .NET MAUI components and Wizard to scaffold the initial project.
 
 1. Use the New Project Wizard. 
   ![](../../images/MAUI/MAUINewProjectWizard.png)
