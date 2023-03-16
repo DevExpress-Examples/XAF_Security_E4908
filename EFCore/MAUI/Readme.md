@@ -1,26 +1,26 @@
-This example demonstrates how to use our [Web API Service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) with a mobile .NET MAUI application using EF Core for data access. Our .NET MAUI application will use API endpoints for the Post business object to implement the following common scenarios:
+This example demonstrates how to use our [Web API service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) with a mobile .NET MAUI application using EF Core for data access. Our .NET MAUI application will use API endpoints for the Post business object to implement the following common scenarios:
 
-- Authenticate and authorize users from different roles;
-- List existing Post records;
-- Create new Post records;
-- Display a report based on Post records;
-- Archive a Post record;
-- Display a photo of a Post author.
+- Authenticate and authorize users from different roles
+- List existing Post records
+- Display a photo of a Post author
+- Create new Post records
+- Archive a Post record
+- Display a report based on Post records
 
 ## Prerequisites
 
 - [Visual Studio 2022 v17.0+](https://visualstudio.microsoft.com/vs/)
 - [.NET SDK 6.0+](https://dotnet.microsoft.com/download/dotnet-core)
 - [Download and install DevExpress .NET MAUI Project Templates for Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=DevExpress.MauiVSTemplates2022)
-- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/). Make sure to enable the **Cross-Platform .NET App UI & Web API Service (XAF)** option in the list of products to install. It will register local NuGet package sources and item / project templates required to follow through this tutorial. 
+- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/). Make sure to enable the **Cross-Platform .NET App UI & Web API service (XAF)** option in the list of products to install. It will register local NuGet package sources and item / project templates required to follow through this tutorial. 
 
-  Alternatively, if you only want to run the example project or use it as a boilerplate for your application, you can manually register the your [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) in Visual Studio as described in the following article: [Setup Visual Studio's NuGet Package Manager](https://docs.devexpress.com/GeneralInformation/116698/installation/install-devexpress-controls-using-nuget-packages/setup-visual-studios-nuget-package-manager)
+  Alternatively, if you only want to run the example project or use the project as a boilerplate for your application, you can manually register your [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) in Visual Studio as described in the following article: [Setup Visual Studio's NuGet Package Manager](https://docs.devexpress.com/GeneralInformation/116698/installation/install-devexpress-controls-using-nuget-packages/setup-visual-studios-nuget-package-manager)
   
   > **NOTE** 
   >
   > If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
-## Step 1. Web API initialization: [Create Web API project using the XAF solution wizard](https://docs.devexpress.com/eXpressAppFramework/403401/backend-web-api-service/create-new-application-with-web-api-service).
+## Step 1. Web API initialization: [Create Web API project using the XAF solution wizard](https://docs.devexpress.com/eXpressAppFramework/403401/backend-web-api-service/create-new-application-with-web-api-service)
 
 1. Start the wizard and select a Web API only project.
   ![](../../images/MAUI/SolutionWizardWebAPI.png)
@@ -32,6 +32,7 @@ This example demonstrates how to use our [Web API Service](https://docs.devexpre
   ![](../../images/MAUI/SolutionWizardAllWebAPIModules.png)
 5. Modify the `WebAPI/Properties/launchSettings.json` file and remove the IIS Express profile to ensure that the `Kestrel server ports` will be utilized.
 
+   _Properties/launchSettings.json_:
    ```json
    "IIS Express": {
       "commandName": "IISExpress",
@@ -43,10 +44,11 @@ This example demonstrates how to use our [Web API Service](https://docs.devexpre
    },
    ```
 
-## Step 2. Declare a data model.
+## Step 2. Declare a data model
 
 1. Declare the `Post` object.
 
+   _BusinessObjects/launchSettings.json_
    ```cs
    [VisibleInReports]
    public class Post : BaseObject {
@@ -62,28 +64,38 @@ This example demonstrates how to use our [Web API Service](https://docs.devexpre
 
    In the above code sample, the `Post` class inherits [BaseObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.BaseImpl.BaseObject) to simplify data model implementation. In particular, this tutorial makes use of the following `BaseObject` class's features:
 
-   - The pre-defined `Guid`-type primary key field (`ID`);
-   - The `OnCreated` lifecycle method;
-   - The `ObjectSpace` property, which allows you to communicate with the underlying data layer. See the [BaseObjectSpace](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace) documentation topic for more information.
+   - The predefined `Guid`-type primary key field (`ID`),
+   - The `OnCreated` lifecycle method,
+   - The `ObjectSpace` property, which allows you to communicate with the underlying data layer. 
+   
+   See the [BaseObjectSpace](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace) documentation topic for more information.
 
-3. Modify the Entity Framework DBContext with an additional DBSet.
+2. Modify the Entity Framework DBContext with an additional DbSet.
 
+   _BusinessObjects\WebAPIDbContext.cs_:
    ```cs
    public DbSet<Post> Posts { get; set; }
    ```
 
-2. Add a `Photo` property to the `User` object.
+3. Modify the `Startup.cs` file to register the `built-in CRUD endpoints` for the Post object.
 
+   _Startup.cs_:
    ```cs
-   public virtual MediaDataObject Photo { get; set; }
+   services
+	 .AddXafWebApi(Configuration, options => {
+	 	// Make your business objects available in the Web API and generate the GET,  POST, PUT, and DELETE HTTP methods for it.
+	 	// options.BusinessObject<YourBusinessObject>();
+	 	options.BusinessObject<Post>();
+	 });
    ```
 
 ## Step 3. Set up a development database connection
 
 The XAF Solution Wizard generates the connection string and startup code required to store persistent data in a [SQL Server Express LocalDB](https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb) database, which is only available on Microsoft Windows. If you are planning to develop your Web API backend on a non-Windows machine, consider using [SQLite](https://www.sqlite.org/) instead.
 
-To use SQLite, add the [Microsoft.EntityFrameworkCore.Sqlite](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite) **v6** NuGet package to your project's dependencies. After that, add the following code to the `ConfigureServices` method within `startup.cs`:
+To use SQLite, add the [Microsoft.EntityFrameworkCore.Sqlite](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite) **v6** NuGet package to your project's dependencies. After that, add the following code to the `ConfigureServices` method within `Startup.cs`:
 
+_Startup.cs_:
 ```cs
 public void ConfigureServices(IServiceCollection services) {
    // ...
@@ -101,87 +113,11 @@ public void ConfigureServices(IServiceCollection services) {
 }
 ```
 
-## Step 4. Define the built-in and custom Web API endpoints.
+## Step 4. Create initial data
 
-1. Modify the Startup.cs to register the `built-in CRUD endpoints` for the Post object.
+1. Open the the `WebAPI/DatabaseUpdate/Updater.cs` file and add the following code to the `UpdateDatabaseAfterUpdateSchema` method to create the Editor and Viewer users, assigns them roles and permissions, and create sample Post objects:
 
-   ```cs
-   services
-	 .AddXafWebApi(Configuration, options => {
-	 	// Make your business objects available in the Web API and generate the GET,  POST, PUT, and DELETE HTTP methods for it.
-	 	// options.BusinessObject<YourBusinessObject>();
-	 	options.BusinessObject<Post>();
-	 });
-   ```
-
-2. Add a `CustomEndPointController` inside the `WebAPI/API` directory, injecting the `ISecurityProvider` and `IObjectSpaceFactory` to request user permissions and retrieve database data from the endpoints we will create later. 
-
-   ```cs
-     [ApiController]
-     [Route("api/[controller]")]
-     [Authorize]
-     public class CustomEndPointController : ControllerBase {
-         private readonly ISecurityProvider _securityProvider;
-         private readonly IObjectSpaceFactory _securedObjectSpaceFactory;
- 
- 
-         public CustomEndPointController(ISecurityProvider securityProvider,  IObjectSpaceFactory securedObjectSpaceFactory) {
-             _securityProvider = securityProvider;
-             _securedObjectSpaceFactory = securedObjectSpaceFactory;
-         }
-     }
-   ```
-
-   For more information on how to access underlying XAF APIs from a custom endpoint's implementation, refer to the following documentation article: [Access Object Space, Security System, Caption Helper, and XAF Modules in the ASP.NET Core Environment](https://docs.devexpress.com/eXpressAppFramework/403669/data-manipulation-and-business-logic/access-object-space-security-and-caption-helper-in-asp-net-core-environment).
-
-3. Create the `CanCreate` endpoint, which will return if the user has permissions to create a specific business object.
-
-   ```cs
-     [HttpGet(nameof(CanCreate))]
-     public IActionResult CanCreate(string typeName) {
-         var strategy = (SecurityStrategy)_securityProvider.GetSecurity();
-         var objectType = strategy.TypesInfo.PersistentTypes.First(info => info.Name  == typeName).Type;
-         return Ok(strategy.CanCreate(objectType));
-     }
-   ```
-
-4. Create the `AuthorPhoto` endpoint to return the author photo of a post from the database using the `_securedObjectSpaceFactory`. This ensures that the user's permissions are respected.
-
-   ```cs
-      [HttpGet("AuthorPhoto/{postId}")]
-      public FileStreamResult AuthorPhoto(Guid postId) {
-         using var objectSpace = _securedObjectSpaceFactory.CreateObjectSpace(typeof(Post));
-         var post = objectSpace.GetObjectByKey<Post>(postId);
-         var photoBytes = post.Author.Photo.MediaData;
-         return File(new MemoryStream(photoBytes), "application/octet-stream");
-      }
-   ```
-
-5. Create the `Archive` endpoint which will get Posts from the database, respecting always the system permissions with the __securedObjectSpaceFactory_ and archive them to disk.
-
-   ```cs
-      [HttpPost(nameof(Archive))]
-      public async Task<IActionResult> Archive([FromBody] Post post) {
-         using var objectSpace = _securedObjectSpaceFactory.CreateObjectSpace<Post>();
-         post = objectSpace.GetObject(post);
-         var photo = post.Author.Photo.MediaResource.MediaData;
-         await System.IO.File.WriteAllTextAsync($"{post.ID}",
-               JsonSerializer.Serialize(new { photo, post.Title, post.Content, post.Author.UserName }));
-         return Ok();
-      }
-   ```
-
-6. Create the `GetReport` endpoint which will redirect to build-in `DownloadByName` endpoint and will return a Report for the Post with title _Post Report_.
-
-   ```cs
-   [HttpGet(nameof(GetReport))]
-   public RedirectResult GetReport() 
-     => Redirect("~/api/report/DownloadByName(Post Report)");
-   ```
-
-## Step 5. Create the Editor and Viewer users along with Roles, permissions, photos and Post objects.
-
-1. Modify the the `WebAPI.DatabaseUpdate.Updater` and add the next snippet inside the `UpdateDatabaseAfterUpdateSchema`:
+   _DatabaseUpdate\Updater.cs_:
    ```cs
      var editorUser = ObjectSpace.FirstOrDefault<ApplicationUser>(user=>user. UserName=="Editor")??ObjectSpace.CreateObject<ApplicationUser>();
      if (ObjectSpace.IsNewObject(editorUser)) {
@@ -196,15 +132,10 @@ public void ConfigureServices(IServiceCollection services) {
  
          editorUser.Roles.Add(editorRole);
          editorUser.Roles.Add(defaultRole);
-         editorUser.Photo = ObjectSpace.CreateObject<MediaDataObject>();
-         editorUser.Photo.MediaData = GetResourceByName("Janete");
- 
+
          //create Viewer User/Role
          var viewerUser = ObjectSpace.CreateObject<ApplicationUser>();
          viewerUser.UserName = "Viewer";
-         viewerUser.SetPassword("");
-         viewerUser.Photo = ObjectSpace.CreateObject<MediaDataObject>();
-         viewerUser.Photo.MediaData = GetResourceByName("John");
          var viewerRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
          viewerRole.Name = "ViewerRole";
          viewerRole.AddTypePermission<Post>(SecurityOperations.Read,  SecurityPermissionState.Allow);
@@ -232,79 +163,31 @@ public void ConfigureServices(IServiceCollection services) {
          post.Author=editorUser;
      }
    ```
-   > **NOTE**
-   >
-   > In the example code, the `GetResourceByName` method returns a byte array representation of an account image based on its name. You can find an example implementation of this method in the WebAPI project's [_DatabaseUpdate/Updater.cs_](./WebApi/DatabaseUpdate/Updater.cs) file. Note that this implementation requires the image resources to be compiled into the application's assembly (the .jpg files' `Build Action` option must be set to `Embedded resource`).
 
-2. Modify the _GetDefaultRole_ to add additional permissions for the `ReportsDataV2`, `MediaDataObject`, `MediaResourceObject`.
+## Step 5. Use the Swagger UI to test the Web API service
 
-   ```cs
-   defaultRole.AddTypePermissionsRecursively<ReportDataV2>(SecurityOperations. CRUDAccess, SecurityPermissionState.Allow);
-   defaultRole.AddTypePermissionsRecursively<MediaDataObject>(SecurityOperations. CRUDAccess, SecurityPermissionState.Allow);
-   defaultRole.AddTypePermissionsRecursively<MediaResourceObject>(SecurityOperations. CRUDAccess, SecurityPermissionState.Allow);
-   ```
+At this point, you can already run your Web API service and use the Swagger interface to authenticate as one of the previously defined users and test the generated endpoints (for example, query the available posts). See the [Test the Web API with Swagger or Postman](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman) documentation article for more information.
 
+![](../../images/MAUI/SwaggerQueryPosts.png)
 
-## Step 6. Create A Predefined Static Report to display the Post business objects.
+![](../../images/MAUI/SwaggerPostsResponse.png)
 
-The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview?p=netframework) is a [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml) feature that you can use to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API Service. Skip this step if you are using the Web API Service as a part of the _DevExpress .NET App Security Library_ & Web API Service free offer.
-
-Follow the steps bellow to create and initialize a report:
-
-1. Add the Report component using the Visual Studio New Item wizard.
-2. Drag and drop a CollectionDataSource component from the Visual Studio toolbox and change its ObjectTypeName to `WebAPI.BusinessObjects.Post`.
-3. Drag & drop all discovered fields from the Field List window onto the Report details surface.
-
-   ![](../../images/MAUI/ReportDesigner.png) 
-4. Use a predefined reports updater to initialize the report (Module.cs).
-   ```cs
-   public override IEnumerable<ModuleUpdater> GetModuleUpdaters(IObjectSpace objectSpace, Version versionFromDB) {
-        var predefinedReportsUpdater = new PredefinedReportsUpdater(Application, objectSpace, versionFromDB);
-        predefinedReportsUpdater.AddPredefinedReport<XtraReport1>("Post Report",typeof(Post));
-        return new ModuleUpdater[] { new DatabaseUpdate.Updater(objectSpace, versionFromDB),predefinedReportsUpdater };
-    }
-   ```
-See the [Create a Report in Visual Studio](https://docs.devexpress.com/XtraReports/14989/get-started-with-devexpress-reporting/create-a-report-in-visual-studio#add-a-new-report) documentation topic for more information on creating and editing reports.
-
-For more information on using predefined static report in XAF, see the [Create Predefined Static Reports](https://docs.devexpress.com/eXpressAppFramework/113645/shape-export-print-data/reports/create-predefined-static-reports) article.
-
-Watch video: [Preview Reports as PDF in .NET MAUI Apps using Backend Web API Service Endpoints with EF Core](https://www.youtube.com/watch?v=bn4iF5Gc9XY)
-
-## Step 7. Use the Swagger UI to test the Web API project custom and build-in endpoints. 
-
-> **NOTE** 
->
->Using the Swagger interface and with the debugger attached, you must authenticate at least once to scaffold the database and initialize the data.
-
-  ![](../../images/MAUI/Swagger.png) 
-
-See the [Test the Web API with Swagger or Postman](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman)  documentation article for more information.
-
-## Step 8. Create the .NET MAUI project.
+## Step 6. Create the .NET MAUI project.
 
 > **NOTE** 
 >
 > Debugging configurations for both iOS and Android can be complex, so it is not feasible to provide all possible scenarios. In this demo, we tested using Windows 10 with Visual Studio 2022. For iOS, we utilized the paired remote Mac method, and for Android, we utilized the built-in emulator..
 
-1. Use the New Project Wizard. 
+1. Open the the _Create a new project_ window in Visual Studio and select the the DevExpress .NET MAUI template Wizard. 
   ![](../../images/MAUI/MAUINewProjectWizard.png)
-2. Choose both the `IOS & Android` platform, the `Tabbed` layout and the `Collection View`, the `Data Editors` and the `Data Forms`
+2. Choose both the _IOS & Android_ platform, the _Tabbed_ layout and the _Collection View_, the _Data Editors_ and the _Data Forms_ options.
   ![](../../images/MAUI/MAUINewProjectWizardConfig.png)
 
-## Step 9. Clean-Refactor the wizard generated project.
-
-1. Refactor the Model/Item.cs to Post, replace all project references.
-
-   ```cs
-   public class Post {
-       public Guid ID { get; set; }
-       public string Title { get; set; }
-       public string Content { get; set; }    
-   }
-   ```
+## Step 7. Modify the platform specific settings
    
-2. Modify the Platform/Android/AndroidManifest.xml assigning permissions for network access, file storage and document access.
+1. Modify the `Platform/Android/AndroidManifest.xml` to request permissions for network access, file storage and document access.
 
+   _Platform/Android/AndroidManifest.xml_:
    ```xml
      <?xml version="1.0" encoding="utf-8"?>
      <manifest xmlns:android="http://schemas.android.com/apk/res/android">
@@ -327,37 +210,39 @@ See the [Test the Web API with Swagger or Postman](https://docs.devexpress.com/e
      </manifest>
    ```
 
-3. Add the `AndroidMessageHandler` inside the Platform/Android folder.
+3. Add an `AndroidMessageHandler` class definition to `Platform/Android/AndroidMessageHandler.cs`.
 
+   _Platform/Android/AndroidMessageHandler.cs:
    ```cs
-     using MAUI.Platforms.Android;
-     namespace MAUI.Platforms.Android {
-         class AndroidMessageHandler : Xamarin.Android.Net.AndroidMessageHandler {
-             public AndroidMessageHandler() 
-                 => ServerCertificateCustomValidationCallback = (_, cert, _, errors) 
-                     => cert is { Issuer: "CN=localhost" } || errors == System.Net. Security.SslPolicyErrors.None;
- 
-             protected override Javax.Net.Ssl.IHostnameVerifier GetSSLHostnameVerifier (Javax.Net.Ssl.HttpsURLConnection connection)
-                 => new HostnameVerifier();
- 
-             private sealed class HostnameVerifier : Java.Lang.Object, Javax.Net.Ssl. IHostnameVerifier {
-                 public bool Verify(string hostname, Javax.Net.Ssl.ISSLSession  session) 
-                     => Javax.Net.Ssl.HttpsURLConnection.DefaultHostnameVerifier!. Verify(hostname, session) ||
-                     hostname == "10.0.2.2" && session.PeerPrincipal?.Name ==  "CN=localhost";
-             }
-         }
-     }
- 
-     namespace MAUI.Services {
-         public static partial class HttpMessageHandler {
-             static HttpMessageHandler() 
-                 => PlatformHttpMessageHandler = new AndroidMessageHandler();
-         }
-     } 
+   using MAUI.Platforms.Android;
+   namespace MAUI.Platforms.Android {
+      class AndroidMessageHandler : Xamarin.Android.Net.AndroidMessageHandler {
+            public AndroidMessageHandler() 
+               => ServerCertificateCustomValidationCallback = (_, cert, _, errors) 
+                  => cert is { Issuer: "CN=localhost" } || errors == System.Net. Security.SslPolicyErrors.None;
+
+            protected override Javax.Net.Ssl.IHostnameVerifier GetSSLHostnameVerifier (Javax.Net.Ssl.HttpsURLConnection connection)
+               => new HostnameVerifier();
+
+            private sealed class HostnameVerifier : Java.Lang.Object, Javax.Net.Ssl. IHostnameVerifier {
+               public bool Verify(string hostname, Javax.Net.Ssl.ISSLSession  session) 
+                  => Javax.Net.Ssl.HttpsURLConnection.DefaultHostnameVerifier!. Verify(hostname, session) ||
+                  hostname == "10.0.2.2" && session.PeerPrincipal?.Name ==  "CN=localhost";
+            }
+      }
+   }
+
+   namespace MAUI.Services {
+      public static partial class HttpMessageHandler {
+            static HttpMessageHandler() 
+               => PlatformHttpMessageHandler = new AndroidMessageHandler();
+      }
+   } 
    ```
 
-4. Add the `IOSMessageHandler` inside the Platform/IOS folder.
+4. Create an `IOSMessageHandler` class in the `Platform/IOS` folder.
 
+   _Platform/IOS/IOSMessageHandler.cs_:
    ```cs
    public static partial class HttpMessageHandler {
          static HttpMessageHandler() {
@@ -372,90 +257,131 @@ See the [Test the Web API with Swagger or Postman](https://docs.devexpress.com/e
      }
    ```
 
-5. Refactor the Services/IDataStore.cs.
+## Step 8. Define the application data model
+   
+1. Add a definition for the `Post` class in the `Model/Post.cs` file.
 
+   _Model/Post.cs_:
+   ```cs
+   public class Post {
+       [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+       public Guid ID { get; set; }
+       public string Title { get; set; }
+       public string Content { get; set; }    
+   }
+   ```
+
+2. Refactor the `IDataStore` interface in `Services/IDataStore.cs` so it declares a `GetItemsAsync` method used to obtain the list of existing posts.
+
+   _Services/IDataStore.cs_:
    ```cs
    public interface IDataStore<T> {
-      Task<bool> AddItemAsync(T item);
-      Task<T> GetItemAsync(string id);
       Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false);
-      Task<bool> UserCanCreatePostAsync();
-      Task<byte[]> GetAuthorPhotoAsync(Guid postId);
-      Task ArchivePostAsync(T post);
-      Task ShapeIt();
-      Task Authenticate(string userName,string password); 
    }
    ```
 
-## Step 10. Bind the .NET MAUI pages with the IDataStore interface.
+2. Configure the `BaseViewModel` to use the data store:
 
-1. Register Routes and initial navigation in the `App.xaml.cs`.
+   _ViewModels/BaseViewModel.cs_:
+   ```cs
+   public class BaseViewModel : INotifyPropertyChanged {
+       public IDataStore<Post> DataStore => DependencyService.Get<IDataStore<Post>>();
+       // ...
+   }
+   ```
 
+3. Add a `WebAPIService` class to the project (the `Services/WebAPIService.cs` file). In this class, implement the `IDataStore` interface and the `Authenticate` method. In the code, send HTTP requests to your Web API service to authenticate and obtain data as shown below:
+
+   _Services/WebAPIService.cs_:
+   ```cs
+   public static partial class HttpMessageHandler {
+      static readonly System.Net.Http.HttpMessageHandler PlatformHttpMessageHandler;
+      public static System.Net.Http.HttpMessageHandler GetMessageHandler() => PlatformHttpMessageHandler;
+   }
+
+   public class WebAPIService : IDataStore<Post> {
+      private static readonly HttpClient HttpClient = new(HttpMessageHandler.GetMessageHandler()) { Timeout = new TimeSpan(0, 0, 10) };
+      private readonly string _apiUrl = ON.Platform(android: "https://10.0.2.2:5001/api/", iOS: "https://localhost:5001/api/");
+      private readonly string _postEndPointUrl;
+      private const string ApplicationJson = "application/json";
+
+      public WebAPIService()
+         => _postEndPointUrl = _apiUrl + "odata/" + nameof(Post);
+
+      public async Task<IEnumerable<Post>> GetItemsAsync(bool forceRefresh = false)
+         => await RequestItemsAsync();
+
+      private async Task<IEnumerable<Post>> RequestItemsAsync(string query = null)
+         => JsonNode.Parse(await HttpClient.GetStringAsync($"{_postEndPointUrl}{query}"))!["value"].Deserialize<IEnumerable<Post>>();
+
+      public async Task<string> Authenticate(string userName, string password) {
+         var tokenResponse = await RequestTokenAsync(userName, password);
+         var reposeContent = await tokenResponse.Content.ReadAsStringAsync();
+         if (tokenResponse.IsSuccessStatusCode) {
+               HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", reposeContent);
+               return string.Empty;
+         }
+         return reposeContent;
+      }
+
+      private async Task<HttpResponseMessage> RequestTokenAsync(string userName, string password) {
+         try {
+               return await HttpClient.PostAsync($"{_apiUrl}Authentication/Authenticate",
+                     new StringContent(JsonSerializer.Serialize(new { userName, password = $"{password}" }), Encoding.UTF8, ApplicationJson));
+         }
+         catch (Exception) {
+               return new HttpResponseMessage(System.Net.HttpStatusCode.BadGateway) { Content = new StringContent("An error occurred during the processing of the request. Please consult the demo's ReadMe file (Step 1,10) to discover potential causes and find solutions.") };
+         }
+      }
+
+   }
+   ```
+
+   > **NOTE** 
+   >
+   > If you are developing on a Windows PC and using a remote Mac to do the  build and run the simulator, localhost will not resolve to the machine where you have your Web API service hosted. Solutions to this case can be found online e.g. [Accessing ASP. NET Core API hosted on Kestrel over Https from iOS Simulator](https://nicksnettravels.builttoroam.com/post-2019-04-28-accessing-aspnet-core-api-hosted-on-kestrel-from-ios-simulator-android-emulator-and-uwp-applications-aspx/). Similarly, [you cannot access the Web API server when debugging the application using a real device (Android) connected through USB]( https://github.com/dotnet/maui/issues/8379). 
+
+## Step 9. Implement authentication and data navigation
+
+1. Register the `WebAPIService` as well as routes and initial navigation in `App.xaml.cs`.
+
+   _App.xaml.cs_:
    ```cs
    public App() {
-	   InitializeComponent();
-	   DependencyService.Register<NavigationService>();
-	   DependencyService.Register<WebAPIService>();
- 
-	   Routing.RegisterRoute(typeof(ItemDetailPage).FullName, typeof(ItemDetailPage));
-	   Routing.RegisterRoute(typeof(NewItemPage).FullName, typeof(NewItemPage));
-	   Routing.RegisterRoute(typeof(ItemsPage).FullName, typeof(ItemsPage));
-	 
-	   MainPage = new MainPage();
-	   var navigationService = DependencyService.Get<INavigationService>();
-	   navigationService.NavigateToAsync<LoginViewModel>(true);
+      InitializeComponent();
+      DependencyService.Register<NavigationService>();
+      DependencyService.Register<WebAPIService>();
+
+      Routing.RegisterRoute(typeof(ItemsPage).FullName, typeof(ItemsPage));
+   
+      MainPage = new MainPage();
+      var navigationService = DependencyService.Get<INavigationService>();
+      navigationService.NavigateToAsync<LoginViewModel>(true);
    }
    ```
 
-2. Modify the `MainPage.xaml` layout to display the `Log In` page we previously navigate to.
+2. Modify the `LoginViewModel` to authenticate in the Web API service and navigate to the Items page after successful authentication.
 
-   ```xml
-   <TabBar>
-	 <Tab Title ="Browse" Icon="browse">
-	 	<ShellContent ContentTemplate="{DataTemplate views:ItemsPage}" />
-	 </Tab>
-	 <Tab Title="Logout" Icon="logout" Route="MAUI.Views.LoginPage">
-	 	<ShellContent ContentTemplate="{DataTemplate views:LoginPage}" Route="MAUI.Views. LoginPage" />
-	 </Tab>
-   <TabBar>
-   	<ShellContent ContentTemplate="{DataTemplate views:LoginPage}" Route="MAUI. Views.  LoginPage" />
-   </TabBar>
-   </TabBar>
-   ```
-3. Modify the `LoginViewModel` to authenticate and navigate to the Items page.
-
+   _ViewModels/LoginViewModel.cs_:
    ```cs
    async void OnLoginClicked() {
       IsAuthInProcess = true;
       var response = await ((WebAPIService)DataStore).Authenticate(userName, password);
       IsAuthInProcess = false;
       if (!string.IsNullOrEmpty(response)) {
-            ErrorText = response;
-            HasError = true;
-            return;
+          ErrorText = response;
+          HasError = true;
+          return;
       }
       HasError = false;
       await Navigation.NavigateToAsync<ItemsViewModel>();
    }
 
    ```
-4. Add the `ShapeIt` ToolBarItem in the `ItemsPage.xaml`.
 
-   ```cs
-   <ToolbarItem Text="ShapeIt" Command="{Binding ShapeItCommand}"   />
-   ```
+3. In the `ItemsViewModel`, modify the `ExecuteLoadItemsCommand` to request all posts from the `IDataStore` service.
 
-5. Bind this command inside the `ItemsViewModel.cs`.
-
-   ```cs
-   public ItemsViewModel() {
-	   ShapeItCommand = new Command(async () => await DataStore.ShapeIt());
-   }
-   public Command ShapeItCommand { get; }
-   ``` 
-
-6. Similarly, in the same file modify the `ExecuteLoadItemsCommand` to request all posts from the `IDataStore` service.
-
+   _ViewModels/ItemsViewModel.cs_:
    ```cs
    async Task ExecuteLoadItemsCommand() {
       IsBusy = true;
@@ -476,67 +402,97 @@ See the [Test the Web API with Swagger or Postman](https://docs.devexpress.com/e
    }  
    ```
 
-7. Modify the `OnAddItem` method to disable creating a new `Post` if there are no permissions.
+Start the Web API project, and then the .NET MAUI app. Log in as an Editor or Viewer user created in the Web API Module Updater.
 
+![](../../images/MAUI/LogIn.png)
+
+After you log in, you will see the predefined posts displayed in a list view.
+
+![](../../images/MAUI/CollectionView.png)
+
+## Step 10. List existing Post records
+
+1. Implement a Web API service endpoint that serves the author's photo for a post based on the post's ID. 
+
+   First, add the `Photo` property to the `ApplicationUser` persistent class:
+
+   _BusinessObjects/ApplicationUser.cs_:
    ```cs
-   async void OnAddItem(object obj) {
-      if (await DataStore.UserCanCreatePostAsync()) {
-         await Navigation.NavigateToAsync<NewItemViewModel>(null);
-      }
-      else {
-         await Shell.Current.DisplayAlert("Error", "Access denied", "Ok");
-      }
-   }
-   ``` 
-
-8. Modify the `NewItemViewModel/OnSave` to save the new `Post`.
-
-   ```cs
-   async void OnSave() {
-      await DataStore.AddItemAsync(new Post() {
-         ID = Guid.NewGuid(),
-         Title = Title,
-         Content = Content
-      });
-      await Navigation.NavigateToAsync<ItemsViewModel>();
+   public class ApplicationUser : PermissionPolicyUser, ISecurityUserWithLoginInfo {
+      // ...
+      public virtual MediaDataObject Photo { get; set; }
    }
    ```
 
-9. Add an `ArchiveCommand` ToolBarItem in the `ItemsDetailPage.xaml`.
+   Add a logic that assigns photos to predefined users to the Module Updater:
 
-   ```xml
-   <ToolbarItem Text="Archive" Command="{Binding ArchiveCommand}"></ToolbarItem>
+   _DatabaseUpdate\Updater.cs_:
+   ```cs
+   // ...
+   editorUser.Photo = ObjectSpace.CreateObject<MediaDataObject>();
+   editorUser.Photo.MediaData = GetResourceByName("Janete");
+   viewerUser.Photo = ObjectSpace.CreateObject<MediaDataObject>();
+   viewerUser.Photo.MediaData = GetResourceByName("John");
+   // ...
    ```
 
-10. Add an `Thumbnail` image inside the layout of the same page.
+   > **NOTE**
+   >
+   > In the example code, the `GetResourceByName` method returns a byte array representation of an account image based on its name. You can find an example implementation of this method in the WebAPI project's [_DatabaseUpdate/Updater.cs_](./WebApi/DatabaseUpdate/Updater.cs) file. Note that this implementation requires the image resources to be compiled into the application's assembly (the .jpg files' `Build Action` option must be set to `Embedded resource`).
 
-    ```xml
-    <Label Text="Title:" FontFamily="Roboto" FontSize="12" TextColor="{StaticResource   NormalLightText}"/>
-    <Label Text="{Binding Title}" FontFamily="Roboto" FontSize="14" TextColor="  {StaticResource NormalText}" Margin="0, 0, 0, 15"/>
-    <Label Text="Content:" FontFamily="Roboto" FontSize="12" TextColor="  {StaticResource NormalLightText}" />
-    <Label Text="{Binding Content}" FontFamily="Roboto" FontSize="14" TextColor="  {StaticResource NormalText}"/>
-    <Label Text="Author:"></Label>
-    <Image   Source="{Binding Thumbnail}"></Image>
-    ```
+   Add a `CustomEndPointController` inside the `WebAPI/API` directory, inject the `ISecurityProvider` and `IObjectSpaceFactory`. Implement a controller action that serves post author photos as shown below.
 
-11. Implement the `ArchiveCommand` in the `ItemDetailViewModel.cs`.
+   _API/CustomEndPointController.cs_:
+   ```cs
+   [ApiController]
+   [Route("api/[controller]")]
+   [Authorize]
+   public class CustomEndPointController : ControllerBase {
+      private readonly ISecurityProvider _securityProvider;
+      private readonly IObjectSpaceFactory _securedObjectSpaceFactory;
 
-    ```cs
-    public ItemDetailViewModel() => ArchiveCommand = new Command(OnArchive);
-  
-    private async void OnArchive(object obj) {
-    	if (!await DataStore.UserCanCreatePostAsync()) {
-    		await Shell.Current.DisplayAlert("Error", "Permission denied", "OK");
-    	}
-    	else {
-    		await DataStore.ArchivePostAsync(Post);
-    	}
-    }
-    
-    public Command ArchiveCommand { get; }
-    ```
+      public CustomEndPointController(ISecurityProvider securityProvider, IObjectSpaceFactory securedObjectSpaceFactory) {
+         _securityProvider = securityProvider;
+         _securedObjectSpaceFactory = securedObjectSpaceFactory;
+      }
 
-12. Similarly in the same file add the `Thumbnail` implementation and get all other `Post` properties from the `IDataStore`.
+      [HttpGet("AuthorPhoto/{postId}")]
+      public FileStreamResult AuthorPhoto(Guid postId) {
+         using var objectSpace = _securedObjectSpaceFactory.CreateObjectSpace(typeof(Post));
+         var post = objectSpace.GetObjectByKey<Post>(postId);
+         var photoBytes = post.Author.Photo.MediaData;
+         return File(new MemoryStream(photoBytes), "application/octet-stream");
+      }  
+   }
+   ```
+
+2. In the .NET MAUI project, update the data service with methods that request post details as well as the author's photo. 
+
+   _Services/IDataStore.cs_:
+
+   ```cs
+   public interface IDataStore<T> {
+       // ...
+       Task<T> GetItemAsync(string id);
+       Task<byte[]> GetAuthorPhotoAsync(Guid postId);
+   }
+   ```
+
+   _Services/WebAPIService.cs_:
+   
+   ```cs
+   public class WebAPIService : IDataStore<Post> {
+      // ...
+      public async Task<Post> GetItemAsync(string id)
+        => (await RequestItemsAsync($"?$filter={nameof(Post.ID)} eq {id}")).FirstOrDefault();
+      public async Task<byte[]> GetAuthorPhotoAsync(Guid postId)
+          => await HttpClient.GetByteArrayAsync($"{_apiUrl}CustomEndPoint/AuthorPhoto/{postId}");
+   }
+   ```
+
+3. Implement logic required to display the detail view when a user taps a post in the list.
+
+   _ViewModels/ItemDetailViewModel.cs_:
 
    ```cs
    public ImageSource Thumbnail 
@@ -556,154 +512,313 @@ See the [Test the Web API with Swagger or Postman](https://docs.devexpress.com/e
          System.Diagnostics.Debug.WriteLine($"Failed to Load Post {e}");
       }
    }
-
-   ```
-    
-## Step 11. Implement the IDataStore methods inside the WebAPIService.cs
-
-1. Add constants and read-only fields. Use the `On.Platform` syntax to declare iOS/Android debug URLs.
-
-   ```cs
-   public static partial class HttpMessageHandler {
-      static readonly System.Net.Http.HttpMessageHandler PlatformHttpMessageHandler;
-      public static System.Net.Http.HttpMessageHandler GetMessageHandler() =>       PlatformHttpMessageHandler;
-   }
- 
-   public class WebAPIService:IDataStore<Post> {
-      private static readonly HttpClient HttpClient = new(HttpMessageHandler.  GetMessageHandler());
-      private readonly string _apiUrl = ON.Platform(android:"https://10.0.2.2:5001/api/  ", iOS:"https://localhost:5001/api/");
-      private readonly string _postEndPointUrl;
-      private const string ApplicationJson = "application/json";
-
-      public WebAPIService() 
-      => _postEndPointUrl = _apiUrl + "odata/" + nameof(Post);
-   }
-   ```  
-   
-   > **NOTE** 
-   >
-   > If you’re developing on a Windows PC and using a remote Mac to do the  build and run the simulator, localhost won’t resolve to the machine where you have your Web API Service hosted. Solutions to this case can be found online e.g. [Accessing ASP. NET Core API hosted on Kestrel over Https from iOS Simulator](https://nicksnettravels.builttoroam.com/post-2019-04-28-accessing-aspnet-core-api-hosted-on-kestrel-from-ios-simulator-android-emulator-and-uwp-applications-aspx/). Similarly, [you cannot access the Web API server when debugging the application using a real device (Android) connected through USB]( https://github.com/dotnet/maui/issues/8379). 
-
-
- 
-2. Implement the `Authenticate` method. 
-
-   ```cs
-   public async Task<string> Authenticate(string userName, string password) {
-      var tokenResponse = await RequestTokenAsync(userName, password);
-      var reposeContent = await tokenResponse.Content.ReadAsStringAsync();
-      if (tokenResponse.IsSuccessStatusCode) {
-      HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue  ("Bearer", reposeContent);
-      return string.Empty;
-      }
-      return reposeContent;
-   }
- 
-   private async Task<HttpResponseMessage> RequestTokenAsync(string userName, string password) {
-      try {
-         return await HttpClient.PostAsync($"{_apiUrl}Authentication/Authenticate",
-               new StringContent(JsonSerializer.Serialize(new { userName, password = $"{password}" }), Encoding.UTF8, ApplicationJson));
-      }
-      catch (Exception) {
-         return new HttpResponseMessage(System.Net.HttpStatusCode.BadGateway) { Content = new StringContent("An error occurred during the processing of the request. Please consult the Demo's ReadMe file to discover potential causes and find solutions.") };
-      }
-   }
    ```
 
-3. Start the Web API project, and then the .NET MAUI app, to test authentication on both iOS and Android platforms with both the Editor and Viewer users created in the Web API Module Updater.
-
-  ![](../../images/MAUI/LogIn.png)
-  
-4. Implement the `GetItemsAsync` method to retrieve all posts from the Web API and test it as previously done.
+   _ViewModels/ItemsViewModel.cs_:
 
    ```cs
-   public async Task<IEnumerable<Post>> GetItemsAsync(bool forceRefresh = false) 
-	 => await RequestItemsAsync();
- 
-   private async Task<IEnumerable<Post>> RequestItemsAsync(string query=null) 
-	 => JsonNode.Parse(await HttpClient.GetStringAsync($"{_postEndPointUrl}{query}"))! ["value"].Deserialize<IEnumerable<Post>>();
-   ```
+    public class ItemsViewModel : BaseViewModel {
+        Post _selectedPost;
 
-   ![](../../images/MAUI/CollectionView.png) 
-
-5. Implement the `UserCanCreatePostAsync`.
-
-   ```cs
-   public async Task<bool> UserCanCreatePostAsync() 
-	   => (bool)JsonNode.Parse(await HttpClient.GetStringAsync($"{_apiUrl}  CustomEndpoint/CanCreate?typename=Post"));
-   ```
-
-6. Implement `AddItemAsync` to create new posts. Test by clicking the "Add" button.
-
-   ```cs
-   public async Task<bool> AddItemAsync(Post post) {
-      var httpResponseMessage = await HttpClient.PostAsync(_postEndPointUrl,
-         new StringContent(JsonSerializer.Serialize(post), Encoding.UTF8, ApplicationJson) );
-      if (!httpResponseMessage.IsSuccessStatusCode) {
-         await Shell.Current.DisplayAlert("Error", await httpResponseMessage.Content. ReadAsStringAsync(), "OK");
-      }
-      return httpResponseMessage.IsSuccessStatusCode;
-   }
-   ```
-
-  ![](../../images/MAUI/Edit.png)   
-
-7. Implement the `GetAuthorPhotoAsync`.
-
-   ```cs
-   public async Task<byte[]> GetAuthorPhotoAsync(Guid postId) 
-	 	=> await HttpClient.GetByteArrayAsync($"{_apiUrl}CustomEndPoint/AuthorPhoto/ {postId}");
-   ```
-8. Implement the `GetItemAsync` method to display details of all posts and test by clicking on an item.
-
-   ```cs
-	 public async Task<Post> GetItemAsync(string id) 
-	 	=> (await RequestItemsAsync($"?$filter={nameof(Post.ID)} eq {id}")).FirstOrDefault();
-   ```
-
-   ![](../../images/MAUI/DetailView.png)
-   
-9. Implement the `Archive Post` method.
-
-   ```cs
-   public async Task ArchivePostAsync(Post post) {
-        var httpResponseMessage = await HttpClient.PostAsync($"{_apiUrl}CustomEndPoint/Archive", new StringContent(JsonSerializer.Serialize(post), Encoding.UTF8, ApplicationJson));
-        if (httpResponseMessage.IsSuccessStatusCode) {
-            await Shell.Current.DisplayAlert("Success", "This post is saved to disk", "Ok");
+        public ItemsViewModel() {
+            // ...
+            ItemTapped = new Command<Post>(OnItemSelected);
         }
-        else {
-            await Shell.Current.DisplayAlert("Error", await httpResponseMessage.Content.ReadAsStringAsync(), "Ok");
+
+        public Command<Post> ItemTapped { get; }
+
+        public Post SelectedPost {
+            get => _selectedPost;
+            set {
+                SetProperty(ref _selectedPost, value);
+                OnItemSelected(value);
+            }
         }
+
+        async void OnItemSelected(Post post) {
+            if (post != null) await Navigation.NavigateToAsync<ItemDetailViewModel>(post.ID);
+        }
+        // ...
     }
-
    ```
 
-   ![](../../images/MAUI/Archive.png)
-   
-9. Implement the `ShapeIt` command to display the report.
+   _App.xaml.cs_:
 
+   ```cs
+   public App() {
+      // ...
+      Routing.RegisterRoute(typeof(ItemDetailPage).FullName, typeof(ItemDetailPage));
+      // ...
+   }
+   ```
+   
+   _Views/ItemDetailPage.xaml_:
+
+   ```xml
+   <StackLayout Spacing="5" Padding="15">
+      <Label Text="Title:" FontFamily="Roboto" FontSize="12" TextColor="{StaticResource NormalLightText}"/>
+      <Label Text="{Binding Title}" FontFamily="Roboto" FontSize="14" TextColor="{StaticResource NormalText}" Margin="0, 0, 0, 15"/>
+      <Label Text="Content:" FontFamily="Roboto" FontSize="12" TextColor="{StaticResource NormalLightText}" />
+      <Label Text="{Binding Content}" FontFamily="Roboto" FontSize="14" TextColor="{StaticResource NormalText}"/>
+      <Label Text="Author:"></Label>
+      <Image   Source="{Binding Thumbnail}"></Image>
+   </StackLayout>
+   ```
+
+![](../../images/MAUI/DetailView.png)
+
+## Step 11. Enable post creation
+
+1. The Web API Service automatically generates OData endpoints required to create business objects. However, because the example application's security system is configured to disallow post creation for some users, it is beneficial to have a way to check a user's permissions before they can try to submit a post. To do this, implement a custom `CanCreate` endpoint.
+
+   _API/CustomEndPointController.cs_:
+   ```cs
+   [HttpGet(nameof(CanCreate))]
+   public IActionResult CanCreate(string typeName) {
+       var strategy = (SecurityStrategy)_securityProvider.GetSecurity();
+       var objectType = strategy.TypesInfo.PersistentTypes.First(info => info.Name  == typeName).Type;
+       return Ok(strategy.CanCreate(objectType));
+   }
+   ```
+
+2. Add a method that checks the permissions and a method that submits a new post to the .NET MAUI application's data service.
+
+   _Services/IDataStore.cs_:
+
+   ```cs
+   public interface IDataStore<T> {
+       // ...
+       Task<bool> UserCanCreatePostAsync();
+       Task<T> AddItemAsync(Post post);
+   }
+   ```
+
+   _Services/WebAPIService.cs_:
+   
+   ```cs
+   public class WebAPIService : IDataStore<Post> {
+      // ...
+       public async Task<bool> UserCanCreatePostAsync() 
+	        => (bool)JsonNode.Parse(await HttpClient.GetStringAsync($"{_apiUrl}  CustomEndpoint/CanCreate?typename=Post"));
+
+       public async Task<bool> AddItemAsync(Post post) {
+           var httpResponseMessage = await HttpClient.PostAsync(_postEndPointUrl,
+               new StringContent(JsonSerializer.Serialize(post), Encoding.UTF8, ApplicationJson));
+           if (!httpResponseMessage.IsSuccessStatusCode) {
+               await Shell.Current.DisplayAlert("Error", await httpResponseMessage.Content.ReadAsStringAsync(), "OK");
+           }
+           return httpResponseMessage.IsSuccessStatusCode;
+       }
+   }
+   ```
+
+3. Configure the views and navigation:
+
+   _ViewModels/ItemsViewModel.cs_:
+
+   ```cs
+   public class ItemsViewModel : BaseViewModel {
+      public ItemsViewModel() {
+         // ...
+         AddItemCommand = new Command(OnAddItem);
+      }
+      public Command AddItemCommand { get; }
+
+      async void OnAddItem(object obj) {
+         if (await DataStore.UserCanCreatePostAsync()) {
+               await Navigation.NavigateToAsync<NewItemViewModel>(null);
+         }
+         else {
+               await Shell.Current.DisplayAlert("Error", "Access denied", "Ok");
+         }
+      }
+   }
+   ```
+
+   _App.xaml.cs_:
+
+   ```cs
+   public App() {
+      // ...
+      Routing.RegisterRoute(typeof(NewItemPage).FullName, typeof(NewItemPage));
+      // ...
+   }
+   ```
+
+
+   _Views/ItemsPage.xaml_:
+
+   ```xml
+   <ContentPage.ToolbarItems >
+       <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
+   </ContentPage.ToolbarItems>
+   ```
+
+![](../../images/MAUI/Edit.png)
+   
+## Step 12. Archive a Post record
+
+1. In the Web API service, create the `Archive` endpoint, which gets posts from the database, and archives them to the disk. The controller action's implementation bellow uses the `securedObjectSpaceFactory` to communicate with the data store so that all operation on the data respect the security permissions. 
+
+   _API/CustomEndPointController.cs_:
+   ```cs
+   [HttpPost(nameof(Archive))]
+   public async Task<IActionResult> Archive([FromBody] Post post) {
+       using var objectSpace = _securedObjectSpaceFactory.CreateObjectSpace<Post>();
+       post = objectSpace.GetObject(post);
+       var photo = post.Author.Photo.MediaResource.MediaData;
+       await System.IO.File.WriteAllTextAsync($"{post.ID}",
+           JsonSerializer.Serialize(new { photo, post.Title, post.Content, post.Author.UserName }));
+       return Ok();
+   }
+   ```
+
+2. Add a method used to archive a post to the .NET MAUI application's data service.
+
+   _Services/IDataStore.cs_:
+
+   ```cs
+   public interface IDataStore<T> {
+       // ...
+       Task ArchivePostAsync(T post);
+   }
+   ```
+
+   _Services/WebAPIService.cs_:
+   
+   ```cs
+   public class WebAPIService : IDataStore<Post> {
+      // ...
+       public async Task ArchivePostAsync(Post post) {
+           var httpResponseMessage = await HttpClient.PostAsync($"{_apiUrl}CustomEndPoint/Archive", new StringContent(JsonSerializer.Serialize(post), Encoding.UTF8, ApplicationJson));
+           if (httpResponseMessage.IsSuccessStatusCode) {
+               await Shell.Current.DisplayAlert("Success", "This post is saved to disk", "Ok");
+           }
+           else {
+               await Shell.Current.DisplayAlert("Error", await httpResponseMessage.Content.ReadAsStringAsync(), "Ok");
+           }
+       }
+   }
+   ```
+
+3. Configure the detail view.
+
+   _ViewModels/ItemDetailViewModel.cs_:
+
+   ```cs
+    public class ItemDetailViewModel : BaseViewModel, IQueryAttributable {
+        public ItemDetailViewModel() => ArchiveCommand = new Command(OnArchive);
+
+        private async void OnArchive(object obj) {
+            if (!await DataStore.UserCanCreatePostAsync()) {
+                await Shell.Current.DisplayAlert("Error", "Permission denied", "OK");
+            }
+            else {
+                await DataStore.ArchivePostAsync(Post);
+            }
+        }
+
+        public Command ArchiveCommand { get; }
+    }
+   ```
+
+   _Views/ItemDetailPage.xaml_
+   ```xml
+   <ContentPage.ToolbarItems >
+       <ToolbarItem Text="Archive" Command="{Binding ArchiveCommand}"></ToolbarItem>
+   </ContentPage.ToolbarItems>
+   ```
+
+![](../../images/MAUI/Archive.png)
+
+## Step 13. Display a report based on Post records
+
+The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview?p=netframework) is a [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml) feature that you can use to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. Skip this step if you are using the Web API service as a part of the _DevExpress .NET App Security Library_ & Web API service free offer.
+
+Follow the steps bellow to create and initialize a report:
+
+1. Add the Report component using the Visual Studio New Item wizard.
+2. Drag and drop a CollectionDataSource component from the Visual Studio toolbox and change its ObjectTypeName to `WebAPI.BusinessObjects.Post`.
+3. Drag & drop all discovered fields from the Field List window onto the Report details surface.
+
+   ![](../../images/MAUI/ReportDesigner.png) 
+4. Use a predefined reports updater to initialize the report (Module.cs).
+   ```cs
+   public override IEnumerable<ModuleUpdater> GetModuleUpdaters(IObjectSpace objectSpace, Version versionFromDB) {
+        var predefinedReportsUpdater = new PredefinedReportsUpdater(Application, objectSpace, versionFromDB);
+        predefinedReportsUpdater.AddPredefinedReport<XtraReport1>("Post Report",typeof(Post));
+        return new ModuleUpdater[] { new DatabaseUpdate.Updater(objectSpace, versionFromDB),predefinedReportsUpdater };
+    }
+   ```
+See the [Create a Report in Visual Studio](https://docs.devexpress.com/XtraReports/14989/get-started-with-devexpress-reporting/create-a-report-in-visual-studio#add-a-new-report) documentation topic for more information on creating and editing reports.
+
+For more information on using predefined static report in XAF, see the [Create Predefined Static Reports](https://docs.devexpress.com/eXpressAppFramework/113645/shape-export-print-data/reports/create-predefined-static-reports) article.
+
+> Watch video: [Preview Reports as PDF in .NET MAUI Apps using Backend Web API service Endpoints with EF Core](https://www.youtube.com/watch?v=bn4iF5Gc9XY)
+
+5. Create the `GetReport` endpoint which will redirect to build-in `DownloadByName` endpoint and will return a Report for the Post with title _Post Report_.
+
+   _API/CustomEndPointController.cs_:
+   ```cs
+   [HttpGet(nameof(GetReport))]
+   public RedirectResult GetReport() 
+       => Redirect("~/api/report/DownloadByName(Post Report)");
+   ```
+
+6. In the MAUI application's data service, implement a method that downloads that downloads an exported report:
+
+   ```cs
+   public interface IDataStore<T> {
+       // ...
+       Task ShapeIt();;
+   }
+   ```
+
+   _Services/WebAPIService.cs_:
+   
    ```cs
    public async Task ShapeIt() {
-   	var bytes = await HttpClient.GetByteArrayAsync($"{_apiUrl}report/DownloadByName   (Post Report)");
+       var bytes = await HttpClient.GetByteArrayAsync($"{_apiUrl}report/DownloadByName   (Post Report)");
    #if ANDROID
-   	var fileName = $"{FileSystem.Current.AppDataDirectory}/Report.pdf";
-   	await File.WriteAllBytesAsync(fileName, bytes);
-   	var intent = new Android.Content.Intent(Android.Content.Intent.ActionView);
-   	intent.SetDataAndType(AndroidX.Core.Content.FileProvider.GetUriForFile(Android.App.   Application.Context,
-   		$"{Android.App.Application.Context.ApplicationContext?.PackageName}.provider",   new Java.IO.File(fileName)),"application/pdf");
-   	intent.SetFlags(Android.Content.ActivityFlags.ClearWhenTaskReset | Android.Content.   ActivityFlags.NewTask | Android.Content.ActivityFlags.GrantReadUriPermission);
-   	Android.App.Application.Context.ApplicationContext?.StartActivity(intent);
+       var fileName = $"{FileSystem.Current.AppDataDirectory}/Report.pdf";
+       await File.WriteAllBytesAsync(fileName, bytes);
+       var intent = new Android.Content.Intent(Android.Content.Intent.ActionView);
+       intent.SetDataAndType(AndroidX.Core.Content.FileProvider.GetUriForFile(Android.App. Application.Context,
+           $"{Android.App.Application.Context.ApplicationContext?.PackageName}.provider", new Java.IO.File(fileName)),"application/pdf");
+       intent.SetFlags(Android.Content.ActivityFlags.ClearWhenTaskReset | Android.Content.ActivityFlags.NewTask | Android.Content.ActivityFlags.GrantReadUriPermission);
+       Android.App.Application.Context.ApplicationContext?.StartActivity(intent);
    #else
-   	var path = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-   	var fileName = $"{path}/Report.pdf";
-   	await File.WriteAllBytesAsync(fileName, bytes);
-   	var filePath = Path.Combine(path, "Report.pdf");
-   	var viewer = UIKit.UIDocumentInteractionController.FromUrl(Foundation.NSUrl.   FromFilename(filePath));
-   	viewer.PresentOpenInMenu(new System.Drawing.RectangleF(0,-260,320,320),Platform.   GetCurrentUIViewController()!.View! , true);
+       var path = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+       var fileName = $"{path}/Report.pdf";
+       await File.WriteAllBytesAsync(fileName, bytes);
+       var filePath = Path.Combine(path, "Report.pdf");
+       var viewer = UIKit.UIDocumentInteractionController.FromUrl(Foundation.NSUrl.FromFilename(filePath));
+       viewer.PresentOpenInMenu(new System.Drawing.RectangleF(0,-260,320,320),Platform.   GetCurrentUIViewController()!.View! , true);
    #endif
    }
+   ```
 
-   ``` 
-   ![](../../images/MAUI/Report.png)
+7. Update the items view do display and process the command to display the report.
 
-  
+   _Views/ItemsPage.xaml_
+
+   ```xml
+   <ContentPage.ToolbarItems >
+       <ToolbarItem Text="ShapeIt" Command="{Binding ShapeItCommand}" />
+   </ContentPage.ToolbarItems>
+   ```
+
+   _ViewModels/ItemsViewModel.cs_:
+
+   ```cs
+   public class ItemsViewModel : BaseViewModel {
+       public ItemsViewModel() {
+           // ...
+           ShapeItCommand = new Command(async () => await DataStore.ShapeIt());
+       }
+
+       public Command ShapeItCommand { get; }
+   }
+   ```
+
+![](../../images/MAUI/Report.png)
