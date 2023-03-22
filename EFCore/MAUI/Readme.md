@@ -20,7 +20,33 @@ This example demonstrates how to use our [Web API service](https://docs.devexpre
   >
   > If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
-## Step 1. Web API initialization: [Create Web API project using the XAF solution wizard](https://docs.devexpress.com/eXpressAppFramework/403401/backend-web-api-service/create-new-application-with-web-api-service)
+## Table of Contents
+
+[**Build and Test a Basic Web API Service App (Backend)**](#build-and-test-a-basic-web-api-service-app-backend)
+
+- [Create a Web API project using the XAF Solution Wizard](#create-a-web-api-project-using-the-xaf-solution-wizard)
+- [Declare a data model](#declare-a-data-model)
+- [Set up a development database connection](#set-up-a-development-database-connection)
+- [Generate initial data](#generate-initial-data)
+- [Use Swagger UI to test the Web API service](#use-swagger-ui-to-test-the-web-api-service)
+
+[**Build and test a basic .NET MAUI App (Frontend)**](#build-and-test-a-basic-net-maui-app-frontend)
+
+- [Create a .NET MAUI project](#create-a-net-maui-project)
+- [Modify platform specific settings](#modify-the-platform-specific-settings)
+- [Define the application's data model](#define-the-applications-data-model)
+- [Implement and test first views: "Login" and "Item List"](#implement-and-test-first-views-login-and-item-list)
+
+[**Extend backend and frontend apps**](#extend-backend-and-frontend-apps)
+
+- [Add an "Item Details" View](#add-an-item-details-view)
+- [Add a "New Item" entry form](#add-a-new-item-entry-form)
+- [Allow users to archive records](#allow-users-to-archive-records)
+- [Add reporting functionality](#add-reporting-functionality)
+
+## Build and Test a Basic Web API Service App (Backend)
+
+### Create a Web API project using the XAF Solution Wizard
 
 1. Start the wizard and select a Web API only project.
   ![](../../images/MAUI/SolutionWizardWebAPI.png)
@@ -44,7 +70,9 @@ This example demonstrates how to use our [Web API service](https://docs.devexpre
    },
    ```
 
-## Step 2. Declare a data model
+See the [Create a Standalone Web API Application](https://docs.devexpress.com/eXpressAppFramework/403401/backend-web-api-service/create-new-application-with-web-api-service) for more information.
+
+### Declare a data model
 
 1. Declare the `Post` object.
 
@@ -89,7 +117,7 @@ This example demonstrates how to use our [Web API service](https://docs.devexpre
 	 });
    ```
 
-## Step 3. Set up a development database connection
+### Set up a development database connection
 
 The XAF Solution Wizard generates the connection string and startup code required to store persistent data in a [SQL Server Express LocalDB](https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb) database, which is only available on Microsoft Windows. If you are planning to develop your Web API backend on a non-Windows machine, consider using [SQLite](https://www.sqlite.org/) instead.
 
@@ -113,7 +141,7 @@ public void ConfigureServices(IServiceCollection services) {
 }
 ```
 
-## Step 4. Create initial data
+### Generate initial data
 
 1. Open the the `WebAPI/DatabaseUpdate/Updater.cs` file and add the following code to the `UpdateDatabaseAfterUpdateSchema` method to create the Editor and Viewer users, assigns them roles and permissions, and create sample Post objects:
 
@@ -164,7 +192,7 @@ public void ConfigureServices(IServiceCollection services) {
      }
    ```
 
-## Step 5. Use the Swagger UI to test the Web API service
+### Use Swagger UI to test the Web API service
 
 At this point, you can already run your Web API service and use the Swagger interface to authenticate as one of the previously defined users and test the generated endpoints (for example, query the available posts). See the [Test the Web API with Swagger or Postman](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman) documentation article for more information.
 
@@ -172,7 +200,9 @@ At this point, you can already run your Web API service and use the Swagger inte
 
 ![](../../images/MAUI/SwaggerPostsResponse.png)
 
-## Step 6. Create the .NET MAUI project.
+## Build and test a basic .NET MAUI app (Frontend)
+
+### Create a .NET MAUI project
 
 > **NOTE** 
 >
@@ -183,7 +213,7 @@ At this point, you can already run your Web API service and use the Swagger inte
 2. Choose both the _IOS & Android_ platform, the _Tabbed_ layout and the _Collection View_, the _Data Editors_ and the _Data Forms_ options.
   ![](../../images/MAUI/MAUINewProjectWizardConfig.png)
 
-## Step 7. Modify the platform specific settings
+### Modify the platform specific settings
    
 1. Modify the `Platform/Android/AndroidManifest.xml` to request permissions for network access, file storage and document access.
 
@@ -257,7 +287,7 @@ At this point, you can already run your Web API service and use the Swagger inte
      }
    ```
 
-## Step 8. Define the application data model
+### Define the application's data model
    
 1. Add a definition for the `Post` class in the `Model/Post.cs` file.
 
@@ -341,7 +371,7 @@ At this point, you can already run your Web API service and use the Swagger inte
    >
    > If you are developing on a Windows PC and using a remote Mac to do the  build and run the simulator, localhost will not resolve to the machine where you have your Web API service hosted. Solutions to this case can be found online e.g. [Accessing ASP. NET Core API hosted on Kestrel over Https from iOS Simulator](https://nicksnettravels.builttoroam.com/post-2019-04-28-accessing-aspnet-core-api-hosted-on-kestrel-from-ios-simulator-android-emulator-and-uwp-applications-aspx/). Similarly, [you cannot access the Web API server when debugging the application using a real device (Android) connected through USB]( https://github.com/dotnet/maui/issues/8379). 
 
-## Step 9. Implement authentication and data navigation
+### Implement and test first views: "Login" and "Item List"
 
 1. Register the `WebAPIService` as well as routes and initial navigation in `App.xaml.cs`.
 
@@ -410,7 +440,9 @@ After you log in, you will see the predefined posts displayed in a list view.
 
 ![](../../images/MAUI/CollectionView.png)
 
-## Step 10. List existing Post records
+## Extend Backend and Frontend Apps
+
+### Add an "Item Details" view
 
 1. Implement a Web API service endpoint that serves the author's photo for a post based on the post's ID. 
 
@@ -567,7 +599,7 @@ After you log in, you will see the predefined posts displayed in a list view.
 
 ![](../../images/MAUI/DetailView.png)
 
-## Step 11. Enable post creation
+### Add a "New Item" entry form
 
 1. The Web API Service automatically generates OData endpoints required to create business objects. However, because the example application's security system is configured to disallow post creation for some users, it is beneficial to have a way to check a user's permissions before they can try to submit a post. To do this, implement a custom `CanCreate` endpoint.
 
@@ -656,7 +688,7 @@ After you log in, you will see the predefined posts displayed in a list view.
 
 ![](../../images/MAUI/Edit.png)
    
-## Step 12. Archive a Post record
+### Allow users to archive records
 
 1. In the Web API service, create the `Archive` endpoint, which gets posts from the database, and archives them to the disk. The controller action's implementation bellow uses the `securedObjectSpaceFactory` to communicate with the data store so that all operation on the data respect the security permissions. 
 
@@ -731,7 +763,7 @@ After you log in, you will see the predefined posts displayed in a list view.
 
 ![](../../images/MAUI/Archive.png)
 
-## Step 13. Display a report based on Post records
+### Add reporting functionality
 
 The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview?p=netframework) is a [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml) feature that you can use to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. Skip this step if you are using the Web API service as a part of the _DevExpress .NET App Security Library_ & Web API service free offer.
 
