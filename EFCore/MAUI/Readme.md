@@ -50,6 +50,7 @@ You don't have to use the **DevExpress Unified Component Installer**, if you onl
 ### Create a Web API project using the XAF Solution Wizard
 
 1. In Visual Studio, create a new project. Use the DevExpress XAF Template Gallery template. Enter project information and start the Wizard. On the first page, select only one tile: **Service (ASP.NET Core Web API)**.
+
   ![](../../images/MAUI/SolutionWizardWebAPI.png)
 
 2. Choose Entity Framework as your ORM.
@@ -58,7 +59,7 @@ You don't have to use the **DevExpress Unified Component Installer**, if you onl
 
 3. Choose **Standard Authentication** to generate the [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token)  authentication scaffolding code.
 
-   ![](../../images/MAUI/SolutionWizardAuthStd.png)
+  ![](../../images/MAUI/SolutionWizardAuthStd.png)
 
 4. If you own a license to the DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml), the next page allows you to select additional modules to add to your Web API Service. Make sure to select **Reports** as this module is required to complete the tutorial (last step). You can choose other modules if you plan to extend the application. Click **Finish**.
 
