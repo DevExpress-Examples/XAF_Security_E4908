@@ -88,7 +88,7 @@ namespace XAFSecurityBenchmark.PerformanceTests {
         }
 
         public override string ToString() {
-            return "EF Core 6 (No Security)";
+            return "EF Core 7 (No Security)";
         }
     }
 }

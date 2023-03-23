@@ -26,7 +26,7 @@ namespace XAFSecurityBenchmark.PerformanceTests {
         public static string EFCoreConnectionStrings => ConfigurationManager.ConnectionStrings["ConnectionString_EFCore"].ConnectionString;
 
         public TestSetConfig() {
-            var job = Job.Default.WithRuntime(CoreRuntime.Core60);
+            var job = Job.Default.WithRuntime(CoreRuntime.Core70);
                 //.WithMaxIterationCount(85);
             job.Run.RunStrategy = BenchmarkDotNet.Engines.RunStrategy.Throughput;
             AddJob(job);

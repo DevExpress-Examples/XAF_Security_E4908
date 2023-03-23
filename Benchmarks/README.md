@@ -89,7 +89,7 @@ For more information, see the test object creation logic in the [TemporaryTestOb
 
 ## Test Results
 
-We ran all benchmarks against .NET 6 and used AnyCPU release builds (include warm-up). The test machine had Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v15.00.4153, i7-8565U CPU 1.80GHz / 16GB RAM / SSD. 
+We ran all benchmarks against .NET 7 and used AnyCPU release builds (include warm-up). The test machine had Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v15.00.4153, i7-8565U CPU 1.80GHz / 16GB RAM / SSD. 
 
 Needless to say, lower numbers are better.
 
@@ -100,7 +100,7 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/getContacts_largeDataSet.svg" width="100%"/>
 </p>
 
-|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 7 (No Security), ms   |EF Core 7 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
 |10                            |1.904                         |13.237                        |3.475                         |10.158                        |
 |20                            |2.249                         |17.960                        |4.524                         |15.155                        |
@@ -123,7 +123,7 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/getTasks_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 7 (No Security), ms   |EF Core 7 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
 |10                            |2.222                         |23.294                        |5.123                         |14.047                        |
 |20                            |2.535                         |36.954                        |6.564                         |22.771                        |
@@ -147,7 +147,7 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/insertContact_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 7 (No Security), ms   |EF Core 7 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
 |10                            |21.740                        |54.970                        |11.757                        |18.214                        |
 |20                            |33.928                        |75.622                        |19.265                        |39.455                        |
@@ -170,7 +170,7 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/insertEmptyContact_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 7 (No Security), ms   |EF Core 7 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
 |10                            |12.351                        |18.745                        |7.931                         |11.182                        |
 |20                            |17.377                        |26.514                        |12.484                        |15.663                        |
@@ -193,7 +193,7 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/updateContacts_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 7 (No Security), ms   |EF Core 7 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
 |10                            |3.152                         |17.421                        |6.970                         |19.567                        |
 |20                            |4.102                         |24.231                        |10.258                        |32.139                        |
@@ -216,7 +216,7 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/updateTasks_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count                    |EF Core 6 (No Security), ms   |EF Core 6 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 7 (No Security), ms   |EF Core 7 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
 |10                            |1.780                         |25.029                        |7.230                         |23.505                        |
 |20                            |2.081                         |41.265                        |10.562                        |37.975                        |
