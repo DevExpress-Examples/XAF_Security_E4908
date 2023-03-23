@@ -49,25 +49,38 @@ This example demonstrates how to use our [Web API service](https://docs.devexpre
 ### Create a Web API project using the XAF Solution Wizard
 
 1. Start the wizard and select a Web API only project.
+
   ![](../../images/MAUI/SolutionWizardWebAPI.png)
+
 2. Choose Entity Framework as your ORM.
+
   ![](../../images/MAUI/SolutionWizardEFCore.png)
+
 3. Choose Standard Authentication to generate the [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token)  authentication scaffolding code.
+
    ![](../../images/MAUI/SolutionWizardAuthStd.png)
+
 4. If you are using the [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml), the next page will allow you to select additional modules to add to your Web API service. Choose all available modules and click **Finish**.
+
   ![](../../images/MAUI/SolutionWizardAllWebAPIModules.png)
-5. Modify the `WebAPI/Properties/launchSettings.json` file and remove the IIS Express profile to ensure that the `Kestrel server ports` will be utilized.
+  
+5. Modify the `WebAPI/Properties/launchSettings.json` file and remove the IIS Express profile to ensure that the `Kestrel server ports` will be utilized. After that, the file's `"profiles"` section should look as shown below:
 
    _Properties/launchSettings.json_:
    ```json
-   "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+   "profiles": {
+      "WebAPI.WebApi": {
+         "commandName": "Project",
+         "dotnetRunMessages": "true",
+         "launchBrowser": true,
+         "launchUrl": "swagger",
+         "applicationUrl": "https://localhost:5001;http://localhost:5000",
+         "environmentVariables": {
+         "ASPNETCORE_ENVIRONMENT": "Development"
+         }
       }
-   },
+   }
+   }
    ```
 
 See the [Create a Standalone Web API Application](https://docs.devexpress.com/eXpressAppFramework/403401/backend-web-api-service/create-new-application-with-web-api-service) for more information.
@@ -76,7 +89,7 @@ See the [Create a Standalone Web API Application](https://docs.devexpress.com/eX
 
 1. Declare the `Post` object.
 
-   _BusinessObjects/launchSettings.json_
+   _BusinessObjects/Post.cs_
    ```cs
    [VisibleInReports]
    public class Post : BaseObject {
