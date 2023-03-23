@@ -1,6 +1,7 @@
-This example demonstrates how to use our [Web API service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) with a mobile .NET MAUI application using EF Core for data access. Our .NET MAUI application will use API endpoints for the Post business object to implement the following common scenarios:
+This example demonstrates how you can create a [Web API service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) backend and a mobile .NET MAUI application frontend. The frontend app uses EF Core for data access.
 
-- Authenticate and authorize users from different roles
+The application works with blog post data. It authenticates a user, determines his or her permissions. and selectively enables the following data operations: 
+
 - List existing Post records
 - Display a photo of a Post author
 - Create new Post records
@@ -11,14 +12,14 @@ This example demonstrates how to use our [Web API service](https://docs.devexpre
 
 - [Visual Studio 2022 v17.0+](https://visualstudio.microsoft.com/vs/)
 - [.NET SDK 6.0+](https://dotnet.microsoft.com/download/dotnet-core)
-- [Download and install DevExpress .NET MAUI Project Templates for Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=DevExpress.MauiVSTemplates2022)
-- [Download and run our Unified Component Installer](https://www.devexpress.com/Products/Try/). Make sure to enable the **Cross-Platform .NET App UI & Web API service (XAF)** option in the list of products to install. It will register local NuGet package sources and item / project templates required to follow through this tutorial. 
+- [DevExpress .NET MAUI Project Templates for Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=DevExpress.MauiVSTemplates2022)
+- [DevExpress Libraries v22.2+](https://www.devexpress.com/Products/Try/). Download and run our **Unified Component Installer**. Make sure to enable the **Cross-Platform .NET App UI & Web API service (XAF)** option in the list of products to install. The installer will register local NuGet package sources and Visual Studio templates required for this tutorial. 
 
-  Alternatively, if you only want to run the example project or use the project as a boilerplate for your application, you can manually register your [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) in Visual Studio as described in the following article: [Setup Visual Studio's NuGet Package Manager](https://docs.devexpress.com/GeneralInformation/116698/installation/install-devexpress-controls-using-nuget-packages/setup-visual-studios-nuget-package-manager)
+You don't have to use the **DevExpress Unified Component Installer**, if you only want to run the example project or use the project as a boilerplate for your application. You can manually register your [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) in Visual Studio as described in the following article: [Setup Visual Studio's NuGet Package Manager](https://docs.devexpress.com/GeneralInformation/116698/installation/install-devexpress-controls-using-nuget-packages/setup-visual-studios-nuget-package-manager).
   
   > **NOTE** 
   >
-  > If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
+  > You may use a pre-release version of our components. For example, you may have obtained a hotfix from DevExpress. In such cases, NuGet packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article. Enable the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ## Table of Contents
 
@@ -48,19 +49,18 @@ This example demonstrates how to use our [Web API service](https://docs.devexpre
 
 ### Create a Web API project using the XAF Solution Wizard
 
-1. Start the wizard and select a Web API only project.
-
+1. In Visual Studio, create a new project. Use the DevExpress XAF Template Gallery template. Enter project information and start the Wizard. On the first page, select only one tile: **Service (ASP.NET Core Web API)**.
   ![](../../images/MAUI/SolutionWizardWebAPI.png)
 
 2. Choose Entity Framework as your ORM.
 
   ![](../../images/MAUI/SolutionWizardEFCore.png)
 
-3. Choose Standard Authentication to generate the [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token)  authentication scaffolding code.
+3. Choose **Standard Authentication** to generate the [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token)  authentication scaffolding code.
 
    ![](../../images/MAUI/SolutionWizardAuthStd.png)
 
-4. If you are using the [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml), the next page will allow you to select additional modules to add to your Web API service. Choose all available modules and click **Finish**.
+4. If you own a license to the DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml), the next page allows you to select additional modules to add to your Web API Service. Make sure to select **Reports** as this module is required to complete the tutorial (last step). You can choose other modules if you plan to extend the application. Click **Finish**.
 
   ![](../../images/MAUI/SolutionWizardAllWebAPIModules.png)
   
@@ -83,7 +83,7 @@ This example demonstrates how to use our [Web API service](https://docs.devexpre
    }
    ```
 
-See the [Create a Standalone Web API Application](https://docs.devexpress.com/eXpressAppFramework/403401/backend-web-api-service/create-new-application-with-web-api-service) for more information.
+See the following article for additional information: [Create a Standalone Web API Application](https://docs.devexpress.com/eXpressAppFramework/403401/backend-web-api-service/create-new-application-with-web-api-service).
 
 ### Declare a data model
 
@@ -103,11 +103,11 @@ See the [Create a Standalone Web API Application](https://docs.devexpress.com/eX
    }
    ```
 
-   In the above code sample, the `Post` class inherits [BaseObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.BaseImpl.BaseObject) to simplify data model implementation. In particular, this tutorial makes use of the following `BaseObject` class's features:
+   In the above code sample, the `Post` class inherits [BaseObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.BaseImpl.BaseObject) to simplify data model implementation. This tutorial makes use of the following `BaseObject` features:
 
-   - The predefined `Guid`-type primary key field (`ID`),
-   - The `OnCreated` lifecycle method,
-   - The `ObjectSpace` property, which allows you to communicate with the underlying data layer. 
+   - The predefined `Guid`-type primary key field (`ID`)
+   - The `OnCreated` lifecycle method
+   - The `ObjectSpace` property that allows you to communicate with the underlying data layer 
    
    See the [BaseObjectSpace](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace) documentation topic for more information.
 
@@ -207,7 +207,7 @@ public void ConfigureServices(IServiceCollection services) {
 
 ### Use Swagger UI to test the Web API service
 
-At this point, you can already run your Web API service and use the Swagger interface to authenticate as one of the previously defined users and test the generated endpoints (for example, query the available posts). See the [Test the Web API with Swagger or Postman](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman) documentation article for more information.
+At this point, you can already run your Web API service and use the Swagger interface to authenticate as one of the previously defined users and test the generated endpoints (for example, query the available posts). See the following article for additional information: [Test the Web API with Swagger or Postman](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman).
 
 ![](../../images/MAUI/SwaggerQueryPosts.png)
 
