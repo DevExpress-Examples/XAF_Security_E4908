@@ -1,0 +1,5 @@
+/*!
+ * CLDR JavaScript Library v0.5.4 2020-10-22T15:56Z MIT license © Rafael Xavier
+ * http://git.io/h4lmVg
+ */
+!function(e){"function"==typeof define&&define.amd?define(["../cldr"],e):"object"==typeof module&&"object"==typeof module.exports?module.exports=e(require("../cldr")):e(Cldr)}((function(e){var t,o=e._coreLoad,r=e._jsonMerge,n=e._pathNormalize,a=e._resourceGet,i=e._validatePresence,d=e._validateTypePath,u=t=function(e,o,i,d,u){var l,c,f;if(void 0!==o&&o!==u)return l=n(i,d),void 0!==(f=a(e._resolved,l))&&"object"!=typeof f||(void 0===(f=a(e._raw,l))&&(c=function(e,t){var o,r;if("root"!==t)return o=n(["supplemental/parentLocales/parentLocale",t]),(r=a(e._resolved,o)||a(e._raw,o))?r:(r=t.substr(0,t.lastIndexOf(e.localeSep)))||"root"}(e,o),f=t(e,c,i,r(d,{bundle:c}),o)),void 0!==f&&function(e,t,o){var r,n=e,a=t.length;for(r=0;r<a-1;r++)n[t[r]]||(n[t[r]]={}),n=n[t[r]];n[t[r]]=o}(e._resolved,l,f)),f};return e._raw={},e.load=function(){e._raw=o(e,e._raw,arguments)},e.prototype.get=function(t){return i(t,"path"),d(t,"path"),u(e,this.attributes&&this.attributes.bundle||"",t,this.attributes)},e._eventInit&&e._eventInit(),e}));
