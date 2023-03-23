@@ -223,8 +223,11 @@ At this point, you can already run your Web API service and use the Swagger inte
 > Debugging configurations for both iOS and Android can be complex, so it is not feasible to provide all possible scenarios. In this demo, we tested using Windows 10 with Visual Studio 2022. For iOS, we utilized the paired remote Mac method, and for Android, we utilized the built-in emulator..
 
 1. Open the the _Create a new project_ window in Visual Studio and select the the DevExpress .NET MAUI template Wizard. 
+
   ![](../../images/MAUI/MAUINewProjectWizard.png)
+
 2. Choose both the _IOS & Android_ platform, the _Tabbed_ layout and the _Collection View_, the _Data Editors_ and the _Data Forms_ options.
+
   ![](../../images/MAUI/MAUINewProjectWizardConfig.png)
 
 ### Modify the platform specific settings
