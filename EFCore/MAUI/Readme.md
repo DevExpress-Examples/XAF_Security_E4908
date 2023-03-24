@@ -232,7 +232,7 @@ At this point, you can already run your Web API service and use the Swagger inte
 
 ### Modify the platform specific settings
    
-1. Modify the `Platform/Android/AndroidManifest.xml` to request permissions for network access, file storage and document access.
+1. In the `Platform/Android/AndroidManifest.xml` file, to set up the file provider, which is required for the application to store downloaded reports:
 
    _Platform/Android/AndroidManifest.xml_:
    ```xml
@@ -250,10 +250,7 @@ At this point, you can already run your Web API service and use the Swagger inte
              android:resource="@xml/provider_paths" />
          </provider>
      </application>
-         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+     <!-- ... --> 
      </manifest>
    ```
 
