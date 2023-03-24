@@ -220,17 +220,17 @@ At this point, you can already run your Web API service and use the Swagger inte
 
 > **NOTE** 
 >
-> Debugging configurations for both iOS and Android can be complex, so it is not feasible to provide all possible scenarios. In this demo, we tested using Windows 10 with Visual Studio 2022. For iOS, we utilized the paired remote Mac method, and for Android, we utilized the built-in emulator..
+> Debugging configurations for both iOS and Android can be complex, so it is not feasible to provide all possible scenarios. We tested the app on Windows 10 with Visual Studio 2022. For iOS tests, we paired a remote Mac. For Android tests, we utilized the built-in emulator.
 
-1. Open the the _Create a new project_ window in Visual Studio and select the the DevExpress .NET MAUI template Wizard. 
+1. Open the the _Create a new project_ window in Visual Studio. Select the DevExpress .NET MAUI option and start the wizard. 
 
   ![](../../images/MAUI/MAUINewProjectWizard.png)
 
-2. Choose both the _IOS & Android_ platform, the _Tabbed_ layout and the _Collection View_, the _Data Editors_ and the _Data Forms_ options.
+2. Choose both the _iOS & Android_ platforms, the _Tabbed_ layout, and the following controls: _Collection View_, _Data Editors_, and _Data Forms_.
 
   ![](../../images/MAUI/MAUINewProjectWizardConfig.png)
 
-### Modify the platform specific settings
+### Modify platform specific settings
    
 1. Modify the `Platform/Android/AndroidManifest.xml` to request permissions for network access, file storage and document access.
 
@@ -257,7 +257,7 @@ At this point, you can already run your Web API service and use the Swagger inte
      </manifest>
    ```
 
-3. Add an `AndroidMessageHandler` class definition to `Platform/Android/AndroidMessageHandler.cs`.
+3. Add an `AndroidMessageHandler` class definition to `Platform/Android/AndroidMessageHandler.cs`. You will use this class to create an HTTP Client object that exchanges messages with the backend. 
 
    _Platform/Android/AndroidMessageHandler.cs:
    ```cs
@@ -287,7 +287,7 @@ At this point, you can already run your Web API service and use the Swagger inte
    } 
    ```
 
-4. Create an `IOSMessageHandler` class in the `Platform/IOS` folder.
+4. You need the same functionality for iOS applications too. Create an `IOSMessageHandler` class in the `Platform/IOS` folder.
 
    _Platform/IOS/IOSMessageHandler.cs_:
    ```cs
@@ -386,11 +386,13 @@ At this point, you can already run your Web API service and use the Swagger inte
 
    > **NOTE** 
    >
-   > If you are developing on a Windows PC and using a remote Mac to do the  build and run the simulator, localhost will not resolve to the machine where you have your Web API service hosted. Solutions to this case can be found online e.g. [Accessing ASP. NET Core API hosted on Kestrel over Https from iOS Simulator](https://nicksnettravels.builttoroam.com/post-2019-04-28-accessing-aspnet-core-api-hosted-on-kestrel-from-ios-simulator-android-emulator-and-uwp-applications-aspx/). Similarly, [you cannot access the Web API server when debugging the application using a real device (Android) connected through USB]( https://github.com/dotnet/maui/issues/8379). 
+   > If you are developing on a Windows PC and using a remote Mac to do the build and run the simulator, localhost will not resolve to the machine where you host your Web API service. Multiple solution guides are available online. For example, you may find the following article helpful: [Accessing ASP. NET Core API hosted on Kestrel over Https from iOS Simulator](https://nicksnettravels.builttoroam.com/post-2019-04-28-accessing-aspnet-core-api-hosted-on-kestrel-from-ios-simulator-android-emulator-and-uwp-applications-aspx/). 
+   >   
+   > You may experience a similar problem with your Android project. Review the following GitHub issue: [Cannot access the Web API server when debugging the application using a real device (Android) connected through USB]( https://github.com/dotnet/maui/issues/8379). 
 
 ### Implement and test first views: "Login" and "Item List"
 
-1. Register the `WebAPIService` as well as routes and initial navigation in `App.xaml.cs`.
+1. Register the `WebAPIService`, routes, and initial navigation in `App.xaml.cs`.
 
    _App.xaml.cs_:
    ```cs
@@ -461,7 +463,7 @@ After you log in, you will see the predefined posts displayed in a list view.
 
 ### Add an "Item Details" view
 
-1. Implement a Web API service endpoint that serves the author's photo for a post based on the post's ID. 
+1. Implement a Web API service endpoint that serves the author's photo based on the post's ID. 
 
    First, add the `Photo` property to the `ApplicationUser` persistent class:
 
@@ -473,7 +475,7 @@ After you log in, you will see the predefined posts displayed in a list view.
    }
    ```
 
-   Add a logic that assigns photos to predefined users to the Module Updater:
+   Modify the Module Updater. Add logic that assigns photos to predefined users:
 
    _DatabaseUpdate\Updater.cs_:
    ```cs
@@ -487,7 +489,7 @@ After you log in, you will see the predefined posts displayed in a list view.
 
    > **NOTE**
    >
-   > In the example code, the `GetResourceByName` method returns a byte array representation of an account image based on its name. You can find an example implementation of this method in the WebAPI project's [_DatabaseUpdate/Updater.cs_](./WebApi/DatabaseUpdate/Updater.cs) file. Note that this implementation requires the image resources to be compiled into the application's assembly (the .jpg files' `Build Action` option must be set to `Embedded resource`).
+   > In the example code, the `GetResourceByName` method returns a byte array representation of an account image based on its name. You can find an example implementation of this method in the Web API project's [_DatabaseUpdate/Updater.cs_](./WebApi/DatabaseUpdate/Updater.cs) file. Note that this implementation requires the image resources to be compiled into the application's assembly (the .jpg files' `Build Action` option must be set to `Embedded resource`).
 
    Add a `CustomEndPointController` inside the `WebAPI/API` directory, inject the `ISecurityProvider` and `IObjectSpaceFactory`. Implement a controller action that serves post author photos as shown below.
 
@@ -618,7 +620,7 @@ After you log in, you will see the predefined posts displayed in a list view.
 
 ### Add a "New Item" entry form
 
-1. The Web API Service automatically generates OData endpoints required to create business objects. However, because the example application's security system is configured to disallow post creation for some users, it is beneficial to have a way to check a user's permissions before they can try to submit a post. To do this, implement a custom `CanCreate` endpoint.
+1. The Web API Service automatically generates OData endpoints required to create business objects. However, the example application's security system is configured to disallow post creation for some users. You want to check permissions before a user can try and submit a post. For this purpose, implement a custom `CanCreate` endpoint.
 
    _API/CustomEndPointController.cs_:
    ```cs
@@ -630,7 +632,7 @@ After you log in, you will see the predefined posts displayed in a list view.
    }
    ```
 
-2. Add a method that checks the permissions and a method that submits a new post to the .NET MAUI application's data service.
+2. Add new methods to the .NET MAUI application's data service: one will check user permissions, another will  submit a new post.
 
    _Services/IDataStore.cs_:
 
@@ -707,7 +709,7 @@ After you log in, you will see the predefined posts displayed in a list view.
    
 ### Allow users to archive records
 
-1. In the Web API service, create the `Archive` endpoint, which gets posts from the database, and archives them to the disk. The controller action's implementation bellow uses the `securedObjectSpaceFactory` to communicate with the data store so that all operation on the data respect the security permissions. 
+1. In the Web API service, create an `Archive` endpoint. This endpoint will obtain a post from the database and archive that post to the disk. The controller action's implementation below uses the `securedObjectSpaceFactory` to communicate with the data store so that all data operations respect security permissions. 
 
    _API/CustomEndPointController.cs_:
    ```cs
@@ -722,7 +724,7 @@ After you log in, you will see the predefined posts displayed in a list view.
    }
    ```
 
-2. Add a method used to archive a post to the .NET MAUI application's data service.
+2. Extend the .NET MAUI application's data service with a method that archives a post.
 
    _Services/IDataStore.cs_:
 
@@ -750,7 +752,7 @@ After you log in, you will see the predefined posts displayed in a list view.
    }
    ```
 
-3. Configure the detail view.
+3. Configure the detail view: add a UI element that initiates the Archive command. 
 
    _ViewModels/ItemDetailViewModel.cs_:
 
@@ -784,14 +786,16 @@ After you log in, you will see the predefined posts displayed in a list view.
 
 The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview?p=netframework) is a [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml) feature that you can use to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. Skip this step if you are using the Web API service as a part of the _DevExpress .NET App Security Library_ & Web API service free offer.
 
-Follow the steps bellow to create and initialize a report:
+Follow the steps below to create and initialize a report:
 
-1. Add the Report component using the Visual Studio New Item wizard.
-2. Drag and drop a CollectionDataSource component from the Visual Studio toolbox and change its ObjectTypeName to `WebAPI.BusinessObjects.Post`.
+1. Add a DevExpress Report component using the Visual Studio's New Item wizard.
+2. Drag and drop a `CollectionDataSource` component from the Visual Studio toolbox and change its `ObjectTypeName` to `WebAPI.BusinessObjects.Post`.
 3. Drag & drop all discovered fields from the Field List window onto the Report details surface.
 
    ![](../../images/MAUI/ReportDesigner.png) 
-4. Use a predefined reports updater to initialize the report (Module.cs).
+4. Use a predefined reports updater to initialize the report.
+
+_Module.cs_:
    ```cs
    public override IEnumerable<ModuleUpdater> GetModuleUpdaters(IObjectSpace objectSpace, Version versionFromDB) {
         var predefinedReportsUpdater = new PredefinedReportsUpdater(Application, objectSpace, versionFromDB);
@@ -801,11 +805,11 @@ Follow the steps bellow to create and initialize a report:
    ```
 See the [Create a Report in Visual Studio](https://docs.devexpress.com/XtraReports/14989/get-started-with-devexpress-reporting/create-a-report-in-visual-studio#add-a-new-report) documentation topic for more information on creating and editing reports.
 
-For more information on using predefined static report in XAF, see the [Create Predefined Static Reports](https://docs.devexpress.com/eXpressAppFramework/113645/shape-export-print-data/reports/create-predefined-static-reports) article.
+For more information on using predefined static reports in XAF, see the following article: [Create Predefined Static Reports](https://docs.devexpress.com/eXpressAppFramework/113645/shape-export-print-data/reports/create-predefined-static-reports).
 
 > Watch video: [Preview Reports as PDF in .NET MAUI Apps using Backend Web API service Endpoints with EF Core](https://www.youtube.com/watch?v=bn4iF5Gc9XY)
 
-5. Create the `GetReport` endpoint which will redirect to build-in `DownloadByName` endpoint and will return a Report for the Post with title _Post Report_.
+5. Create a `GetReport` endpoint. It redirects to the built-in `DownloadByName` endpoint and returns a Report with title _Post Report_.
 
    _API/CustomEndPointController.cs_:
    ```cs
@@ -814,7 +818,7 @@ For more information on using predefined static report in XAF, see the [Create P
        => Redirect("~/api/report/DownloadByName(Post Report)");
    ```
 
-6. In the MAUI application's data service, implement a method that downloads that downloads an exported report:
+6. In the MAUI application's data service, implement a method that downloads the report:
 
    ```cs
    public interface IDataStore<T> {
@@ -847,7 +851,7 @@ For more information on using predefined static report in XAF, see the [Create P
    }
    ```
 
-7. Update the items view do display and process the command to display the report.
+7. Update the List view: add a command that displays the report.
 
    _Views/ItemsPage.xaml_
 
