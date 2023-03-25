@@ -1,0 +1,60 @@
+﻿@page "/login"
+@using Blazor.WebAssembly.Services
+@inject IWebAPI WebApi
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorageService;
+<div class="d-flex align-items-center justify-content-center" style="height:100vh;">
+    <div class="form-control" style="width: 25%; margin-top: -60vh;">
+        <ErrorBoundary @ref="_errorBoundary">
+            <ChildContent>
+                <EditForm Model="@this" OnSubmit="LoginAsync" Context="EditFormContext">
+                    <DataAnnotationsValidator/>
+                    <div class="card-body  align-content-around">
+                        <DxFormLayout>
+                            <DxFormLayoutItem ColSpanMd="12">
+                                <DxTextBox @bind-Text="@UserName" NullText="Username" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"/>
+                                <div class="text-danger"><ValidationMessage For="@(() => UserName)"/></div>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem ColSpanMd="12">
+                                <DxTextBox @bind-Text="@Password" NullText="Password" Password="true" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"/>
+                                <div class="text-danger"><ValidationMessage For="@(() => Password)"/></div>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem ColSpanMd="12">
+                                <div class="text-danger"><ValidationMessage For="@(() => AuthenticationResult)"/></div>
+                            </DxFormLayoutItem>
+                            <DxFormLayoutItem ColSpanMd="12">
+                                <DxButton Text="Login" RenderStyle="ButtonRenderStyle.Primary" SubmitFormOnClick="true"/>
+                            </DxFormLayoutItem>
+                        </DxFormLayout>
+                    </div>
+                </EditForm>
+            </ChildContent>
+            <ErrorContent Context="e">
+                <DxPopup HeaderText="@e.GetType().ToString()" Visible="true" Closed="() => _errorBoundary.Recover()">
+                    @e.Message
+                </DxPopup>
+            </ErrorContent>
+        </ErrorBoundary>
+    </div>
+</div>
+@code {
+    private ErrorBoundary _errorBoundary = new();
+    [Required]
+    public string? UserName { get; set; } 
+    public string? Password { get; set; }
+    [DisplayStringPropertyValue()]
+    public string? AuthenticationResult { get; set; } 
+    private async Task LoginAsync(EditContext editContext) {
+        AuthenticationResult = "";
+        if (editContext.Validate()){
+            var responseMessage = await WebApi.LoginAsync(UserName,Password);
+            if (!responseMessage.IsSuccessStatusCode) {
+                AuthenticationResult = $"Authentication error ({responseMessage.StatusCode}): {await responseMessage.Content.ReadAsStringAsync()}";
+                editContext.Validate();
+                return;
+            }
+            await LocalStorageService.SetItemAsStringAsync("IsAuthenticated", "true");
+            NavigationManager.NavigateTo(HttpUtility.ParseQueryString(new Uri(NavigationManager.Uri).Query).Get("returnUrl") ?? "/");
+        }
+    }
+}
