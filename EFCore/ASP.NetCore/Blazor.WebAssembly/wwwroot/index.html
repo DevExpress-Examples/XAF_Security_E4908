@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Blazor.WebAssembly</title>
+    <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="_content/DevExpress.Blazor.Themes/blazing-berry.bs5.css" rel="stylesheet" asp-append-version="true" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="Blazor.WebAssembly.styles.css" rel="stylesheet" />
+</head>
+<script>
+    function saveAsFile(filename, bytesBase64) {
+        var link = document.createElement('a');
+        link.download = filename;
+        link.href = "data:application/octet-stream;base64," + bytesBase64;
+        document.body.appendChild(link); // Needed for Firefox
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

@@ -30,6 +30,7 @@ public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services) {
+        
         services
             .AddScoped<IAuthenticationTokenProvider, JwtTokenProviderService>()
             .AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
@@ -82,8 +83,18 @@ public class Startup {
             // Do not use this code in production environment to avoid data loss.
             // We recommend that you refer to the following help topic before you use an in-memory database: https://docs.microsoft.com/en-us/ef/core/testing/in-memory
             //options.UseInMemoryDatabase("InMemory");
+<<<<<<< HEAD
             string connectionString = Configuration.GetConnectionString("ConnectionString");
             options.UseSqlServer(connectionString);
+=======
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                options.UseSqlServer(Configuration.GetConnectionString("ConnectionString"));
+            }
+            else {
+                options.UseSqlite($"Data Source={Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WebAPIDemo.db")}");
+            }
+>>>>>>> 1aa675d (WebAssembly Authentication)
             options.UseChangeTrackingProxies();
             options.UseObjectSpaceLinkProxies();
             options.UseLazyLoadingProxies();
@@ -111,11 +122,11 @@ public class Startup {
 	        });
         services
             .AddControllers()
-            .AddOData((options, serviceProvider) => {
-                options
-                    .AddRouteComponents("api/odata", new EdmModelBuilder(serviceProvider).GetEdmModel())
-                    .EnableQueryFeatures(100);
-            });
+            .AddOData((options, serviceProvider) => options
+                .AddRouteComponents("api/odata", new EdmModelBuilder(serviceProvider).GetEdmModel())
+                .EnableQueryFeatures(100));
+        services.AddCors(options => options.AddPolicy(
+            "Open", builder => builder.SetIsOriginAllowed(_ => true).AllowAnyHeader().AllowAnyMethod()));
 
         services.AddSwaggerGen(c => {
             c.EnableAnnotations();
@@ -194,6 +205,7 @@ public class Startup {
         app.UseRequestLocalization();
         app.UseStaticFiles();
         app.UseRouting();
+        app.UseCors("Open");
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseEndpoints(endpoints => {

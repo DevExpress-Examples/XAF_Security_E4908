@@ -1,0 +1,49 @@
+﻿@using Blazor.WebAssembly.Models
+@using Blazor.WebAssembly.Services
+@inject WebAPIAuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+@inject IWebAPI WebApi
+@inject ILocalStorageService LocalStorageService;
+<AuthorizeView>
+    <Authorized>
+        <a href="" @onclick="OnProfileClicked1">Hello @context.User.Identity?.Name</a>
+        <button type="button"  @onclick="Logout" class="nav-link btn btn-link">Log out</button>
+    </Authorized>
+    <NotAuthorized>
+        <a href="/login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+<DxPopup HeaderText="Profile" @bind-Visible="@PopupVisible">
+    <BodyContentTemplate >
+        <div>
+            <label for="userId">UserID:</label>
+            <label id="userId" >@_userId</label>
+        </div>
+        <div>
+            <label for="Active">Active:</label>
+            <label id="Active">@_userActive</label>
+        </div>
+    </BodyContentTemplate>
+</DxPopup>
+
+@code {
+    private string? _userId;
+    private string? _userActive;
+    bool PopupVisible { get; set; } = false;
+
+    private async Task Logout() {
+        if (await WebApi.LogoutAsync()) {
+            AuthStateProvider.ClearAuthInfo();
+            await LocalStorageService.RemoveItemAsync("IsAuthenticated");
+            NavigationManager.NavigateTo("/", true);
+        }
+    }
+
+    private async Task OnProfileClicked1() {
+        var userClaims = (await AuthStateProvider.GetAuthenticationStateAsync()).User.Claims.ToArray();
+        _userId = userClaims.First(claim => claim.Type == nameof(UserModel.ID)).Value.ToString();
+        _userActive = userClaims.First(claim => claim.Type == nameof(UserModel.IsActive)).Value.ToString();
+        PopupVisible = true;
+    }
+
+}

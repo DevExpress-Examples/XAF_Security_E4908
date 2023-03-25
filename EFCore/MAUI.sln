@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAUI", "MAUI\MAUI\MAUI.cspr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "MAUI\WebApi\WebAPI.csproj", "{ED889BFC-0B4F-424E-9355-DEEB95530FC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWASMApp.Client", "BlazorWASMApp\Client\BlazorWASMApp.Client.csproj", "{8F9DFFB6-29C7-4B6D-9ABA-84E99AA36A01}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Service", "BlazorWASMApp\Shared\WebApi.Service.csproj", "{01512492-A383-4C8A-8A21-72F41C4F1D54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,18 @@ Global
 		{ED889BFC-0B4F-424E-9355-DEEB95530FC7}.EasyTest|Any CPU.Build.0 = EasyTest|Any CPU
 		{ED889BFC-0B4F-424E-9355-DEEB95530FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED889BFC-0B4F-424E-9355-DEEB95530FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F9DFFB6-29C7-4B6D-9ABA-84E99AA36A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F9DFFB6-29C7-4B6D-9ABA-84E99AA36A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F9DFFB6-29C7-4B6D-9ABA-84E99AA36A01}.EasyTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F9DFFB6-29C7-4B6D-9ABA-84E99AA36A01}.EasyTest|Any CPU.Build.0 = Debug|Any CPU
+		{8F9DFFB6-29C7-4B6D-9ABA-84E99AA36A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F9DFFB6-29C7-4B6D-9ABA-84E99AA36A01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01512492-A383-4C8A-8A21-72F41C4F1D54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01512492-A383-4C8A-8A21-72F41C4F1D54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01512492-A383-4C8A-8A21-72F41C4F1D54}.EasyTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{01512492-A383-4C8A-8A21-72F41C4F1D54}.EasyTest|Any CPU.Build.0 = Debug|Any CPU
+		{01512492-A383-4C8A-8A21-72F41C4F1D54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01512492-A383-4C8A-8A21-72F41C4F1D54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
