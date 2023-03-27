@@ -66,7 +66,7 @@ namespace MAUI.ViewModels {
 		}
 
 		async void OnItemSelected(Post post) {
-			if (post != null) await Navigation.NavigateToAsync<ItemDetailViewModel>(post.PostId);
+			if (post != null) await Navigation.NavigateToAsync<ItemDetailViewModel>(post.ID);
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.InteropServices;
+using System.Text;
 using DevExpress.ExpressApp.AspNetCore.WebApi;
 using DevExpress.ExpressApp.Core;
 using DevExpress.ExpressApp.Security;
@@ -75,8 +76,15 @@ public class Startup {
             // Do not use this code in production environment to avoid data loss.
             // We recommend that you refer to the following help topic before you use an in-memory database: https://docs.microsoft.com/en-us/ef/core/testing/in-memory
             //options.UseInMemoryDatabase("InMemory");
-            string connectionString = Configuration.GetConnectionString("ConnectionString");
-            options.UseSqlServer(connectionString);
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                string connectionString = Configuration.GetConnectionString("ConnectionString");
+                options.UseSqlServer(connectionString);
+            }
+            else {
+                string sqliteDBPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WebAPIDemo.db");
+                options.UseSqlite($"Data Source={sqliteDBPath}");
+            }
             options.UseChangeTrackingProxies();
             options.UseObjectSpaceLinkProxies();
             options.UseLazyLoadingProxies();
