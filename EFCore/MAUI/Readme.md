@@ -234,7 +234,7 @@ At this point, you can already run your Web API service and use the Swagger inte
 
 ### Modify platform-specific settings
    
-1. 1. In the `Platform/Android/AndroidManifest.xml` file, add the code below to set up the file provider, which is required for the application to store downloaded reports:
+1. In the `Platform/Android/AndroidManifest.xml` file, add the code below to set up the file provider, which is required for the application to store downloaded reports:
 
    _Platform/Android/AndroidManifest.xml_:
    ```xml
