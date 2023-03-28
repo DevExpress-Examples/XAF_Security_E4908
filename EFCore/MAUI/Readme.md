@@ -23,30 +23,6 @@ You don't have to use the **DevExpress Unified Component Installer** if you only
   >
   > You may use a pre-release version of our components. For example, you may have obtained a hotfix from DevExpress. In such cases, NuGet packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article. Enable the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
-## Table of Contents
-
-[**Build and Test a Basic Web API Service App (Backend)**](#build-and-test-a-basic-web-api-service-app-backend)
-
-- [Create a Web API project using the XAF Solution Wizard](#create-a-web-api-project-using-the-xaf-solution-wizard)
-- [Declare a data model](#declare-a-data-model)
-- [Set up a development database connection](#set-up-a-development-database-connection)
-- [Generate initial data](#generate-initial-data)
-- [Use Swagger UI to test the Web API service](#use-swagger-ui-to-test-the-web-api-service)
-
-[**Build and test a basic .NET MAUI App (Frontend)**](#build-and-test-a-basic-net-maui-app-frontend)
-
-- [Create a .NET MAUI project](#create-a-net-maui-project)
-- [Modify platform-specific settings](#modify-the-platform-specific-settings)
-- [Define the application's data model](#define-the-applications-data-model)
-- [Implement and test first views: "Login" and "Item List"](#implement-and-test-first-views-login-and-item-list)
-
-[**Extend backend and frontend apps**](#extend-backend-and-frontend-apps)
-
-- [Add an "Item Details" View](#add-an-item-details-view)
-- [Add a "New Item" entry form](#add-a-new-item-entry-form)
-- [Allow users to archive records](#allow-users-to-archive-records)
-- [Add reporting functionality](#add-reporting-functionality)
-
 ## Build and Test a Basic Web API Service App (Backend)
 
 ### Create a Web API project using the XAF Solution Wizard
