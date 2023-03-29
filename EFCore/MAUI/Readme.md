@@ -4,11 +4,11 @@ This example demonstrates how you can create a [Web API service](https://docs.de
 
 The application works with blog post data. It authenticates a user, determines his or her permissions, and selectively enables the following data operations: 
 
-- List existing Post records
-- Display a photo of a Post author
-- Create new Post records
-- Archive a Post record
-- Display a report based on Post records
+- Lists existing Post records
+- Displays a photo of a Post author
+- Creates new Post records
+- Archives a Post record
+- Displays a report based on Post records
 
 ## Prerequisites
 
@@ -21,29 +21,29 @@ You don't have to use the **DevExpress Unified Component Installer** if you only
   
   > **NOTE** 
   >
-  > You may use a pre-release version of our components. For example, you may have obtained a hotfix from DevExpress. In such cases, NuGet packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article. Enable the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
+  > If you’ve used a pre-release version of our components or obtained a hotfix from DevExpress, NuGet packages will not be restored automatically (you will need to update them manually). For more information, please refer to the following article: [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages). Remember to enable the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ## Build and Test a Basic Web API Service App (Backend)
 
 ### Create a Web API project using the XAF Solution Wizard
 
-1. In Visual Studio, create a new project. Use the DevExpress XAF Template Gallery template. Enter project information and start the Wizard. On the first page, select only one tile: **Service (ASP.NET Core Web API)**.
+1. In Visual Studio, create a new project. Use the DevExpress XAF Template Gallery template. Enter appropriate project-related information and start the Wizard. On the first page, select only the following tile: **Service (ASP.NET Core Web API)**.
 
   ![](../../images/MAUI/SolutionWizardWebAPI.png)
 
-2. Choose Entity Framework as your ORM.
+2. Select Entity Framework as your ORM.
 
   ![](../../images/MAUI/SolutionWizardEFCore.png)
 
-3. Choose **Standard Authentication** to generate the [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) authentication scaffolding code.
+3. Select **Standard Authentication** to generate relevant [JWT](https://en.wikipedia.org/wiki/JSON_Web_Token) authentication scaffolding code.
 
   ![](../../images/MAUI/SolutionWizardAuthStd.png)
 
-4. If you own a license to the DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml), the next page allows you to select additional modules to add to your Web API Service. Make sure to select **Reports** as this module is required to complete the tutorial (last step). You can choose other modules if you plan to extend the application. Click **Finish**.
+4. If you own a DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml), he next page allows you to select additional modules for your Web API Service. Make certain to select **Reports** as this module is required to complete the tutorial (last step). You can select other modules if you plan to extend the application. Click **Finish**.
 
   ![](../../images/MAUI/SolutionWizardAllWebAPIModules.png)
   
-5. Modify the `WebAPI/Properties/launchSettings.json` file and remove the IIS Express profile to ensure that the `Kestrel server ports` will be utilized. After that, the file's `"profiles"` section should look as shown below:
+5. Modify the `WebAPI/Properties/launchSettings.json` file and remove the IIS Express profile so that `Kestrel server ports` will be utilized. Once complete, the file's `"profiles"` section should appear as shown below:
 
    _Properties/launchSettings.json_:
    ```json
@@ -62,7 +62,7 @@ You don't have to use the **DevExpress Unified Component Installer** if you only
    }
    ```
 
-See the following article for additional information: [Create a Standalone Web API Application](https://docs.devexpress.com/eXpressAppFramework/403401/backend-web-api-service/create-new-application-with-web-api-service).
+For more information, refer to the following DevExpress help topic: [Create a Standalone Web API Application](https://docs.devexpress.com/eXpressAppFramework/403401/backend-web-api-service/create-new-application-with-web-api-service).
 
 ### Declare a data model
 
@@ -82,13 +82,13 @@ See the following article for additional information: [Create a Standalone Web A
    }
    ```
 
-   In the above code sample, the `Post` class inherits [BaseObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.BaseImpl.BaseObject) to simplify data model implementation. This tutorial makes use of the following `BaseObject` features:
+   In the code sample above, `Post` class inherits [BaseObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.BaseImpl.BaseObject) to simplify data model implementation. This tutorial makes use of the following `BaseObject` features:
 
-   - The predefined `Guid`-type primary key field (`ID`)
-   - The `OnCreated` lifecycle method
-   - The `ObjectSpace` property that allows you to communicate with the underlying data layer 
+   - Predefined `Guid`-type primary key field (`ID`)
+   - `OnCreated` lifecycle method
+   - `ObjectSpace` property (allows you to communicate with the underlying data layer) 
    
-   See the [BaseObjectSpace](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace) documentation topic for more information.
+   For more information, refer to the following DevExpress help topic: [BaseObjectSpace](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace).
 
 2. Modify the Entity Framework DBContext with an additional DbSet.
 
@@ -97,7 +97,7 @@ See the following article for additional information: [Create a Standalone Web A
    public DbSet<Post> Posts { get; set; }
    ```
 
-3. Modify the `Startup.cs` file to register the `built-in CRUD endpoints` for the Post object.
+3. Modify the `Startup.cs` file to register `built-in CRUD endpoints` for the Post object.
 
    _Startup.cs_:
    ```cs
@@ -111,9 +111,9 @@ See the following article for additional information: [Create a Standalone Web A
 
 ### Set up a development database connection
 
-The XAF Solution Wizard generates the connection string and startup code required to store persistent data in a [SQL Server Express LocalDB](https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb) database, which is only available on Microsoft Windows. If you are planning to develop your Web API backend on a non-Windows machine, consider using [SQLite](https://www.sqlite.org/) instead.
+The XAF Solution Wizard generates the connection string and startup code required to store persistent data in a [SQL Server Express LocalDB](https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb) database (only available for Microsoft Windows). If you are planning to develop your Web API backend on a non-Windows machine, consider using [SQLite](https://www.sqlite.org/) instead.
 
-To use SQLite, add the [Microsoft.EntityFrameworkCore.Sqlite](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite) **v6** NuGet package to your project's dependencies. After that, add the following code to the `ConfigureServices` method within `Startup.cs`:
+To use SQLite, add the [Microsoft.EntityFrameworkCore.Sqlite](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite) **v6** NuGet package to your project's dependencies. Once complete, add the following code to the `ConfigureServices` method within `Startup.cs`:
 
 _Startup.cs_:
 ```cs
@@ -135,7 +135,7 @@ public void ConfigureServices(IServiceCollection services) {
 
 ### Generate initial data
 
-1. Open the `WebAPI/DatabaseUpdate/Updater.cs` file and add the following code to the `UpdateDatabaseAfterUpdateSchema` method to create the Editor and Viewer users, assign roles and permissions to them, and create sample Post objects:
+1. Open the `WebAPI/DatabaseUpdate/Updater.cs` file and add the following code to the `UpdateDatabaseAfterUpdateSchema` method to create appropriate users (Editor and Viewer), assign roles/permissions, and create sample Post objects:
 
    _DatabaseUpdate\Updater.cs_:
    ```cs
@@ -186,7 +186,7 @@ public void ConfigureServices(IServiceCollection services) {
 
 ### Use Swagger UI to test the Web API service
 
-At this point, you can already run your Web API service and use the Swagger interface to authenticate as one of the previously defined users and test the generated endpoints (for example, query the available posts). See the following article for additional information: [Test the Web API with Swagger or Postman](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman).
+At this point, you can run your Web API service and use the Swagger interface to authenticate as previously defined users and test generated endpoints (for example, query available posts). Refer to the following article for additional information [Test the Web API with Swagger or Postman](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman).
 
 ![](../../images/MAUI/SwaggerQueryPosts.png)
 
@@ -198,7 +198,7 @@ At this point, you can already run your Web API service and use the Swagger inte
 
 > **NOTE** 
 >
-> Debugging configurations for both iOS and Android can be complex, so it is not feasible to provide all possible scenarios. We tested the app on Windows 10 with Visual Studio 2022. For iOS tests, we paired a remote Mac. For Android tests, we utilized the built-in emulator.
+> Debugging configurations for both iOS and Android can be complex, so it is not feasible to document all possible debugging scenarios. We tested our sample app on Windows 10 with Visual Studio 2022. For iOS tests, we paired a remote Mac. For Android tests, we utilized the built-in emulator.
 
 1. Open the _Create a new project_ window in Visual Studio. Select the DevExpress .NET MAUI option and start the wizard.
 
@@ -210,7 +210,7 @@ At this point, you can already run your Web API service and use the Swagger inte
 
 ### Modify platform-specific settings
    
-1. In the `Platform/Android/AndroidManifest.xml` file, add the code below to set up the file provider, which is required for the application to store downloaded reports:
+1. In the `Platform/Android/AndroidManifest.xml` file, add the following code to set up the file provider (needed by the application to store downloaded reports):
 
    _Platform/Android/AndroidManifest.xml_:
    ```xml
@@ -262,7 +262,7 @@ At this point, you can already run your Web API service and use the Swagger inte
    } 
    ```
 
-3. The same functionality for iOS applications is also required. Create an `IOSMessageHandler` class in the `Platform/IOS` folder.
+3. The same functionality is needed for iOS applications. Create an `IOSMessageHandler` class in the `Platform/IOS` folder.
 
    _Platform/IOS/IOSMessageHandler.cs_:
    ```cs
@@ -312,7 +312,7 @@ At this point, you can already run your Web API service and use the Swagger inte
    }
    ```
 
-4. Add a `WebAPIService` class to the project (the `Services/WebAPIService.cs` file). In this class, implement the `IDataStore` interface and the `Authenticate` method. In the code, send HTTP requests to your Web API service to authenticate and obtain data as shown below:
+4. Add a `WebAPIService` class to the project (the `Services/WebAPIService.cs` file). In this class, implement the `IDataStore` interface and the `Authenticate` method. In code, send HTTP requests to your Web API service to authenticate and obtain data as follows:
 
    _Services/WebAPIService.cs_:
    ```cs
@@ -361,13 +361,13 @@ At this point, you can already run your Web API service and use the Swagger inte
 
    > **NOTE** 
    >
-   > If you are developing on a Windows PC and using a remote Mac to do the build and run the simulator, localhost will not resolve to the machine where you host your Web API service. Multiple solution guides are available online. For example, you may find the following article helpful: [Accessing ASP.NET Core API hosted on Kestrel over Https from iOS Simulator, Android Emulator and UWP Applications.](https://nicksnettravels.builttoroam.com/post-2019-04-28-accessing-aspnet-core-api-hosted-on-kestrel-from-ios-simulator-android-emulator-and-uwp-applications-aspx/)
+   > If you are developing on a Windows PC and using a remote Mac to build and run the simulator, localhost will not resolve to the Web API service host machine. Multiple solution guides are available to address this issue, including: [Accessing ASP.NET Core API hosted on Kestrel over Https from iOS Simulator, Android Emulator and UWP Applications.](https://nicksnettravels.builttoroam.com/post-2019-04-28-accessing-aspnet-core-api-hosted-on-kestrel-from-ios-simulator-android-emulator-and-uwp-applications-aspx/)
    >   
-   > You may experience a similar problem with your Android project. Review the following GitHub issue: [Cannot access the Web API server when debugging the application using a real device (Android) connected through USB]( https://github.com/dotnet/maui/issues/8379). 
+   > You may experience a similar problem with your Android project. Review to the following GitHub issue for more information: [Cannot access the Web API server when debugging the application using a real device (Android) connected through USB]( https://github.com/dotnet/maui/issues/8379). 
 
 ### Implement and test first views: "Login" and "Item List"
 
-1. Register the `WebAPIService`, routes, and initial navigation in `App.xaml.cs`.
+1. Register `WebAPIService`, routes, and initial navigation in `App.xaml.cs`.
 
    _App.xaml.cs_:
    ```cs
@@ -384,7 +384,7 @@ At this point, you can already run your Web API service and use the Swagger inte
    }
    ```
 
-2. Modify the `LoginViewModel` to authenticate in the Web API service and navigate to the Items page after successful authentication.
+2. Modify your `LoginViewModel` (to authenticate in the Web API service) and navigate to the Items page after successful authentication.
 
    _ViewModels/LoginViewModel.cs_:
    ```cs
@@ -426,11 +426,11 @@ At this point, you can already run your Web API service and use the Swagger inte
    }  
    ```
 
-Start the Web API project, and then the .NET MAUI app. Log in as an Editor or Viewer user created in the Web API Module Updater.
+Start the Web API project, and then your .NET MAUI app. Log in as an Editor or Viewer (users created in the Web API Module Updater).
 
 ![](../../images/MAUI/LogIn.png)
 
-After you log in, you will see the predefined posts displayed in a list view.
+Once logged in, you will see the predefined posts displayed in a list view.
 
 ![](../../images/MAUI/CollectionView.png)
 
@@ -438,7 +438,7 @@ After you log in, you will see the predefined posts displayed in a list view.
 
 ### Add an "Item Details" view
 
-1. Implement a Web API service endpoint that serves the author's photo based on the post's ID. 
+1. Implement a Web API service endpoint to serve the author's photo based on post ID information. 
 
    First, add the `Photo` property to the `ApplicationUser` persistent class:
 
@@ -450,7 +450,7 @@ After you log in, you will see the predefined posts displayed in a list view.
    }
    ```
 
-   Modify the Module Updater. Add logic that assigns photos to predefined users:
+   Modify Module Updater. Add necessary logic to assign photos to predefined users:
 
    _DatabaseUpdate\Updater.cs_:
    ```cs
@@ -464,11 +464,12 @@ After you log in, you will see the predefined posts displayed in a list view.
 
    > **NOTE**
    >
-   > In the example code, the `GetResourceByName` method returns a byte array representation of an account image based on its name. You can find an example implementation of this method in the Web API project's [_DatabaseUpdate/Updater.cs_](./WebApi/DatabaseUpdate/Updater.cs) file. Note that this implementation requires the image resources to be compiled into the application's assembly (the .jpg files' `Build Action` option must be set to `Embedded resource`).
+   > In our example code, the `GetResourceByName` method returns a byte array representation of an account image based on name. You can find an implementation for this method in the Web API project's [_DatabaseUpdate/Updater.cs_](./WebApi/DatabaseUpdate/Updater.cs) file. Note that this implementation requires the image resources to be compiled into the application's assembly (the .jpg files' `Build Action` option must be set to `Embedded resource`).
 
-   Add a `CustomEndPointController` inside the `WebAPI/API` directory, and inject the `ISecurityProvider` and `IObjectSpaceFactory`. Implement a controller action that serves post author photos as shown below.
+   Add a `CustomEndPointController` inside the `WebAPI/API` directory, and inject the `ISecurityProvider` and `IObjectSpaceFactory`. Implement a controller action that serves post author photos as follows.
 
    _API/CustomEndPointController.cs_:
+
    ```cs
    [ApiController]
    [Route("api/[controller]")]
@@ -595,7 +596,7 @@ After you log in, you will see the predefined posts displayed in a list view.
 
 ### Add a "New Item" entry form
 
-1. The Web API Service automatically generates OData endpoints required to create business objects. However, the example application's security system is configured to disallow post creation for some users. You want to check permissions before a user can try and submit a post. For this purpose, implement a custom `CanCreate` endpoint.
+1. The Web API Service automatically generates OData endpoints required to create business objects. However, the example application's security system is configured to disallow post creation for certain users. To check permissions before a user can try and submit a post, implement a custom `CanCreate` endpoint.
 
    _API/CustomEndPointController.cs_:
    ```cs
@@ -638,7 +639,7 @@ After you log in, you will see the predefined posts displayed in a list view.
    }
    ```
 
-3. Configure the views and navigation:
+3. Configure views and navigation:
 
    _ViewModels/ItemsViewModel.cs_:
 
@@ -684,7 +685,7 @@ After you log in, you will see the predefined posts displayed in a list view.
    
 ### Allow users to archive records
 
-1. In the Web API service, create an `Archive` endpoint. This endpoint will obtain a post from the database and archive that post to the disk. The controller action's implementation below uses the `securedObjectSpaceFactory` to communicate with the data store so that all data operations respect security permissions. 
+1. In the Web API service, create an `Archive` endpoint. This endpoint will obtain a post from the database and archive the post to disk. The following controller action implementation uses `securedObjectSpaceFactory` to communicate with the data store so that all data operations respect appropriate security permissions. 
 
    _API/CustomEndPointController.cs_:
    ```cs
@@ -759,9 +760,9 @@ After you log in, you will see the predefined posts displayed in a list view.
 
 ### Add reporting functionality
 
-The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview?p=netframework) is a [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml) feature that you can use to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. Skip this step if you are using the Web API service as a part of the _DevExpress .NET App Security Library_ & Web API service free offer.
+The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview?p=netframework) ships as part of the DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml). You can use it to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. You can skip this step if you do not own the DevExpress Universal Subscription.
 
-Follow the steps below to create and initialize a report:
+To create and initialize a report:
 
 1. Add a DevExpress Report component using the Visual Studio New Item wizard.
 2. Drag and drop a `CollectionDataSource` component from the Visual Studio toolbox and change its `ObjectTypeName` to `WebAPI.BusinessObjects.Post`.
@@ -778,9 +779,9 @@ _Module.cs_:
         return new ModuleUpdater[] { new DatabaseUpdate.Updater(objectSpace, versionFromDB),predefinedReportsUpdater };
     }
    ```
-See the [Create a Report in Visual Studio](https://docs.devexpress.com/XtraReports/14989/get-started-with-devexpress-reporting/create-a-report-in-visual-studio#add-a-new-report) documentation topic for more information on creating and editing reports.
+For more information on report generation, refer to the following DevExpress help topic: [Create a Report in Visual Studio](https://docs.devexpress.com/XtraReports/14989/get-started-with-devexpress-reporting/create-a-report-in-visual-studio#add-a-new-report).
 
-For more information on using predefined static reports in XAF, see the following article: [Create Predefined Static Reports](https://docs.devexpress.com/eXpressAppFramework/113645/shape-export-print-data/reports/create-predefined-static-reports).
+For more information on the use of predefined static reports in XAF, refer to the following DevExpress help topic: [Create Predefined Static Reports](https://docs.devexpress.com/eXpressAppFramework/113645/shape-export-print-data/reports/create-predefined-static-reports).
 
 > Watch video: [Preview Reports as PDF in .NET MAUI Apps using Backend Web API service Endpoints with EF Core](https://www.youtube.com/watch?v=bn4iF5Gc9XY)
 
