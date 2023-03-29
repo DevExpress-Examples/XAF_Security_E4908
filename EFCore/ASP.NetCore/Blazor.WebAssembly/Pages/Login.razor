@@ -3,8 +3,8 @@
 @inject IWebAPI WebApi
 @inject NavigationManager NavigationManager
 @inject ILocalStorageService LocalStorageService;
-<div class="d-flex align-items-center justify-content-center" style="height:100vh;">
-    <div class="form-control" style="width: 25%; margin-top: -60vh;">
+<div class="d-flex justify-content-center" >
+    
         <ErrorBoundary @ref="_errorBoundary">
             <ChildContent>
                 <EditForm Model="@this" OnSubmit="LoginAsync" Context="EditFormContext">
@@ -35,7 +35,7 @@
                 </DxPopup>
             </ErrorContent>
         </ErrorBoundary>
-    </div>
+    
 </div>
 @code {
     private ErrorBoundary _errorBoundary = new();
