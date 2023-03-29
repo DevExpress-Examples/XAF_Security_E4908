@@ -6,7 +6,7 @@
 @inject ILocalStorageService LocalStorageService;
 <AuthorizeView>
     <Authorized>
-        <a href="" @onclick="OnProfileClicked1">Hello @context.User.Identity?.Name</a>
+        <a href="" @onclick="OnProfileClicked">Hello @context.User.Identity?.Name</a>
         <button type="button"  @onclick="Logout" class="nav-link btn btn-link">Log out</button>
     </Authorized>
     <NotAuthorized>
@@ -39,7 +39,7 @@
         }
     }
 
-    private async Task OnProfileClicked1() {
+    private async Task OnProfileClicked() {
         var userClaims = (await AuthStateProvider.GetAuthenticationStateAsync()).User.Claims.ToArray();
         _userId = userClaims.First(claim => claim.Type == nameof(UserModel.ID)).Value.ToString();
         _userActive = userClaims.First(claim => claim.Type == nameof(UserModel.IsActive)).Value.ToString();
