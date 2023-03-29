@@ -7,6 +7,7 @@ using DevExpress.ExpressApp.WebApi.Services;
 using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using DevExpress.Persistent.BaseImpl.EFCore.AuditTrail;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.OData;
@@ -30,7 +31,6 @@ public class Startup {
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services) {
-        
         services
             .AddScoped<IAuthenticationTokenProvider, JwtTokenProviderService>()
             .AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
@@ -52,7 +52,7 @@ public class Startup {
 	        });
         const string customBearerSchemeName = "CustomBearer";
         var authentication = services.AddAuthentication(customBearerSchemeName);
-        authentication
+        authentication.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddJwtBearer(customBearerSchemeName, options => {
                 options.TokenValidationParameters = new TokenValidationParameters() {
                     ValidateIssuerSigningKey = true,
@@ -60,25 +60,20 @@ public class Startup {
                     //ValidAudience = Configuration["Authentication:Jwt:Audience"],
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    IssuerSigningKey =
-                        new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(Configuration["Authentication:Jwt:IssuerSigningKey"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:Jwt:IssuerSigningKey"]))
                 };
-            })
-
-            .AddCookie();
+            });
         //Configure OAuth2 Identity Providers based on your requirements. For more information, see
         //https://docs.devexpress.com/eXpressAppFramework/402197/task-based-help/security/how-to-use-active-directory-and-oauth2-authentication-providers-in-blazor-applications
         //https://developers.google.com/identity/protocols/oauth2
         //https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
         //https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow
-            
         authentication.AddMicrosoftIdentityWebApi(Configuration, configSectionName: "Authentication:AzureAd");
 
         services.AddAuthorization(options => {
             options.DefaultPolicy = new AuthorizationPolicyBuilder(
-                    JwtBearerDefaults.AuthenticationScheme,
-                    customBearerSchemeName)
+                // JwtBearerDefaults.AuthenticationScheme, customBearerSchemeName
+                CookieAuthenticationDefaults.AuthenticationScheme,customBearerSchemeName)
                     .RequireAuthenticatedUser()
                     .RequireXafAuthentication()
                     .Build();
@@ -117,13 +112,13 @@ public class Startup {
 	        });
         services
             .AddControllers()
-            .AddOData((options, serviceProvider) => options
-                .AddRouteComponents("api/odata", new EdmModelBuilder(serviceProvider).GetEdmModel())
-                .EnableQueryFeatures(100));
-
+            .AddOData((options, serviceProvider) => {
+                options
+                    .AddRouteComponents("api/odata", new EdmModelBuilder(serviceProvider).GetEdmModel())
+                    .EnableQueryFeatures(100);
+            });
         services.AddCors(options => options.AddPolicy(
             "Open", builder => builder.SetIsOriginAllowed(_ => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
-
         services.AddSwaggerGen(c => {
             c.EnableAnnotations();
             c.SwaggerDoc("v1", new OpenApiInfo {
@@ -139,16 +134,16 @@ public class Startup {
                 In = ParameterLocation.Header
             });
             c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-            {
                 {
-                    new OpenApiSecurityScheme() {
-                        Reference = new OpenApiReference() {
-                            Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                            Id = "JWT"
-                        }
+                    {
+                        new OpenApiSecurityScheme() {
+                            Reference = new OpenApiReference() {
+                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Id = "JWT"
+                            }
+                        },
+                        Array.Empty<string>()
                     },
-                    Array.Empty<string>()
-                },
             });
             var azureAdAuthorityUrl = $"{Configuration["Authentication:AzureAd:Instance"]}{Configuration["Authentication:AzureAd:TenantId"]}";
             c.AddSecurityDefinition("OAuth2", new OpenApiSecurityScheme {
@@ -167,6 +162,8 @@ public class Startup {
             c.AddSecurityRequirement(new OpenApiSecurityRequirement() {
                 {
                     new OpenApiSecurityScheme {
+                        Name = "OAuth2",
+                        Scheme = "OAuth2",
                         Reference = new OpenApiReference {
                             Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
                             Id = "OAuth2"
