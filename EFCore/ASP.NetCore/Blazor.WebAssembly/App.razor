@@ -25,7 +25,7 @@
         var auth =  await LocalStorageService.GetItemAsync<string>("IsAuthenticated");
         var user = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
         if(!string.IsNullOrEmpty(auth) && !user.Identity!.IsAuthenticated ){
-            var response = await WebApi.UserAsync();
+            var response = await WebApi.GetUserAsync();
             var responseMessage = response.message;
             if (responseMessage == "Success") {
                 AuthStateProvider.SetAuthInfo(response.user!);
