@@ -72,8 +72,7 @@ public class Startup {
 
         services.AddAuthorization(options => {
             options.DefaultPolicy = new AuthorizationPolicyBuilder(
-                // JwtBearerDefaults.AuthenticationScheme, customBearerSchemeName
-                CookieAuthenticationDefaults.AuthenticationScheme,customBearerSchemeName)
+                    CookieAuthenticationDefaults.AuthenticationScheme,customBearerSchemeName)
                     .RequireAuthenticatedUser()
                     .RequireXafAuthentication()
                     .Build();

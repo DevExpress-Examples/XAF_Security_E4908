@@ -3,7 +3,9 @@
 @inject IWebAPI WebApi
 @inject WebAPIAuthenticationStateProvider AuthStateProvider
 <CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="@OnNavigateAsync">
+    <Router AppAssembly="@typeof(App).Assembly" 
+            OnNavigateAsync="@OnNavigateAsync" 
+            >
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
@@ -22,15 +24,14 @@
 </CascadingAuthenticationState>
 @code{
     private async Task OnNavigateAsync(NavigationContext args) {
-        var auth =  await LocalStorageService.GetItemAsync<string>("IsAuthenticated");
-        var user = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
-        if(!string.IsNullOrEmpty(auth) && !user.Identity!.IsAuthenticated ){
-            var response = await WebApi.GetUserAsync();
-            var responseMessage = response.message;
-            if (responseMessage == "Success") {
-                AuthStateProvider.SetAuthInfo(response.user!);
+        var isAuthenticated =  await LocalStorageService.GetItemAsync<string>("IsAuthenticated");
+        var claimsPrincipal = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
+        if(!string.IsNullOrEmpty(isAuthenticated) && !claimsPrincipal.Identity!.IsAuthenticated ){
+            var user = await WebApi.GetUserAsync();
+            if (user.message == "Success") {
+                AuthStateProvider.SetAuthInfo(user.user!);
             }
-            else if(responseMessage == "Unauthorized"){
+            else if(user.message == "Unauthorized"){
                 await LocalStorageService.RemoveItemAsync("IsAuthenticated");
             }
         }

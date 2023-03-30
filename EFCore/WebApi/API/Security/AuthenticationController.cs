@@ -40,7 +40,7 @@ public class AuthenticationController : ControllerBase {
         }
     }
 
-    [HttpPost("LoginAsync")]
+    [HttpPost(nameof(LoginAsync))]
     [SwaggerOperation("Checks if the user with the specified logon parameters exists in the database. If it does, authenticates this user.", "Refer to the following help topic for more information on authentication methods in the XAF Security System: <a href='https://docs.devexpress.com/eXpressAppFramework/119064/data-security-and-safety/security-system/authentication'>Authentication</a>.")]
     public async Task<ActionResult> LoginAsync([FromBody] [SwaggerRequestBody(@"For example: <br /> { ""userName"": ""Admin"", ""password"": """" }")]
         AuthenticationStandardLogonParameters logonParameters) {
@@ -58,7 +58,7 @@ public class AuthenticationController : ControllerBase {
         }
     }
 
-    [HttpPost("LogoutAsync")]
+    [HttpPost(nameof(LogoutAsync))]
     public async Task<SignOutResult> LogoutAsync() {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return new SignOutResult(CookieAuthenticationDefaults.AuthenticationScheme);
