@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using Blazor.WebAssembly.Models;
 
 namespace Blazor.WebAssembly.Services;
@@ -21,9 +22,14 @@ public class WebAPI: IWebAPI {
         => (await _httpClient.PostAsJsonAsync("Authentication/LoginAsync", new{userName,password}));
 
     public async Task<(string message, UserModel? user)> GetUserAsync() {
-        var response = await _httpClient.GetAsync("Authentication/UserInfo");
-        return response.IsSuccessStatusCode ? ("Success", await response.Content.ReadFromJsonAsync<UserModel>())
-            : response.StatusCode == System.Net.HttpStatusCode.Unauthorized ? ("Unauthorized", null) : ("Failed", null);
+        try {
+            var response = await _httpClient.GetAsync("Authentication/UserInfo");
+            return response.IsSuccessStatusCode ? ("Success", await response.Content.ReadFromJsonAsync<UserModel>())
+                : response.StatusCode == HttpStatusCode.Unauthorized ? ("Unauthorized", null) : ("Failed", null);
+        }
+        catch (Exception e) {
+            return ("Failed", null);
+        }
     }
 
     public async Task<bool> LogoutAsync() 
