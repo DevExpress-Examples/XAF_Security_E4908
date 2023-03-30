@@ -62,10 +62,6 @@ public class WebAPIEFCoreDbContext : DbContext {
         modelBuilder.Entity<AuditEFCoreWeakReference>()
             .HasMany(p => p.UserItems)
             .WithOne(p => p.UserObject);
-        modelBuilder.Entity<ModelDifference>()
-            .HasMany(t => t.Aspects)
-            .WithOne(t => t.Owner)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
 

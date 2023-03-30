@@ -23,7 +23,7 @@ public class WebAPIService : IDataStore<Post> {
     public async Task<bool> UserCanCreatePostAsync()
         => (bool)JsonNode.Parse(await HttpClient.GetStringAsync($"{_apiUrl}CustomEndpoint/CanCreate?typename=Post"));
 
-    public async Task<byte[]> GetAuthorPhotoAsync(int postId)
+    public async Task<byte[]> GetAuthorPhotoAsync(Guid postId)
         => await HttpClient.GetByteArrayAsync($"{_apiUrl}CustomEndPoint/AuthorPhoto/{postId}");
 
     public async Task ArchivePostAsync(Post post) {
@@ -66,7 +66,7 @@ public class WebAPIService : IDataStore<Post> {
     }
 
     public async Task<Post> GetItemAsync(string id)
-        => (await RequestItemsAsync($"?$filter={nameof(Post.PostId)} eq {id}")).FirstOrDefault();
+        => (await RequestItemsAsync($"?$filter={nameof(Post.ID)} eq {id}")).FirstOrDefault();
 
     public async Task<IEnumerable<Post>> GetItemsAsync(bool forceRefresh = false)
         => await RequestItemsAsync();

@@ -1,6 +1,10 @@
-﻿namespace MAUI.Models {
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace MAUI.Models {
 	public class Post {
-		public int PostId { get; set; }
+		[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+		public Guid ID { get; set; }
 		public string Title { get; set; }
 		public string Content { get; set; }
 		

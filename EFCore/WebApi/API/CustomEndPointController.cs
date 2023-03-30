@@ -27,7 +27,7 @@ namespace WebAPI.API {
         }
 
         [HttpGet("AuthorPhoto/{postId}")]
-        public FileStreamResult AuthorPhoto(int postId) {
+        public FileStreamResult AuthorPhoto(Guid postId) {
             using var objectSpace = _securedObjectSpaceFactory.CreateObjectSpace(typeof(Post));
             var post = objectSpace.GetObjectByKey<Post>(postId);
             var photoBytes = post.Author.Photo.MediaData;
@@ -39,7 +39,7 @@ namespace WebAPI.API {
             using var objectSpace = _securedObjectSpaceFactory.CreateObjectSpace<Post>();
             post = objectSpace.GetObject(post);
             var photo = post.Author.Photo.MediaResource.MediaData;
-            await System.IO.File.WriteAllTextAsync($"{post.PostId}",
+            await System.IO.File.WriteAllTextAsync($"{post.ID}",
                 JsonSerializer.Serialize(new { photo, post.Title, post.Content, post.Author.UserName }));
             return Ok();
         }
