@@ -32,8 +32,17 @@
                 AuthStateProvider.SetAuthInfo(user.user!);
             }
             else if(user.message == "Unauthorized"){
-                await LocalStorageService.RemoveItemAsync("IsAuthenticated");
+                await Logout();
+            } else if(user.message == "Failed") {
+                await Logout();
+                //Show an exception if required
             }
+        }
+    }
+    private async Task Logout() {
+        if(await WebApi.LogoutAsync()) {
+            AuthStateProvider.ClearAuthInfo();
+            await LocalStorageService.RemoveItemAsync("IsAuthenticated");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
@@ -24,7 +25,9 @@ public class ApplicationUser : PermissionPolicyUser, ISecurityUserWithLoginInfo 
 	}
 
 	public virtual MediaDataObject Photo { get; set; }
-    
+
+    [FieldSize(255)]
+    public virtual String Email { get; set; }
 }
 
 

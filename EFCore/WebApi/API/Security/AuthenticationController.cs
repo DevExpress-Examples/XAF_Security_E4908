@@ -16,12 +16,12 @@ namespace WebAPI.API.Security;
 [Route("api/[controller]")]
 public class AuthenticationController : ControllerBase {
     private readonly IStandardAuthenticationService _securityAuthenticationService;
-    private readonly INonSecuredObjectSpaceFactory _nonSecuredObjectSpaceFactory;
+    private readonly ISecurityProvider _securityProvider;
     private readonly IAuthenticationTokenProvider _tokenProvider;
 
-    public AuthenticationController(IStandardAuthenticationService securityAuthenticationService,INonSecuredObjectSpaceFactory nonSecuredObjectSpaceFactory,IAuthenticationTokenProvider tokenProvider) {
+    public AuthenticationController(IStandardAuthenticationService securityAuthenticationService, ISecurityProvider securityProvider, IAuthenticationTokenProvider tokenProvider) {
         _securityAuthenticationService = securityAuthenticationService;
-        _nonSecuredObjectSpaceFactory = nonSecuredObjectSpaceFactory;
+        _securityProvider = securityProvider;
         _tokenProvider = tokenProvider;
     }
 
@@ -42,38 +42,33 @@ public class AuthenticationController : ControllerBase {
 
     [HttpPost(nameof(LoginAsync))]
     [SwaggerOperation("Checks if the user with the specified logon parameters exists in the database. If it does, authenticates this user.", "Refer to the following help topic for more information on authentication methods in the XAF Security System: <a href='https://docs.devexpress.com/eXpressAppFramework/119064/data-security-and-safety/security-system/authentication'>Authentication</a>.")]
-    public async Task<ActionResult> LoginAsync([FromBody] [SwaggerRequestBody(@"For example: <br /> { ""userName"": ""Admin"", ""password"": """" }")]
+    public async Task<IActionResult> LoginAsync([FromBody] [SwaggerRequestBody(@"For example: <br /> { ""userName"": ""Admin"", ""password"": """" }")]
         AuthenticationStandardLogonParameters logonParameters) {
         try {
-            var user=await Task.Run(() => _securityAuthenticationService.Authenticate(logonParameters));
+            var user = _securityAuthenticationService.Authenticate(logonParameters);
             if (user == null) return Unauthorized("User name or password is incorrect.");
-            using var objectSpace = _nonSecuredObjectSpaceFactory.CreateNonSecuredObjectSpace<ApplicationUser>();
-            var userOid = new Guid(user.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            var xafUser = objectSpace.FirstOrDefault<ApplicationUser>(u => u.ID == userOid);
-            (((ClaimsIdentity)user.Identity)!).AddClaims(new[]{new Claim(nameof(ApplicationUser.ID),xafUser.ID.ToString()),new Claim(nameof(ApplicationUser.IsActive),xafUser.IsActive.ToString()), });
-            return new SignInResult(CookieAuthenticationDefaults.AuthenticationScheme,
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 user, new AuthenticationProperties { AllowRefresh = true, ExpiresUtc = DateTimeOffset.Now.AddDays(1), IsPersistent = true, });
+            return Ok();
         } catch(AuthenticationException) {
             return Unauthorized("User name or password is incorrect.");
         }
     }
 
     [HttpPost(nameof(LogoutAsync))]
-    public async Task<SignOutResult> LogoutAsync() {
+    public async Task LogoutAsync() {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return new SignOutResult(CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
-    [Authorize][HttpGet(nameof(UserInfo))]
+    [Authorize]
+    [HttpGet(nameof(UserInfo))]
     public ActionResult UserInfo() {
-        if (HttpContext.User.Identity?.IsAuthenticated == null || !HttpContext.User.Identity.IsAuthenticated)
-            return Unauthorized();
-        var claims = ((ClaimsIdentity)HttpContext.User.Identity).Claims.ToArray();
+        var xafUser = (ApplicationUser)_securityProvider.GetSecurity().User;
         return Ok(new {
-            UserName= HttpContext.User.Identity.Name, 
-            ID = claims.First(claim => claim.Type == nameof(ApplicationUser.ID)).Value.ToString(),
-            IsActive = claims.First(claim => claim.Type == nameof(ApplicationUser.IsActive)).Value.ToString()
-        });
-
+            UserName = HttpContext.User.Identity.Name,
+            XafUserId = xafUser.ID,
+            LoginProviderUserId = HttpContext.User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value,
+        xafUser.Email
+        }); ;
     }
 }

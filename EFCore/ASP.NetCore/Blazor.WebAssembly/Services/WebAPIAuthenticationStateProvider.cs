@@ -15,8 +15,9 @@ public class WebAPIAuthenticationStateProvider : AuthenticationStateProvider {
 
     public void SetAuthInfo(UserModel user) {
         _claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]{
-            new Claim(nameof(UserModel.IsActive), user.IsActive),
-            new Claim(nameof(UserModel.ID), user.ID.ToString()),
+            new Claim(nameof(UserModel.Email), user.Email ?? ""),
+            new Claim(nameof(UserModel.XafUserId), user.XafUserId.ToString()),
+            new Claim(nameof(UserModel.LoginProviderUserId), user.LoginProviderUserId.ToString()),
             new Claim(ClaimTypes.Name, user.UserName),
             new Claim("ID", user.ToString()!) }, "AuthCookie"));
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
