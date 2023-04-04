@@ -21,6 +21,7 @@ public class Updater : ModuleUpdater {
         if(sampleUser == null) {
             sampleUser = ObjectSpace.CreateObject<ApplicationUser>();
             sampleUser.UserName = "User";
+            sampleUser.Email = "User@example.com";
             // Set a password if the standard authentication type is used
             sampleUser.SetPassword("");
 
@@ -36,7 +37,8 @@ public class Updater : ModuleUpdater {
         if (ObjectSpace.IsNewObject(editorUser)) {
             //create Editor User/Role
             editorUser.UserName="Editor";
-            editorUser.SetPassword("");
+            editorUser.Email = "Editor@example.com";
+
             var editorRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
             editorRole.Name = "EditorRole";
             editorRole.AddTypePermission<Post>(SecurityOperations.CRUDAccess, SecurityPermissionState.Allow);
@@ -50,7 +52,8 @@ public class Updater : ModuleUpdater {
             //create Viewer User/Role
             var viewerUser = ObjectSpace.CreateObject<ApplicationUser>();
             viewerUser.UserName = "Viewer";
-            viewerUser.SetPassword("");
+            viewerUser.Email = "Viewer@example.com";
+
             viewerUser.Photo = ObjectSpace.CreateObject<MediaDataObject>();
             viewerUser.Photo.MediaData = GetResourceByName("John");
             var viewerRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
@@ -84,6 +87,7 @@ public class Updater : ModuleUpdater {
         if(userAdmin == null) {
             userAdmin = ObjectSpace.CreateObject<ApplicationUser>();
             userAdmin.UserName = "Admin";
+            userAdmin.Email = "Admin@example.com";
             // Set a password if the standard authentication type is used
             userAdmin.SetPassword("");
 

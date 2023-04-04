@@ -31,7 +31,12 @@
             if (user.message == "Success") {
                 AuthStateProvider.SetAuthInfo(user.user!);
             }
-            else if(user.message == "Unauthorized"){
+            else if(user.message == "Unauthorized") {
+                AuthStateProvider.ClearAuthInfo();
+                await LocalStorageService.RemoveItemAsync("IsAuthenticated");
+                await WebApi.LogoutAsync();
+            } else if(user.message == "Failed") {
+                AuthStateProvider.ClearAuthInfo();
                 await LocalStorageService.RemoveItemAsync("IsAuthenticated");
             }
         }

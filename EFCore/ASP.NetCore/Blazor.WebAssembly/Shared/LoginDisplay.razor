@@ -20,15 +20,20 @@
             <label id="userId" >@_userId</label>
         </div>
         <div>
-            <label for="Active">Active:</label>
-            <label id="Active">@_userActive</label>
+            <label for="loginProviderUserId">LoginProviderUserID:</label>
+            <label id="loginProviderUserId">@_loginProviderUserId</label>
+        </div>
+        <div>
+            <label for="Email">Email:</label>
+            <label id="Email">@_userEmail</label>
         </div>
     </BodyContentTemplate>
 </DxPopup>
 
 @code {
     private string? _userId;
-    private string? _userActive;
+    private string? _loginProviderUserId;
+    private string? _userEmail;
     bool PopupVisible { get; set; } = false;
 
     private async Task Logout() {
@@ -40,9 +45,10 @@
     }
 
     private async Task OnProfileClicked() {
-        var userClaims = (await AuthStateProvider.GetAuthenticationStateAsync()).User.Claims.ToArray();
-        _userId = userClaims.First(claim => claim.Type == nameof(UserModel.ID)).Value.ToString();
-        _userActive = userClaims.First(claim => claim.Type == nameof(UserModel.IsActive)).Value.ToString();
+        var userClaims = (await AuthStateProvider.GetAuthenticationStateAsync()).User.Claims;
+        _loginProviderUserId = userClaims.First(claim => claim.Type == nameof(UserModel.LoginProviderUserId)).Value;
+        _userId = userClaims.First(claim => claim.Type == nameof(UserModel.XafUserId)).Value;
+        _userEmail = userClaims.First(claim => claim.Type == nameof(UserModel.Email)).Value;
         PopupVisible = true;
     }
 
