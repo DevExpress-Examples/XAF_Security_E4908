@@ -11,6 +11,7 @@ namespace MAUI.ViewModels {
         bool isAuthInProcess;
 
         public LoginViewModel() {
+            SecureStorage.Remove("auth_key");
             LoginCommand = new Command(OnLoginClicked);
             SignUpCommand = new Command(OnSignUpClicked);
             PropertyChanged +=

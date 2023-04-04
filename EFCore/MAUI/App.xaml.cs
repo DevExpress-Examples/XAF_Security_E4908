@@ -1,4 +1,5 @@
-﻿using MAUI.Services;
+﻿using System.Net.Http.Headers;
+using MAUI.Services;
 using MAUI.ViewModels;
 using MAUI.Views;
 
@@ -15,8 +16,16 @@ namespace MAUI {
 			Routing.RegisterRoute(typeof(ItemsPage).FullName, typeof(ItemsPage));
 			
 			MainPage = new MainPage();
-			var navigationService = DependencyService.Get<INavigationService>();
-			navigationService.NavigateToAsync<LoginViewModel>(true);
-		}
+            var navigationService = DependencyService.Get<INavigationService>();
+            var authToken = SecureStorage.GetAsync("auth_token").Result;
+            if (!string.IsNullOrEmpty(authToken)) {
+                WebAPIService.HttpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", authToken);
+                navigationService.NavigateToAsync<ItemsViewModel>(true);
+            }
+            else
+                navigationService.NavigateToAsync<LoginViewModel>(true);
+
+        }
 	}
 }
