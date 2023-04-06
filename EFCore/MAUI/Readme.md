@@ -1,6 +1,6 @@
 # How to Create a Web API Service Backend for a .NET MAUI Application
 
-This example demonstrates how you can create a [Web API service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) backend and a mobile .NET MAUI application frontend. The frontend app uses EF Core for data access.
+This example demonstrates how you can create a [Web API service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) backend and a mobile .NET MAUI application frontend. The bakend uses EF Core for data access.
 
 The application works with blog post data. It authenticates a user, determines his or her permissions, and selectively enables the following data operations: 
 
