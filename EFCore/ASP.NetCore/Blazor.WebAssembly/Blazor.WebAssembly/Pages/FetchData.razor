@@ -7,9 +7,9 @@
 @inject SimpleODataClientDataSource DataSource;
 <DxButton SizeMode="SizeMode.Small" Text="Archive" RenderStyle="ButtonRenderStyle.Secondary" Click="OnArchive" Attributes="@(new Dictionary<string, object> {  ["title"] = "Archive Post selection." })" />
 <DxButton SizeMode="SizeMode.Small" Text="Shape" RenderStyle="ButtonRenderStyle.Secondary" Click="OnShape" />
-<DxGrid Data="@DataSource" CssClass="mw-1100" KeyFieldName="PostId" ShowFilterRow="true" @bind-SelectedDataItems="SelectedDataItems" SelectionMode="GridSelectionMode.Single"
-        EditModelSaving="async e => await DataSource.AddOrUpdateAsync((Post)e.EditModel,!e.IsNew,post => post.PostId)"
-        DataItemDeleting="async e => await DataSource.DeleteAsync((Post)e.DataItem,post => post.PostId)"
+<DxGrid Data="@DataSource" CssClass="mw-1100" KeyFieldName="ID" ShowFilterRow="true" @bind-SelectedDataItems="SelectedDataItems" SelectionMode="GridSelectionMode.Single"
+        EditModelSaving="async e => await DataSource.AddOrUpdateAsync((Post)e.EditModel,!e.IsNew)"
+        DataItemDeleting="async e => await DataSource.DeleteAsync((Post)e.DataItem)"
         EditMode="GridEditMode.EditRow" EditorRenderMode="GridEditorRenderMode.Integrated">
     <Columns>
         <DxGridCommandColumn Width="160px" Visible="AllowEdit" />
@@ -21,12 +21,11 @@
         </DxGridDataColumn>
         <DxGridDataColumn Caption="Content" FieldName="Content">
             <CellEditTemplate>
-
                 <DxTextBox @bind-Text="((Post)context.EditModel).Content"></DxTextBox>
             </CellEditTemplate>
         </DxGridDataColumn>
-        <DxGridDataColumn FieldName="PostId" Caption="Photo" AllowSort="false" Width="90px" MinWidth="100" TextAlignment="GridTextAlignment.Center">
-            <CellDisplayTemplate><button class="btn btn-link" @onclick="() => ShowPhoto((int)context.Value)">Photo</button></CellDisplayTemplate>
+        <DxGridDataColumn FieldName="ID" Caption="Photo" AllowSort="false" Width="90px" MinWidth="100" TextAlignment="GridTextAlignment.Center">
+            <CellDisplayTemplate><button class="btn btn-link" @onclick="() => ShowPhoto((Guid)context.Value)">Photo</button></CellDisplayTemplate>
         </DxGridDataColumn>
     </Columns>
 </DxGrid>
@@ -68,7 +67,7 @@
         ArchiveClicked = true;
     }
 
-    private async Task ShowPhoto(int contextValue) {
+    private async Task ShowPhoto(Guid contextValue) {
         _imageDataUrl = $"data:image/jpg+xml;base64,{Convert.ToBase64String(await WebAPI.GetAuthorPhotoAsync(contextValue))}";
         ShowingPhoto = true;
     }

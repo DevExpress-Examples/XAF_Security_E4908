@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebApi\WebAPI.csproj", "{33B4B2AE-E273-4FB2-95FF-DA26D31F0FA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "ASP.NetCore\Blazor.WebAssembly\WebApi\WebAPI.csproj", "{33B4B2AE-E273-4FB2-95FF-DA26D31F0FA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.WebAssembly", "ASP.NetCore\Blazor.WebAssembly\Blazor.WebAssembly.csproj", "{31F7C0BF-FCE7-476A-B9E7-D5A61021CB41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.WebAssembly", "ASP.NetCore\Blazor.WebAssembly\Blazor.WebAssembly\Blazor.WebAssembly.csproj", "{31F7C0BF-FCE7-476A-B9E7-D5A61021CB41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

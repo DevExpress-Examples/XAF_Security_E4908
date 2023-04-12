@@ -593,7 +593,7 @@ You don't have to use the **DevExpress Unified Component Installer** if you only
    ![Wrong Credentials](../../../images/WebAssembly/WrongCredentials.png)
 5. Test the layout/validation when unhandled error.
    ![Unhandled Error](../../../images/WebAssembly/UnhadledError.png)
-6. Test the layout/validation when authentication success using the `Editor` user.
+6. Test the layout/validation when authentication success.
    ![Login Success](../../../images/WebAssembly/AuthSuccess.png)
 7. Test the the user profile layout.
    ![User Profile](../../../images/WebAssembly/UserProfile.png)
@@ -687,6 +687,3 @@ You don't have to use the **DevExpress Unified Component Installer** if you only
 
 2. Test the FetchData page and all its actions, read, create, delete, sort, filter, update, shape, archive, photo .
    ![User Profile](../../../images/WebAssembly/UserProfile.png)
-
-3. Authenticate the `Viewer` user and test that the layout CRUD operations are not active as this user does not have permissions.
-   ![Viewer User](../../../images/WebAssembly/Viewer.png)

@@ -65,7 +65,6 @@
 
 
 	<ItemGroup>
-    <PackageReference Include="Blazored.SessionStorage" Version="2.3.0" />
     <PackageReference Include="DevExpress.Maui.CollectionView" Version="22.2.4" />
 		<PackageReference Include="DevExpress.Maui.Core" Version="22.2.4" />
     <PackageReference Include="DevExpress.Maui.Editors" Version="22.2.4" />

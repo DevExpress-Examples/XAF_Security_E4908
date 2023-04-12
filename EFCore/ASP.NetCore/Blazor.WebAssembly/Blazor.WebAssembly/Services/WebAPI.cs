@@ -9,7 +9,7 @@ public interface IWebAPI {
     Task<bool> LogoutAsync();
     Task<bool> CanCreateAsync();
     Task ArchiveAsync(Post post);
-    Task<byte[]> GetAuthorPhotoAsync(int postId);
+    Task<byte[]> GetAuthorPhotoAsync(Guid postId);
     Task<byte[]> ShapePostsAsync();
 }
 public class WebAPI: IWebAPI {
@@ -41,7 +41,7 @@ public class WebAPI: IWebAPI {
     public async Task ArchiveAsync(Post post) 
         => await _httpClient.PostAsJsonAsync("CustomEndPoint/Archive", post);
 
-    public async Task<byte[]> GetAuthorPhotoAsync(int postId) 
+    public async Task<byte[]> GetAuthorPhotoAsync(Guid postId) 
         => await _httpClient.GetByteArrayAsync($"CustomEndPoint/AuthorPhoto/{postId}");
 
     public async Task<byte[]> ShapePostsAsync() 

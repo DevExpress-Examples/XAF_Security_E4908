@@ -12,7 +12,7 @@ public static partial class HttpMessageHandler {
 }
 
 public class WebAPIService : IDataStore<Post> {
-    public static readonly HttpClient HttpClient = new(HttpMessageHandler.GetMessageHandler()) { Timeout = new TimeSpan(0, 0, 10) };
+    private static readonly HttpClient HttpClient = new(HttpMessageHandler.GetMessageHandler()) { Timeout = new TimeSpan(0, 0, 10) };
     private readonly string _apiUrl = ON.Platform(android:"https://10.0.2.2:5001/api/", iOS:"https://localhost:5001/api/");
     private readonly string _postEndPointUrl;
     private const string ApplicationJson = "application/json";
@@ -71,6 +71,7 @@ public class WebAPIService : IDataStore<Post> {
     public async Task<IEnumerable<Post>> GetItemsAsync(bool forceRefresh = false)
         => await RequestItemsAsync();
 
+
     private async Task<IEnumerable<Post>> RequestItemsAsync(string query = null)
         => JsonNode.Parse(await HttpClient.GetStringAsync($"{_postEndPointUrl}{query}"))!["value"].Deserialize<IEnumerable<Post>>();
 
@@ -79,7 +80,6 @@ public class WebAPIService : IDataStore<Post> {
         var reposeContent = await tokenResponse.Content.ReadAsStringAsync();
         if (tokenResponse.IsSuccessStatusCode) {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", reposeContent);
-            await SecureStorage.SetAsync("auth_token", reposeContent);
             return string.Empty;
         }
         return reposeContent;
