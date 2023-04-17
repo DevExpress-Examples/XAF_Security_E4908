@@ -78,7 +78,7 @@ public class Updater : ModuleUpdater {
             post.Content = "This is a FREE API for everybody";
             post.Author=editorUser;
             post = ObjectSpace.CreateObject<Post>();
-            post.Title = "Hello MAUI";
+            post.Title = "Hello Blazor WebAssembly";
             post.Content = "Please smash the like button to help our videos get discovered";
             post.Author=editorUser;
         }
