@@ -1,4 +1,4 @@
-# How to Integrate a Web API Service Backend for a .NET WebAssembly Application
+# How to Create a Web API Service Backend for a Blazor WebAssembly Application
 
 This example demonstrates how you can create a [Web API service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) backend and a Blazor WebAssembly application frontend. The backend uses EF Core for data access.
 
