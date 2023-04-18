@@ -2,9 +2,8 @@
 
 This example demonstrates how you can create a [Web API service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) backend and a Blazor WebAssembly application frontend. The backend uses EF Core for data access.
 
-The application works with blog post data. It authenticates a user, determines his or her permissions, and selectively enables the following data operations:
+The application works with blog post data. It authenticates a user with cookies, determines his or her permissions, and selectively enables the following data operations:
 
-- Authenticates the `Editor` and `Viewer` users using cookies.
 - Lists existing Post records
 - Displays a photo of a Post author
 - Creates new Post records
@@ -223,10 +222,7 @@ public void ConfigureServices(IServiceCollection services) {
    ```cs
    var authentication = services.AddAuthentication(customBearerSchemeName);
    authentication.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
-   ```
-
-   _Startup.cs_:
-   ```cs
+   // ...
    services.AddAuthorization(options => {
       options.DefaultPolicy = new AuthorizationPolicyBuilder(
          CookieAuthenticationDefaults.AuthenticationScheme,
@@ -238,7 +234,7 @@ public void ConfigureServices(IServiceCollection services) {
    });
    ```
 
-3. Create a `LoginAsync` endpoint in `API/Security/AuthenticationController.cs` to log in and send the cookie to client.
+3. Create a `LoginAsync` endpoint in `API/Security/AuthenticationController.cs` to authenticate a user and send the authentication cookie to the client.
 
    _API/Security/AuthenticationController.cs_:
    ```cs
@@ -301,13 +297,13 @@ At this point, you can run your Web API service and use the Swagger interface to
 
 ### Create a new Blazor WebAssembly project
 
-1. Use either .NET CLI or Visual Studio New Project wizard to add a new Blazor WebAssembly project to the solution.
+1. Use either the .NET CLI or Visual Studio New Project wizard to add a new Blazor WebAssembly project to the solution.
 
    ```cmd
    dotnet new blazorwasm -o Blazor.WebAssembly
    ```
 
-2. Add the required NuGet packages the the Blazor WebAssembly project.
+2. Add the required NuGet packages to the Blazor WebAssembly project.
 
    ```cmd
    dotnet add package Blazored.LocalStorage --version 4.3.0
@@ -483,7 +479,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    }
    ```
 
-6. Modify the `App.Razor` file. Replace the `RoutView` with the `AuthorizedRouteView` component.
+6. Modify the `App.Razor` file. In the markup, replace the `RouteView` component with the `AuthorizedRouteView`.
 
    _App.Razor_:
    ```razor
@@ -494,7 +490,9 @@ At this point, you can run your Web API service and use the Swagger interface to
    </AuthorizeRouteView>
    ```
 
-7. Validate the authentication cookie. Inject the following services in `App.Razor`:
+7. To validate the authentication cookie, modify the `App.Razor` file as follows.
+
+   Inject the following services in `App.Razor`:
 
    _App.Razor_:
    ```cs
@@ -513,7 +511,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    </CascadingAuthenticationState>
    ```
 
-   In the same file, handle the Router's `OnNavigateAsync` to get the user profile or re-populate it if needed.
+   In the same file, handle the Router's `OnNavigateAsync` event to get the user profile or re-populate it if needed.
 
    _App.Razor_:
    ```razor
@@ -549,7 +547,7 @@ At this point, you can run your Web API service and use the Swagger interface to
 8. Create login components. To do this, create a `LoginDisplay.razor` file inside the `Shared` folder. In this file, implement the following functionality:
    - Use the `AuthorizeView` component to display either the `Login` or `Logout` component. 
    - Handle the `Logout` event. 
-   - Display user profile information in a `DXPopup` component.
+   - Display user profile information in a `DxPopup` component.
 
    _Shared/LoginDisplay.razor_:
    ```razor
@@ -786,7 +784,7 @@ At this point, you can run your Web API service and use the Swagger interface to
 
 ### Display author photo
 
-1. Implement a Web API service endpoint to serve the author's photo based on post ID information. 
+1. Implement a Web API service endpoint to serve the author's photo based on the post ID. 
 
    First, add the `Photo` property to the `ApplicationUser` persistent class:
 
@@ -798,7 +796,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    }
    ```
 
-   Modify Module Updater. Add necessary logic to assign photos to predefined users:
+   Modify the Module Updater. Add logic to assign photos to predefined users:
 
    _DatabaseUpdate\Updater.cs_:
    ```cs
@@ -936,7 +934,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    }
    ```
 
-4. Add a command column with new, edit and delete commands to the DxGrid and implement logic required process CRUD operations.
+4. Add a command column with _New_, _Edit_ and _Delete_ commands to the DxGrid and implement logic required process CRUD operations.
 
    _Pages/FetchData.razor_:
    ```razor
@@ -1007,7 +1005,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    }
    ```
 
-3. To the `FetchData.razor`, add the required code and layout elements. 
+3. In `FetchData.razor`, add a selection column to the DxGrid, a popup that displays the operation's result and a button that a user can click to archive the selected post.
 
    _Pages/FetchData.razor_:
    ```razor
@@ -1070,11 +1068,11 @@ To create and initialize a report:
         return new ModuleUpdater[] { new DatabaseUpdate.Updater(objectSpace, versionFromDB),predefinedReportsUpdater };
     }
    ```
-For more information on report generation, refer to the following DevExpress help topic: [Create a Report in Visual Studio](https://docs.devexpress.com/XtraReports/14989/get-started-with-devexpress-reporting/create-a-report-in-visual-studio#add-a-new-report).
+   For more information on report generation, refer to the following DevExpress help topic: [Create a Report in Visual Studio](https://docs.devexpress.com/XtraReports/14989/get-started-with-devexpress-reporting/create-a-report-in-visual-studio#add-a-new-report).
 
-For more information on the use of predefined static reports in XAF, refer to the following DevExpress help topic: [Create Predefined Static Reports](https://docs.devexpress.com/eXpressAppFramework/113645/shape-export-print-data/reports/create-predefined-static-reports).
+   For more information on the use of predefined static reports in XAF, refer to the following DevExpress help topic: [Create Predefined Static Reports](https://docs.devexpress.com/eXpressAppFramework/113645/shape-export-print-data/reports/create-predefined-static-reports).
 
-> Watch video: [Preview Reports as PDF in .NET MAUI Apps using Backend Web API service Endpoints with EF Core](https://www.youtube.com/watch?v=bn4iF5Gc9XY)
+   > Watch video: [Preview Reports as PDF in .NET MAUI Apps using Backend Web API service Endpoints with EF Core](https://www.youtube.com/watch?v=bn4iF5Gc9XY)
 
 5. Create a `GetReport` endpoint. It redirects to the built-in `DownloadByName` endpoint and returns a Report with title _Post Report_.
 
@@ -1085,7 +1083,7 @@ For more information on the use of predefined static reports in XAF, refer to th
        => Redirect("~/api/report/DownloadByName(Post Report)");
    ```
 
-6. Extend the Blazor WebAssembly application's `IWebAPI` service with a method that requests a report for the specified post.
+6. Extend the Blazor WebAssembly application's `IWebAPI` service with a method that requests a report.
 
    _Services/WebAPI.cs_:
    ```cs
@@ -1100,7 +1098,7 @@ For more information on the use of predefined static reports in XAF, refer to th
    }
    ```
 
-7. To the `FetchData.razor`, add the required code and layout elements. 
+7. Add a button and code required to call the `IWebAPI.ShapePostsAsync` method to `FetchData.razor`. 
 
    _Pages/FetchData.razor_:
    ```razor
@@ -1114,485 +1112,3 @@ For more information on the use of predefined static reports in XAF, refer to th
    ```
 
 ![](../../../images/WebAssembly/ShapeIt.png)
-
-[TODO] ==========================================================================
-
-
-
-### Create the User and Post models in the Models folder
-
-1. Create a new file Post.cs
-
-   _Models/Post.cs_:
-   ```cs
-   namespace Blazor.WebAssembly.Models;
-
-   public class Post {
-      public Guid ID { get; set; }
-      public string? Title { get; set; }
-      public string? Content { get; set; }
-   }
-   ```
-
-2. Crate a new file UserModel.cs
-
-   _Models/UserModel.cs_:
-   ```cs
-   namespace Blazor.WebAssembly.Models;
-
-   public class UserModel {
-      public Guid ID { get; set; }
-      public string UserName { get; set; } = null!;
-      public string IsActive { get; set; } = null!;
-   }
-   ```
-
-### Create and register a WebAPI service to call all custom and authentication endpoints of the WebAPI project
-
-1. In Program.cs
-
-   _Program.cs_:
-   ```cs
-   builder.Services.AddScoped<IWebAPI, WebAPI>();
-   ```
-
-2. In Services folder
-
-   _Services/WebAPI.cs_:
-   ```cs
-   using System.Net.Http.Json;
-   using Blazor.WebAssembly.Models;
-
-   namespace Blazor.WebAssembly.Services;
-   public interface IWebAPI {
-      Task<HttpResponseMessage> LoginAsync(string? userName,string? password);
-      Task<(string message, UserModel? user)> GetUserAsync();
-      Task<bool> LogoutAsync();
-      Task<bool> CanCreateAsync();
-      Task ArchiveAsync(Post post);
-      Task<byte[]> GetAuthorPhotoAsync(int postId);
-      Task<byte[]> ShapePostsAsync();
-   }
-   public class WebAPI: IWebAPI {
-      private readonly HttpClient _httpClient;
-
-      public WebAPI(IHttpClientFactory httpClientFactory) 
-         => _httpClient = httpClientFactory.CreateClient("API");
-
-      public async Task<HttpResponseMessage> LoginAsync(string? userName,string? password) 
-         => (await _httpClient.PostAsJsonAsync("Authentication/LoginAsync", new{userName,password}));
-
-      public async Task<(string message, UserModel? user)> GetUserAsync() {
-         try {
-               var response = await _httpClient.GetAsync("Authentication/UserInfo");
-               return response.IsSuccessStatusCode ? ("Success", await response.Content.ReadFromJsonAsync<UserModel>())
-                  : response.StatusCode == HttpStatusCode.Unauthorized ? ("Unauthorized", null) : ("Failed", null);
-         }
-         catch (Exception e) {
-               return ("Failed", null);
-         }
-      }
-
-      public async Task<bool> LogoutAsync() 
-         => (await _httpClient.PostAsync("Authentication/LogoutAsync", null)).IsSuccessStatusCode;
-
-      public async Task<bool> CanCreateAsync() 
-         => await _httpClient.GetFromJsonAsync<bool>("CustomEndpoint/CanCreate?typename=Post");
-
-      public async Task ArchiveAsync(Post post) 
-         => await _httpClient.PostAsJsonAsync("CustomEndPoint/Archive", post);
-
-      public async Task<byte[]> GetAuthorPhotoAsync(int postId) 
-         => await _httpClient.GetByteArrayAsync($"CustomEndPoint/AuthorPhoto/{postId}");
-
-      public async Task<byte[]> ShapePostsAsync() 
-         => await _httpClient.GetByteArrayAsync("report/DownloadByName(Post Report)");
-   }
-   ```
-
-3. In wwwroot/index.html header add the next script to save the bytes we receive from the `ShapePostsAsync` method.
-
-   _wwwroot/index.html_:
-   ```js
-   <script>
-      function saveAsFile(filename, bytesBase64) {
-         var link = document.createElement('a');
-         link.download = filename;
-         link.href = "data:application/octet-stream;base64," + bytesBase64;
-         document.body.appendChild(link); // Needed for Firefox
-         link.click();
-         document.body.removeChild(link);
-      }
-   </script>
-   ```
-
-### Create and register a GridCustomDataSource to bind a DxGrid (CRUD+Filtering+Sorting) with the build-in OData WebAPI Post Business object endpoint
-
-https://docs.devexpress.com/Blazor/DevExpress.Blazor.GridCustomDataSource
-
-1. In Program.cs
-
-   _Program.cs_
-   ```cs
-   builder.Services.AddScoped<SimpleODataClientDataSource>();
-   ```
-
-2. In Services folder.
-
-   _Services/SimpleODataClientDataSource.cs_:
-   ```cs
-   using System.Collections;
-   using Blazor.WebAssembly.Models;
-   using DevExpress.Blazor;
-   using DevExpress.Data.Filtering;
-   using DevExpress.Data.Filtering.Helpers;
-   using Simple.OData.Client;
-
-   namespace Blazor.WebAssembly.Services; 
-
-   public class SimpleODataClientDataSource : GridCustomDataSource {
-      private readonly ODataClient _client;
-      public SimpleODataClientDataSource(IHttpClientFactory httpClientFactory) 
-         => _client = new ODataClient(new ODataClientSettings(httpClientFactory.CreateClient("API"),new Uri("odata/", UriKind.Relative)));
-
-      public override async Task<int> GetItemCountAsync(GridCustomDataSourceCountOptions options, CancellationToken cancellationToken) 
-         => await ApplyFiltering(options.FilterCriteria, _client.For<Post>()).Count()
-               .FindScalarAsync<int>(cancellationToken);
-
-      public override async Task<IList> GetItemsAsync(GridCustomDataSourceItemsOptions options, CancellationToken cancellationToken) {
-         var filteredClient = ApplyFiltering(options.FilterCriteria, _client.For<Post>().Top(options.Count).Skip(options.StartIndex));
-         return (await ApplySorting(options, filteredClient).FindEntriesAsync(cancellationToken)).ToList();
-      }
-
-      private static IBoundClient<Post> ApplyFiltering(CriteriaOperator criteria, IBoundClient<Post> boundClient) 
-         => !criteria.ReferenceEqualsNull() ? boundClient.Filter(ToSimpleClientCriteria(criteria)) : boundClient;
-
-      private static string ToSimpleClientCriteria(CriteriaOperator criteria) 
-         => $"{criteria}".Replace("[", "").Replace("]", "");
-
-      private static IBoundClient<Post> ApplySorting(GridCustomDataSourceItemsOptions options, IBoundClient<Post> boundClient) 
-         => options.SortInfo.Any() ? boundClient.OrderBy(options.SortInfo
-                  .Where(info => !info.DescendingSortOrder).Select(info => info.FieldName).ToArray())
-               .OrderByDescending(options.SortInfo
-                  .Where(info => info.DescendingSortOrder).Select(info => info.FieldName).ToArray()) : boundClient;
-
-      public async Task DeleteAsync<T>(T instance,Func<T,object> key) where T : class 
-         => await _client.For<T>().Key(key(instance)).DeleteEntryAsync();
-
-      public async Task AddOrUpdateAsync<T>(T instance,bool update=false,Func<T,object>? key=null) where T : class {
-         if (!update) {
-               await _client.For<T>().Set(instance).InsertEntryAsync();
-         }
-         else {
-               await _client.For<T>().Key(key!(instance)).Set(instance).UpdateEntryAsync();
-         }
-      }
-   }
-   ```
-
-## Enable UI authorization
-
-### Create and use the RedirectToLogin component
-
-1. In Shared folder create a new RedirectToLogin.razor file.
-
-   _Shared/RedirectToLogin.razor_:
-   ```cs
-   @inject NavigationManager Navigation
-
-   @code {
-      protected override void OnInitialized() 
-         => Navigation.NavigateTo($"Login?returnUrl={Uri.EscapeDataString(Navigation.Uri)}");
-   }
-   ```
-
-2. Modify the App.Razor, replace the `RoutView` with and `AuthorizedRouteView` component.
-
-   _App.Razor_:
-   ```razor
-   <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-         <NotAuthorized>
-            <RedirectToLogin />
-         </NotAuthorized>
-   </AuthorizeRouteView>
-   ```
-
-### Cascade the authentication state and validate the authentication cookie
-
-1. Inject the following services in App.Razor
-
-   _App.Razor_:
-   ```cs
-   @using Blazor.WebAssembly.Services
-   @inject ILocalStorageService LocalStorageService;
-   @inject IWebAPI WebApi
-   @inject WebAPIAuthenticationStateProvider AuthStateProvider
-   ```
-
-2. Enclose the markup of App.razor with a `CascadingAuthenticationState`
-
-   _App.Razor_:
-   ```razor
-   <CascadingAuthenticationState>
-      <!-- existing code hidden for display purpose -->
-   </CascadingAuthenticationState>
-   ```
-
-3. In the same file, handle the Router `OnNavigateAsync` to get the User profile or re-populate if needed.
-
-   _App.Razor_:
-   ```razor
-   <Router AppAssembly="@typeof(App).Assembly" 
-            OnNavigateAsync="@OnNavigateAsync" 
-            >
-            <!-- existing code hidden for display purpose -->
-   ```
-
-   _App.Razor_:
-   ```cs
-   private async Task OnNavigateAsync(NavigationContext args) {
-      var isAuthenticated =  await LocalStorageService.GetItemAsync<string>("IsAuthenticated");
-      var claimsPrincipal = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
-      if(!string.IsNullOrEmpty(isAuthenticated) && !claimsPrincipal.Identity!.IsAuthenticated ){
-         var user = await WebApi.GetUserAsync();
-         if (user.message == "Success") {
-               AuthStateProvider.SetAuthInfo(user.user!);
-         }
-         else if(user.message == "Unauthorized"){
-               await LocalStorageService.RemoveItemAsync("IsAuthenticated");
-         }
-      }
-   }
-
-   ```
-
-### Create Login components
-
-1. Create a new LoginDisplay.razor inside the shared folder. Use the `AuthorizedView` component to display Login or Logout components. Handle the Logout and show the User profile without server round-trips in a DXPopup component.
-
-   _Shared/LoginDisplay.razor_:
-   ```razor
-   @using Blazor.WebAssembly.Models
-   @using Blazor.WebAssembly.Services
-   @inject WebAPIAuthenticationStateProvider AuthStateProvider
-   @inject NavigationManager NavigationManager
-   @inject IWebAPI WebApi
-   @inject ILocalStorageService LocalStorageService;
-   <AuthorizeView>
-      <Authorized>
-         <a href="" @onclick="OnProfileClicked">Hello @context.User.Identity?.Name</a>
-         <button type="button"  @onclick="Logout" class="nav-link btn btn-link">Log out</button>
-      </Authorized>
-      <NotAuthorized>
-         <a href="/login">Log in</a>
-      </NotAuthorized>
-   </AuthorizeView>
-   <DxPopup HeaderText="Profile" @bind-Visible="@PopupVisible">
-      <BodyContentTemplate >
-         <div>
-               <label for="userId">UserID:</label>
-               <label id="userId" >@_userId</label>
-         </div>
-         <div>
-               <label for="Active">Active:</label>
-               <label id="Active">@_userActive</label>
-         </div>
-      </BodyContentTemplate>
-   </DxPopup>
-
-   @code {
-      private string? _userId;
-      private string? _userActive;
-      bool PopupVisible { get; set; } = false;
-
-      private async Task Logout() {
-         if (await WebApi.LogoutAsync()) {
-               AuthStateProvider.ClearAuthInfo();
-               await LocalStorageService.RemoveItemAsync("IsAuthenticated");
-               NavigationManager.NavigateTo("/", true);
-         }
-      }
-
-      private async Task OnProfileClicked() {
-         var userClaims = (await AuthStateProvider.GetAuthenticationStateAsync()).User.Claims.ToArray();
-         _userId = userClaims.First(claim => claim.Type == nameof(UserModel.ID)).Value.ToString();
-         _userActive = userClaims.First(claim => claim.Type == nameof(UserModel.IsActive)).Value.ToString();
-         PopupVisible = true;
-      }
-
-   }
-   ```
-
-2. Render the component inside the MainLayout.razor next to About
-
-   _Shared/MainLayout.razor_:
-   ```html
-   <div class="top-row px-4">
-      <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-      <LoginDisplay></LoginDisplay>
-   </div>
-   ```
-
-3. Create a Login.razor inside the pages folder.
-
-   _Pages/Login.razor_:
-   ```razor
-   @page "/login"
-   @using Blazor.WebAssembly.Services
-   @inject IWebAPI WebApi
-   @inject NavigationManager NavigationManager
-   @inject ILocalStorageService LocalStorageService;
-   <div class="d-flex justify-content-center" >
-         <ErrorBoundary @ref="_errorBoundary">
-               <ChildContent>
-                  <EditForm Model="@this" OnSubmit="LoginAsync" Context="EditFormContext">
-                     <DataAnnotationsValidator/>
-                     <div class="card-body  align-content-around">
-                           <DxFormLayout>
-                              <DxFormLayoutItem ColSpanMd="12">
-                                 <DxTextBox @bind-Text="@UserName" NullText="Username" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"/>
-                                 <div class="text-danger"><ValidationMessage For="@(() => UserName)"/></div>
-                              </DxFormLayoutItem>
-                              <DxFormLayoutItem ColSpanMd="12">
-                                 <DxTextBox @bind-Text="@Password" NullText="Password" Password="true" ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"/>
-                                 <div class="text-danger"><ValidationMessage For="@(() => Password)"/></div>
-                              </DxFormLayoutItem>
-                              <DxFormLayoutItem ColSpanMd="12">
-                                 <div class="text-danger"><ValidationMessage For="@(() => AuthenticationResult)"/></div>
-                              </DxFormLayoutItem>
-                              <DxFormLayoutItem ColSpanMd="12">
-                                 <DxButton Text="Login" RenderStyle="ButtonRenderStyle.Primary" SubmitFormOnClick="true"/>
-                              </DxFormLayoutItem>
-                           </DxFormLayout>
-                     </div>
-                  </EditForm>
-               </ChildContent>
-               <ErrorContent Context="e">
-                  <DxPopup HeaderText="@e.GetType().ToString()" Visible="true" Closed="() => _errorBoundary.Recover()">
-                     @e.Message
-                  </DxPopup>
-               </ErrorContent>
-         </ErrorBoundary>      
-   </div>
-   @code {
-      private ErrorBoundary _errorBoundary = new();
-      [Required]
-      public string? UserName { get; set; } 
-      public string? Password { get; set; }
-      [DisplayStringPropertyValue()]
-      public string? AuthenticationResult { get; set; } 
-      private async Task LoginAsync(EditContext editContext) {
-         AuthenticationResult = "";
-         if (editContext.Validate()){
-               var responseMessage = await WebApi.LoginAsync(UserName,Password);
-               if (!responseMessage.IsSuccessStatusCode) {
-                  AuthenticationResult = $"Authentication error ({responseMessage.StatusCode}): {await responseMessage.Content.ReadAsStringAsync()}";
-                  editContext.Validate();
-                  return;
-               }
-               await LocalStorageService.SetItemAsStringAsync("IsAuthenticated", "true");
-               NavigationManager.NavigateTo(HttpUtility.ParseQueryString(new Uri(NavigationManager.Uri).Query).Get("returnUrl") ?? "/");
-         }
-      }
-   }
-   ```
-
-4. Test the layout/validation when wrong credentials.
-   ![Wrong Credentials](../../../images/WebAssembly/WrongCredentials.png)
-5. Test the layout/validation when unhandled error.
-   ![Unhandled Error](../../../images/WebAssembly/UnhadledError.png)
-6. Test the layout/validation when authentication success.
-   ![Login Success](../../../images/WebAssembly/AuthSuccess.png)
-7. Test the the user profile layout.
-   ![User Profile](../../../images/WebAssembly/UserProfile.png)
-
-### Connect the FetchData.razor page
-
-1. Replace the contents of the Fetchdata.razor file.
-
-   _Pages/Fetchdata.razor_:
-   ```razor
-   @page "/fetchdata"
-   @using Blazor.WebAssembly.Models
-   @using Blazor.WebAssembly.Services
-   @attribute [Authorize]
-   @inject IJSRuntime Js;
-   @inject IWebAPI WebAPI;
-   @inject SimpleODataClientDataSource DataSource;
-   <DxButton SizeMode="SizeMode.Small" Text="Archive" RenderStyle="ButtonRenderStyle.Secondary" Click="OnArchive" Attributes="@(new Dictionary<string, object> {  ["title"] = "Archive Post selection." })" />
-   <DxButton SizeMode="SizeMode.Small" Text="Shape" RenderStyle="ButtonRenderStyle.Secondary" Click="OnShape" />
-   <DxGrid Data="@DataSource" CssClass="mw-1100" KeyFieldName="PostId" ShowFilterRow="true" @bind-SelectedDataItems="SelectedDataItems" SelectionMode="GridSelectionMode.Single"
-         EditModelSaving="async e => await DataSource.AddOrUpdateAsync((Post)e.EditModel,!e.IsNew,post => post.PostId)"
-         DataItemDeleting="async e => await DataSource.DeleteAsync((Post)e.DataItem,post => post.PostId)"
-         EditMode="GridEditMode.EditRow" EditorRenderMode="GridEditorRenderMode.Integrated">
-      <Columns>
-         <DxGridCommandColumn Width="160px" Visible="AllowEdit" />
-         <DxGridSelectionColumn Width="104px" />
-         <DxGridDataColumn Caption="Title" FieldName="Title">
-               <CellEditTemplate>
-                  <DxTextBox @bind-Text="((Post)context.EditModel).Title"></DxTextBox>
-               </CellEditTemplate>
-         </DxGridDataColumn>
-         <DxGridDataColumn Caption="Content" FieldName="Content">
-               <CellEditTemplate>
-
-                  <DxTextBox @bind-Text="((Post)context.EditModel).Content"></DxTextBox>
-               </CellEditTemplate>
-         </DxGridDataColumn>
-         <DxGridDataColumn FieldName="PostId" Caption="Photo" AllowSort="false" Width="90px" MinWidth="100" TextAlignment="GridTextAlignment.Center">
-               <CellDisplayTemplate><button class="btn btn-link" @onclick="() => ShowPhoto((int)context.Value)">Photo</button></CellDisplayTemplate>
-         </DxGridDataColumn>
-      </Columns>
-   </DxGrid>
-   <DxPopup HeaderText="Archive" @bind-Visible="ArchiveClicked" BodyText="This post is saved to disk">
-      <BodyContentTemplate>
-         <div>
-               @if (SelectedDataItems == null) {
-                  <p>Please select a Post from the list.</p>
-               }
-               else {
-                  <p>This post is saved to disk.</p>
-               }
-         </div>
-      </BodyContentTemplate>
-   </DxPopup>
-   <DxPopup HeaderText="Photo" @bind-Visible="ShowingPhoto">
-      <BodyContentTemplate>
-         <img src="@_imageDataUrl"  alt="user photo"/>
-      </BodyContentTemplate>
-   </DxPopup>
-
-
-   @code {
-      IReadOnlyList<object>? SelectedDataItems { get; set; }
-      
-      bool ArchiveClicked { get; set; }
-      bool ShowingPhoto { get; set; }
-      public bool AllowEdit { get; set; }
-
-      protected override async Task OnInitializedAsync() {
-         await base.OnInitializedAsync();
-         AllowEdit = await WebAPI.CanCreateAsync();
-      }
-
-      private async Task OnArchive(MouseEventArgs arg){
-         if (SelectedDataItems != null) {
-               await WebAPI.ArchiveAsync(SelectedDataItems.Cast<Post>().First()); 
-         }
-         ArchiveClicked = true;
-      }
-
-      private async Task ShowPhoto(int contextValue) {
-         _imageDataUrl = $"data:image/jpg+xml;base64,{Convert.ToBase64String(await WebAPI.GetAuthorPhotoAsync(contextValue))}";
-         ShowingPhoto = true;
-      }
-
-      private string _imageDataUrl = "";
-
-      private async Task OnShape()
-         => await Js.InvokeAsync<object>("saveAsFile", "Report.pdf", Convert.ToBase64String(await WebAPI.ShapePostsAsync()));
-   }
-   ```
-
-2. Test the FetchData page and all its actions, read, create, delete, sort, filter, update, shape, archive, photo .
-   ![User Profile](../../../images/WebAssembly/UserProfile.png)
