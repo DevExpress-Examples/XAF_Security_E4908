@@ -20,7 +20,7 @@ You don't have to use the **DevExpress Unified Component Installer** if you only
   
   > **NOTE**
   >
-  > If you’ve used a pre-release version of our components or obtained a hotfix from DevExpress, NuGet packages will not be restored automatically (you will need to update them manually). For more information, please refer to the following article: [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages). Remember to enable the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
+  > If you’ve installed a pre-release version of our components or obtained a hotfix from DevExpress, NuGet packages will not be restored automatically (you will need to update them manually). For more information, please refer to the following article: [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages). Remember to enable the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ## Build and Test a Basic Web API Service App (Backend)
 
@@ -81,7 +81,7 @@ For more information, refer to the following DevExpress help topic: [Create a St
    }
    ```
 
-   In the code sample above, `Post` class inherits [BaseObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.BaseImpl.BaseObject) to simplify data model implementation. This tutorial makes use of the following `BaseObject` features:
+   In the code sample above, the `Post` class inherits [BaseObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.BaseImpl.BaseObject) to simplify data model implementation. This tutorial makes use of the following `BaseObject` features:
 
    - Predefined `Guid`-type primary key field (`ID`)
    - `OnCreated` lifecycle method
@@ -479,7 +479,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    }
    ```
 
-6. Modify the `App.Razor` file. In the markup, replace the `RouteView` component with the `AuthorizedRouteView`.
+6. Modify the `App.Razor` file. In the markup, replace the `RouteView` component with `AuthorizedRouteView`.
 
    _App.Razor_:
    ```razor
@@ -511,7 +511,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    </CascadingAuthenticationState>
    ```
 
-   In the same file, handle the Router's `OnNavigateAsync` event to get the user profile or re-populate it if needed.
+   In the same file, handle the Router's `OnNavigateAsync` event to get the user profile or repopulate it if needed.
 
    _App.Razor_:
    ```razor
@@ -754,7 +754,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    }
    ```
 
-   For more information, refer to the following documentation topic: https://docs.devexpress.com/Blazor/DevExpress.Blazor.GridCustomDataSource
+   For more information, refer to the following documentation topic: [GridCustomDataSource Class](https://docs.devexpress.com/Blazor/DevExpress.Blazor.GridCustomDataSource).
 
 3. Add a DxGrid control bound to your custom data source to the `FetchData.razor` page.
 
@@ -810,9 +810,9 @@ At this point, you can run your Web API service and use the Swagger interface to
 
    > **NOTE**
    >
-   > In our example code, the `GetResourceByName` method returns a byte array representation of an account image based on name. You can find an implementation for this method in the Web API project's [_DatabaseUpdate/Updater.cs_](./WebApi/DatabaseUpdate/Updater.cs) file. Note that this implementation requires the image resources to be compiled into the application's assembly (the .jpg files' `Build Action` option must be set to `Embedded resource`).
+   > In our example code, the `GetResourceByName` method returns a byte array representation of an account image based on name. You can find an implementation for this method in the Web API project's [_DatabaseUpdate/Updater.cs_](./WebApi/DatabaseUpdate/Updater.cs) file. Note that this implementation requires image resources to be compiled into the application's assembly (the .jpg files' `Build Action` option must be set to `Embedded resource`).
 
-   Add a `CustomEndPointController` inside the `WebAPI/API` directory, and inject the `ISecurityProvider` and `IObjectSpaceFactory`. Implement a controller action that serves post author photos as follows.
+   Add `CustomEndPointController` inside the `WebAPI/API` directory, and inject `ISecurityProvider` and `IObjectSpaceFactory`. Implement a controller action that serves post author photos as follows.
 
    _API/CustomEndPointController.cs_:
 
@@ -899,7 +899,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    }
    ```
 
-2. In the Blazor WebAssembly project, update the `IWebAPI` service with a method with a method that queries the `CanCreate` endpoint to check if the current user can edit Posts.
+2. In the Blazor WebAssembly project, update the `IWebAPI` service with a method that queries the `CanCreate` endpoint to check if the current user can edit Posts.
 
    _Services/WebAPI.cs_:
    ```cs
@@ -934,7 +934,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    }
    ```
 
-4. Add a command column with _New_, _Edit_ and _Delete_ commands to the DxGrid and implement logic required process CRUD operations.
+4. Add a command column with _New_, _Edit_, and _Delete_ commands to the DxGrid and implement logic required to process CRUD operations.
 
    _Pages/FetchData.razor_:
    ```razor
@@ -1005,7 +1005,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    }
    ```
 
-3. In `FetchData.razor`, add a selection column to the DxGrid, a popup that displays the operation's result and a button that a user can click to archive the selected post.
+3. In `FetchData.razor`, add a selection column to DxGrid, a popup that displays the operation's result, and a button that a user clicks to archive the selected post.
 
    _Pages/FetchData.razor_:
    ```razor
