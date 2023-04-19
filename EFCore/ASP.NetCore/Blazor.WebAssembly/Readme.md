@@ -199,7 +199,7 @@ public void ConfigureServices(IServiceCollection services) {
    }
    ```
 
-### Configure Application Security
+### Configure application security
 
 1. Modify the `ConfigureServices` method in `Startup.cs` to allow cross origin authenticated requests (CORS) from the Blazor WebAssembly application.
 
@@ -314,7 +314,7 @@ At this point, you can run your Web API service and use the Swagger interface to
    dotnet add package DevExpress.Blazor --version 22.2.4
    ```
 
-### Register Installed Packages Services
+### Register installed packages services
 
 1. Modify the `Program.cs` file as follows:
 
