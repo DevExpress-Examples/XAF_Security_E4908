@@ -1,5 +1,4 @@
 <!-- default badges list -->
-![](https://img.shields.io/endpoint?url=https://codecentral.devexpress.com/api/v1/VersionRange/128594809/22.2.4%2B)
 [![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/E4908)
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
@@ -14,6 +13,7 @@ Please research the information below, because additional prerequisites may appl
 #### Microsoft Entity Framework Core
 - [DevExtreme + ASP.NET Core Web API/OData App](/EFCore/ASP.NetCore/DevExtreme.OData)
 - [Blazor Server App](/EFCore/ASP.NetCore/Blazor.ServerSide)
+- [Blazor WebAssembly App](/EFCore/ASP.NetCore/Blazor.WebAssembly)
 - Blazor WebAssembly App - Coming Soon
 - [.NET MAUI (iOS/Android) App](/EFCore/MAUI)
 - [JavaScript with Svelte + ASP.NET Core Web API/OData App](https://github.com/oliversturm/demo-dx-webapi-js/tree/stage-1) + [Blog Series](https://community.devexpress.com/blogs/news/archive/2023/04/11/consume-the-devexpress-backend-web-api-from-javascript-with-svelte-part-1.aspx)

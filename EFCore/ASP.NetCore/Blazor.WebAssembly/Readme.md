@@ -563,7 +563,7 @@ At this point, you can run your Web API service and use the Swagger interface to
          <button type="button" @onclick="Logout" class="nav-link btn btn-link">Log out</button>
       </Authorized>
       <NotAuthorized>
-         <a href="/login">Log in</a>
+         <a href="/login">Log in</a>
       </NotAuthorized>
    </AuthorizeView>
    <DxPopup HeaderText="Profile" @bind-Visible="@PopupVisible">
@@ -1057,7 +1057,7 @@ To create and initialize a report:
 2. Drag and drop a `CollectionDataSource` component from the Visual Studio toolbox and change its `ObjectTypeName` to `WebAPI.BusinessObjects.Post`.
 3. Drag & drop all discovered fields from the Field List window onto the Report details surface.
 
-   ![](../../images/MAUI/ReportDesigner.png) 
+   ![](../../../images/MAUI/ReportDesigner.png) 
 4. Use a predefined reports updater to initialize the report.
 
    _Module.cs_:
