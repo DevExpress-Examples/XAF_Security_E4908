@@ -1,6 +1,6 @@
 # How to Create a Web API Service Backend for a .NET MAUI Application
 
-This example demonstrates how you can create a [Web API service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) backend and a mobile .NET MAUI application frontend. The bakend uses EF Core for data access.
+This example demonstrates how you can create a [Web API service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) backend and a mobile .NET MAUI application frontend. The backend uses EF Core for data access.
 
 The application works with blog post data. It authenticates a user, determines his or her permissions, and selectively enables the following data operations: 
 
@@ -39,7 +39,7 @@ You don't have to use the **DevExpress Unified Component Installer** if you only
 
   ![](../../images/MAUI/SolutionWizardAuthStd.png)
 
-4. If you own a DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml), he next page allows you to select additional modules for your Web API Service. Make certain to select **Reports** as this module is required to complete the tutorial (last step). You can select other modules if you plan to extend the application. Click **Finish**.
+4. If you own a DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml), the next page allows you to select additional modules for your Web API Service. Make certain to select **Reports** as this module is required to complete the tutorial (last step). You can select other modules if you plan to extend the application. Click **Finish**.
 
   ![](../../images/MAUI/SolutionWizardAllWebAPIModules.png)
   
