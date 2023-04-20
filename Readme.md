@@ -11,6 +11,16 @@ For general information, please review [our landing page](https://www.devexpress
 ## Demos and Step-By-Step Tutorials for .NET 6 and .NET Framework
 Please research the information below, because additional prerequisites may apply to certain platforms. If you cannot compile or run any of these demo apps or have questions about our tutorials or supported functionality, please submit questions in the [Support Center](https://www.devexpress.com/ask) or [the Issues tab above](https://github.com/DevExpress-Examples/XAF_how-to-use-the-integrated-mode-of-the-security-system-in-non-xaf-applications-e4908/issues) - we will be more than happy to help you.
 
+#### Microsoft Entity Framework Core
+- [DevExtreme + ASP.NET Core Web API/OData App](/EFCore/ASP.NetCore/DevExtreme.OData)
+- [Blazor Server App](/EFCore/ASP.NetCore/Blazor.ServerSide)
+- Blazor WebAssembly App - Coming Soon
+- [.NET MAUI (iOS/Android) App](/EFCore/MAUI)
+- [JavaScript with Svelte + ASP.NET Core Web API/OData App](https://github.com/oliversturm/demo-dx-webapi-js/tree/stage-1) + [Blog Series](https://community.devexpress.com/blogs/news/archive/2023/04/11/consume-the-devexpress-backend-web-api-from-javascript-with-svelte-part-1.aspx)
+- [ASP.NET Core MVC App](/EFCore/ASP.NetCore/MVC)
+- [WinForms App](/EFCore/WinForms)
+- [Console App](/EFCore/Console)
+
 #### DevExpress XPO
  - [DevExtreme + ASP.NET Web API OData App](/XPO/ASP.NetCore/DevExtreme.OData)
  - [WinForms App](/XPO/WinForms)
@@ -19,13 +29,6 @@ Please research the information below, because additional prerequisites may appl
  - [Blazor Server App](/XPO/ASP.NetCore/Blazor.ServerSide)
  - [Xamarin Forms App](/XPO/Xamarin.Forms)
  - [Console App](/XPO/Console)
-
-#### Microsoft Entity Framework Core
-- [DevExtreme + ASP.NET Web API OData App](/EFCore/ASP.NetCore/DevExtreme.OData)
-- [WinForms App](/EFCore/WinForms)
-- [ASP.NET Core MVC App](/EFCore/ASP.NetCore/MVC)
-- [Blazor Server App](/EFCore/ASP.NetCore/Blazor.ServerSide)
-- [Console App](/EFCore/Console)
 
 We detailed the universal integration steps for any .NET app in [this video](https://www.youtube.com/watch?v=o1q4GqFgSFE).
 
@@ -63,3 +66,6 @@ Typical .NET App Security & Web API Service scenarios include the following:
 - Check state of input data with complex validtion rules using service endpoints (aka Validation)
 - Download BLOB data stored in databases using service endpoints (aka File Attachments)
 - Obtain localized captions for classes, members, and custom UI elements stored in databases using service endpoints (aka Localization)
+
+## See Also
+[.NET App Security API Benchmark for EF Core and XPO](/Benchmarks)
