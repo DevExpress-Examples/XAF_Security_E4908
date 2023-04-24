@@ -1,3 +1,8 @@
+## This Xamarin example is obsolete and is no longer maintained/supported. Refer to [our .NET MAUI example instead](https://www.devexpress.com/go/XAF_Security_NonXAF_MAUI.aspx).
+>**NOTE**
+>
+>Microsoft recently announced that Xamarin-related support services will end on May 1, 2024 (Microsoft also announced that it will shift development focus to the .NET MAUI platform). Based on Microsoft’s decision, we highly recommend those using Xamarin.Forms to consider our .NET MAUI Component Suite for existing/new mobile projects. [DevExpress .NET MAUI components](https://www.devexpress.com/maui/) support many of the features/capabilities available in Xamarin.Forms counterparts. Our [Migrate from Xamarin.Forms to .NET MAUI](https://docs.devexpress.com/Maui/403988) help topic documents relevant migration steps, lists API changes, and includes links to breaking changes.
+
 This example demonstrates how to access data protected by the [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) from a non-XAF Xamarin Forms application. 
 
 From this tutorial, you will learn how to perform CRUD (create-read-update-delete) operations with respect to security permissions. 
@@ -5,7 +10,7 @@ From this tutorial, you will learn how to perform CRUD (create-read-update-delet
 > You can find the complete project code in the sub-directories.
 
 
-### Prerequisites
+## Prerequisites
 - [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) with the **Mobile development with .NET** workload.
 - (Optional) A paired Mac to build the application on iOS.
 
