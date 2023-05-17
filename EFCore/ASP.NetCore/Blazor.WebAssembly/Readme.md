@@ -302,7 +302,7 @@ At this point, you can run your Web API service and use Swagger interface to aut
    dotnet new blazorwasm -o Blazor.WebAssembly
    ```
 
-2. Add the required NuGet packages to the Blazor WebAssembly project.
+2. Add the following NuGet packages to the Blazor WebAssembly project.
 
    ```cmd
    dotnet add package Blazored.LocalStorage --version 4.3.0
@@ -313,9 +313,9 @@ At this point, you can run your Web API service and use Swagger interface to aut
    dotnet add package DevExpress.Blazor --version 22.2.4
    ```
 
-### Register installed packages services
+### Add registration code
 
-1. Modify the `Program.cs` file as follows:
+1. Register services. Modify the `Program.cs` file as follows:
 
    _Program.cs_:
    ```cs
@@ -421,7 +421,7 @@ At this point, you can run your Web API service and use Swagger interface to aut
    builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<WebAPIAuthenticationStateProvider>());
    ```
 
-4. Create and register an `IWebAPI` service to call authentication endpoints of the WebAPI service backend.
+4. Create and register an `IWebAPI` service to call authentication endpoints of the Web API service backend.
 
    _Services/WebAPI.cs_:
    ```cs
@@ -478,7 +478,7 @@ At this point, you can run your Web API service and use Swagger interface to aut
    }
    ```
 
-6. Modify the `App.Razor` file. In the markup, replace the `RouteView` component with `AuthorizedRouteView`.
+6. Modify the `App.Razor` file. In the markup, replace the `RouteView` component with `AuthorizeRouteView`.
 
    _App.Razor_:
    ```razor
@@ -491,7 +491,7 @@ At this point, you can run your Web API service and use Swagger interface to aut
 
 7. To validate the authentication cookie, modify the `App.Razor` file as follows.
 
-   Inject the following services in `App.Razor`:
+   Inject services:
 
    _App.Razor_:
    ```cs
@@ -501,7 +501,7 @@ At this point, you can run your Web API service and use Swagger interface to aut
    @inject WebAPIAuthenticationStateProvider AuthStateProvider
    ```
 
-   Enclose all markup within `App.razor` with a `CascadingAuthenticationState` component.
+   Enclose all markup within a `CascadingAuthenticationState` component.
 
    _App.Razor_:
    ```razor
@@ -510,7 +510,7 @@ At this point, you can run your Web API service and use Swagger interface to aut
    </CascadingAuthenticationState>
    ```
 
-   In the same file, handle the Router's `OnNavigateAsync` event to get the user profile or repopulate it if needed.
+   Handle the Router's `OnNavigateAsync` event to obtain the user profile or re-populate it if needed.
 
    _App.Razor_:
    ```razor
@@ -681,9 +681,9 @@ At this point, you can run your Web API service and use Swagger interface to aut
    }
    ```
 
-9. Run the Blazor WebAssembly application and test the authentication logic.
+9. Run the Blazor WebAssembly application and test authentication logic.
 
-   - Wrong credentials:
+   - Invalid credentials:
 
      ![Wrong Credentials](../../../images/WebAssembly/WrongCredentials.png)
    
@@ -691,11 +691,11 @@ At this point, you can run your Web API service and use Swagger interface to aut
      
      ![Unhandled Error](../../../images/WebAssembly/UnhadledError.png)
    
-   - Authentication success:
+   - Successful authentication:
    
      ![Login Success](../../../images/WebAssembly/AuthSuccess.png)
    
-   - User profile info:
+   - User profile information:
    
      ![User Profile](../../../images/WebAssembly/UserProfile.png)
 
@@ -714,7 +714,7 @@ At this point, you can run your Web API service and use Swagger interface to aut
    }
    ```
 
-2. Implement a custom data source for the DxGrid control. In the data source implementation, use an OData client to fetch posts from the Web API Service:
+2. Implement a custom data source for the DxGrid control. In data source implementation, use an OData client to fetch posts from the Web API Service:
 
    _Services/SimpleODataClientDataSource.cs_:
    ```cs
@@ -809,9 +809,9 @@ At this point, you can run your Web API service and use Swagger interface to aut
 
    > **NOTE**
    >
-   > In our example code, the `GetResourceByName` method returns a byte array representation of an account image based on name. You can find an implementation for this method in the Web API project's [_DatabaseUpdate/Updater.cs_](./WebApi/DatabaseUpdate/Updater.cs) file. Note that this implementation requires image resources to be compiled into the application's assembly (the .jpg files' `Build Action` option must be set to `Embedded resource`).
+   > In our example code, the `GetResourceByName` method returns a byte array representation of an account image based on name. You can find this method's implementation in the Web API project's [_DatabaseUpdate/Updater.cs_](./WebApi/DatabaseUpdate/Updater.cs) file. Note that this implementation requires image resources to be compiled into the application's assembly (the `Build Action` option for JPG files must be set to `Embedded resource`).
 
-   Add `CustomEndPointController` inside the `WebAPI/API` directory, and inject `ISecurityProvider` and `IObjectSpaceFactory`. Implement a controller action that serves post author photos as follows.
+   Add `CustomEndPointController` inside the `WebAPI/API` directory, and inject `ISecurityProvider` and `IObjectSpaceFactory`. Implement a controller action that serves post author photos.
 
    _API/CustomEndPointController.cs_:
 
@@ -884,9 +884,9 @@ At this point, you can run your Web API service and use Swagger interface to aut
 
 ![](../../../images/WebAssembly/DisplayPhoto.png)
 
-### Enable post editing
+### Add post editing functionality
 
-1. The Web API Service automatically generates OData endpoints required to create and edit business objects. However, the example application's security system is configured to disallow post creation and editing for certain users. To check permissions before a user can try and submit a post, implement a custom `CanCreate` endpoint.
+1. The Web API Service automatically generates OData endpoints required to create and edit business objects. However, the application's security system is configured to disallow post creation and editing for certain users. To check permissions before a user can try and submit a post, implement a custom `CanCreate` endpoint.
 
    _API/CustomEndPointController.cs_:
    ```cs
@@ -1048,15 +1048,16 @@ At this point, you can run your Web API service and use Swagger interface to aut
 
 ### Add reporting functionality
 
-The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview?p=netframework) ships as part of the DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml). You can use it to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. You can skip this step if you do not own the DevExpress Universal Subscription.
+The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview?p=netframework) ships as part of the DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml). You can use this module to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. Skip this step if you do not own the DevExpress Universal Subscription.
 
 To create and initialize a report:
 
-1. Add a DevExpress Report component using the Visual Studio New Item wizard.
+1. Add a DevExpress Report component using the Visual Studio's **New Item** wizard.
 2. Drag and drop a `CollectionDataSource` component from the Visual Studio toolbox and change its `ObjectTypeName` to `WebAPI.BusinessObjects.Post`.
-3. Drag & drop all discovered fields from the Field List window onto the Report details surface.
+3. Drag and drop all discovered fields from the **Field List** window onto the Report details surface.
 
    ![](../../../images/MAUI/ReportDesigner.png) 
+   
 4. Use a predefined reports updater to initialize the report.
 
    _Module.cs_:
