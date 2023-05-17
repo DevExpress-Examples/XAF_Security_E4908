@@ -2,13 +2,13 @@
 
 This example demonstrates how you can create a [Web API service](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) backend and a Blazor WebAssembly application frontend. The backend uses EF Core for data access.
 
-The application works with blog post data. It authenticates a user with cookies, determines his or her permissions, and selectively enables the following data operations:
+The application works with blog post data. It authenticates a user (looks for available cookies), determines user permissions, and selectively enables the following user actions:
 
-- Lists existing Post records
-- Displays a photo of a Post author
-- Creates new Post records
-- Archives a Post record
-- Displays a report based on Post records
+- View existing Posts
+- View photos of Post authors
+- Create new Post records
+- Archive a Post record
+- Display a report based on Post records
 
 ## Prerequisites
 
@@ -16,11 +16,11 @@ The application works with blog post data. It authenticates a user with cookies,
 - [.NET SDK 6.0+](https://dotnet.microsoft.com/download/dotnet-core)
 - [DevExpress Libraries v22.2+](https://www.devexpress.com/Products/Try/). Download and run our **Unified Component Installer**. Make sure to enable the **Cross-Platform .NET App UI & Web API service (XAF)** option in the list of products to install. The installer will register local NuGet package sources and Visual Studio templates required for this tutorial.
 
-You don't have to use the **DevExpress Unified Component Installer** if you only want to run the example project or use the project as a boilerplate for your application. You can manually register your [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) in Visual Studio as described in the following article: [Setup Visual Studio's NuGet Package Manager](https://docs.devexpress.com/GeneralInformation/116698/installation/install-devexpress-controls-using-nuget-packages/setup-visual-studios-nuget-package-manager).
+You don't have to use the **DevExpress Unified Component Installer** if you simply want to run the example project or use the project as a boilerplate for your application. You can manually register your [NuGet feed URL](https://docs.devexpress.com/GeneralInformation/116042/installation/install-devexpress-controls-using-nuget-packages/obtain-your-nuget-feed-url) in Visual Studio as described in the following article: [Setup Visual Studio's NuGet Package Manager](https://docs.devexpress.com/GeneralInformation/116698/installation/install-devexpress-controls-using-nuget-packages/setup-visual-studios-nuget-package-manager).
   
   > **NOTE**
   >
-  > If you’ve installed a pre-release version of our components or obtained a hotfix from DevExpress, NuGet packages will not be restored automatically (you will need to update them manually). For more information, please refer to the following article: [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages). Remember to enable the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
+  > If you installed a pre-release version of our components or obtained a hotfix from DevExpress, NuGet packages will not be restored automatically (you will need to update them manually). For more information, please refer to the following article: [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages). Remember to enable the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 ## Build and Test a Basic Web API Service App (Backend)
 
@@ -42,7 +42,7 @@ You don't have to use the **DevExpress Unified Component Installer** if you only
 
   ![](../../../images/MAUI/SolutionWizardAllWebAPIModules.png)
   
-5. Modify the `WebAPI/Properties/launchSettings.json` file and remove the IIS Express profile so that `Kestrel server ports` will be utilized. Once complete, the file's `"profiles"` section should appear as shown below:
+5. Modify the following file: `WebAPI/Properties/launchSettings.json`. Remove the IIS Express profile to utilize `Kestrel server ports`. The code snippet below shows the resulting `"profiles"` section:
 
    _Properties/launchSettings.json_:
    ```json
@@ -57,7 +57,6 @@ You don't have to use the **DevExpress Unified Component Installer** if you only
          "ASPNETCORE_ENVIRONMENT": "Development"
          }
       }
-   }
    }
    ```
 
@@ -89,7 +88,7 @@ For more information, refer to the following DevExpress help topic: [Create a St
    
    For more information, refer to the following DevExpress help topic: [BaseObjectSpace](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.BaseObjectSpace).
 
-2. Modify the Entity Framework DBContext with an additional DbSet.
+2. Modify Entity Framework's `DBContext`: add a `DbSet` corresponding to the new business object.
 
    _BusinessObjects\WebAPIDbContext.cs_:
    ```cs
@@ -107,7 +106,7 @@ For more information, refer to the following DevExpress help topic: [Create a St
    }
    ```
 
-4. Modify the `Startup.cs` file to register `built-in CRUD endpoints` for the Post object.
+4. Modify the `Startup.cs` file to register **built-in CRUD endpoints** for the `Post` object.
 
    _Startup.cs_:
    ```cs
@@ -123,7 +122,7 @@ For more information, refer to the following DevExpress help topic: [Create a St
 
 The XAF Solution Wizard generates the connection string and startup code required to store persistent data in a [SQL Server Express LocalDB](https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb) database (only available for Microsoft Windows). If you are planning to develop your Web API backend on a non-Windows machine, consider using [SQLite](https://www.sqlite.org/) instead.
 
-To use SQLite, add the [Microsoft.EntityFrameworkCore.Sqlite](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite) **v6** NuGet package to your project's dependencies. Once complete, add the following code to the `ConfigureServices` method within `Startup.cs`:
+To use SQLite, add the [Microsoft.EntityFrameworkCore.Sqlite](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Sqlite) **v6** NuGet package to your project's dependencies. In `Startup.cs`, write the following code in the `ConfigureServices` method:
 
 _Startup.cs_:
 ```cs
@@ -145,7 +144,7 @@ public void ConfigureServices(IServiceCollection services) {
 
 ### Generate initial data
 
-1. Open the `WebAPI/DatabaseUpdate/Updater.cs` file and add the following code to the `UpdateDatabaseAfterUpdateSchema` method to create appropriate users (Editor and Viewer), assign roles/permissions, and create sample Post objects:
+1. Open the `WebAPI/DatabaseUpdate/Updater.cs` file and add the following code to the `UpdateDatabaseAfterUpdateSchema` method to create users (Editor and Viewer), assign roles/permissions, and create sample Post objects:
 
    _DatabaseUpdate\Updater.cs_:
    ```cs
@@ -216,7 +215,7 @@ public void ConfigureServices(IServiceCollection services) {
    app.UseCors("Open");
    ```
 
-2. Modify the code that configures authentication and authorization to use cookies:
+2. To use cookies, modify authentication/authorization code as follows:
 
    _Startup.cs_:
    ```cs
@@ -239,7 +238,7 @@ public void ConfigureServices(IServiceCollection services) {
    _API/Security/AuthenticationController.cs_:
    ```cs
    [HttpPost(nameof(LoginAsync))]
-   [SwaggerOperation("Checks if the user with the specified logon parameters exists in the database. If it does, authenticates this user.", "Refer to the following help topic for more information on authentication methods in the XAF Security System: <a href='https://docs.devexpress.com/eXpressAppFramework/119064/data-security-and-safety/security-system/authentication'>Authentication</a>.")]
+   [SwaggerOperation("Checks if the user with the specified logon parameters exists in the database. If a user exists, authenticates this user.", "Refer to the following help topic for more information on authentication methods in the XAF Security System: <a href='https://docs.devexpress.com/eXpressAppFramework/119064/data-security-and-safety/security-system/authentication'>Authentication</a>.")]
    public async Task<ActionResult> LoginAsync([FromBody] [SwaggerRequestBody(@"For example: <br /> { ""userName"": ""Admin"", ""password"": """" }")]
       AuthenticationStandardLogonParameters logonParameters) {
       try {
@@ -268,7 +267,7 @@ public void ConfigureServices(IServiceCollection services) {
    }
    ```
 
-5. Create an authorized `UserInfo` endpoint used to get user information and validate the cookie from the client when needed (for example, when a user refreshes the page).
+5. Create an authorized `UserInfo` endpoint used to obtain user information and validate the cookie from the client when needed (for example, when a user refreshes the page).
 
    _API/Security/AuthenticationController.cs_:
    ```cs
@@ -287,7 +286,7 @@ public void ConfigureServices(IServiceCollection services) {
 
 ### Use Swagger UI to test the Web API service
 
-At this point, you can run your Web API service and use the Swagger interface to authenticate as previously defined users and test generated endpoints (for example, query available posts). Refer to the following article for additional information [Test the Web API with Swagger or Postman](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman).
+At this point, you can run your Web API service and use Swagger interface to authenticate as previously defined users and test generated endpoints (for example, query available posts). Refer to the following article for additional information [Test the Web API with Swagger or Postman](https://docs.devexpress.com/eXpressAppFramework/404281/backend-web-api-service/test-the-web-api-with-swagger-postman).
 
 ![](../../../images/WebAssembly/SwaggerQueryPosts.png)
 
