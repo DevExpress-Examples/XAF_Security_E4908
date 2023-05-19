@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MAUI.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dxco="clr-namespace:DevExpress.Maui.Controls;assembly=DevExpress.Maui.Controls"
+    xmlns:viewModels="clr-namespace:MAUI.ViewModels"
+    xmlns:dxe="clr-namespace:DevExpress.Maui.Editors;assembly=DevExpress.Maui.Editors" BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <viewModels:LoginViewModel/>
+    </ContentPage.BindingContext>
+    <Grid RowDefinitions="*,Auto" >
+        <Image Source="loginbackground.png" Aspect="AspectFill" Margin="0,0,0,-40"/>
+        <Label Text="DevExpress" HorizontalOptions="Center" VerticalTextAlignment="Center" FontSize="40" TextColor="{StaticResource Gray600}"/>
+        <Label Text="Your next great app starts here" HorizontalOptions="Center" VerticalTextAlignment="Center" FontSize="14" Margin="0,60,0,0" TextColor="{StaticResource Gray500}"/>
+        <Border  VerticalOptions="End" Grid.Row="1" HeightRequest="490" StrokeShape="RoundRectangle 25,25,0,0">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto, Auto, *" Padding="20,20,20,40">
+                <Label Text="Welcome" TextColor="{StaticResource Primary}" HorizontalOptions="Center" FontAttributes="Bold" FontSize="30" Grid.Row="0"/>
+                <Label Text="Please enter your login and password" TextColor="{StaticResource Gray600}" HorizontalOptions="Center" Grid.Row="1"/>
+                <dxe:TextEdit LabelText="Login" StartIcon="editorsname.svg" Margin="0,20,0,20" Grid.Row="2" Text="{Binding UserName}"/>
+                <dxe:PasswordEdit LabelText="Password" StartIcon="editorspassword.svg" Margin="0,20,0,20" HasError="{Binding HasError}" Text="{Binding Password}" ErrorText="{Binding ErrorText}" Grid.Row="3" />
+                <ActivityIndicator Margin="0,0,0,0" VerticalOptions="Center" IsRunning="{Binding IsAuthInProcess}" HorizontalOptions="Center" WidthRequest="40" HeightRequest="40" Color="{StaticResource Primary}" Grid.Row="4"/>
+                <VerticalStackLayout Grid.Row="5" VerticalOptions="End">
+                    <HorizontalStackLayout Margin="0,0,0,20" HorizontalOptions="Center" >
+                        <Label Text="Don't have an account?" VerticalTextAlignment="Center"/>
+                        <dxco:SimpleButton FontAttributes="Bold" Text="Sign up" BackgroundColor="Transparent" Margin="5,0,0,0" MinimumHeightRequest="0" TextColor="{StaticResource Primary}" FontSize="14" Padding="0" Command="{Binding SignUpCommand}"/>
+                    </HorizontalStackLayout>
+                    <dxco:SimpleButton Text="Sign In" Command="{Binding LoginCommand}"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

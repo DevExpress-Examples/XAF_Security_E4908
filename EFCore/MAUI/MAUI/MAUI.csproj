@@ -1,0 +1,76 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>MAUI</RootNamespace>
+
+		<!-- Display name -->
+		<ApplicationTitle>MAUI</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.MAUI</ApplicationId>
+    <ApplicationIdGuid>BE6FAE6D-64B8-4F12-9119-330A0E5117C3</ApplicationIdGuid>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    <UseInterpreter Condition="$(TargetFramework.Contains('-ios')) AND '$(Configuration)' == 'Release'">True</UseInterpreter>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiImage Include="Resources\appicon.svg" IsAppIcon="true" ForegroundFile="Resources\splashscreen.svg" Color="#FFFFFF" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\splashscreen.svg" Color="#5B27D9" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="ViewModels\AboutViewModel.cs" />
+	  <Compile Remove="ViewModels\ChartsViewModel.cs" />
+	  <Compile Remove="ViewModels\DataGridViewModel.cs" />
+	  <Compile Remove="ViewModels\PopupViewModel.cs" />
+	  <Compile Remove="ViewModels\SchedulerViewModel.cs" />
+	  <Compile Remove="Views\AboutPage.xaml.cs" />
+	  <Compile Remove="Views\ChartsPage.xaml.cs" />
+	  <Compile Remove="Views\DataGridPage.xaml.cs" />
+	  <Compile Remove="Views\PopupPage.xaml.cs" />
+	  <Compile Remove="Views\SchedulerPage.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="Views\AboutPage.xaml" />
+	  <MauiXaml Remove="Views\ChartsPage.xaml" />
+	  <MauiXaml Remove="Views\DataGridPage.xaml" />
+	  <MauiXaml Remove="Views\PopupPage.xaml" />
+	  <MauiXaml Remove="Views\SchedulerPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Platforms\Android\Resources\xml\provider_paths.xml" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+    <PackageReference Include="DevExpress.Maui.CollectionView" Version="22.2.4" />
+		<PackageReference Include="DevExpress.Maui.Core" Version="22.2.4" />
+    <PackageReference Include="DevExpress.Maui.Editors" Version="22.2.4" />
+  </ItemGroup>
+
+
+	
+
+</Project>

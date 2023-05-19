@@ -1,0 +1,44 @@
+﻿@using Blazor.WebAssembly.Services
+@inject ILocalStorageService LocalStorageService;
+@inject IWebAPI WebApi
+@inject WebAPIAuthenticationStateProvider AuthStateProvider
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly" 
+            OnNavigateAsync="@OnNavigateAsync" 
+            >
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <RedirectToLogin />
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+@code{
+    private async Task OnNavigateAsync(NavigationContext args) {
+        var isAuthenticated =  await LocalStorageService.GetItemAsync<string>("IsAuthenticated");
+        var claimsPrincipal = (await AuthStateProvider.GetAuthenticationStateAsync()).User;
+        if(!string.IsNullOrEmpty(isAuthenticated) && !claimsPrincipal.Identity!.IsAuthenticated ){
+            var user = await WebApi.GetUserAsync();
+            if (user.message == "Success") {
+                AuthStateProvider.SetAuthInfo(user.user!);
+            }
+            else if(user.message == "Unauthorized") {
+                AuthStateProvider.ClearAuthInfo();
+                await LocalStorageService.RemoveItemAsync("IsAuthenticated");
+                await WebApi.LogoutAsync();
+            } else if(user.message == "Failed") {
+                AuthStateProvider.ClearAuthInfo();
+                await LocalStorageService.RemoveItemAsync("IsAuthenticated");
+            }
+        }
+    }
+}
