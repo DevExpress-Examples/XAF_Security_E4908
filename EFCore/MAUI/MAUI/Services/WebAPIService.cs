@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using DevExpress.Maui.Core.Internal;
 using MAUI.Models;
+using static System.Net.WebRequestMethods;
 
 namespace MAUI.Services;
 public static partial class HttpMessageHandler {
@@ -13,7 +14,13 @@ public static partial class HttpMessageHandler {
 
 public class WebAPIService : IDataStore<Post> {
     private static readonly HttpClient HttpClient = new(HttpMessageHandler.GetMessageHandler()) { Timeout = new TimeSpan(0, 0, 10) };
-    private readonly string _apiUrl = ON.Platform(android:"https://10.0.2.2:5001/api/", iOS:"https://localhost:5001/api/");
+
+#if ANDROID 
+    private readonly string _apiUrl = "https://10.0.2.2:5001/api/";
+#else
+    private readonly string _apiUrl = "https://localhost:5001/api/"
+#endif
+
     private readonly string _postEndPointUrl;
     private const string ApplicationJson = "application/json";
 
@@ -21,7 +28,7 @@ public class WebAPIService : IDataStore<Post> {
         => _postEndPointUrl = _apiUrl + "odata/" + nameof(Post);
 
     public async Task<bool> UserCanCreatePostAsync()
-        => (bool)JsonNode.Parse(await HttpClient.GetStringAsync($"{_apiUrl}CustomEndpoint/CanCreate?typename=Post"));
+        => (bool)JsonNode.Parse(await HttpClient.GetStringAsync($"{_apiUrl}CustomEnzdpoint/CanCreate?typename=Post"));
 
     public async Task<byte[]> GetAuthorPhotoAsync(Guid postId)
         => await HttpClient.GetByteArrayAsync($"{_apiUrl}CustomEndPoint/AuthorPhoto/{postId}");
@@ -40,7 +47,7 @@ public class WebAPIService : IDataStore<Post> {
         var bytes = await HttpClient.GetByteArrayAsync($"{_apiUrl}report/DownloadByName(Post Report)");
 #if ANDROID
 		var fileName = $"{FileSystem.Current.AppDataDirectory}/Report.pdf";
-		await File.WriteAllBytesAsync(fileName, bytes);
+		await System.IO.File.WriteAllBytesAsync(fileName, bytes);
 		var intent = new Android.Content.Intent(Android.Content.Intent.ActionView);
 		intent.SetDataAndType(AndroidX.Core.Content.FileProvider.GetUriForFile(Android.App.Application.Context,
 			$"{Android.App.Application.Context.ApplicationContext?.PackageName}.provider",new Java.IO.File(fileName)),"application/pdf");
@@ -49,7 +56,7 @@ public class WebAPIService : IDataStore<Post> {
 #else
         var path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         var fileName = $"{path}/Report.pdf";
-        await File.WriteAllBytesAsync(fileName, bytes);
+        await System.IO.File.WriteAllBytesAsync(fileName, bytes);
         var filePath = Path.Combine(path, "Report.pdf");
         var viewer = UIKit.UIDocumentInteractionController.FromUrl(Foundation.NSUrl.FromFilename(filePath));
         viewer.PresentOpenInMenu(new System.Drawing.RectangleF(0, -260, 320, 320), Platform.GetCurrentUIViewController()!.View!, true);

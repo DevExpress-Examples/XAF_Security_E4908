@@ -65,12 +65,7 @@
 
 
 	<ItemGroup>
-    <PackageReference Include="DevExpress.Maui.CollectionView" Version="22.2.4" />
-		<PackageReference Include="DevExpress.Maui.Core" Version="22.2.4" />
-    <PackageReference Include="DevExpress.Maui.Editors" Version="22.2.4" />
+    <PackageReference Include="DevExpress.Maui.CollectionView" Version="23.1.2-pre-23080" />
+    <PackageReference Include="DevExpress.Maui.Editors" Version="23.1.2-pre-23080" />
   </ItemGroup>
-
-
-	
-
 </Project>

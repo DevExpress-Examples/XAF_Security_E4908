@@ -94,17 +94,19 @@ public class Startup {
             }
             options.UseChangeTrackingProxies();
             options.UseObjectSpaceLinkProxies();
+            options.UseXafServiceProviderContainer(serviceProvider);
             options.UseLazyLoadingProxies();
             options.UseSecurity(serviceProvider);
         }, ServiceLifetime.Scoped);
         services.AddXafReportingCore(options => {
             options.ReportDataType = typeof(ReportDataV2);
         });
-        services.AddDbContextFactory<WebAPIAuditingDbContext>((_, options) => {
+        services.AddDbContextFactory<WebAPIAuditingDbContext>((serviceProvider, options) => {
             string connectionString = Configuration.GetConnectionString("ConnectionString");
             options.UseSqlServer(connectionString);
             options.UseChangeTrackingProxies();
             options.UseObjectSpaceLinkProxies();
+            options.UseXafServiceProviderContainer(serviceProvider);
             options.UseLazyLoadingProxies();
         }, ServiceLifetime.Scoped);
         services.AddAuditTrail().AddAuditedDbContextFactory<WebAPIEFCoreDbContext, WebAPIAuditingDbContext>();
