@@ -1,0 +1,83 @@
+﻿@page "/fetchdata"
+@using Blazor.WebAssembly.Models
+@using Blazor.WebAssembly.Services
+@attribute [Authorize]
+@inject IJSRuntime Js;
+@inject IWebAPI WebAPI;
+@inject SimpleODataClientDataSource DataSource;
+<DxButton SizeMode="SizeMode.Small" Text="Archive" RenderStyle="ButtonRenderStyle.Secondary" Click="OnArchive" Attributes="@(new Dictionary<string, object> {  ["title"] = "Archive Post selection." })" />
+<DxButton SizeMode="SizeMode.Small" Text="Shape" RenderStyle="ButtonRenderStyle.Secondary" Click="OnShape" />
+<DxGrid Data="@DataSource" CssClass="mw-1100" KeyFieldName="ID" ShowFilterRow="true" @bind-SelectedDataItems="SelectedDataItems" SelectionMode="GridSelectionMode.Single"
+        EditModelSaving="async e => await DataSource.AddOrUpdateAsync((Post)e.EditModel,!e.IsNew)"
+        DataItemDeleting="async e => await DataSource.DeleteAsync((Post)e.DataItem)"
+        EditMode="GridEditMode.EditRow" EditorRenderMode="GridEditorRenderMode.Integrated">
+    <Columns>
+        <DxGridCommandColumn Width="160px" Visible="AllowEdit" />
+        <DxGridSelectionColumn Width="104px" />
+        <DxGridDataColumn Caption="Title" FieldName="Title">
+            <CellEditTemplate>
+                <DxTextBox @bind-Text="((Post)context.EditModel).Title"></DxTextBox>
+            </CellEditTemplate>
+        </DxGridDataColumn>
+        <DxGridDataColumn Caption="Content" FieldName="Content">
+            <CellEditTemplate>
+                <DxTextBox @bind-Text="((Post)context.EditModel).Content"></DxTextBox>
+            </CellEditTemplate>
+        </DxGridDataColumn>
+        <DxGridDataColumn FieldName="ID" Caption="Photo" AllowSort="false" Width="90px" MinWidth="100" TextAlignment="GridTextAlignment.Center">
+            <CellDisplayTemplate><button class="btn btn-link" @onclick="() => ShowPhoto((Guid)context.Value)">Photo</button></CellDisplayTemplate>
+        </DxGridDataColumn>
+    </Columns>
+</DxGrid>
+<DxPopup HeaderText="Archive" @bind-Visible="ArchiveClicked" BodyText="This post is saved to disk">
+    <BodyContentTemplate>
+        <div>
+            @if (SelectedDataItems == null) {
+                <p>Please select a Post from the list.</p>
+            }
+            else {
+                <p>This post is saved to disk.</p>
+            }
+        </div>
+    </BodyContentTemplate>
+</DxPopup>
+<DxPopup HeaderText="Photo" @bind-Visible="ShowingPhoto">
+    <BodyContentTemplate>
+        <img src="@_imageDataUrl"  alt="user photo"/>
+    </BodyContentTemplate>
+</DxPopup>
+
+
+@code {
+    IReadOnlyList<object>? SelectedDataItems { get; set; }
+    
+    bool ArchiveClicked { get; set; }
+    bool ShowingPhoto { get; set; }
+    public bool AllowEdit { get; set; }
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+        AllowEdit = await WebAPI.CanCreateAsync();
+    }
+
+    private async Task OnArchive(MouseEventArgs arg){
+        if (SelectedDataItems != null) {
+            await WebAPI.ArchiveAsync(SelectedDataItems.Cast<Post>().First()); 
+        }
+        ArchiveClicked = true;
+    }
+
+    private async Task ShowPhoto(Guid contextValue) {
+        _imageDataUrl = $"data:image/jpg+xml;base64,{Convert.ToBase64String(await WebAPI.GetAuthorPhotoAsync(contextValue))}";
+        ShowingPhoto = true;
+    }
+
+    private string _imageDataUrl = "";
+
+    private async Task OnShape()
+        => await Js.InvokeAsync<object>("saveAsFile", "Report.pdf", Convert.ToBase64String(await WebAPI.ShapePostsAsync()));
+
+
+
+
+}

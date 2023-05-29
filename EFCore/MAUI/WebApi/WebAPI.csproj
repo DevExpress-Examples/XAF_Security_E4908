@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <Deterministic>false</Deterministic>
+    <AssemblyVersion>1.0.*</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Configurations>Debug;Release;EasyTest</Configurations>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Model.xafml" />
+    <None Remove="Resourses\Janete.jpg" />
+    <None Remove="Resourses\John.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model.xafml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resourses\Janete.jpg" />
+    <EmbeddedResource Include="Resourses\John.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Api.EFCore.All" Version="23.1.1-beta-23135" />
+    <PackageReference Include="DevExpress.ExpressApp.AuditTrail.EFCore" Version="23.1.1-beta-23135" />
+    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="23.1.1-beta-23135" />
+    <PackageReference Include="DevExpress.ExpressApp.ReportsV2" Version="23.1.1-beta-23135" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="23.1.1-beta-23135" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.5.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="XtraReport1.cs">
+      <SubType>XtraReport</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

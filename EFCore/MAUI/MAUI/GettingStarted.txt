@@ -1,0 +1,18 @@
+Welcome to DevExpress Components for .NET MAUI! Here are a few tips to help you get started with your new application.
+
+DevExpress NuGet Feed
+---------------------
+
+DevExpress Components for .NET MAUI are free-of-charge. To learn more about our free offer and reserve your free copy,
+please visit the following webpage: https://www.devexpress.com/xamarin-free/
+
+IMPORTANT: You MUST register your personal NuGet package source for the solution to build correctly.
+After you reserved your free copy, you can use the following page to obtain a NuGet Feed URL: https://nuget.devexpress.com/
+
+If you are unfamiliar with NuGet packages, please review the following 
+help topic (Install DevExpress Controls Using NuGet Packages): https://docs.devexpress.com/GeneralInformation/115912/
+
+QuickStart Guide
+----------------
+
+See the following topic to learn more about DevExpress Components for .NET MAUI: https://docs.devexpress.com/MAUI
