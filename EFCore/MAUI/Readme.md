@@ -13,7 +13,7 @@ The application works with blog post data. It authenticates a user, determines h
 ## Prerequisites
 
 - [Visual Studio 2022 v17.0+](https://visualstudio.microsoft.com/vs/)
-- [.NET SDK 6.0+](https://dotnet.microsoft.com/download/dotnet-core)
+- [.NET SDK 6.0+](https://dotnet.microsoft.com/en-us/download/dotnet)
 - [DevExpress .NET MAUI Project Templates for Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=DevExpress.MauiVSTemplates2022)
 - [DevExpress Libraries v22.2+](https://www.devexpress.com/Products/Try/). Download and run our **Unified Component Installer**. Make sure to enable the **Cross-Platform .NET App UI & Web API service (XAF)** option in the list of products to install. The installer will register local NuGet package sources and Visual Studio templates required for this tutorial. 
 
