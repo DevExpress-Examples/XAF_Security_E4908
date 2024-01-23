@@ -15,9 +15,9 @@ namespace XAFSecurityBenchmark.PerformanceTests {
             EFCoreDBUpdater.InitializeInstance(nameof(CustomPermissionPolicyUser.ID));
         }
 
-        Expression<Func<Contact, bool>> ContactsFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
+        Expression<Func<Contact, bool>> ContactsFilterPredicate(CustomPermissionPolicyUser currentUser) =>
             contact => contact.Department == currentUser.Department;
-        Expression<Func<DemoTask, bool>> TasksFilterPredicate(ICustomPermissionPolicyUser currentUser) =>
+        Expression<Func<DemoTask, bool>> TasksFilterPredicate(CustomPermissionPolicyUser currentUser) =>
            task => task.Contacts.Any(contact => contact.Department.Users.Any(user => user == currentUser)) || ((Contact)task.AssignedTo).Department == currentUser.Department;
 
         protected override ICustomPermissionPolicyUser GetUser() {
@@ -50,26 +50,26 @@ namespace XAFSecurityBenchmark.PerformanceTests {
             dataContext.SaveChanges();
         }
         public override void GetContacts(int recordsCount) {
-            ICustomPermissionPolicyUser currentUser = GetUser();
+            var currentUser = (CustomPermissionPolicyUser)GetUser();
             var q = dataContext.Contacts.AsNoTracking().Where(ContactsFilterPredicate(currentUser)).Take(recordsCount);
             foreach(var t in q) { }
             CheckCollectionCount(q, recordsCount);
         }
         public override void GetTasks(int recordsCount) {
-            ICustomPermissionPolicyUser currentUser = GetUser();
+            var currentUser = (CustomPermissionPolicyUser)GetUser();
             var q = dataContext.Tasks.AsNoTracking().Where(TasksFilterPredicate(currentUser)).Take(recordsCount);
             foreach(var t in q) { }
             CheckCollectionCount(q, recordsCount);
         }
         public override void UpdateContacts(int recordsCount) {
-            ICustomPermissionPolicyUser currentUser = GetUser();
+            var currentUser = (CustomPermissionPolicyUser)GetUser();
             foreach(var contact in dataContext.Contacts.Where(ContactsFilterPredicate(currentUser)).Take(recordsCount)) {
                 contact.Anniversary = DateTime.Now;
             }
             dataContext.SaveChanges();
         }
         public override void UpdateTasks(int recordsCount) {
-            ICustomPermissionPolicyUser currentUser = GetUser();
+            var currentUser = (CustomPermissionPolicyUser)GetUser();
             foreach(var task in dataContext.Tasks.Where(TasksFilterPredicate(currentUser)).Take(recordsCount)) {
                 task.DueDate = DateTime.Now.AddHours(24).Date;
             }
@@ -88,7 +88,7 @@ namespace XAFSecurityBenchmark.PerformanceTests {
         }
 
         public override string ToString() {
-            return "EF Core 7 (No Security)";
+            return "EF Core 8 (No Security)";
         }
     }
 }
