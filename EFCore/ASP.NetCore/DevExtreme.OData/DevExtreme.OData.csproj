@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="microsoft.aspnetcore.odata" Version="8.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver" Version="7.0.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="23.1.2-pre-23080" />
-    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="23.1.2-pre-23080" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="23.1.2-pre-23080" />
-	  <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver" Version="8.0.1" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="23.2.4-pre-24023" />
+    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="23.2.4-pre-24023" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="23.2.4-pre-24023" />
+	  <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
   <ItemGroup>

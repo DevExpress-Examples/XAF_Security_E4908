@@ -50,11 +50,11 @@
     <PackageReference Include="AspNet.ScriptManager.bootstrap" Version="3.4.1" />
     <PackageReference Include="AspNet.ScriptManager.jQuery" Version="3.3.1" />
     <PackageReference Include="bootstrap" Version="3.4.1" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="23.1.2-pre-23080" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="23.1.2-pre-23080" />
-    <PackageReference Include="DevExpress.Web" Version="23.1.2-pre-23080" />
-    <PackageReference Include="DevExpress.Web.Themes" Version="23.1.2-pre-23080" />
-    <PackageReference Include="jQuery" Version="3.3.1" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="23.2.4-pre-24023" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="23.2.4-pre-24023" />
+    <PackageReference Include="DevExpress.Web" Version="23.2.4-pre-24023" />
+    <PackageReference Include="DevExpress.Web.Themes" Version="23.2.4-pre-24023" />
+    <PackageReference Include="jQuery" Version="3.5.0.1" />
     <PackageReference Include="Microsoft.AspNet.FriendlyUrls" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNet.FriendlyUrls.Core" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNet.ScriptManager.MSAjax" Version="5.0.0" />
@@ -64,7 +64,7 @@
     <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.0" />
     <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0.0" />
     <PackageReference Include="Modernizr" Version="2.8.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="WebGrease" Version="1.6.0" />
   </ItemGroup>
   <ItemGroup>

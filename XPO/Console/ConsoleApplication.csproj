@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	  <OutputType>Exe</OutputType>
-	  <TargetFramework>net6.0</TargetFramework>
+	  <TargetFramework>net8.0</TargetFramework>
 	  <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="23.1.2-pre-23080" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="23.1.2-pre-23080" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="23.2.4-pre-24023" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="23.2.4-pre-24023" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

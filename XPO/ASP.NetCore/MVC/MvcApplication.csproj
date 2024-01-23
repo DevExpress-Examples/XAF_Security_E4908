@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="23.1.2-pre-23080" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="23.1.2-pre-23080" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="23.2.4-pre-24023" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="23.2.4-pre-24023" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
@@ -13,8 +13,8 @@
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.3" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="23.1.2-alpha-23076-1933" />
-    <PackageReference Include="DevExtreme.AspNet.Data" Version="2.9.0" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="23.2.3" />
+    <PackageReference Include="DevExtreme.AspNet.Data" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />

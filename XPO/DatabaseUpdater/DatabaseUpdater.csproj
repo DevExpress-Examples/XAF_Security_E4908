@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-      <TargetFramework>netstandard2.0</TargetFramework>
+      <TargetFrameworks>net8.0;net48</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="23.1.2-pre-23080" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="23.1.2-pre-23080" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="23.2.4-pre-24023" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="23.2.4-pre-24023" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Employees.xml" />

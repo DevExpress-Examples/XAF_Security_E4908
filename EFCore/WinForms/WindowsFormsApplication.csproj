@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	<OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -9,9 +9,9 @@
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
-    <PackageReference Include="DevExpress.Win.Grid" Version="23.1.2-pre-23080" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
+    <PackageReference Include="DevExpress.Win.Grid" Version="23.2.4-pre-24023" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
