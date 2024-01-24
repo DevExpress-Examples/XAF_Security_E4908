@@ -18,7 +18,7 @@ public class WebAPIService : IDataStore<Post> {
 #if ANDROID 
     private readonly string _apiUrl = "https://10.0.2.2:5001/api/";
 #else
-    private readonly string _apiUrl = "https://localhost:5001/api/"
+    private readonly string _apiUrl = "https://localhost:5001/api/";
 #endif
 
     private readonly string _postEndPointUrl;
