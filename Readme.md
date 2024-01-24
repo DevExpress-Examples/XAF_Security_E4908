@@ -27,7 +27,6 @@ Please research the information below, because additional prerequisites may appl
  - [ASP.NET WebForms App](/XPO/ASP.NET/WebForms)
  - [ASP.NET Core MVC App](/XPO/ASP.NetCore/MVC)
  - [Blazor Server App](/XPO/ASP.NetCore/Blazor.ServerSide)
- - [Xamarin Forms App](/XPO/Xamarin.Forms)
  - [Console App](/XPO/Console)
 
 We detailed the universal integration steps for any .NET app in [this video](https://www.youtube.com/watch?v=o1q4GqFgSFE).
