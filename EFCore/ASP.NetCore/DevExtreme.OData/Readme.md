@@ -439,7 +439,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
     ```    
         
 3. [index_code.js](wwwroot/js/index_code.js) configures the DevExtreme Data Grid and logs the user out. 
-The [onLoaded](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/ODataStore/Configuration/#onLoaded) function sends a request to the server to obtain permissions for the current data grid page.
+The [onLoaded](https://js.devexpress.com/jQuery/Documentation/ApiReference/Data_Layer/ODataStore/Configuration/#onLoaded) function sends a request to the server to obtain permissions for the current data grid page.
 
     ```javascript
     function onLoaded(data) {
@@ -464,7 +464,7 @@ The [onLoaded](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/O
     }
     ```    
 
-5. The `onInitialized` function handles the data grid's [initialized](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#initialized) event 
+5. The `onInitialized` function handles the data grid's [initialized](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Events/#initialized) event 
 and checks create operation permission to define whether the Create action should be displayed or not.
 
     ```javascript
@@ -482,7 +482,7 @@ and checks create operation permission to define whether the Create action shoul
     }
     ```    
 
-6. The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
+6. The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
 If the Read operation permission is denied, it displays the "*******" placeholder and disables the editor. If the Write operation permission is denied, the editor is disabled.
 
     ```javascript
@@ -509,7 +509,7 @@ If the Read operation permission is denied, it displays the "*******" placeholde
     }
     ```    
 
-7. The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#cellPrepared) event and checks Read, Write, and Delete operation permissions. 
+7. The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Events/#cellPrepared) event and checks Read, Write, and Delete operation permissions. 
 If the Read permission is denied, it displays the "*******" placeholder in data grid cells. Write and Delete operation permission checks define whether the Write and Delete actions should be displayed or not.
 
     ```javascript

@@ -509,7 +509,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
 
 [IndexCode.js](wwwroot/js/IndexCode.js) contains scripts executed on the main page:
 
-- The `onInitialized` function initializes the TypePermission object in the DataGrid [initialized](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#initialized) event.
+- The `onInitialized` function initializes the TypePermission object in the DataGrid [initialized](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Events/#initialized) event.
     
     ```javascript
     function onInitialized(e) {
@@ -517,7 +517,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
     }
     ```
     
-- The `onLoaded` function handles the data grid's [load](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/DataSource/Methods/#load) event and sends a request to the server to obtain permissions for the current data grid page.
+- The `onLoaded` function handles the data grid's [load](https://js.devexpress.com/jQuery/Documentation/ApiReference/Data_Layer/DataSource/Methods/#load) event and sends a request to the server to obtain permissions for the current data grid page.
     
     ```javascript
     function onLoaded(data) {
@@ -542,7 +542,7 @@ public class EmployeesController : Microsoft.AspNetCore.Mvc.Controller {
     }
     ```
 
-- The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
+- The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
 If the Read operation permission is denied, it displays the "*******" placeholder and disables the editor. If the Write operation permission is denied, the editor is disabled.
 
     ```javascript
@@ -569,7 +569,7 @@ If the Read operation permission is denied, it displays the "*******" placeholde
     }
     ```    
     
-- The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#cellPrepared) event and checks Read operation permissions. 
+- The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Events/#cellPrepared) event and checks Read operation permissions. 
 If the Read operation is denied, it displays the "*******" placeholder in data grid cells.
 
     ```javascript
@@ -587,7 +587,7 @@ If the Read operation is denied, it displays the "*******" placeholder in data g
     }
     ```
 
-- The `allowUpdating` function handles the data grid's [allowUpdating](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Configuration/editing/#allowUpdating) event and checks Write operation permissions.
+- The `allowUpdating` function handles the data grid's [allowUpdating](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/editing/#allowUpdating) event and checks Write operation permissions.
 Write operation permission checks define whether the Edit actions should be displayed or not.
 
     ```javascript
@@ -602,7 +602,7 @@ Write operation permission checks define whether the Edit actions should be disp
     }
     ```
 
-- The `allowDeleting` function handles the data grid's [allowDeleting](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Configuration/editing/#allowDeleting) event and checks Delete operation permissions.
+- The `allowDeleting` function handles the data grid's [allowDeleting](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Configuration/editing/#allowDeleting) event and checks Delete operation permissions.
 The delete operation permission  defines whether the Delete actions should be displayed or not.
 
     ```javascript

@@ -453,7 +453,7 @@ The [onLoaded](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/O
     }
     ```    
 
-- The `onInitialized` function handles the data grid's [initialized](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#initialized) event 
+- The `onInitialized` function handles the data grid's [initialized](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Events/#initialized) event 
 and checks create operation permission to define whether the Create action should be displayed or not.
 
     ```javascript
@@ -471,7 +471,7 @@ and checks create operation permission to define whether the Create action shoul
     }
     ```    
 
-- The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
+- The `onEditorPreparing` function handles the data grid's [editorPreparing](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Events/#editorPreparing) event and checks Read and Write operation permissions. 
 If the Read operation permission is denied, it displays the "*******" placeholder and disables the editor. If the Write operation permission is denied, the editor is disabled.
 
     ```javascript
@@ -498,7 +498,7 @@ If the Read operation permission is denied, it displays the "*******" placeholde
     }
     ```    
 
-- The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/Documentation/ApiReference/UI_Widgets/dxDataGrid/Events/#cellPrepared) event and checks Read, Write, and Delete operation permissions. 
+- The `onCellPrepared` function handles the data grid's [cellPrepared](https://js.devexpress.com/jQuery/Documentation/ApiReference/UI_Components/dxDataGrid/Events/#cellPrepared) event and checks Read, Write, and Delete operation permissions. 
 If the Read permission is denied, it displays the "*******" placeholder in data grid cells. Write and Delete operation permission checks define whether the Write and Delete actions should be displayed or not.
 
     ```javascript
