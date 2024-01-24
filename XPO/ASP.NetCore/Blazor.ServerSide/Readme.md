@@ -152,7 +152,7 @@ public IActionResult OnPost() {
 }
 ```
 
-[Logout.cshtml.cs](Pages/Logout.cshtml.cs) class implements the Logout logic
+[Logout.cshtml.cs](Pages/LogOut.cshtml.cs) class implements the Logout logic
 
 ```csharp
 public IActionResult OnGet() {
