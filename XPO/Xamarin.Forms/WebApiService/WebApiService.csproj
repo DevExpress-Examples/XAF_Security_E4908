@@ -3,7 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Xpo" Version="23.2.4-pre-24023" />
+    <PackageReference Include="DevExpress.Xpo" Version="24.1.1-alpha-24024" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.3" />
     <PackageReference Include="System.configuration.configurationmanager" Version="8.0.0" />
   </ItemGroup>
