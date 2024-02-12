@@ -41,6 +41,7 @@ public class Updater : ModuleUpdater {
             editorRole.Name = "EditorRole";
             editorRole.AddTypePermission<Post>(SecurityOperations.CRUDAccess, SecurityPermissionState.Allow);
             editorRole.AddTypePermission<ApplicationUser>(SecurityOperations.CRUDAccess, SecurityPermissionState.Allow);
+            editorRole.AddMemberPermission<Post>(SecurityOperations.Write, nameof(Post.Author), null, SecurityPermissionState.Deny);
             editorUser.Roles.Add(editorRole);
             editorUser.Roles.Add(defaultRole);
             editorUser.Photo = ObjectSpace.CreateObject<MediaDataObject>();

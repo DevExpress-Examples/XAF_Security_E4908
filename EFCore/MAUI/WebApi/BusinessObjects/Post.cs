@@ -12,7 +12,8 @@ public class Post : BaseObject {
     public virtual ApplicationUser Author { get; set; }
     public override void OnCreated() {
         base.OnCreated();
-        Author = ObjectSpace.GetObjectByKey<ApplicationUser>(
+        var user = ObjectSpace.GetObjectByKey<ApplicationUser>(
             ObjectSpace.ServiceProvider.GetRequiredService<ISecurityStrategyBase>().UserId);
+        SetPropertyValueWithSecurityBypass(nameof(Author), user);
     }
 }
