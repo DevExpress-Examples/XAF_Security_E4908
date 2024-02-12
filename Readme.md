@@ -13,7 +13,7 @@ Please research the information below, because additional prerequisites may appl
 
 #### Microsoft Entity Framework Core
 - [JavaScript with DevExtreme + ASP.NET Core Web API/OData App](/EFCore/ASP.NetCore/DevExtreme.OData)
-- [JavaScript with Svelte + ASP.NET Core Web API/OData App](https://github.com/oliversturm/demo-dx-webapi-js/tree/stage-4)
+- [JavaScript with Svelte + ASP.NET Core Web API/OData App](https://community.devexpress.com/blogs/news/archive/2023/04/06/consume-the-devexpress-backend-web-api-from-javascript-with-svelte-part-1.aspx)
 - [Blazor Server App](/EFCore/ASP.NetCore/Blazor.ServerSide)
 - [Blazor WebAssembly App](/EFCore/ASP.NetCore/Blazor.WebAssembly)
 - [.NET MAUI (iOS/Android) App](/EFCore/MAUI)
@@ -27,7 +27,6 @@ Please research the information below, because additional prerequisites may appl
  - [ASP.NET WebForms App](/XPO/ASP.NET/WebForms)
  - [ASP.NET Core MVC App](/XPO/ASP.NetCore/MVC)
  - [Blazor Server App](/XPO/ASP.NetCore/Blazor.ServerSide)
- - [Xamarin Forms App](/XPO/Xamarin.Forms)
  - [Console App](/XPO/Console)
 
 We detailed the universal integration steps for any .NET app in [this video](https://www.youtube.com/watch?v=o1q4GqFgSFE).
