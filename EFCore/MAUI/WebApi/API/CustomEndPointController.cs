@@ -30,7 +30,10 @@ namespace WebAPI.API {
         public FileStreamResult AuthorPhoto(Guid postId) {
             using var objectSpace = _securedObjectSpaceFactory.CreateObjectSpace(typeof(Post));
             var post = objectSpace.GetObjectByKey<Post>(postId);
-            var photoBytes = post.Author.Photo.MediaData;
+            var photoBytes = post.Author.Photo?.MediaData;
+            if (photoBytes == null) {
+                photoBytes = new byte[0];
+            }
             return File(new MemoryStream(photoBytes), "application/octet-stream");
         }
 

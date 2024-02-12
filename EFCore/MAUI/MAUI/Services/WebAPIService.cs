@@ -28,7 +28,7 @@ public class WebAPIService : IDataStore<Post> {
         => _postEndPointUrl = _apiUrl + "odata/" + nameof(Post);
 
     public async Task<bool> UserCanCreatePostAsync()
-        => (bool)JsonNode.Parse(await HttpClient.GetStringAsync($"{_apiUrl}CustomEnzdpoint/CanCreate?typename=Post"));
+        => (bool)JsonNode.Parse(await HttpClient.GetStringAsync($"{_apiUrl}CustomEndpoint/CanCreate?typename=Post"));
 
     public async Task<byte[]> GetAuthorPhotoAsync(Guid postId)
         => await HttpClient.GetByteArrayAsync($"{_apiUrl}CustomEndPoint/AuthorPhoto/{postId}");
