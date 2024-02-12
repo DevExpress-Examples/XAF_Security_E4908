@@ -1,4 +1,5 @@
 ﻿using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl.EF;
 
@@ -11,6 +12,7 @@ public class Post : BaseObject {
     public virtual ApplicationUser Author { get; set; }
     public override void OnCreated() {
         base.OnCreated();
-        Author = ObjectSpace.FindObject<ApplicationUser>(CriteriaOperator.Parse("ID=CurrentUserId()"));
+        Author = ObjectSpace.GetObjectByKey<ApplicationUser>(
+            ObjectSpace.ServiceProvider.GetRequiredService<ISecurityStrategyBase>().UserId);
     }
 }
