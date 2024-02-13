@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+		<TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
@@ -65,7 +65,7 @@
 
 
 	<ItemGroup>
-    <PackageReference Include="DevExpress.Maui.CollectionView" Version="23.1.2-pre-23080" />
-    <PackageReference Include="DevExpress.Maui.Editors" Version="23.1.2-pre-23080" />
+    <PackageReference Include="DevExpress.Maui.CollectionView" Version="23.2.3" />
+    <PackageReference Include="DevExpress.Maui.Editors" Version="23.2.3" />
   </ItemGroup>
 </Project>
