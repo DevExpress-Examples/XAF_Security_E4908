@@ -140,6 +140,7 @@
         return grid.StartRowEdit(item);
     }
     Task CancelRowEdit() {
+        objectSpace.ReloadObject(employee);
         employee = null;
         return grid.CancelRowEdit();
     }
