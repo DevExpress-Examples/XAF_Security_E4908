@@ -127,7 +127,40 @@ For detailed information about the ASP.NET Core application configuration, see [
     ```
     For more details about how to create demo data from code, see the [Updater.cs](/XPO/DatabaseUpdater/Updater.cs) class.
 
-## Step 3. Pages
+## Step 3. Create an edit model
+
+ [EditableEmployee](Models/EditableEmployee.cs) is an edit model class for the Employee business object.
+ ```csharp
+ public class EditableEmployee {
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
+    public Department Department { get; set; }
+}
+ ```
+
+Add additional extension methods to easily convert the Employee object to the EditableEmployee edit model and vice versa.
+
+  ```csharp
+public static class EmployeeExtensions {
+    public static EditableEmployee ToModel(this Employee employee) {
+        return new EditableEmployee {
+            FirstName = employee.FirstName,
+            LastName = employee.LastName,
+            Email = employee.Email,
+            Department = employee.Department
+        };
+    }
+    public static void FromModel(this EditableEmployee editableEmployee, Employee employee) {
+        employee.FirstName = editableEmployee.FirstName;
+        employee.LastName = editableEmployee.LastName;
+        employee.Email = editableEmployee.Email;
+        employee.Department = editableEmployee.Department;
+    }
+}
+ ```
+
+## Step 4. Pages
 
 [Login.cshtml](Pages/Login.cshtml) is a login page that allows you to log into the application.
 
@@ -152,7 +185,7 @@ public IActionResult OnPost() {
 }
 ```
 
-[Logout.cshtml.cs](Pages/LogOut.cshtml.cs) class implements the Logout logic
+[Logout.cshtml.cs](Pages/Logout.cshtml.cs) class implements the Logout logic.
 
 ```csharp
 public IActionResult OnGet() {
@@ -161,12 +194,13 @@ public IActionResult OnGet() {
 }
 ```
 
-[Index.razor](Pages/Index.razor) is the main page. It configures the [Blazor Data Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxDataGrid-1) and allows a user to log out.
+[Index.razor](Pages/Index.razor) is the main page. It configures the [Blazor Grid](https://docs.devexpress.com/Blazor/403143/components/grid) and allows a user to log out.
 
-The `OnInitialized` method creates an ObjectSpace instance and gets `Employee` and `Department` objects.
+The `OnInitialized` method creates `security` and `objectSpace` instances and gets `Employee` and `Department` objects.
 
 ```csharp
 protected override void OnInitialized() {
+    security = (SecurityStrategy)securityProvider.GetSecurity();
     objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
     employees = objectSpace.GetObjectsQuery<Employee>();
     departments = objectSpace.GetObjectsQuery<Department>();
@@ -174,45 +208,57 @@ protected override void OnInitialized() {
 }
 ```
 
-The `HandleValidSubmit` method saves changes if data is valid.
+The `Grid_CustomizeEditModel` method creates the EditableEmployee edit model.
 
 ```csharp
-async Task HandleValidSubmit() {
-    objectSpace.CommitChanges();
-    await grid.Refresh();
-    employee = null;
-    await grid.CancelRowEdit();
+void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e) {
+    e.EditModel = e.IsNew ? new EditableEmployee() : ((Employee)e.DataItem).ToModel();
+    editableEmployee = (Employee)e.DataItem;
 }
 ```
 
-The `OnRowRemoving` method removes an object.
+The `Grid_EditModelSaving` method transfers the edit model changes to the business object.
 
 ```csharp
-Task OnRowRemoving(object item) {
-    objectSpace.Delete(item);
-    objectSpace.CommitChanges();
-    return grid.Refresh();
+void Grid_EditModelSaving(GridEditModelSavingEventArgs e) {
+    Employee employee = e.IsNew ? objectSpace.CreateObject<Employee>() : (Employee)e.DataItem;
+    ((EditableEmployee)e.EditModel).FromModel(employee);
+    UpdateData();
 }
 ```
 
-To show/hide the `New`, `Edit`, `Delete` actions, use the appropriate `CanCreate`, `CanEdit` and `CanDelete` methods of the Security System.
+The `Grid_DataItemDeleting` method removes an object.
+
+```csharp
+void Grid_DataItemDeleting(GridDataItemDeletingEventArgs e) {
+    objectSpace.Delete(e.DataItem);
+    UpdateData();
+}
+```
+
+The `UpdateData` method commits changes and refreshes the grid data.
+
+```csharp
+void UpdateData() {
+    objectSpace.CommitChanges();
+    employees = objectSpace.GetObjectsQuery<Employee>();
+    editableEmployee = null;
+}
+```
+
+To show/hide the `New`, `Edit`, and `Delete` actions, use the appropriate `CanCreate`, `CanEdit`, and `CanDelete` methods of the Security System.
 
 ```razor
-<DxDataGridCommandColumn Width="100px">
-    <HeaderCellTemplate>
-        @if(Security.CanCreate<Employee>()) {
-            <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
+<DxGridCommandColumn Width="160px" NewButtonVisible=@(security.CanCreate<Employee>())>
+    <CellDisplayTemplate>
+        @if(security.CanWrite(context.DataItem)) {
+            <DxButton Text="Edit" Click="@(() => context.Grid.StartEditRowAsync(context.VisibleIndex))" RenderStyle="ButtonRenderStyle.Link" />
         }
-    </HeaderCellTemplate>
-    <CellTemplate>
-        @if(Security.CanWrite(context)) {
-            <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
+        @if(security.CanDelete(context.DataItem)) {
+            <DxButton Text="Delete" Click="@(() => context.Grid.ShowRowDeleteConfirmation(context.VisibleIndex))" RenderStyle="ButtonRenderStyle.Link" />
         }
-        @if(Security.CanDelete(context)) {
-            <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
-        }
-    </CellTemplate>
-</DxDataGridCommandColumn>
+    </CellDisplayTemplate>
+</DxGridCommandColumn>
 ```
 
 The page is decorated with the Authorize attribute to prohibit unauthorized access.
@@ -221,33 +267,30 @@ The page is decorated with the Authorize attribute to prohibit unauthorized acce
 @attribute [Authorize]
 ```
 
-To show the `*******` text instead of a default value in data grid cells and editors, use [SecuredContainer](Components/SecuredContainer.razor)
+To show the `*******` text instead of a default value in grid cells and editors, use [SecuredDisplayCellTemplate](Components/SecuredDisplayCellTemplate.razor) and [SecuredEditCellTemplate](Components/SecuredEditCellTemplate.razor).
 
 ```razor
-<DxDataGridColumn Field="@nameof(Employee.FirstName)">
-    <DisplayTemplate>
-        <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.FirstName)">
-            @(((Employee)context).FirstName)
-        </SecuredContainer>
-    </DisplayTemplate>
-</DxDataGridColumn>
-//...
-<DxFormLayoutItem Caption="First Name">
-    <Template>
-        <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.FirstName) IsEditor=true>
-            <DxTextBox @bind-Text=employee.FirstName ReadOnly=@readOnly />
-        </SecuredContainer>
-    </Template>
-</DxFormLayoutItem>
+<DxGridDataColumn FieldName="@nameof(Employee.FirstName)">
+    <CellDisplayTemplate>
+        <SecuredDisplayCellTemplate CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.FirstName)">
+            @(((Employee)context.DataItem).FirstName)
+        </SecuredDisplayCellTemplate>
+    </CellDisplayTemplate>
+    <CellEditTemplate>
+        <SecuredEditCellTemplate Context=readOnly CurrentObject=editableEmployee PropertyName=@nameof(Employee.FirstName)>
+            <DxTextBox @bind-Text=((EditableEmployee)context.EditModel).FirstName ReadOnly=@readOnly />
+        </SecuredEditCellTemplate>
+    </CellEditTemplate>
+</DxGridDataColumn>
 ```
 
 To show the `*******` text instead of the default text, check the Read permission by using the `CanRead` method of the Security System.
 Use the `CanWrite` method of the Security System to check if a user is allowed to edit a property and an editor should be created for this property.
 
-```razor
-private bool HasAccess => objectSpace.IsNewObject(CurrentObject) ?
-    SecurityProvider.Security.CanWrite(CurrentObject.GetType(), PropertyName) :
-    SecurityProvider.Security.CanRead(CurrentObject, PropertyName);
+[CellEditTemplateBase](Components/CellEditTemplateBase.cs):
+```csharp
+protected bool CanWrite => CurrentObject is null ? Security.CanWrite(typeof(T), PropertyName) : Security.CanWrite(CurrentObject, PropertyName);
+protected bool CanRead => CurrentObject is null ? Security.CanRead(typeof(T), PropertyName) : Security.CanRead(CurrentObject, PropertyName);
 ```
 
 ## Step 4: Run and Test the App
