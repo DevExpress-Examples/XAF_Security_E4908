@@ -23,17 +23,17 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 ## Step 1. Configure the Blazor Application
 
-1. Add EFCore DevExpress NuGet packages to your project:
+- Add EFCore DevExpress NuGet packages to your project:
 
     ```xml
     <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.3" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
     ```
-2. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
+- Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
 
-3. For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
+- For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
 
-4. [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the Blazor Application in the [Program.cs](Program.cs):
+- [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the Blazor Application in the [Program.cs](Program.cs):
 
     ```csharp
     var builder = WebApplication.CreateBuilder(args);
@@ -62,7 +62,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
     ```
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
 
-1. Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
+- Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
     ```csharp
     builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
         TypesInfo typesInfo = new TypesInfo();
@@ -74,7 +74,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
     })
     ```
 
-2. Register ObjectSpaceProviders that will be used in your application. To do this, [implement](./Helpers/ObjectSpaceProviderFactory.cs) the `IObjectSpaceProviderFactory` interface.
+- Register ObjectSpaceProviders that will be used in your application. To do this, [implement](./Helpers/ObjectSpaceProviderFactory.cs) the `IObjectSpaceProviderFactory` interface.
     ```csharp
     builder.Services.AddScoped<IObjectSpaceProviderFactory, ObjectSpaceProviderFactory>()
     
@@ -98,7 +98,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
     ```
 
 
-3. Set up database connection settings in your Data Store Provider object. In EFCore, it is `DbContextFactory`. Add a security extension to it to allow your application to filter data based on user permissions.
+- Set up database connection settings in your Data Store Provider object. In EFCore, it is `DbContextFactory`. Add a security extension to it to allow your application to filter data based on user permissions.
     ```csharp
     builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
         string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
@@ -118,7 +118,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
     > **NOTE** The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MS SQL database. We do not recommend that you remove “MultipleActiveResultSets=True;“ from the connection string or set the MultipleActiveResultSets parameter to false.
 
-4. Register security system and authentication in the [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
+- Register security system and authentication in the [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
 
     ```csharp
     builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
@@ -127,7 +127,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
     }).AddAuthenticationStandard();
     ```
 
-5. Call the `UseDemoData` method at the end of the [Program.cs](Program.cs) to update the database:
+- Call the `UseDemoData` method at the end of the [Program.cs](Program.cs) to update the database:
     
     ```csharp
     public static WebApplication UseDemoData(this WebApplication app) {
