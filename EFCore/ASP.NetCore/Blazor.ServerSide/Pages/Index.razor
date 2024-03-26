@@ -112,6 +112,7 @@
     }
     void UpdateData() {
         objectSpace.CommitChanges();
+        objectSpace.Refresh();
         employees = objectSpace.GetObjectsQuery<Employee>();
         editableEmployee = null;
     }
