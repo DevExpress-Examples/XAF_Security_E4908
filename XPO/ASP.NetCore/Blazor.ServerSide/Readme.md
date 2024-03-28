@@ -129,7 +129,7 @@ For detailed information about the ASP.NET Core application configuration, see [
 
 ## Step 3. Create an edit model
 
- [EditableEmployee](Models/EditableEmployee.cs) is an edit model class for the Employee business object.
+ [EditableEmployee](Models/EditableEmployee.cs) is an edit model class for the `Employee` business object.
  ```csharp
  public class EditableEmployee {
     public string FirstName { get; set; }
@@ -139,7 +139,7 @@ For detailed information about the ASP.NET Core application configuration, see [
 }
  ```
 
-Add additional extension methods to easily convert the Employee object to the EditableEmployee edit model and vice versa.
+You can use extension methods to easily convert the `Employee` object to the `EditableEmployee` edit model and vice versa.
 
   ```csharp
 public static class EmployeeExtensions {
@@ -208,7 +208,7 @@ protected override void OnInitialized() {
 }
 ```
 
-The `Grid_CustomizeEditModel` method creates the EditableEmployee edit model.
+The `Grid_CustomizeEditModel` method creates the `EditableEmployee` edit model.
 
 ```csharp
 void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e) {
