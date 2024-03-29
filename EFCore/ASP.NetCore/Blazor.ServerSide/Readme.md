@@ -29,9 +29,9 @@ You will also see how to execute Create, Write, and Delete data operations and t
     <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.3" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
     ```
-- Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
+- Install Entity Framework Core, as described in the following article: [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install).
 
-- For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
+- For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
 
 - [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the Blazor Application in the [Program.cs](Program.cs):
 
