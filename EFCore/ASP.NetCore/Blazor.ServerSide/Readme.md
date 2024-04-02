@@ -23,15 +23,15 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 ## Step 1. Configure the Blazor Application
 
-1. Add EFCore DevExpress NuGet packages to your project:
+- Add EFCore DevExpress NuGet packages to your project:
 
     ```xml
     <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.3" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
     ```
-2. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
+- Install Entity Framework Core, as described in the following article: [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install).
 
-3. For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
+- For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
 
 - [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the Blazor Application in the [Program.cs](Program.cs):
 
@@ -143,19 +143,19 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 ## Step 3. Create an edit model
 
- [EditableEmployee](Models/EditableEmployee.cs) is an edit model class for the Employee business object.
- ```csharp
- public class EditableEmployee {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public Department Department { get; set; }
+[EditableEmployee](Models/EditableEmployee.cs) is an edit model class for the `Employee` business object.
+```csharp
+public class EditableEmployee {
+   public string FirstName { get; set; }
+   public string LastName { get; set; }
+   public string Email { get; set; }
+   public Department Department { get; set; }
 }
- ```
+```
 
-Add additional extension methods to easily convert the Employee object to the EditableEmployee edit model and vice versa.
+You can use extension methods to easily convert the `Employee` object to the `EditableEmployee` edit model and vice versa.
 
-  ```csharp
+```csharp
 public static class EmployeeExtensions {
     public static EditableEmployee ToModel(this Employee employee) {
         return new EditableEmployee {
@@ -172,7 +172,7 @@ public static class EmployeeExtensions {
         employee.Department = editableEmployee.Department;
     }
 }
- ```
+```
 
 ## Step 4. Pages
 
@@ -208,7 +208,7 @@ public IActionResult OnGet() {
 }
 ```
 
-[Index.razor](Pages/Index.razor) is the main page. It configures the [Blazor Grid](https://docs.devexpress.com/Blazor/403143/components/grid) and allows a user to log out.
+[Index.razor](Pages/Index.razor) is the main page. It configures [Blazor Grid](https://docs.devexpress.com/Blazor/403143/components/grid) and allows a user to log out.
 
 The `OnInitialized` method creates `security` and `objectSpace` instances and gets `Employee` and `Department` objects.
 
@@ -222,7 +222,7 @@ protected override void OnInitialized() {
 }
 ```
 
-The `Grid_CustomizeEditModel` method creates the EditableEmployee edit model.
+The `Grid_CustomizeEditModel` method creates the `EditableEmployee` edit model.
 
 ```csharp
 void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e) {
