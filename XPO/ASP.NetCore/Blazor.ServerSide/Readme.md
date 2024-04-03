@@ -14,9 +14,9 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 > **NOTE** 
 >
-> If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
+> You may have a pre-release version of our components installed. For example, you may have downloaded a hotfix from our website. In such cases, you also have a pre-release version of NuGet packages. These packages will not be restored automatically. Update them manually as described in the following article: [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages). Use the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
-> If you wish to create a Blazor project with our Blazor Components from scratch, follow the [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application) article.
+> If you wish to create a new project with DevExpress Blazor Components, follow instructions in [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application).
 
 ---
 
