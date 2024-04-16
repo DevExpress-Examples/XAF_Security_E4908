@@ -25,13 +25,19 @@ public class SimpleODataClientDataSource : GridCustomDataSource {
         => !criteria.ReferenceEqualsNull() ? boundClient.Filter(ToSimpleClientCriteria(criteria)) : boundClient;
 
     private static string ToSimpleClientCriteria(CriteriaOperator criteria)
-        => $"{criteria}".Replace("[", "").Replace("]", "");
+        => $"{criteria}".Replace("[", "").Replace("]", "").Replace("=", "eq");
 
-    private static IBoundClient<Post> ApplySorting(GridCustomDataSourceItemsOptions options, IBoundClient<Post> boundClient)
-        => options.SortInfo.Any() ? boundClient.OrderBy(options.SortInfo
-                .Where(info => !info.DescendingSortOrder).Select(info => info.FieldName).ToArray())
-            .OrderByDescending(options.SortInfo
-                .Where(info => info.DescendingSortOrder).Select(info => info.FieldName).ToArray()) : boundClient;
+    private static IBoundClient<Post> ApplySorting(GridCustomDataSourceItemsOptions options, IBoundClient<Post> boundClient) {
+        if(options.SortInfo == null) {
+            return boundClient;
+        }
+
+        return options.SortInfo.Any() ? boundClient.OrderBy(options.SortInfo
+                 .Where(info => !info.DescendingSortOrder).Select(info => info.FieldName).ToArray())
+             .OrderByDescending(options.SortInfo
+                 .Where(info => info.DescendingSortOrder).Select(info => info.FieldName).ToArray()) : boundClient;
+
+    }
 
     public async Task DeleteAsync(Post instance)
         => await _client.For<Post>().Key(instance.ID).DeleteEntryAsync();
