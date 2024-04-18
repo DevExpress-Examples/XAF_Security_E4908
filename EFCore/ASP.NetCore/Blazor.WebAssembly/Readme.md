@@ -745,11 +745,17 @@ At this point, you can run your Web API service and use Swagger interface to aut
       private static string ToSimpleClientCriteria(CriteriaOperator criteria)
          => $"{criteria}".Replace("[", "").Replace("]", "");
 
-      private static IBoundClient<Post> ApplySorting(GridCustomDataSourceItemsOptions options, IBoundClient<Post> boundClient)
-         => options.SortInfo.Any() ? boundClient.OrderBy(options.SortInfo
+      private static IBoundClient<Post> ApplySorting(GridCustomDataSourceItemsOptions options, IBoundClient<Post> boundClient) {
+         if(options.SortInfo == null) {
+               return boundClient;
+         }
+
+         return options.SortInfo.Any() ? boundClient.OrderBy(options.SortInfo
                   .Where(info => !info.DescendingSortOrder).Select(info => info.FieldName).ToArray())
-            .OrderByDescending(options.SortInfo
+               .OrderByDescending(options.SortInfo
                   .Where(info => info.DescendingSortOrder).Select(info => info.FieldName).ToArray()) : boundClient;
+
+      }
    }
    ```
 
