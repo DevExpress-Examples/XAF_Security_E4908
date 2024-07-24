@@ -14,17 +14,17 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 > **NOTE** 
 >
-> If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
+> You may have a pre-release version of our components installed. For example, you may have downloaded a hotfix from our website. In such cases, you also have a pre-release version of NuGet packages. These packages will not be restored automatically. Update them manually as described in the following article: [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages). Use the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
-> If you wish to create a Blazor project with our Blazor Components from scratch, follow the [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application) article.
+> If you wish to create a new project with DevExpress Blazor Components, follow instructions in [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application).
 
 ---
 
 ## Step 1. Configure the Blazor Application
 
-For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
+For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
 
-- Configure the Blazor application in the [Program.cs](Program.cs):
+- Configure your Blazor application in [Program.cs](Program.cs):
 
     ```csharp
     var builder = WebApplication.CreateBuilder(args);
@@ -52,7 +52,7 @@ For detailed information about the ASP.NET Core application configuration, see [
     ```
 ## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
 
-- Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
+- Use the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system to register the business objects that you will access from code.
     ```csharp
     builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
         TypesInfo typesInfo = new TypesInfo();
@@ -88,7 +88,7 @@ For detailed information about the ASP.NET Core application configuration, see [
     }
     ```
 
-- Set up database connection settings in your Data Store Provider object. In XPO, it is `IXpoDataStoreProvider`.
+- Set up database connection settings in your Data Store Provider object (`IXpoDataStoreProvider`in XPO).
     ```csharp
     builder.Services.AddSingleton<IXpoDataStoreProvider>((serviceProvider) => {
         var connectionString = serviceProvider.GetRequiredService<IConfiguration>().GetConnectionString("ConnectionString");
@@ -96,14 +96,14 @@ For detailed information about the ASP.NET Core application configuration, see [
     });
     ```
         
-    The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the connection string.
+    The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the following connection string.
     ```json
     "ConnectionStrings": {
         "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
     }
     ```
 
-- Register security system and authentication in the [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
+- Register security system and authentication in [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
 
     ```csharp
     builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
@@ -113,7 +113,7 @@ For detailed information about the ASP.NET Core application configuration, see [
     }).AddAuthenticationStandard();
     ```
 
-- Call the `UseDemoData` method at the end of the [Program.cs](Program.cs) to update the database:
+- Call the `UseDemoData` method at the end of [Program.cs](Program.cs) to update the database:
     
     ```csharp
     public static WebApplication UseDemoData(this WebApplication app) {
@@ -139,7 +139,7 @@ For detailed information about the ASP.NET Core application configuration, see [
 }
  ```
 
-You can use extension methods to easily convert the `Employee` object to the `EditableEmployee` edit model and vice versa.
+You can use extension methods to easily convert an `Employee` object to an `EditableEmployee` edit model and vice versa.
 
   ```csharp
 public static class EmployeeExtensions {
@@ -162,9 +162,9 @@ public static class EmployeeExtensions {
 
 ## Step 4. Pages
 
-[Login.cshtml](Pages/Login.cshtml) is a login page that allows you to log into the application.
+[Login.cshtml](Pages/Login.cshtml) is a page that allows you to log into the application.
 
-[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic. It authenticates user with the AuthenticationStandard authentication and return a ClaimsPrincipal object with all the necessary XAF Security data. That principal is then authenticated to the ASP.NET Core Identity authentication.
+[Login.cshtml.cs](Pages/Login.cshtml.cs) uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic. It authenticates a user with the AuthenticationStandard authentication and returns a ClaimsPrincipal object with necessary XAF Security data. That principal is then authenticated to ASP.NET Core Identity authentication.
 
 ```csharp
 readonly IStandardAuthenticationService authenticationStandard;
@@ -208,7 +208,7 @@ protected override void OnInitialized() {
 }
 ```
 
-The `Grid_CustomizeEditModel` method creates the `EditableEmployee` edit model.
+The `Grid_CustomizeEditModel` method creates an `EditableEmployee` edit model.
 
 ```csharp
 void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e) {
@@ -217,7 +217,7 @@ void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e) {
 }
 ```
 
-The `Grid_EditModelSaving` method transfers the edit model changes to the business object.
+The `Grid_EditModelSaving` method transfers edit model changes to the business object.
 
 ```csharp
 void Grid_EditModelSaving(GridEditModelSavingEventArgs e) {
@@ -236,7 +236,7 @@ void Grid_DataItemDeleting(GridDataItemDeletingEventArgs e) {
 }
 ```
 
-The `UpdateData` method commits changes and refreshes the grid data.
+The `UpdateData` method commits changes and refreshes grid data.
 
 ```csharp
 void UpdateData() {
@@ -246,7 +246,7 @@ void UpdateData() {
 }
 ```
 
-To show/hide the `New`, `Edit`, and `Delete` actions, use the appropriate `CanCreate`, `CanEdit`, and `CanDelete` methods of the Security System.
+To show/hide `New`, `Edit`, and `Delete` actions, use corresponding `CanCreate`, `CanEdit`, and `CanDelete` methods of the Security System.
 
 ```razor
 <DxGridCommandColumn Width="160px" NewButtonVisible=@(security.CanCreate<Employee>())>
@@ -261,13 +261,13 @@ To show/hide the `New`, `Edit`, and `Delete` actions, use the appropriate `CanCr
 </DxGridCommandColumn>
 ```
 
-The page is decorated with the Authorize attribute to prohibit unauthorized access.
+The page is decorated with the `Authorize` attribute to prohibit unauthorized access.
 
 ```razor
 @attribute [Authorize]
 ```
 
-To show the `*******` text instead of a default value in grid cells and editors, use [SecuredDisplayCellTemplate](Components/SecuredDisplayCellTemplate.razor) and [SecuredEditCellTemplate](Components/SecuredEditCellTemplate.razor).
+To display asterisks instead of actual values in grid cells and editors, use [SecuredDisplayCellTemplate](Components/SecuredDisplayCellTemplate.razor) and [SecuredEditCellTemplate](Components/SecuredEditCellTemplate.razor).
 
 ```razor
 <DxGridDataColumn FieldName="@nameof(Employee.FirstName)">
@@ -284,7 +284,7 @@ To show the `*******` text instead of a default value in grid cells and editors,
 </DxGridDataColumn>
 ```
 
-To show the `*******` text instead of the default text, check the Read permission by using the `CanRead` method of the Security System.
+To determine whether asterisks need to replace actual text, check the Read permission by using the `CanRead` method of the Security System.
 Use the `CanWrite` method of the Security System to check if a user is allowed to edit a property and an editor should be created for this property.
 
 [CellEditTemplateBase](Components/CellEditTemplateBase.cs):
@@ -298,7 +298,7 @@ protected bool CanRead => CurrentObject is null ? Security.CanRead(typeof(T), Pr
 - Log in a 'User' with an empty password.
   ![](/images/Blazor_LoginPage.png)
 
-- Note that secured data is displayed as '*******'.
+- Note that secured data is displayed as asterisks.
   ![](/images/Blazor_ListView.png)
 
-- Press the **Logout** button and log in as 'Admin' to see all the records.
+- Press the **Logout** button and log in as 'Admin' to see all records and their actual values.
