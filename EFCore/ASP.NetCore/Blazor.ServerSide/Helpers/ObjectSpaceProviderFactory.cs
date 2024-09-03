@@ -1,4 +1,5 @@
-﻿using BusinessObjectsLibrary.BusinessObjects;
+﻿using System;
+using BusinessObjectsLibrary.BusinessObjects;
 using DevExpress.EntityFrameworkCore.Security;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Core;
@@ -12,8 +13,10 @@ namespace Blazor.ServerSide.Services {
         readonly ITypesInfo typesInfo;
         readonly IDbContextFactory<ApplicationDbContext> dbFactory;
 
-        public ObjectSpaceProviderFactory(ISecurityStrategyBase security, ITypesInfo typesInfo, IDbContextFactory<ApplicationDbContext> dbFactory) {
+        readonly IServiceProvider serviceProvider;
+        public ObjectSpaceProviderFactory(IServiceProvider serviceProvider, ISecurityStrategyBase security, ITypesInfo typesInfo, IDbContextFactory<ApplicationDbContext> dbFactory) {
             this.security = security;
+            this.serviceProvider = serviceProvider;
             this.typesInfo = typesInfo;
             this.dbFactory = dbFactory;
         }

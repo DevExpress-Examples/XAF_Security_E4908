@@ -4,15 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
-    <SchemaVersion>
-    </SchemaVersion>
+    <ProductVersion></ProductVersion>
+    <SchemaVersion></SchemaVersion>
     <ProjectGuid>{B60E0B3C-F963-47AC-90CD-1681F432B617}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>WebFormsApplication</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
@@ -22,8 +19,7 @@
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>Off</OptionStrict>
@@ -50,10 +46,10 @@
     <PackageReference Include="AspNet.ScriptManager.bootstrap" Version="3.4.1" />
     <PackageReference Include="AspNet.ScriptManager.jQuery" Version="3.3.1" />
     <PackageReference Include="bootstrap" Version="3.4.1" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.1.1-alpha-24024" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.1.1-alpha-24024" />
-    <PackageReference Include="DevExpress.Web" Version="24.1.1-alpha-24024" />
-    <PackageReference Include="DevExpress.Web.Themes" Version="24.1.1-alpha-24024" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.Web" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.Web.Themes" Version="24.2.1-alpha-24207" />
     <PackageReference Include="jQuery" Version="3.5.0.1" />
     <PackageReference Include="Microsoft.AspNet.FriendlyUrls" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNet.FriendlyUrls.Core" Version="1.0.2" />
@@ -232,8 +228,7 @@
           <IISUrl>https://localhost:44372/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <CustomServerUrl></CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

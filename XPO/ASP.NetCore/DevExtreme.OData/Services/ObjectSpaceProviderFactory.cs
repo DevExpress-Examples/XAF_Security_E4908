@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp;
+﻿using System;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Core;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
@@ -11,8 +12,10 @@ namespace DevExtreme.OData.Services {
         readonly IXpoDataStoreProvider xpoDataStoreProvider;
         readonly ITypesInfo typesInfo;
 
-        public ObjectSpaceProviderFactory(ISecurityStrategyBase security, IXpoDataStoreProvider xpoDataStoreProvider, ITypesInfo typesInfo) {
+        readonly IServiceProvider serviceProvider;
+        public ObjectSpaceProviderFactory(IServiceProvider serviceProvider, ISecurityStrategyBase security, IXpoDataStoreProvider xpoDataStoreProvider, ITypesInfo typesInfo) {
             this.security = security;
+            this.serviceProvider = serviceProvider;
             this.typesInfo = typesInfo;
             this.xpoDataStoreProvider = xpoDataStoreProvider;
 

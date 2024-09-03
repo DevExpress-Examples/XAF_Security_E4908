@@ -4,8 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
+    <ProductVersion></ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E51366AC-F9F5-45BF-BA70-DB6B825DB38E}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -21,8 +20,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -48,10 +46,10 @@
     <PackageReference Include="AspNet.ScriptManager.bootstrap" Version="3.4.1" />
     <PackageReference Include="AspNet.ScriptManager.jQuery" Version="3.3.1" />
     <PackageReference Include="bootstrap" Version="3.4.1" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.1.1-alpha-24024" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.1.1-alpha-24024" />
-    <PackageReference Include="DevExpress.Web" Version="24.1.1-alpha-24024" />
-    <PackageReference Include="DevExpress.Web.Themes" Version="24.1.1-alpha-24024" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.Web" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.Web.Themes" Version="24.2.1-alpha-24207" />
     <PackageReference Include="jQuery" Version="3.5.0.1" />
     <PackageReference Include="Microsoft.AspNet.FriendlyUrls" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNet.FriendlyUrls.Core" Version="1.0.2" />
@@ -219,8 +217,7 @@
           <IISUrl>https://localhost:44301/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <CustomServerUrl></CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

@@ -95,6 +95,7 @@ public class Startup {
             options.UseChangeTrackingProxies();
             options.UseObjectSpaceLinkProxies();
             options.UseXafServiceProviderContainer(serviceProvider);
+            options.UseXafServiceProviderContainer(serviceProvider);
             options.UseLazyLoadingProxies();
             options.UseSecurity(serviceProvider);
         }, ServiceLifetime.Scoped);
@@ -106,6 +107,7 @@ public class Startup {
             options.UseSqlServer(connectionString);
             options.UseChangeTrackingProxies();
             options.UseObjectSpaceLinkProxies();
+            options.UseXafServiceProviderContainer(serviceProvider);
             options.UseXafServiceProviderContainer(serviceProvider);
             options.UseLazyLoadingProxies();
         }, ServiceLifetime.Scoped);

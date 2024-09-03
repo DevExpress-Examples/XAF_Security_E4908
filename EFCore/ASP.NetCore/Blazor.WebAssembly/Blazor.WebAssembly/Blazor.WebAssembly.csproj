@@ -1,11 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
-
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.4" />
@@ -13,7 +12,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.4" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Simple.OData.Client" Version="6.0.1" />
-    <PackageReference Include="DevExpress.Blazor" Version="23.1.1-beta-23135" />
+    <PackageReference Include="DevExpress.Blazor" Version="24.2.1-alpha-24207" />
   </ItemGroup>
-
 </Project>

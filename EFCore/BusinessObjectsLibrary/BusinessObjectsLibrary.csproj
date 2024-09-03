@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.1.1-alpha-24024" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.2.1-alpha-24207" />
   </ItemGroup>
 </Project>

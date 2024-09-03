@@ -119,24 +119,24 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Action_Logoff" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Action_Logoff.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v23.1, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>..\Resources\Action_Logoff.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="ExpressApp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExpressApp.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Action_New" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Action_New.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v23.1, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>..\Resources\Action_New.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="Action_Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Action_Delete.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v23.1, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>..\Resources\Action_Delete.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="Action_Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Action_Save.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v23.1, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>..\Resources\Action_Save.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="Action_Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Action_Close.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v23.1, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>..\Resources\Action_Close.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
   <data name="Action_Edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Action_Edit.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v23.1, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
+    <value>..\Resources\Action_Edit.svg;DevExpress.Utils.Svg.SvgImage, DevExpress.Data.v24.2, Culture=neutral, PublicKeyToken=b88d1754d700e49a</value>
   </data>
 </root>

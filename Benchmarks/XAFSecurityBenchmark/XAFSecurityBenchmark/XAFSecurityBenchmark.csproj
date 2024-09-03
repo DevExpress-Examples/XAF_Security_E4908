@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
@@ -36,9 +37,9 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.1.1-alpha-24024" />
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="24.1.1-alpha-24024" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.1.1-alpha-24024" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.1.1-alpha-24024" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.2.1-alpha-24207" />
   </ItemGroup>
 </Project>
