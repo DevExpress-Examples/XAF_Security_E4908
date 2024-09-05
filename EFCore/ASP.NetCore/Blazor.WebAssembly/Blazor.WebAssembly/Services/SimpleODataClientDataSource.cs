@@ -27,8 +27,8 @@ public class SimpleODataClientDataSource : GridCustomDataSource {
     private static string ToSimpleClientCriteria(CriteriaOperator criteria)
         => $"{criteria}".Replace("[", "").Replace("]", "");
 
-    private static IBoundClient<Post> ApplySorting(GridCustomDataSourceItemsOptions options, IBoundClient<Post> boundClient)
-        => options.SortInfo.Any() ? boundClient.OrderBy(options.SortInfo
+    private static IBoundClient<Post> ApplySorting(GridCustomDataSourceItemsOptions options, IBoundClient<Post> boundClient) {
+        return options.SortInfo != null && options.SortInfo.Any() ? boundClient.OrderBy(options.SortInfo
                 .Where(info => !info.DescendingSortOrder).Select(info => info.FieldName).ToArray())
             .OrderByDescending(options.SortInfo
                 .Where(info => info.DescendingSortOrder).Select(info => info.FieldName).ToArray()) : boundClient;
