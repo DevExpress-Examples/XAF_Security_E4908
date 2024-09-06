@@ -136,7 +136,7 @@ This example demonstrates how to protect your data with the [XAF Security System
 	builder.Services.AddHttpContextAccessor();
 	```
 
-8. Set the [StaticFileOptions.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
+8. Set the [StaticFileOptions.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0) property
 with the logic which сhecks if the ASP.NET Core Identity is authenticated. And, if not, it redirects a user to the authentication page.
 
 9. In the [Program.cs](Program.cs) file, register the `TypesInfo` service required for the correct operation of the Security System.
