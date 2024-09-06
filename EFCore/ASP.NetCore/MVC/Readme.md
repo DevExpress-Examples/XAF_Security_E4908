@@ -108,7 +108,7 @@ app.Run();
 	builder.Services.AddHttpContextAccessor();
 	```
 
-6. Set the [StaticFileOptions.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0#Microsoft_AspNetCore_Builder_StaticFileOptions_OnPrepareResponse) property
+6. Set the [StaticFileOptions.OnPrepareResponse](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.staticfileoptions.onprepareresponse?view=aspnetcore-3.0) property
 with the logic which сhecks if the ASP.NET Core Identity is authenticated. And, if not, it redirects a user to the authentication page.
 
 7. Register [DbContextFactory](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.extensions.dependencyinjection.entityframeworkservicecollectionextensions.adddbcontextfactory?view=efcore-6.0) in the [Program.cs](Program.cs)  to access [DbContext](https://docs.microsoft.com/ru-ru/dotnet/api/microsoft.entityframeworkcore.dbcontext?view=efcore-5.0) from code.
