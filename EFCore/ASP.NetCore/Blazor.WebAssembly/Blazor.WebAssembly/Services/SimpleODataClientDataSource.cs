@@ -32,7 +32,7 @@ public class SimpleODataClientDataSource : GridCustomDataSource {
                 .Where(info => !info.DescendingSortOrder).Select(info => info.FieldName).ToArray())
             .OrderByDescending(options.SortInfo
                 .Where(info => info.DescendingSortOrder).Select(info => info.FieldName).ToArray()) : boundClient;
-
+    }
     public async Task DeleteAsync(Post instance)
         => await _client.For<Post>().Key(instance.ID).DeleteEntryAsync();
 
