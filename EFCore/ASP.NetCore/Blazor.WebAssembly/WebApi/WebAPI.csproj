@@ -35,6 +35,7 @@
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.*" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.*" />
+ </ItemGroup>
   <ItemGroup>
     <Compile Update="XtraReport1.cs">
       <SubType>XtraReport</SubType>
