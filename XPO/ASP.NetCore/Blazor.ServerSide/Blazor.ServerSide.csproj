@@ -8,7 +8,7 @@
     <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.1.1-alpha-24024" />
     <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.1.1-alpha-24024" />
     <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="24.1.1-alpha-24024" />
-    <PackageReference Include="DevExtreme.AspNet.Data" Version="3.0.0" />
+    <PackageReference Include="DevExtreme.AspNet.Data" Version="4.*" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
