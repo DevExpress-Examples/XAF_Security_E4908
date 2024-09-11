@@ -28,9 +28,9 @@
     <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="23.1.1-beta-23135" />
     <PackageReference Include="DevExpress.ExpressApp.ReportsV2" Version="23.1.1-beta-23135" />
     <PackageReference Include="DevExpress.ExpressApp.Validation" Version="23.1.1-beta-23135" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.*" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.*" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.*" />
+   <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.*" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.*" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.*" />
