@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using DevExpress.ExpressApp.EFCore;
-using DatabaseUpdater;
-using DevExpress.ExpressApp.DC;
-using DevExpress.ExpressApp.Core;
+﻿using DatabaseUpdater;
+using DevExpress.ExpressApp;
 
 namespace Microsoft.Extensions.DependencyInjection {
     public static class ApplicationBuilderExtensions {

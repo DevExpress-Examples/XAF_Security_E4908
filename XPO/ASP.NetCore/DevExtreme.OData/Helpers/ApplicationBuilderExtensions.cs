@@ -1,5 +1,5 @@
 ﻿using DatabaseUpdater;
-using DevExpress.ExpressApp.Core;
+using DevExpress.ExpressApp;
 
 namespace Microsoft.Extensions.DependencyInjection {
     public static class ApplicationBuilderExtensions {

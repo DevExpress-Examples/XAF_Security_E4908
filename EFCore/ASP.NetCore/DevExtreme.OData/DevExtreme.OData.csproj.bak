@@ -7,9 +7,9 @@
     <PackageReference Include="microsoft.aspnetcore.odata" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver" Version="8.0.1" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.1.6" />
-    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="24.1.6" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="24.1.6" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.1.1-alpha-24024" />
+    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="24.1.1-alpha-24024" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="24.1.1-alpha-24024" />
 	  <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>

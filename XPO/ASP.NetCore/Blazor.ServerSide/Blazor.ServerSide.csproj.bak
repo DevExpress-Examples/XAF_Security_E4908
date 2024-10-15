@@ -4,10 +4,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Blazor" Version="24.1.6" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.1.6" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.1.6" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="24.1.6" />
+    <PackageReference Include="DevExpress.Blazor" Version="24.1.1-alpha-24024" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.1.1-alpha-24024" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.1.1-alpha-24024" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="24.1.1-alpha-24024" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="4.*" />
   </ItemGroup>
   <ItemGroup>

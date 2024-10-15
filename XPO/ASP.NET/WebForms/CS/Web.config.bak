@@ -33,7 +33,7 @@
     </authorization>
     <compilation debug="true" targetFramework="4.8">
       <assemblies>
-        <add assembly="DevExpress.Web.ASPxThemes.v24.1" />
+        <add assembly="DevExpress.Web.ASPxThemes.v23.1" />
       </assemblies>
     </compilation>
     <httpRuntime targetFramework="4.7.2" />
@@ -51,11 +51,11 @@
       </controls>
     </pages>
     <httpModules>
-      <add type="DevExpress.Web.ASPxHttpHandlerModule, DevExpress.Web.v24.1" name="ASPxHttpHandlerModule" />
+      <add type="DevExpress.Web.ASPxHttpHandlerModule, DevExpress.Web.v23.1" name="ASPxHttpHandlerModule" />
     </httpModules>
     <httpHandlers>
-      <add type="DevExpress.Web.ASPxHttpHandlerModule, DevExpress.Web.v24.1" verb="GET,POST" path="DX.ashx" validate="false" />
-      <add type="DevExpress.Web.ASPxUploadProgressHttpHandler, DevExpress.Web.v24.1" verb="GET,POST" path="ASPxUploadProgressHandlerPage.ashx" validate="false" />
+      <add type="DevExpress.Web.ASPxHttpHandlerModule, DevExpress.Web.v23.1" verb="GET,POST" path="DX.ashx" validate="false" />
+      <add type="DevExpress.Web.ASPxUploadProgressHttpHandler, DevExpress.Web.v23.1" verb="GET,POST" path="ASPxUploadProgressHandlerPage.ashx" validate="false" />
     </httpHandlers>
   </system.web>
   <location path="Content">
@@ -88,11 +88,11 @@
   </system.codedom>
   <system.webServer>
     <modules runAllManagedModulesForAllRequests="true">
-      <add type="DevExpress.Web.ASPxHttpHandlerModule, DevExpress.Web.v24.1" name="ASPxHttpHandlerModule" />
+      <add type="DevExpress.Web.ASPxHttpHandlerModule, DevExpress.Web.v23.1" name="ASPxHttpHandlerModule" />
     </modules>
     <handlers>
-      <add type="DevExpress.Web.ASPxHttpHandlerModule, DevExpress.Web.v24.1" verb="GET,POST" path="DX.ashx" name="ASPxHttpHandlerModule" preCondition="integratedMode" />
-      <add type="DevExpress.Web.ASPxUploadProgressHttpHandler, DevExpress.Web.v24.1" verb="GET,POST" path="ASPxUploadProgressHandlerPage.ashx" name="ASPxUploadProgressHandler" preCondition="integratedMode" />
+      <add type="DevExpress.Web.ASPxHttpHandlerModule, DevExpress.Web.v23.1" verb="GET,POST" path="DX.ashx" name="ASPxHttpHandlerModule" preCondition="integratedMode" />
+      <add type="DevExpress.Web.ASPxUploadProgressHttpHandler, DevExpress.Web.v23.1" verb="GET,POST" path="ASPxUploadProgressHandlerPage.ashx" name="ASPxUploadProgressHandler" preCondition="integratedMode" />
     </handlers>
     <validation validateIntegratedModeConfiguration="false" />
   </system.webServer>
