@@ -428,7 +428,7 @@ The `Login` method is called when a user clicks the `Login` button on the login 
     ```    
         
 - [index_code.js](wwwroot/js/index_code.js) configures the DevExtreme Data Grid and logs the user out. 
-The [onLoaded](https://js.devexpress.com/Documentation/ApiReference/Data_Layer/ODataStore/Configuration/#onLoaded) function sends a request to the server to obtain permissions for the current data grid page.
+The [onLoaded](https://js.devexpress.com/jQuery/Documentation/ApiReference/Data_Layer/ODataStore/Configuration/#onLoaded) function sends a request to the server to obtain permissions for the current data grid page.
 
     ```javascript
     function onLoaded(data) {
