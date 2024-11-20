@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using DevExpress.ExpressApp.Core;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

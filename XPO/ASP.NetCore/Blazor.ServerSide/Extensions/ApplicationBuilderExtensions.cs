@@ -1,5 +1,5 @@
 ﻿using DatabaseUpdater;
-using DevExpress.ExpressApp.Core;
+using DevExpress.ExpressApp;
 
 namespace Blazor.ServerSide.Services {
     public static class ApplicationBuilderExtensions {
