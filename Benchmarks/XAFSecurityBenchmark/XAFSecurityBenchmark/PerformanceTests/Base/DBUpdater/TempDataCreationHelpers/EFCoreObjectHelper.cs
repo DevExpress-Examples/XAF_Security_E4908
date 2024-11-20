@@ -125,6 +125,7 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
 
         public void UpdateQueryOptimizationStatistics() => UpdateQueryOptimizationStatistics(dataContext);
         public void UpdateQueryOptimizationStatistics(DbContext dataContext) {
+#pragma warning disable EF1002
             dataContext.Database.ExecuteSqlRaw("UPDATE STATISTICS[ContactDemoTask]");
             dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<Contact>()}]");
             dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<DemoTask>()}]");
@@ -132,6 +133,7 @@ namespace XAFSecurityBenchmark.PerformanceTests.Base.DBUpdater {
             dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<Position>()}]");
             dataContext.Database.ExecuteSqlRaw($"UPDATE STATISTICS[{GetTableName<PermissionPolicyUser>()}]");
             string GetTableName<T>() => dataContext.Model.FindEntityType(typeof(T)).GetTableName();
+#pragma warning restore
         }
         public ICustomPermissionPolicyUser GetSecurityUser(string userName) => dataContext.Users.Where(user => user.UserName == userName).Include(user => user.Department).FirstOrDefault();
     }
