@@ -16,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.*" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
