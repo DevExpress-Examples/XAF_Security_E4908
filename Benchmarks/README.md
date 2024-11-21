@@ -89,7 +89,7 @@ For more information, see the test object creation logic in the [TemporaryTestOb
 
 ## Test Results
 
-We ran all benchmarks against .NET 8 and used AnyCPU release builds (include warm-up). The test machine had Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v15.00.4153, 12th Gen Intel(R) Core(TM) i7-12650H 2.70 GHz/ 32GB RAM / SSD. 
+We ran all benchmarks against .NET 9 and used AnyCPU release builds (include warm-up). The test machine had Windows 10 Enterprise x64, local Microsoft SQL Server Express (64-bit) v15.00.4153, 12th Gen Intel(R) Core(TM) i7-12650H 2.70 GHz/ 32GB RAM / SSD. 
 
 Needless to say, lower numbers are better.
 
@@ -100,17 +100,17 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/getContacts_largeDataSet.svg" width="100%"/>
 </p>
 
-|Item Count                    |EF Core 8 (No Security), ms   |EF Core 8 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 9 (No Security), ms   |EF Core 9 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
-|10                            |2.234                         |14.987                        |3.815                         |11.482                        |
-|20                            |2.669                         |19.481                        |4.961                         |15.172                        |
-|50                            |3.436                         |30.458                        |6.277                         |21.930                        |
-|100                           |4.334                         |41.139                        |9.064                         |30.025                        |
-|250                           |7.230                         |43.110                        |16.968                        |48.657                        |
-|500                           |11.804                        |79.753                        |27.039                        |93.529                        |
-|1000                          |11.454                        |150.577                       |44.442                        |176.549                       |
-|2500                          |17.225                        |400.539                       |98.362                        |425.034                       |
-|5000                          |23.415                        |866.079                       |179.518                       |900.544                       |
+|10                            |1.837                         |15.052                        |3.717                         |8.335                         |
+|20                            |1.997                         |20.104                        |4.711                         |11.256                        |
+|50                            |3.091                         |30.086                        |6.637                         |14.399                        |
+|100                           |5.052                         |42.187                        |9.782                         |26.546                        |
+|250                           |7.491                         |42.790                        |17.494                        |39.216                        |
+|500                           |10.408                        |65.683                        |27.593                        |70.526                        |
+|1000                          |16.901                        |125.618                       |48.202                        |148.088                       |
+|2500                          |14.707                        |325.489                       |113.783                       |320.442                       |
+|5000                          |23.038                        |695.998                       |209.244                       |645.297                       |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetContacts](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L87-L89)
 
@@ -123,17 +123,17 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/getTasks_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count                    |EF Core 8 (No Security), ms   |EF Core 8 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 9 (No Security), ms   |EF Core 9 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
-|10                            |2.219                         |24.734                        |5.326                         |15.062                        |
-|20                            |2.512                         |37.465                        |6.705                         |18.199                        |
-|50                            |3.233                         |44.322                        |10.767                        |31.091                        |
-|100                           |3.998                         |73.071                        |15.470                        |36.861                        |
-|250                           |6.542                         |170.721                       |31.738                        |86.903                        |
-|500                           |19.737                        |344.163                       |57.534                        |165.848                       |
-|1000                          |24.767                        |703.591                       |121.547                       |329.389                       |
-|2500                          |30.323                        |1763.419                      |229.774                       |767.909                       |
-|5000                          |42.078                        |3408.558                      |407.824                       |1398.508                      |
+|10                            |2.533                         |9.545                         |6.117                         |10.188                        |
+|20                            |2.755                         |12.245                        |7.547                         |13.436                        |
+|50                            |3.674                         |18.906                        |12.137                        |25.462                        |
+|100                           |4.652                         |25.743                        |19.137                        |30.427                        |
+|250                           |7.546                         |36.812                        |39.559                        |70.270                        |
+|500                           |21.420                        |48.036                        |63.085                        |126.748                       |
+|1000                          |22.509                        |82.185                        |132.546                       |236.037                       |
+|2500                          |28.993                        |204.323                       |269.338                       |541.194                       |
+|5000                          |43.741                        |389.491                       |428.257                       |948.787                       |
 
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.GetTasks](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L91-L93)
@@ -147,17 +147,17 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/insertContact_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count                    |EF Core 8 (No Security), ms   |EF Core 8 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 9 (No Security), ms   |EF Core 9 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
-|10                            |20.363                        |41.920                        |11.665                        |16.994                        |
-|20                            |28.305                        |49.539                        |18.395                        |25.352                        |
-|50                            |47.684                        |96.471                        |29.643                        |34.855                        |
-|100                           |85.840                        |171.111                       |47.299                        |61.265                        |
-|250                           |134.601                       |328.722                       |126.804                       |150.116                       |
-|500                           |211.332                       |599.735                       |247.521                       |303.876                       |
-|1000                          |439.329                       |1154.576                      |522.997                       |642.392                       |
-|2500                          |1239.950                      |2972.454                      |1497.780                      |1789.877                      |
-|5000                          |2372.419                      |6018.860                      |3640.603                      |4197.200                      |
+|10                            |19.989                        |37.555                        |8.664                         |11.938                        |
+|20                            |30.989                        |53.821                        |13.501                        |15.996                        |
+|50                            |55.940                        |112.579                       |28.574                        |33.252                        |
+|100                           |95.653                        |203.495                       |52.041                        |64.179                        |
+|250                           |165.519                       |402.895                       |132.045                       |154.410                       |
+|500                           |263.350                       |768.721                       |271.285                       |324.041                       |
+|1000                          |517.376                       |1503.747                      |558.737                       |664.346                       |
+|2500                          |1344.010                      |3783.048                      |1575.286                      |1831.681                      |
+|5000                          |2686.944                      |7506.177                      |3836.677                      |4343.852                      |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L75-L77)
 
@@ -170,17 +170,17 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/insertEmptyContact_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count                    |EF Core 8 (No Security), ms   |EF Core 8 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 9 (No Security), ms   |EF Core 9 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
-|10                            |8.065                         |11.941                        |6.844                         |11.034                        |
-|20                            |11.920                        |16.012                        |7.556                         |15.244                        |
-|50                            |27.784                        |33.215                        |15.643                        |19.669                        |
-|100                           |35.825                        |43.363                        |29.144                        |32.256                        |
-|250                           |62.116                        |82.338                        |70.542                        |78.818                        |
-|500                           |98.494                        |133.814                       |142.557                       |153.469                       |
-|1000                          |167.101                       |227.586                       |281.699                       |323.668                       |
-|2500                          |393.581                       |555.752                       |828.234                       |909.25                        |
-|5000                          |848.626                       |1126.611                      |2039.024                      |2162.288                      |
+|10                            |8.790                         |15.372                        |7.339                         |10.250                        |
+|20                            |14.846                        |19.162                        |10.981                        |16.736                        |
+|50                            |33.003                        |40.408                        |17.913                        |20.021                        |
+|100                           |45.035                        |54.071                        |30.072                        |33.117                        |
+|250                           |87.970                        |107.094                       |73.344                        |78.906                        |
+|500                           |146.504                       |176.392                       |150.399                       |161.150                       |
+|1000                          |255.095                       |314.105                       |304.185                       |335.930                       |
+|2500                          |585.981                       |733.953                       |886.143                       |909.839                       |
+|5000                          |1234.804                      |1478.232                      |2140.867                      |2250.100                      |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.InsertEmptyContact](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L71-L73)
 
@@ -193,17 +193,17 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/updateContacts_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count                    |EF Core 8 (No Security), ms   |EF Core 8 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 9 (No Security), ms   |EF Core 9 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
-|10                            |3.815                         |11.954                        |6.093                         |13.960                        |
-|20                            |4.954                         |25.883                        |10.022                        |25.763                        |
-|50                            |9.717                         |37.544                        |19.325                        |39.230                        |
-|100                           |15.973                        |35.949                        |31.917                        |49.477                        |
-|250                           |26.287                        |61.668                        |39.766                        |113.974                       |
-|500                           |25.778                        |109.723                       |80.860                        |224.699                       |
-|1000                          |43.771                        |219.667                       |164.908                       |470.353                       |
-|2500                          |119.416                       |594.867                       |456.014                       |1299.245                      |
-|5000                          |286.360                       |1267.876                      |952.631                       |2597.163                      |
+|10                            |4.102                         |11.375                        |6.348                         |10.137                        |
+|20                            |4.821                         |24.304                        |9.291                         |17.786                        |
+|50                            |10.450                        |37.005                        |10.790                        |35.452                        |
+|100                           |14.932                        |45.415                        |19.485                        |42.485                        |
+|250                           |24.114                        |51.755                        |44.684                        |100.277                       |
+|500                           |22.076                        |93.315                        |96.947                        |194.394                       |
+|1000                          |40.197                        |181.329                       |195.456                       |408.230                       |
+|2500                          |108.908                       |469.099                       |503.918                       |1140.784                      |
+|5000                          |248.967                       |967.041                       |1052.163                      |2245.655                      |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateContacts](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L79-L81)
 
@@ -216,16 +216,16 @@ Needless to say, lower numbers are better.
   <img src="../Benchmarks/images/updateTasks_largeDataSet.svg" width="100%"/> 
 </p>
 
-|Item Count                    |EF Core 8 (No Security), ms   |EF Core 8 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
+|Item Count                    |EF Core 9 (No Security), ms   |EF Core 9 (Security), ms      |XPO (No Security), ms         |XPO (Security), ms            |
 |------------------------------|------------------------------|------------------------------|------------------------------|------------------------------|
-|10                            |1.843                         |23.809                        |6.912                         |22.064                        |
-|20                            |2.151                         |40.160                        |9.978                         |29.349                        |
-|50                            |2.627                         |60.777                        |18.728                        |37.576                        |
-|100                           |3.628                         |78.147                        |30.050                        |69.711                        |
-|250                           |6.515                         |174.942                       |42.031                        |167.772                       |
-|500                           |15.632                        |331.136                       |82.236                        |325.734                       |
-|1000                          |17.035                        |639.519                       |169.156                       |668.151                       |
-|2500                          |27.015                        |1642.954                      |402.374                       |1584.791                      |
-|5000                          |30.678                        |3157.133                      |765.834                       |3174.236                      |
+|10                            |1.741                         |8.787                         |6.897                         |17.909                        |
+|20                            |1.889                         |11.607                        |10.521                        |24.124                        |
+|50                            |2.438                         |18.788                        |17.041                        |33.162                        |
+|100                           |3.465                         |23.183                        |26.724                        |57.055                        |
+|250                           |6.229                         |36.089                        |43.748                        |131.653                       |
+|500                           |15.754                        |47.822                        |87.420                        |257.497                       |
+|1000                          |19.808                        |81.017                        |187.103                       |514.457                       |
+|2500                          |22.583                        |197.415                       |440.048                       |1252.022                      |
+|5000                          |27.707                        |385.794                       |840.026                       |2430.021                      |
 
 **Source:** [XAFSecurityBenchmark.PerformanceTests.PerformanceTestSet.UpdateTasks](../Benchmarks/XAFSecurityBenchmark/XAFSecurityBenchmark/PerformanceTests/Base/PerformanceTestSet.cs#L83-L85) 
