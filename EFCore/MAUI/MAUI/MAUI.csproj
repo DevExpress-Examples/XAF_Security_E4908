@@ -52,7 +52,7 @@
     <None Remove="Platforms\Android\Resources\xml\provider_paths.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Maui.CollectionView" Version="23.2.3" />
-    <PackageReference Include="DevExpress.Maui.Editors" Version="23.2.3" />
+    <PackageReference Include="DevExpress.Maui.CollectionView" Version="24.2.2" />
+    <PackageReference Include="DevExpress.Maui.Editors" Version="24.2.2" />
   </ItemGroup>
 </Project>

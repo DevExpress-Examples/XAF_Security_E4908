@@ -12,6 +12,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.11" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Simple.OData.Client" Version="6.0.1" />
-    <PackageReference Include="DevExpress.Blazor" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.Blazor" Version="24.2.2-beta-24326" />
   </ItemGroup>
 </Project>

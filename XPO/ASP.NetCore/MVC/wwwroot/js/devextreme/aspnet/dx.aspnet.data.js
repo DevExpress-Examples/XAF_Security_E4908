@@ -1,4 +1,4 @@
-// Version: 2.9.0
+// Version: 5.0.0-rc1
 // https://github.com/DevExpress/DevExtreme.AspNet.Data
 // Copyright (c) Developer Express Inc.
 
@@ -380,9 +380,23 @@
         if(mime.indexOf("application/json") === 0) {
             var jsonObj = safeParseJSON(responseText);
 
-            if(isNonEmptyString(jsonObj))
+            if(typeof jsonObj === "string")
                 return jsonObj;
 
+            if(typeof jsonObj === "object") {
+                for(var key in jsonObj) {
+                    if(typeof jsonObj[key] === "string")
+                        return jsonObj[key];
+                }
+            }
+
+            return responseText;
+        }
+
+        if(mime.indexOf("application/problem+json") === 0) {
+            var jsonObj = safeParseJSON(responseText);
+
+            var candidate;
             if(typeof jsonObj === "object") {
                 candidate = jsonObj.title;
                 if(isNonEmptyString(candidate))
@@ -391,12 +405,6 @@
                 candidate = jsonObj.detail;
                 if(isNonEmptyString(candidate))
                     return candidate;
-
-                for(var key in jsonObj) {
-                    candidate = jsonObj[key];
-                    if(isNonEmptyString(candidate))
-                        return candidate;
-                }
             }
 
             return responseText;

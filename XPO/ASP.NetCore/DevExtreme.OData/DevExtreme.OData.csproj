@@ -8,11 +8,11 @@
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="DevExpress.ExpressApp.WebApi.Xpo" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="24.2.1-alpha-24207" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.WebApi.Xpo" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="24.2.2-beta-24326" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.11" />
   </ItemGroup>
   <ItemGroup>

@@ -24,19 +24,19 @@
     <EmbeddedResource Include="Resourses\John.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Api.EFCore.All" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="DevExpress.ExpressApp.AuditTrail.EFCore" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="DevExpress.ExpressApp.ReportsV2" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="Azure.Identity" Version="1.11.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Api.EFCore.All" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.AuditTrail.EFCore" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.ReportsV2" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="24.2.2-beta-24326" />
+    <PackageReference Include="Azure.Identity" Version="1.13.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.5.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.7.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.18.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.9.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="XtraReport1.cs">

@@ -8,11 +8,11 @@
     <PackageReference Include="microsoft.aspnetcore.odata" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver" Version="8.*" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="24.2.1-alpha-24207" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.7.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="24.2.2-beta-24326" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.9.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
