@@ -6,6 +6,9 @@ namespace MAUI {
             var builder = MauiApp.CreateBuilder();
             builder.UseMauiApp<App>()
 	            .UseDevExpress()
+		    .UseDevExpressCollectionView()
+	            .UseDevExpressControls()
+	            .UseDevExpressEditors()
 	            .ConfigureFonts(fonts => {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("roboto-regular.ttf", "Roboto");
