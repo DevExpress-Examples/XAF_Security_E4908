@@ -12,13 +12,17 @@ namespace WindowsFormsApplication {
 		private RepositoryItemProtectedContentTextEdit protectedContentTextEdit;
 		private readonly IMiddleTierClient<ApplicationDbContext> middleTierClient;
 
-        public EmployeeListForm() {
+        public EmployeeListForm(IMiddleTierClient<ApplicationDbContext> middleTierClient) {
 			InitializeComponent();
-		}
-        public EmployeeListForm(IMiddleTierClient<ApplicationDbContext> middleTierClient) : this() {
 			this.middleTierClient = middleTierClient;
             this.securedObjectSpace = middleTierClient.CreateObjectSpace();
+			this.Disposed += EmployeeListForm_Disposed;
         }
+
+        private void EmployeeListForm_Disposed(object sender, EventArgs e) {
+			securedObjectSpace.Dispose();
+        }
+
         private void EmployeeListForm_Load(object sender, EventArgs e) {
 			employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
 			newBarButtonItem.Enabled = middleTierClient.Security.CanCreate<Employee>(securedObjectSpace);

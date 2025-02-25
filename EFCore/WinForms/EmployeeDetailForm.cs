@@ -25,8 +25,14 @@ namespace WindowsFormsApplication {
                 { nameof(Employee.LastName), "Last Name:" },
                 { nameof(Employee.Department), "Department:" }
             };
+			this.Disposed += EmployeeDetailForm_Disposed;
         }
-		private void EmployeeDetailForm_Load(object sender, EventArgs e) {
+
+        private void EmployeeDetailForm_Disposed(object sender, EventArgs e) {
+			securedObjectSpace.Dispose();
+        }
+
+        private void EmployeeDetailForm_Load(object sender, EventArgs e) {
 			
 			if(employee == null) {
 				employee = securedObjectSpace.CreateObject<Employee>();
@@ -91,5 +97,5 @@ namespace WindowsFormsApplication {
 			securedObjectSpace.CommitChanges();
 			Close();
 		}
-	}
+    }
 }
