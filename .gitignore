@@ -6,6 +6,7 @@
 # User-specific files
 *.suo
 *.user
+!*.slnLaunch.user
 *.userosscache
 *.sln.docstates
 
