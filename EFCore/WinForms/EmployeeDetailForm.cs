@@ -6,19 +6,20 @@ using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraLayout;
 using BusinessObjectsLibrary.BusinessObjects;
 using WindowsFormsApplication.Utils;
+using DevExpress.ExpressApp.ApplicationBuilder;
 
 namespace WindowsFormsApplication {
 	public partial class EmployeeDetailForm : DevExpress.XtraBars.Ribbon.RibbonForm {
 		private IObjectSpace securedObjectSpace;
 		private Employee employee;
 		private readonly Dictionary<string, string> visibleMembers;
-		private readonly SecurityStrategyComplex security;
-		private readonly IObjectSpaceProvider objectSpaceProvider;
-		public EmployeeDetailForm(Employee employee, SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
+		private readonly IMiddleTierClient<ApplicationDbContext> middleTierClient;
+
+        public EmployeeDetailForm(Employee employee, IMiddleTierClient<ApplicationDbContext> middleTierClient) {
 			InitializeComponent();
 			this.employee = employee;
-			this.security = security;
-			this.objectSpaceProvider = objectSpaceProvider;
+			this.middleTierClient = middleTierClient;
+            this.securedObjectSpace = middleTierClient.CreateObjectSpace();
             visibleMembers = new Dictionary<string, string> {
                 { nameof(Employee.FirstName), "First Name:" },
                 { nameof(Employee.LastName), "Last Name:" },
@@ -26,13 +27,13 @@ namespace WindowsFormsApplication {
             };
         }
 		private void EmployeeDetailForm_Load(object sender, EventArgs e) {
-			securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
+			
 			if(employee == null) {
 				employee = securedObjectSpace.CreateObject<Employee>();
 			}
 			else {
 				employee = securedObjectSpace.GetObject(employee);
-				deleteBarButtonItem.Enabled = security.CanDelete(employee);
+				deleteBarButtonItem.Enabled = middleTierClient.Security.CanDelete(securedObjectSpace, employee);
 			}
 			AddControls();
 		}
@@ -47,11 +48,11 @@ namespace WindowsFormsApplication {
             layout.Text = caption;
             Type type = targetObject.GetType();
             BaseEdit control;
-			if(security.CanRead(targetObject, memberName)) {
+			if(middleTierClient.Security.CanRead(securedObjectSpace, targetObject, memberName)) {
 				control = GetControl(type, memberName);
 				if(control != null) {
 					control.DataBindings.Add(new Binding(nameof(BaseEdit.EditValue), targetObject, memberName, true, DataSourceUpdateMode.OnPropertyChanged));
-					control.Enabled = security.CanWrite(targetObject, memberName);
+					control.Enabled = middleTierClient.Security.CanWrite(securedObjectSpace, targetObject, memberName);
 				}
 			}
 			else {

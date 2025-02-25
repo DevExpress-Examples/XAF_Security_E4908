@@ -1,12 +1,4 @@
-﻿using System.Configuration;
-using Microsoft.EntityFrameworkCore;
-using DevExpress.EntityFrameworkCore.Security;
-using DevExpress.ExpressApp.EFCore;
-using DevExpress.ExpressApp.Security;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using BusinessObjectsLibrary.BusinessObjects;
-using DatabaseUpdater;
-using DevExpress.ExpressApp.DC;
+﻿using System;
 
 namespace WindowsFormsApplication {
     static class Program {
@@ -15,30 +7,10 @@ namespace WindowsFormsApplication {
         /// </summary>
         [STAThread]
         static void Main() {
-            TypesInfo typesInfo = new TypesInfo();
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            CreateDemoData(connectionString, typesInfo);
-
-            AuthenticationStandard authentication = new AuthenticationStandard();
-            SecurityStrategyComplex security = new SecurityStrategyComplex(
-                typeof(PermissionPolicyUser), typeof(PermissionPolicyRole),
-                authentication,
-                typesInfo
-            );
-            var objectSpaceProvider = new SecuredEFCoreObjectSpaceProvider<ApplicationDbContext>(security,
-                typesInfo, connectionString, (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies());
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            MainForm mainForm = new MainForm(security, objectSpaceProvider);
+            MainForm mainForm = new MainForm();
             Application.Run(mainForm);
-        }
-        private static void CreateDemoData(string connectionString, TypesInfo typesInfo) {
-            using (var objectSpaceProvider = new EFCoreObjectSpaceProvider<ApplicationDbContext>(typesInfo, connectionString,
-        (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies()))
-            using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
-                new Updater(objectSpace).UpdateDatabase();
-            }
         }
     }
 }

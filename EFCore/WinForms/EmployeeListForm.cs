@@ -4,33 +4,35 @@ using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using WindowsFormsApplication.Utils;
 using BusinessObjectsLibrary.BusinessObjects;
+using DevExpress.ExpressApp.ApplicationBuilder;
 
 namespace WindowsFormsApplication {
 	public partial class EmployeeListForm : DevExpress.XtraBars.Ribbon.RibbonForm {
 		private IObjectSpace securedObjectSpace;
 		private RepositoryItemProtectedContentTextEdit protectedContentTextEdit;
-		private readonly SecurityStrategyComplex security;
-		private readonly IObjectSpaceProvider objectSpaceProvider;
-		public EmployeeListForm(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
+		private readonly IMiddleTierClient<ApplicationDbContext> middleTierClient;
+
+        public EmployeeListForm() {
 			InitializeComponent();
-			this.security = security;
-			this.objectSpaceProvider = objectSpaceProvider;
 		}
-		private void EmployeeListForm_Load(object sender, EventArgs e) {
-			securedObjectSpace = objectSpaceProvider.CreateObjectSpace();
+        public EmployeeListForm(IMiddleTierClient<ApplicationDbContext> middleTierClient) : this() {
+			this.middleTierClient = middleTierClient;
+            this.securedObjectSpace = middleTierClient.CreateObjectSpace();
+        }
+        private void EmployeeListForm_Load(object sender, EventArgs e) {
 			employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
-			newBarButtonItem.Enabled = security.CanCreate<Employee>();
+			newBarButtonItem.Enabled = middleTierClient.Security.CanCreate<Employee>(securedObjectSpace);
 			protectedContentTextEdit = new RepositoryItemProtectedContentTextEdit();
 		}
 		private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
 			string fieldName = e.Column.FieldName;
             object targetObject = employeeGridView.GetRow(e.RowHandle);
-            if (!security.CanRead(targetObject, fieldName)) {
+            if (!middleTierClient.Security.CanRead(securedObjectSpace, targetObject, fieldName)) {
 				e.RepositoryItem = protectedContentTextEdit;
 			}
 		}
 		private void CreateDetailForm(Employee employee = null) {
-            EmployeeDetailForm detailForm = new EmployeeDetailForm(employee, security, objectSpaceProvider) {
+            EmployeeDetailForm detailForm = new EmployeeDetailForm(employee, middleTierClient) {
                 MdiParent = MdiParent,
                 WindowState = FormWindowState.Maximized
             };
@@ -46,7 +48,7 @@ namespace WindowsFormsApplication {
 			}
 		}
 		private void EmployeeGridView_FocusedRowObjectChanged(object sender, FocusedRowObjectChangedEventArgs e) {
-			deleteBarButtonItem.Enabled = security.CanDelete(e.Row);
+			deleteBarButtonItem.Enabled = middleTierClient.Security.CanDelete(securedObjectSpace, e.Row);
 		}
 		private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
 			CreateDetailForm();
