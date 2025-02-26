@@ -13,6 +13,7 @@ namespace BusinessObjectsLibrary.BusinessObjects {
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangingAndChangedNotificationsWithOriginalValues);
+            modelBuilder.UseDeferredDeletion(this);
         }
     }
 }
