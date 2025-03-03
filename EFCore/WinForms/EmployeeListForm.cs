@@ -31,7 +31,8 @@ namespace WindowsFormsApplication {
 		private void GridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
 			string fieldName = e.Column.FieldName;
             object targetObject = employeeGridView.GetRow(e.RowHandle);
-            if (!middleTierClient.Security.CanRead(securedObjectSpace, targetObject, fieldName)) {
+            // The targetObject is null for some rows (column header row, auto filter row and others).
+            if((targetObject != null) && !middleTierClient.Security.CanRead(securedObjectSpace, targetObject, fieldName)) {
 				e.RepositoryItem = protectedContentTextEdit;
 			}
 		}
