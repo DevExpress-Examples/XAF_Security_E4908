@@ -44,7 +44,9 @@ namespace WindowsFormsApplication {
             detailForm.Show();
             detailForm.FormClosing += (s, e) => { 
                 securedObjectSpace.Refresh();
+				int rowHandle = employeeGridView.FocusedRowHandle;
                 employeeGrid.DataSource = securedObjectSpace.GetBindingList<Employee>();
+				employeeGridView.FocusedRowHandle = rowHandle;
             };
 		}
         private void EmployeeGridView_RowClick(object sender, RowClickEventArgs e) {
