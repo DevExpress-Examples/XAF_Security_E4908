@@ -55,7 +55,7 @@ namespace WindowsFormsApplication {
 			}
 		}
 		private void EmployeeGridView_FocusedRowObjectChanged(object sender, FocusedRowObjectChangedEventArgs e) {
-			deleteBarButtonItem.Enabled = middleTierClient.Security.CanDelete(securedObjectSpace, e.Row);
+			deleteBarButtonItem.Enabled = e.Row != null && middleTierClient.Security.CanDelete(securedObjectSpace, e.Row);
 		}
 		private void NewBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e) {
 			CreateDetailForm();
