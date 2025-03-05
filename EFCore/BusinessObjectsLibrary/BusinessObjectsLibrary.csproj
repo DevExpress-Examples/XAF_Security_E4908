@@ -5,6 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.*" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="25.1.2-pre-25056" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="25.1.2-pre-25064" />
   </ItemGroup>
 </Project>
