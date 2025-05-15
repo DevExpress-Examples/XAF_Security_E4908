@@ -34,6 +34,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.*" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.10.0"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.10.0"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.10.0"/>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="24.2.2-beta-24326" />
