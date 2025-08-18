@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.2.2-beta-24326" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="25.1.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="25.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
@@ -16,6 +16,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.3" />
     <PackageReference Include="DevExtreme.AspNet.Core" Version="24.2.3-build-24326-1309" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="5.0.0-rc1" />
+  
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
