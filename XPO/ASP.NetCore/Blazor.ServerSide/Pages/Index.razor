@@ -1,6 +1,4 @@
-﻿@using DevExpress.Blazor.Legacy
-@using DevExpress.Blazor.Legacy.Base
-@page "/"
+﻿@page "/"
 @attribute [Authorize]
 @implements IDisposable
 @inject IObjectSpaceFactory objectSpaceFactory
@@ -11,138 +9,177 @@
 </div>
 
 <CascadingValue Value="objectSpace">
-    <DxDataGrid Data="employees" KeyFieldName="@nameof(Employee.Oid)" PageSize="20" ShowFilterRow="true" AllowSort="true" @ref="grid">
-        <ChildContent>
-            <DxDataGridColumn Field="@nameof(Employee.FirstName)">
-                <DisplayTemplate>
-                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.FirstName)">
-                        @(((Employee)context).FirstName)
+    <DxGrid Data="employees" KeyFieldName="@nameof(Employee.Oid)" PageSize="20" ShowFilterRow="true" AllowSort="true" @ref="grid"
+            CustomizeEditModel="OnCustomizeEditModel" EditModelSaving="OnEditModelSaving" EditCanceling="OnEditCancelling">
+        <Columns>
+            <DxGridDataColumn FieldName="@nameof(Employee.FirstName)">
+                <CellDisplayTemplate Context="context">
+                    <SecuredContainer Context="readOnly" CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.FirstName)">
+                        @(((Employee)context.DataItem)?.FirstName)
                     </SecuredContainer>
-                </DisplayTemplate>
-            </DxDataGridColumn>
-            <DxDataGridColumn Field="@nameof(Employee.LastName)">
-                <DisplayTemplate>
-                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.LastName)">
-                        @(((Employee)context).LastName)
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName="@nameof(Employee.LastName)">
+                <CellDisplayTemplate Context="context">
+                    <SecuredContainer Context="readOnly" CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.LastName)">
+                        @(((Employee)context.DataItem)?.LastName)
                     </SecuredContainer>
-                </DisplayTemplate>
-            </DxDataGridColumn>
-            <DxDataGridColumn Field="@nameof(Employee.Email)">
-                <DisplayTemplate>
-                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.Email)">
-                        @(((Employee)context).Email)
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName="@nameof(Employee.Email)">
+                <CellDisplayTemplate Context="context">
+                    <SecuredContainer Context="readOnly" CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.Email)">
+                        @(((Employee)context.DataItem)?.Email)
                     </SecuredContainer>
-                </DisplayTemplate>
-            </DxDataGridColumn>
-            <DxDataGridComboBoxColumn Field="@nameof(Employee.Department)" Data="@departments" TextFieldName="@nameof(Department.Title)">
-                <DisplayTemplate>
-                    <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.Department)">
-                        @(((Employee)context).Department?.Title)
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridDataColumn FieldName="@nameof(Employee.Department)">
+                <EditSettings>
+                    <DxComboBoxSettings Data="@departments"
+                                        TextFieldName="@nameof(Department.Title)"
+                                        ValueFieldName="@nameof(Employee.Department)">
+                    </DxComboBoxSettings>
+                </EditSettings>
+                <CellDisplayTemplate Context="displayContext">
+                    <SecuredContainer Context="readOnly" CurrentObject="@displayContext.DataItem" PropertyName="@nameof(Employee.Department)">
+                        @(((Employee)displayContext.DataItem)?.Department?.Title)
                     </SecuredContainer>
-                </DisplayTemplate>
-            </DxDataGridComboBoxColumn>
-            <DxDataGridCommandColumn Width="100px">
-                <HeaderCellTemplate>
-                    @if(Security.CanCreate<Employee>()) {
-                        <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
+                </CellDisplayTemplate>
+            </DxGridDataColumn>
+
+            <DxGridCommandColumn Width="100px">
+                <HeaderTemplate Context="headerContext">
+                    @if (Security.CanCreate<Employee>()) {
+                        <DxButton Click="() => StartNewRow()"
+                                  Enabled="headerContext.NewEnabled"
+                                  Text="New" />
                     }
-                </HeaderCellTemplate>
-                <CellTemplate>
-                    @if(Security.CanWrite(context)) {
-                        <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
+                </HeaderTemplate>
+                <CellDisplayTemplate Context="cellContext">
+                    @if (Security.CanWrite(cellContext.DataItem)) {
+                        <a @onclick="@(() => StartRowEdit(cellContext.DataItem))" href="javascript:;">Edit </a>
                     }
-                    @if(Security.CanDelete(context)) {
-                        <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
+                    @if (Security.CanDelete(cellContext.DataItem)) {
+                        <a @onclick="@(() => OnRowRemoving(cellContext.DataItem))" href="javascript:;">Delete</a>
                     }
-                </CellTemplate>
-            </DxDataGridCommandColumn>
-        </ChildContent>
+                </CellDisplayTemplate>
+            </DxGridCommandColumn>
+        </Columns>
         <EditFormTemplate Context="employeeContext">
             @{
-                <EditForm Model=employee Context="EditFormContext" OnValidSubmit="@HandleValidSubmit">
+                <EditForm Model=employee Context="EditFormContext">
                     <DxFormLayout>
                         <DxFormLayoutItem Caption="First Name">
                             <Template>
                                 <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.FirstName) IsEditor=true>
-                                    <DxTextBox @bind-Text=employee.FirstName ReadOnly=@readOnly />
+                                    <DxTextBox @bind-Text=employeeEdit.FirstName ReadOnly=@readOnly />
                                 </SecuredContainer>
                             </Template>
                         </DxFormLayoutItem>
                         <DxFormLayoutItem Caption="Last Name">
                             <Template>
                                 <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.LastName) IsEditor=true>
-                                    <DxTextBox @bind-Text=employee.LastName ReadOnly=@readOnly />
+                                    <DxTextBox @bind-Text=employeeEdit.LastName ReadOnly=@readOnly />
                                 </SecuredContainer>
                             </Template>
                         </DxFormLayoutItem>
                         <DxFormLayoutItem Caption="Email">
                             <Template>
                                 <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.Email) IsEditor=true>
-                                    <DxTextBox @bind-Text=employee.Email ReadOnly=@readOnly />
+                                    <DxTextBox @bind-Text=employeeEdit.Email ReadOnly=@readOnly />
                                 </SecuredContainer>
                             </Template>
                         </DxFormLayoutItem>
                         <DxFormLayoutItem Caption="Department">
                             <Template>
                                 <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.Department) IsEditor=true>
-                                    <DxComboBox Data="@departments" ReadOnly=@readOnly @bind-Value=employee.Department />
+                                    <DxComboBox Data="@departments" ReadOnly=@readOnly @bind-Value=employeeEdit.Department />
                                 </SecuredContainer>
-                            </Template>
-                        </DxFormLayoutItem>
-                        <DxFormLayoutItem>
-                            <Template>
-                                <div class="dxbs-fl-ctrl dxbs-fl-ctrl-nc text-right">
-                                    @{
-                                        string buttonCaption = objectSpace.IsNewObject(employee) ? "Create" : "Update";
-                                        <button class="btn btn-link" type="submit">@buttonCaption</button>
-                                    }
-                                    <button class="btn btn-link" type="button" @onclick=CancelRowEdit>Cancel</button>
-                                </div>
                             </Template>
                         </DxFormLayoutItem>
                     </DxFormLayout>
                 </EditForm>
             }
         </EditFormTemplate>
-    </DxDataGrid>
+    </DxGrid>
+
 </CascadingValue>
 
 @code {
     IQueryable<Employee> employees;
     IQueryable<Department> departments;
-    DxDataGrid<Employee> grid;
+    DxGrid grid;
     Employee employee = null;
+    Employee employeeEdit = null;
     IObjectSpace objectSpace;
-
-	SecurityStrategy Security => (SecurityStrategy)securityProvider.GetSecurity();
+    SecurityStrategy Security => (SecurityStrategy)securityProvider.GetSecurity();
 
     protected override void OnInitialized() {
         objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
-        employees = objectSpace.GetObjectsQuery<Employee>();
+        RefreshEmployees();
         departments = objectSpace.GetObjectsQuery<Department>();
         base.OnInitialized();
-    }    
+    }
+    void OnCustomizeEditModel(GridCustomizeEditModelEventArgs e) {
+        var dataItem = (Employee)e.DataItem;
+        if (!e.IsNew) {
+            employeeEdit = new Employee(dataItem.Session);
+            CopyEmployee(dataItem, employeeEdit);
+            employee = dataItem;
+        } 
+        else {
+            employeeEdit = objectSpace.CreateObject<Employee>();
+            employee = employeeEdit;
+        }
+        e.EditModel = employeeEdit;
+    }
+    void OnEditModelSaving(GridEditModelSavingEventArgs e) {
+        Employee editModel = (Employee)e.EditModel;
+        if (e.IsNew) {
+            Employee currentObject = objectSpace.CreateObject<Employee>();
+            CopyEmployee(editModel, currentObject);
+        }
+        else {
+            CopyEmployee(editModel, (Employee)e.DataItem);
+        }
+        editModel.Session.Delete(editModel);
+        objectSpace.CommitChanges();
+        RefreshEmployees();
+    }
+    void OnEditCancelling(GridEditCancelingEventArgs e){
+        ((Employee)e.EditModel).Session.Delete(e.EditModel);
+    }
 
-    Task OnRowRemoving(object item) {
+    void OnRowRemoving(object item) {
         objectSpace.Delete(item);
         objectSpace.CommitChanges();
-        return grid.Refresh();
+        RefreshEmployees();
     }
-    async Task HandleValidSubmit() {
-        objectSpace.CommitChanges();
-        await grid.Refresh();
-        employee = null;
-        await grid.CancelRowEdit();
+    private void RefreshEmployees() {
+        employees = objectSpace.GetObjectsQuery<Employee>().ToList().AsQueryable();
+        StateHasChanged();
     }
+
+    Task StartRowEdit(object item) {
+        employee = (Employee)item;
+        return grid.StartEditDataItemAsync(item);
+    }
+    Task StartNewRow() {
+        return grid.StartEditNewRowAsync();
+    }
+
     public void Dispose() {
         objectSpace?.Dispose();
     }
-    Task StartRowEdit(object item) {
-        employee = item as Employee ?? objectSpace.CreateObject<Employee>();
-        return grid.StartRowEdit(item);
-    }
-    Task CancelRowEdit() {
-        employee = null;
-        return grid.CancelRowEdit();
+    private void CopyEmployee(Employee source, Employee target) {
+        if (source == null || target == null)
+            return;
+        target.Department = source.Department;
+        target.Email = source.Email;
+        target.FirstName = source.FirstName;
+        target.LastName = source.LastName;
     }
 }
