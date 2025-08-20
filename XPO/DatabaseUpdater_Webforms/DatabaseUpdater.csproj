@@ -13,6 +13,6 @@
     <EmbeddedResource Include="Employees.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
+    <ProjectReference Include="..\BusinessObjectsLibrary_Webforms\BusinessObjectsLibrary.csproj" />
   </ItemGroup>
 </Project>

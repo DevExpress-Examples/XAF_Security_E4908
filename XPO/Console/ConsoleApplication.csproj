@@ -9,9 +9,11 @@
     <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.2.2-beta-24326" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="25.1.4" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="25.1.4" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
+  
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
