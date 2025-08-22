@@ -192,13 +192,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BusinessObjectsLibrary_Webforms\BusinessObjectsLibrary.csproj">
-      <Project>{ccbfa525-7bc8-6ea7-bb66-235687d6333d}</Project>
-      <Name>BusinessObjectsLibrary</Name>
+    <ProjectReference Include="..\..\..\BusinessObjectsLibrary\BusinessObjectsLibrary_Webforms.csproj">
+      <Project>{388bb75b-cf31-687a-647b-cde4011935ee}</Project>
+      <Name>BusinessObjectsLibrary_Webforms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\DatabaseUpdater_Webforms\DatabaseUpdater.csproj">
-      <Project>{ba6c019b-d9a6-7548-4bd1-45f3f6471b14}</Project>
-      <Name>DatabaseUpdater</Name>
+    <ProjectReference Include="..\..\..\DatabaseUpdater\DatabaseUpdater_Webforms.csproj">
+      <Project>{a7c236a2-bda0-c8d3-021a-992f71667536}</Project>
+      <Name>DatabaseUpdater_Webforms</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
