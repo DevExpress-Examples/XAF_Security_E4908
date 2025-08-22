@@ -59,11 +59,13 @@
                     }
                 </HeaderTemplate>
                 <CellDisplayTemplate Context="cellContext">
-                    @if (Security.CanWrite(cellContext.DataItem)) {
-                        <a @onclick="@(() => StartRowEdit(cellContext.DataItem))" href="javascript:;">Edit </a>
-                    }
-                    @if (Security.CanDelete(cellContext.DataItem)) {
-                        <a @onclick="@(() => OnRowRemoving(cellContext.DataItem))" href="javascript:;">Delete</a>
+                    @if (cellContext?.DataItem != null) {
+                        @if (Security.CanWrite(cellContext?.DataItem)) {
+                            <a @onclick="@(() => StartRowEdit(cellContext.DataItem))" href="javascript:;">Edit </a>
+                        }
+                        @if (Security.CanDelete(cellContext?.DataItem)) {
+                            <a @onclick="@(() => OnRowRemoving(cellContext.DataItem))" href="javascript:;">Delete</a>
+                        }
                     }
                 </CellDisplayTemplate>
             </DxGridCommandColumn>
@@ -109,7 +111,8 @@
 </CascadingValue>
 
 @code {
-    IQueryable<Employee> employees;
+    object employees;
+    // IQueryable<Employee> employees;
     IQueryable<Department> departments;
     DxGrid grid;
     Employee employee = null;
@@ -148,8 +151,7 @@
         RefreshEmployees();
     }
     private void RefreshEmployees() {
-        employees = objectSpace.GetObjectsQuery<Employee>().ToList().AsQueryable();
-        StateHasChanged();
+        employees = new GridDevExtremeDataSource<Employee>(objectSpace.GetObjectsQuery<Employee>());
     }
 
     Task StartRowEdit(object item) {
