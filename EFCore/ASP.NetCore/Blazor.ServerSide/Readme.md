@@ -14,26 +14,26 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 > **NOTE** 
 >
-> If you have a pre-release version of our components, for example, provided with the hotfix, you also have a pre-release version of NuGet packages. These packages will not be restored automatically and you need to update them manually as described in the [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages) article using the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
+> You may have a pre-release version of our components installed. For example, you may have downloaded a hotfix from our website. In such cases, you also installed a pre-release version of NuGet packages. These packages will not be restored automatically. Update them manually as described in the following article: [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages). Use the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
-> If you wish to create a Blazor project with our Blazor Components from scratch, follow the [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application) article.
+> If you wish to create a new project with DevExpress Blazor Components, follow instructions in [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application).
 
 ---
 
 
 ## Step 1. Configure the Blazor Application
 
-1. Add EFCore DevExpress NuGet packages to your project:
+- Add EFCore DevExpress NuGet packages to your project:
 
     ```xml
     <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="22.2.3" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="22.2.3" />
     ```
-2. Install Entity Framework Core, as described in the [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install) article.
+- Install Entity Framework Core, as described in the following article: [Installing Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/get-started/overview/install).
 
-3. For detailed information about the ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
+- For detailed information about ASP.NET Core application configuration, see [official Microsoft documentation](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio).
 
-- [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) the Blazor Application in the [Program.cs](Program.cs):
+- [Configure](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-6.0&tabs=windows) your Blazor Application in [Program.cs](Program.cs):
 
     ```csharp
     var builder = WebApplication.CreateBuilder(args);
@@ -60,9 +60,9 @@ You will also see how to execute Create, Write, and Delete data operations and t
     });
     app.Run();
     ```
-## Step 2. Initialize Data Store and XAF Security System. Authentication and Permission Configuration
+## Step 2. Initialize Data Store and XAF Security System, Configure Authentication and Permissions
 
-- Register the business objects that you will access from your code in the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system.
+- Use the [Types Info](https://docs.devexpress.com/eXpressAppFramework/113669/concepts/business-model-design/types-info-subsystem) system to register the business objects that you will access from code.
     ```csharp
     builder.Services.AddSingleton<ITypesInfo>((serviceProvider) => {
         TypesInfo typesInfo = new TypesInfo();
@@ -98,7 +98,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
     ```
 
 
-- Set up database connection settings in your Data Store Provider object. In EFCore, it is `DbContextFactory`. Add a security extension to it to allow your application to filter data based on user permissions.
+- Set up database connection settings in your Data Store Provider object (`DbContextFactory` in EFCore). Apply a security extension to the object - allow your application to filter data based on user permissions.
     ```csharp
     builder.Services.AddDbContextFactory<ApplicationDbContext>((serviceProvider, options) => {
         string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
@@ -116,9 +116,9 @@ You will also see how to execute Create, Write, and Delete data operations and t
     }
     ```
 
-    > **NOTE** The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to the MS SQL database. We do not recommend that you remove “MultipleActiveResultSets=True;“ from the connection string or set the MultipleActiveResultSets parameter to false.
+    > **NOTE**: The Security System requires [Multiple Active Result Sets](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/enabling-multiple-active-result-sets) in EF Core-based applications connected to MS SQL databases. We do not recommend that you remove “MultipleActiveResultSets=True;“ from the connection string or change the parameter value to **False**.
 
-- Register security system and authentication in the [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication), and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
+- Register security system and authentication in [Program.cs](Program.cs). [AuthenticationStandard authentication](https://docs.devexpress.com/eXpressAppFramework/119064/Concepts/Security-System/Authentication#standard-authentication) and ASP.NET Core Identity authentication is registered automatically in [AspNetCore Security setup]().
 
     ```csharp
     builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
@@ -127,7 +127,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
     }).AddAuthenticationStandard();
     ```
 
-- Call the `UseDemoData` method at the end of the [Program.cs](Program.cs) to update the database:
+- Call the `UseDemoData` method at the end of [Program.cs](Program.cs) to update the database:
     
     ```csharp
     public static WebApplication UseDemoData(this WebApplication app) {
@@ -141,11 +141,44 @@ You will also see how to execute Create, Write, and Delete data operations and t
     ```
     For more details about how to create demo data from code, see the [Updater.cs](/EFCore/DatabaseUpdater/Updater.cs) class.
 
-## Step 3. Pages
+## Step 3. Create an edit model
 
-[Login.cshtml](Pages/Login.cshtml) is a login page that allows you to log into the application.
+[EditableEmployee](Models/EditableEmployee.cs) is an edit model class for the `Employee` business object.
+```csharp
+public class EditableEmployee {
+   public string FirstName { get; set; }
+   public string LastName { get; set; }
+   public string Email { get; set; }
+   public Department Department { get; set; }
+}
+```
 
-[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic. It authenticates user with the AuthenticationStandard authentication and return a ClaimsPrincipal object with all the necessary XAF Security data. That principal is then authenticated to the ASP.NET Core Identity authentication.
+You can use extension methods to easily convert an `Employee` object to an `EditableEmployee` edit model and vice versa.
+
+```csharp
+public static class EmployeeExtensions {
+    public static EditableEmployee ToModel(this Employee employee) {
+        return new EditableEmployee {
+            FirstName = employee.FirstName,
+            LastName = employee.LastName,
+            Email = employee.Email,
+            Department = employee.Department
+        };
+    }
+    public static void FromModel(this EditableEmployee editableEmployee, Employee employee) {
+        employee.FirstName = editableEmployee.FirstName;
+        employee.LastName = editableEmployee.LastName;
+        employee.Email = editableEmployee.Email;
+        employee.Department = editableEmployee.Department;
+    }
+}
+```
+
+## Step 4. Pages
+
+[Login.cshtml](Pages/Login.cshtml) is a page that allows you to log into the application.
+
+[Login.cshtml.cs](Pages/Login.cshtml.cs) class uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic. It authenticates a user with the AuthenticationStandard authentication and returns a ClaimsPrincipal object with necessary XAF Security data. That principal is then authenticated to the ASP.NET Core Identity authentication.
 
 ```csharp
 readonly IStandardAuthenticationService authenticationStandard;
@@ -166,7 +199,7 @@ public IActionResult OnPost() {
 }
 ```
 
-[Logout.cshtml.cs](Pages/Logout.cshtml.cs) class implements the Logout logic
+[Logout.cshtml.cs](Pages/Logout.cshtml.cs) implements the Logout logic.
 
 ```csharp
 public IActionResult OnGet() {
@@ -175,12 +208,13 @@ public IActionResult OnGet() {
 }
 ```
 
-[Index.razor](Pages/Index.razor) is the main page. It configures the [Blazor Data Grid](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxDataGrid-1) and allows a user to log out.
+[Index.razor](Pages/Index.razor) is the main page. It configures [Blazor Grid](https://docs.devexpress.com/Blazor/403143/components/grid) and allows a user to log out.
 
-The `OnInitialized` method creates an `ObjectSpace` instance and gets *Employee* and *Department* objects.
+The `OnInitialized` method creates `security` and `objectSpace` instances and gets `Employee` and `Department` objects.
 
 ```csharp
 protected override void OnInitialized() {
+    security = (SecurityStrategy)securityProvider.GetSecurity();
     objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
     employees = objectSpace.GetObjectsQuery<Employee>();
     departments = objectSpace.GetObjectsQuery<Department>();
@@ -188,80 +222,89 @@ protected override void OnInitialized() {
 }
 ```
 
-The `HandleValidSubmit` method saves changes if data is valid.
+The `Grid_CustomizeEditModel` method creates the `EditableEmployee` edit model.
 
 ```csharp
-async Task HandleValidSubmit() {
-    objectSpace.CommitChanges();
-    await grid.Refresh();
-    employee = null;
-    await grid.CancelRowEdit();
+void Grid_CustomizeEditModel(GridCustomizeEditModelEventArgs e) {
+    e.EditModel = e.IsNew ? new EditableEmployee() : ((Employee)e.DataItem).ToModel();
+    editableEmployee = (Employee)e.DataItem;
 }
 ```
 
-The `OnRowRemoving` method removes an object.
+The `Grid_EditModelSaving` method transfers edit model changes to the business object.
 
 ```csharp
-Task OnRowRemoving(object item) {
-    objectSpace.Delete(item);
-    objectSpace.CommitChanges();
-    return grid.Refresh();
+void Grid_EditModelSaving(GridEditModelSavingEventArgs e) {
+    Employee employee = e.IsNew ? objectSpace.CreateObject<Employee>() : (Employee)e.DataItem;
+    ((EditableEmployee)e.EditModel).FromModel(employee);
+    UpdateData();
 }
 ```
 
-To show/hide the `New`, `Edit`, and `Delete` actions, use the appropriate `CanCreate`, `CanEdit`, and `CanDelete` methods of the Security System.
+The `Grid_DataItemDeleting` method removes an object.
+
+```csharp
+void Grid_DataItemDeleting(GridDataItemDeletingEventArgs e) {
+    objectSpace.Delete(e.DataItem);
+    UpdateData();
+}
+```
+
+The `UpdateData` method commits changes and refreshes grid data.
+
+```csharp
+void UpdateData() {
+    objectSpace.CommitChanges();
+    employees = objectSpace.GetObjectsQuery<Employee>();
+    editableEmployee = null;
+}
+```
+
+To show/hide `New`, `Edit`, and `Delete` actions, use the corresponding `CanCreate`, `CanEdit`, and `CanDelete` methods of the Security System.
 
 ```razor
-<DxDataGridCommandColumn Width="100px">
-    <HeaderCellTemplate>
-        @if(Security.CanCreate<Employee>()) {
-            <button class="btn btn-link" @onclick="@(() => StartRowEdit(null))">New</button>
+<DxGridCommandColumn Width="160px" NewButtonVisible=@(security.CanCreate<Employee>())>
+    <CellDisplayTemplate>
+        @if(security.CanWrite(context.DataItem)) {
+            <DxButton Text="Edit" Click="@(() => context.Grid.StartEditRowAsync(context.VisibleIndex))" RenderStyle="ButtonRenderStyle.Link" />
         }
-    </HeaderCellTemplate>
-    <CellTemplate>
-        @if(Security.CanWrite(context)) {
-            <a @onclick="@(() => StartRowEdit(context))" href="javascript:;">Edit </a>
+        @if(security.CanDelete(context.DataItem)) {
+            <DxButton Text="Delete" Click="@(() => context.Grid.ShowRowDeleteConfirmation(context.VisibleIndex))" RenderStyle="ButtonRenderStyle.Link" />
         }
-        @if(Security.CanDelete(context)) {
-            <a @onclick="@(() => OnRowRemoving(context))" href="javascript:;">Delete</a>
-        }
-    </CellTemplate>
-</DxDataGridCommandColumn>
+    </CellDisplayTemplate>
+</DxGridCommandColumn>
 ```
 
-The page is decorated with the Authorize attribute to prohibit unauthorized access.
+The page is decorated with the `Authorize` attribute to prohibit unauthorized access.
 
 ```razor
 @attribute [Authorize]
 ```
 
-To show the `*******` text instead of a default value in data grid cells and editors, use [SecuredContainer](Components/SecuredContainer.razor)
+To show asterisks instead of actual values in grid cells and editors, use [SecuredDisplayCellTemplate](Components/SecuredDisplayCellTemplate.razor) and [SecuredEditCellTemplate](Components/SecuredEditCellTemplate.razor).
 
 ```razor
-<DxDataGridColumn Field="@nameof(Employee.FirstName)">
-    <DisplayTemplate>
-        <SecuredContainer Context="readOnly" CurrentObject="@context" PropertyName="@nameof(Employee.FirstName)">
-            @(((Employee)context).FirstName)
-        </SecuredContainer>
-    </DisplayTemplate>
-</DxDataGridColumn>
-//...
-<DxFormLayoutItem Caption="First Name">
-    <Template>
-        <SecuredContainer Context="readOnly" CurrentObject=@employee PropertyName=@nameof(Employee.FirstName) IsEditor=true>
-            <DxTextBox @bind-Text=employee.FirstName ReadOnly=@readOnly />
-        </SecuredContainer>
-    </Template>
-</DxFormLayoutItem>
+<DxGridDataColumn FieldName="@nameof(Employee.FirstName)">
+    <CellDisplayTemplate>
+        <SecuredDisplayCellTemplate CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.FirstName)">
+            @(((Employee)context.DataItem).FirstName)
+        </SecuredDisplayCellTemplate>
+    </CellDisplayTemplate>
+    <CellEditTemplate>
+        <SecuredEditCellTemplate Context=readOnly CurrentObject=editableEmployee PropertyName=@nameof(Employee.FirstName)>
+            <DxTextBox @bind-Text=((EditableEmployee)context.EditModel).FirstName ReadOnly=@readOnly />
+        </SecuredEditCellTemplate>
+    </CellEditTemplate>
+</DxGridDataColumn>
 ```
 
-To show the `*******` text instead of the default text, check the Read permission by using the `CanRead` method of the Security System.
+To determine whether asterisks must appear instead of actual text, check the Read permission by using the `CanRead` method of the Security System.
 Use the `CanWrite` method of the Security System to check if a user is allowed to edit a property and an editor should be created for this property.
 
-```razor
-private bool HasAccess => objectSpace.IsNewObject(CurrentObject) ?
-    SecurityProvider.Security.CanWrite(CurrentObject.GetType(), PropertyName) :
-    SecurityProvider.Security.CanRead(CurrentObject, PropertyName);
+[CellEditTemplateBase](Components/CellEditTemplateBase.cs):
+```csharp
+protected bool CanWrite => CurrentObject is null ? Security.CanWrite(typeof(T), PropertyName) : Security.CanWrite(CurrentObject, PropertyName);
+protected bool CanRead => CurrentObject is null ? Security.CanRead(typeof(T), PropertyName) : Security.CanRead(CurrentObject, PropertyName);
 ```
 
 ## Step 4: Run and Test the App
@@ -269,7 +312,7 @@ private bool HasAccess => objectSpace.IsNewObject(CurrentObject) ?
 - Log in a 'User' with an empty password.
   ![](/images/Blazor_LoginPage.png)
 
-- Note that secured data is displayed as '*******'.
+- Note that asterisks replace secured data.
   ![](/images/Blazor_ListView.png)
 
-- Press the **Logout** button and log in as 'Admin' to see all the records.
+- Press the **Logout** button and log in as 'Admin' to see all records and their actual values.
