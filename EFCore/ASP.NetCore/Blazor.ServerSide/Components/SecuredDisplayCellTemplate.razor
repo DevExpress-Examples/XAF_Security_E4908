@@ -1,0 +1,12 @@
+﻿@inherits CellEditTemplateBase<T>
+@typeparam T
+
+@if(CanRead) {
+    @ChildContent
+} else {
+    @ProtectedContent
+}
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

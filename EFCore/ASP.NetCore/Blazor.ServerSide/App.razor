@@ -16,7 +16,12 @@
         </CascadingAuthenticationState>
     </NotFound>
 </Router>
-
+@DxResourceManager.RegisterTheme(
+    Themes.Fluent.Clone(options => {
+        options.Mode = ThemeMode.Light;
+        options.AccentColor = ThemeFluentAccentColor.Blue;
+    })
+)
 @code{
     protected override void OnInitialized() {
         base.OnInitialized();

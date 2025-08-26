@@ -1,0 +1,12 @@
+﻿@inherits CellEditTemplateBase<T>
+@typeparam T
+
+@if(CanRead) {
+    @ChildContent(!CanWrite)
+} else {
+    <DxTextBox Text=@ProtectedContent ReadOnly=true></DxTextBox>
+}
+
+@code {
+    [Parameter] public RenderFragment<bool> ChildContent { get; set; }
+}
