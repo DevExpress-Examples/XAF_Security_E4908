@@ -89,7 +89,7 @@
 
 @code {
     IGrid grid;
-    object employees;
+    IQueryable<Employee> employees;
     IQueryable<Department> departments;
     IObjectSpace objectSpace;
     Employee editableEmployee;
@@ -98,7 +98,7 @@
     protected override void OnInitialized() {
         security = (SecurityStrategy)securityProvider.GetSecurity();
         objectSpace = objectSpaceFactory.CreateObjectSpace<Employee>();
-        employees = new GridDevExtremeDataSource<Employee>(objectSpace.GetObjectsQuery<Employee>());
+        employees = objectSpace.GetObjectsQuery<Employee>();
         departments = objectSpace.GetObjectsQuery<Department>();
         base.OnInitialized();
     }
@@ -118,10 +118,10 @@
     }
     void UpdateData() {
         objectSpace.CommitChanges();
-
-        var employees = new GridDevExtremeDataSource<Employee>(objectSpace.GetObjectsQuery<Employee>());
+        objectSpace.Refresh();
+        employees = objectSpace.GetObjectsQuery<Employee>();
+        departments = objectSpace.GetObjectsQuery<Department>();
         editableEmployee = null;
-
     }
     void OnLogoutClick() {
         navigationManager.NavigateTo("/logout", forceLoad: true);
