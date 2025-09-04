@@ -13,7 +13,7 @@
     <base href="~/" />
     <link href="css/site.css" rel="stylesheet" />
 </head>
-<body class="dxbl-theme-fluent">
+<body>
     @{
         var isIEOrEdgeLegacy = Request.Headers["User-Agent"]
             .Any(userAgent => userAgent.Contains("MSIE") || userAgent.Contains("Trident") || userAgent.Contains("Edge/"));

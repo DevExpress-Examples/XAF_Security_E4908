@@ -2,7 +2,12 @@
 @inject IPrincipalProvider principalProvider
 @inject ISecurityProvider securityProvider
 @inject IObjectSpaceFactory objectSpaceFactory
-
+@DxResourceManager.RegisterTheme(
+    Themes.Fluent.Clone(options => {
+        options.Mode = ThemeMode.Light;
+        options.AccentColor = ThemeFluentAccentColor.Blue;
+    })
+)
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
@@ -16,12 +21,6 @@
         </CascadingAuthenticationState>
     </NotFound>
 </Router>
-@DxResourceManager.RegisterTheme(
-    Themes.Fluent.Clone(options => {
-        options.Mode = ThemeMode.Light;
-        options.AccentColor = ThemeFluentAccentColor.Blue;
-    })
-)
 @code{
     protected override void OnInitialized() {
         base.OnInitialized();
