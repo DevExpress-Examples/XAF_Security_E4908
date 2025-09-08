@@ -5,12 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="microsoft.aspnetcore.odata" Version="8.0.11" />
+    <PackageReference Include="microsoft.aspnetcore.odata" Version="9.3.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.sqlserver" Version="8.*" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="25.1.2-pre-25056" />
-    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="25.1.2-pre-25056" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="25.1.2-pre-25056" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="25.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="25.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="25.1.4" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.9.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
   </ItemGroup>

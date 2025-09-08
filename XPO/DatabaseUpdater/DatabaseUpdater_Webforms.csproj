@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net48</TargetFrameworks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="24.2.2-beta-24326" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="24.2.2-beta-24326" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Employees.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary_Webforms.csproj" />
+  </ItemGroup>
+</Project>

@@ -4,12 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion></ProductVersion>
-    <SchemaVersion></SchemaVersion>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
     <ProjectGuid>{B60E0B3C-F963-47AC-90CD-1681F432B617}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <AssemblyName>WebFormsApplication</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
@@ -19,7 +22,8 @@
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
-    <NuGetPackageImportStamp></NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>Off</OptionStrict>
@@ -191,16 +195,6 @@
     <Compile Include="XpoDataStoreProviderService.vb" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj">
-      <Project>{b2c64ce1-756b-483d-b38e-86e1f15482b1}</Project>
-      <Name>BusinessObjectsLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\DatabaseUpdater\DatabaseUpdater.csproj">
-      <Project>{4C305DDB-C716-412B-9624-9ED4059B8DC2}</Project>
-      <Name>DatabaseUpdater</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
     <None Include="Web.Debug.config">
@@ -209,6 +203,16 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BusinessObjectsLibrary\BusinessObjectsLibrary_Webforms.csproj">
+      <Project>{388bb75b-cf31-687a-647b-cde4011935ee}</Project>
+      <Name>BusinessObjectsLibrary_Webforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DatabaseUpdater\DatabaseUpdater_Webforms.csproj">
+      <Project>{a7c236a2-bda0-c8d3-021a-992f71667536}</Project>
+      <Name>DatabaseUpdater_Webforms</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -228,7 +232,8 @@
           <IISUrl>https://localhost:44372/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl></CustomServerUrl>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
