@@ -284,7 +284,7 @@ To display asterisks instead of actual values in grid cells and editors, use [Se
 </DxGridDataColumn>
 ```
 
-To determine whether asterisks need to replace actual text, check the Read permission by using the `CanRead` method of the Security System.
+To determine whether asterisks need to replace actual text, check the Read permission using the `CanRead` method of the Security System.
 Use the `CanWrite` method of the Security System to check if a user is allowed to edit a property and an editor should be created for this property.
 
 [CellEditTemplateBase](Components/CellEditTemplateBase.cs):
