@@ -14,7 +14,7 @@ You will also see how to execute Create, Write, and Delete data operations and t
 
 > **NOTE** 
 >
-> You may have a pre-release version of our components installed. For example, you may have downloaded a hotfix from our website. In such cases, you also have a pre-release version of NuGet packages. These packages will not be restored automatically. Update them manually as described in the following article: [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages). Use the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
+> You may have a pre-release version of our components installed. For example, you may have downloaded a hotfix from our website. In such cases, you also have a pre-release version of NuGet packages. These packages are not restored automatically - you need to update them as described in the following article: [Updating Packages](https://docs.devexpress.com/GeneralInformation/118420/Installation/Install-DevExpress-Controls-Using-NuGet-Packages/Updating-Packages). Use the [Include prerelease](https://docs.microsoft.com/en-us/nuget/create-packages/prerelease-packages#installing-and-updating-pre-release-packages) option.
 
 > If you wish to create a new project with DevExpress Blazor Components, follow instructions in [Create a New Blazor Application](https://docs.devexpress.com/Blazor/401057/getting-started/create-a-new-application).
 
@@ -96,7 +96,7 @@ For detailed information about ASP.NET Core application configuration, see [offi
     });
     ```
         
-    The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the following connection string.
+    The `IConfiguration` object is used to access the application configuration [appsettings.json](appsettings.json) file. In _appsettings.json_, add the following connection string:
     ```json
     "ConnectionStrings": {
         "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=XPOTestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
@@ -164,7 +164,7 @@ public static class EmployeeExtensions {
 
 [Login.cshtml](Pages/Login.cshtml) is a page that allows you to log into the application.
 
-[Login.cshtml.cs](Pages/Login.cshtml.cs) uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic. It authenticates a user with the AuthenticationStandard authentication and returns a ClaimsPrincipal object with necessary XAF Security data. That principal is then authenticated to ASP.NET Core Identity authentication.
+[Login.cshtml.cs](Pages/Login.cshtml.cs) uses `IStandardAuthenticationService` from XAF Security System to implement the Login logic. It authenticates a user with the AuthenticationStandard authentication and returns a ClaimsPrincipal object with XAF Security data. That principal is then authenticated with ASP.NET Core Identity authentication.
 
 ```csharp
 readonly IStandardAuthenticationService authenticationStandard;
