@@ -24,60 +24,60 @@
         DataItemDeleting="Grid_DataItemDeleting"
         EditMode="GridEditMode.EditRow">
     <Columns>
-        <DxGridCommandColumn Width="140px" NewButtonVisible=@(security.CanCreate<Employee>())>
+        <DxGridCommandColumn Width="140px" NewButtonVisible=@(security.CanCreate<Employee>(objectSpace))>
             <CellDisplayTemplate>
-                @if(security.CanWrite(context.DataItem)) {
+                @if(security.CanWrite(objectSpace, context.DataItem)) {
                     <DxButton Text="Edit" Click="@(() => context.Grid.StartEditRowAsync(context.VisibleIndex))" RenderStyle="ButtonRenderStyle.Link" />
                 }
-                @if(security.CanDelete(context.DataItem)) {
+                @if(security.CanDelete(objectSpace, context.DataItem)) {
                     <DxButton Text="Delete" Click="@(() => context.Grid.ShowRowDeleteConfirmation(context.VisibleIndex))" RenderStyle="ButtonRenderStyle.Link" />
                 }
             </CellDisplayTemplate>
         </DxGridCommandColumn>
         <DxGridDataColumn FieldName="@nameof(Employee.FirstName)">
             <CellDisplayTemplate>
-                <SecuredDisplayCellTemplate CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.FirstName)">
+                <SecuredDisplayCellTemplate ObjectSpace="@objectSpace" CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.FirstName)">
                     @(((Employee)context.DataItem).FirstName)
                 </SecuredDisplayCellTemplate>
             </CellDisplayTemplate>
             <CellEditTemplate>
-                <SecuredEditCellTemplate Context=readOnly CurrentObject=editableEmployee PropertyName=@nameof(Employee.FirstName)>
+                <SecuredEditCellTemplate ObjectSpace="@objectSpace" Context=readOnly CurrentObject=editableEmployee PropertyName=@nameof(Employee.FirstName)>
                     <DxTextBox @bind-Text=((EditableEmployee)context.EditModel).FirstName ReadOnly=@readOnly />
                 </SecuredEditCellTemplate>
             </CellEditTemplate>
         </DxGridDataColumn>
         <DxGridDataColumn FieldName="@nameof(Employee.LastName)">
             <CellDisplayTemplate>
-                <SecuredDisplayCellTemplate CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.LastName)">
+                <SecuredDisplayCellTemplate ObjectSpace="@objectSpace" CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.LastName)">
                     @(((Employee)context.DataItem).LastName)
                 </SecuredDisplayCellTemplate>
             </CellDisplayTemplate>
             <CellEditTemplate>
-                <SecuredEditCellTemplate Context="readOnly" CurrentObject=editableEmployee PropertyName=@nameof(Employee.LastName)>
+                <SecuredEditCellTemplate ObjectSpace="@objectSpace" Context="readOnly" CurrentObject=editableEmployee PropertyName=@nameof(Employee.LastName)>
                     <DxTextBox @bind-Text=((EditableEmployee)context.EditModel).LastName ReadOnly=@readOnly />
                 </SecuredEditCellTemplate>
             </CellEditTemplate>
         </DxGridDataColumn>
         <DxGridDataColumn FieldName="@nameof(Employee.Email)">
             <CellDisplayTemplate>
-                <SecuredDisplayCellTemplate CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.Email)">
+                <SecuredDisplayCellTemplate ObjectSpace="@objectSpace" CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.Email)">
                     @(((Employee)context.DataItem).Email)
                 </SecuredDisplayCellTemplate>
             </CellDisplayTemplate>
             <CellEditTemplate>
-                <SecuredEditCellTemplate Context="readOnly" CurrentObject=editableEmployee PropertyName=@nameof(Employee.Email)>
+                <SecuredEditCellTemplate ObjectSpace="@objectSpace" Context="readOnly" CurrentObject=editableEmployee PropertyName=@nameof(Employee.Email)>
                     <DxTextBox @bind-Text=((EditableEmployee)context.EditModel).Email ReadOnly=@readOnly />
                 </SecuredEditCellTemplate>
             </CellEditTemplate>
         </DxGridDataColumn>
         <DxGridDataColumn FieldName=@($"{nameof(Employee.Department)}.{nameof(Department.Title)}") Caption="Department">
             <CellDisplayTemplate>
-                <SecuredDisplayCellTemplate CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.Department)">
+                <SecuredDisplayCellTemplate ObjectSpace="@objectSpace" CurrentObject="@context.DataItem" PropertyName="@nameof(Employee.Department)">
                     @(((Employee)context.DataItem).Department?.Title)
                 </SecuredDisplayCellTemplate>
             </CellDisplayTemplate>
             <CellEditTemplate>
-                <SecuredEditCellTemplate Context="readOnly" CurrentObject=editableEmployee PropertyName=@nameof(Employee.Department)>
+                <SecuredEditCellTemplate ObjectSpace="@objectSpace" Context="readOnly" CurrentObject=editableEmployee PropertyName=@nameof(Employee.Department)>
                     <DxComboBox Data="@departments" ReadOnly=@readOnly @bind-Value=((EditableEmployee)context.EditModel).Department />
                 </SecuredEditCellTemplate>
             </CellEditTemplate>
