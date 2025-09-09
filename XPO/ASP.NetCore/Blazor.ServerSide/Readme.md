@@ -289,8 +289,8 @@ Use the `CanWrite` method of the Security System to check if a user is allowed t
 
 [CellEditTemplateBase](Components/CellEditTemplateBase.cs):
 ```csharp
-        protected bool CanWrite => CurrentObject is null ? Security.CanWrite(typeof(T), ObjectSpace, PropertyName) : Security.CanWrite(ObjectSpace, CurrentObject, PropertyName);
-        protected bool CanRead => CurrentObject is null ? Security.CanRead(typeof(T), ObjectSpace, PropertyName) : Security.CanRead(ObjectSpace, CurrentObject, PropertyName);
+protected bool CanWrite => CurrentObject is null ? Security.CanWrite(typeof(T), ObjectSpace, PropertyName) : Security.CanWrite(ObjectSpace, CurrentObject, PropertyName);
+protected bool CanRead => CurrentObject is null ? Security.CanRead(typeof(T), ObjectSpace, PropertyName) : Security.CanRead(ObjectSpace, CurrentObject, PropertyName);
 ```
 
 ## Step 4: Run and Test the App
