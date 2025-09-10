@@ -263,13 +263,15 @@ void UpdateData() {
 To show/hide `New`, `Edit`, and `Delete` actions, use the corresponding `CanCreate`, `CanEdit`, and `CanDelete` methods of the Security System.
 
 ```razor
-<DxGridCommandColumn Width="160px" NewButtonVisible=@(security.CanCreate<Employee>())>
+<DxGridCommandColumn Width="140px" NewButtonVisible=@(security.CanCreate<Employee>(objectSpace))>
     <CellDisplayTemplate>
-        @if(security.CanWrite(context.DataItem)) {
-            <DxButton Text="Edit" Click="@(() => context.Grid.StartEditRowAsync(context.VisibleIndex))" RenderStyle="ButtonRenderStyle.Link" />
-        }
-        @if(security.CanDelete(context.DataItem)) {
-            <DxButton Text="Delete" Click="@(() => context.Grid.ShowRowDeleteConfirmation(context.VisibleIndex))" RenderStyle="ButtonRenderStyle.Link" />
+        @if(context.DataItem != null) {
+            @if(security.CanWrite(objectSpace, context.DataItem)) {
+                <DxButton Text="Edit" Click="@(() => context.Grid.StartEditRowAsync(context.VisibleIndex))" RenderStyle="ButtonRenderStyle.Link" />
+            }
+            @if(security.CanDelete(objectSpace, context.DataItem)) {
+                <DxButton Text="Delete" Click="@(() => context.Grid.ShowRowDeleteConfirmation(context.VisibleIndex))" RenderStyle="ButtonRenderStyle.Link" />
+            }
         }
     </CellDisplayTemplate>
 </DxGridCommandColumn>
@@ -303,8 +305,8 @@ Use the `CanWrite` method of the Security System to check if a user is allowed t
 
 [CellEditTemplateBase](Components/CellEditTemplateBase.cs):
 ```csharp
-protected bool CanWrite => CurrentObject is null ? Security.CanWrite(typeof(T), PropertyName) : Security.CanWrite(CurrentObject, PropertyName);
-protected bool CanRead => CurrentObject is null ? Security.CanRead(typeof(T), PropertyName) : Security.CanRead(CurrentObject, PropertyName);
+protected bool CanWrite => CurrentObject is null ? Security.CanWrite(typeof(T), ObjectSpace, PropertyName) : Security.CanWrite(ObjectSpace, CurrentObject, PropertyName);
+protected bool CanRead => CurrentObject is null ? Security.CanRead(typeof(T), ObjectSpace, PropertyName) : Security.CanRead(ObjectSpace, CurrentObject, PropertyName);
 ```
 
 ## Step 4: Run and Test the App
