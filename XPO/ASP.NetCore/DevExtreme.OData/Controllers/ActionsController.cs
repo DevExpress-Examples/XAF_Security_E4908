@@ -1,15 +1,15 @@
-﻿using System.Collections;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Formatter;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
-using DevExpress.Data.Filtering;
+﻿using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace DevExtreme.OData.Controllers {
+    [Authorize]
+    [ValidateAntiForgeryToken]
     public class ActionsController : ODataController {
         readonly IObjectSpaceFactory objectSpaceFactory;
         readonly SecurityStrategy security;
@@ -32,8 +32,8 @@ namespace DevExtreme.OData.Controllers {
                     IEnumerable<Guid> keys = ((IEnumerable<string>)parameters["keys"]).Select(k => Guid.Parse(k));
                     IEnumerable<ObjectPermission> objectPermissions = objectSpace
                         .GetObjects(type, new InOperator(typeInfo.KeyMember.Name, keys))
-                        .Cast<object>() 
-                        .Select(entity => CreateObjectPermission(typeInfo, entity))
+                        .Cast<object>()
+                        .Select(entity => CreateObjectPermission(typeInfo, entity, objectSpace))
                         .ToList();
 
                     return Ok(objectPermissions);
@@ -51,26 +51,26 @@ namespace DevExtreme.OData.Controllers {
 
                 var result = new TypePermission {
                     Key = type.Name,
-                    Create = security.CanCreate(type)
+                    Create = security.CanCreate(type, objectSpace)
                 };
                 foreach(IMemberInfo member in GetPersistentMembers(typeInfo)) {
-                    result.Data.Add(member.Name, security.CanWrite(type, member.Name));
+                    result.Data.Add(member.Name, security.CanWrite(type, objectSpace, member.Name));
                 }
                 return Ok(result);
             }
             return NoContent();
         }
 
-        private ObjectPermission CreateObjectPermission(ITypeInfo typeInfo, object entity) {
+        private ObjectPermission CreateObjectPermission(ITypeInfo typeInfo, object entity, IObjectSpace objectSpace) {
             var objectPermission = new ObjectPermission {
                 Key = typeInfo.KeyMember.GetValue(entity).ToString(),
-                Write = security.CanWrite(entity),
-                Delete = security.CanDelete(entity)
+                Write = security.CanWrite(objectSpace, entity),
+                Delete = security.CanDelete(objectSpace, entity)
             };
             foreach(IMemberInfo member in GetPersistentMembers(typeInfo)) {
                 objectPermission.Data.Add(member.Name, new MemberPermission {
-                    Read = security.CanRead(entity, member.Name),
-                    Write = security.CanWrite(entity, member.Name)
+                    Read = security.CanRead(objectSpace, entity, member.Name),
+                    Write = security.CanWrite(objectSpace, entity, member.Name)
                 });
             }
             return objectPermission;

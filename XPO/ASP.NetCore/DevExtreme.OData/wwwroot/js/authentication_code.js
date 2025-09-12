@@ -46,8 +46,21 @@
 			complete: function (e) {
 				if (e.status === 200) {
 					document.cookie = "userName=" + userName;
+					var response = e.responseText;
+					var token = null;
+					try {
+						var json = JSON.parse(response);
+						token = json.value;
+					} catch {
+						token = null;
+					}
+					if (!token) {
+						alert("Failed to retrieve antiforgery token.");
+						return;
+					}
+					localStorage.setItem("XSRF-TOKEN", token);
 					document.location.href = "/";
-					window.location = "Index.html";					
+					window.location = "Index.html";
 				}
 				if (e.status === 401) {
 					alert("User name or password is incorrect");

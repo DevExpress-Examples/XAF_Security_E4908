@@ -76,6 +76,7 @@ app.UseRouting();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseAntiforgery();
 app.UseMiddleware<UnauthorizedRedirectMiddleware>();
 app.UseDefaultFiles();
 app.UseStaticFiles();

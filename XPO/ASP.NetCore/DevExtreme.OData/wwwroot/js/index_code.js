@@ -8,7 +8,14 @@
 				version: 4,
 				key: "Oid",
 				keyType: "Guid",
-				onLoaded: onLoaded
+				onLoaded: onLoaded,
+				beforeSend: function (request) {
+					var token = localStorage.getItem("XSRF-TOKEN");
+					if (token) {
+						request.headers = request.headers || {};
+						request.headers['RequestVerificationToken'] = token;
+					}
+				}
 			}),
 			expand: ["Department"]
 		}),
@@ -55,7 +62,14 @@
 						url: "api/odata/Department",
 						version: 4,
 						key: "Oid",
-						keyType: "Guid"
+						keyType: "Guid",
+						beforeSend: function (request) {
+							var token = localStorage.getItem("XSRF-TOKEN");
+							if (token) {
+								request.headers = request.headers || {};
+								request.headers['RequestVerificationToken'] = token;
+							}
+						}
 					}),
 					displayExpr: "Title",
 					valueExpr: "Oid"
@@ -74,6 +88,7 @@
 		text: "Log Out",
 		type: "normal",
 		onClick: function () {
+			localStorage.removeItem("XSRF-TOKEN");
 			$.ajax({
 				method: 'GET',
 				url: 'Logout',
@@ -89,6 +104,12 @@
 			method: 'GET',
 			url: 'GetTypePermissions?typeName=Employee',
 			async: false,
+			beforeSend: function (xhr) {
+				var token = localStorage.getItem("XSRF-TOKEN");
+				if (token) {
+					xhr.setRequestHeader('RequestVerificationToken', token);
+				}
+			},
 			complete: function (data) {
 				typePermissions = data.responseJSON;
 			}
@@ -153,7 +174,13 @@
 			contentType: "application/json",
 			type: "POST",
 			async: false,
-            data: JSON.stringify(parameters)
+			data: JSON.stringify(parameters),
+			beforeSend: function (xhr) {
+				var token = localStorage.getItem("XSRF-TOKEN");
+				if (token) {
+					xhr.setRequestHeader('RequestVerificationToken', token);
+				}
+			}
 		};
 		$.ajax("GetPermissions", options)
 			.done(function (e) {
