@@ -24,11 +24,11 @@
     <EmbeddedResource Include="Resourses\John.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Api.EFCore.All" Version="25.1.4" />
-    <PackageReference Include="DevExpress.ExpressApp.AuditTrail.EFCore" Version="25.1.4" />
-    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="25.1.4" />
-    <PackageReference Include="DevExpress.ExpressApp.ReportsV2" Version="25.1.4" />
-    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="25.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Api.EFCore.All" Version="25.2.1-alpha-25302" />
+    <PackageReference Include="DevExpress.ExpressApp.AuditTrail.EFCore" Version="25.2.1-alpha-25302" />
+    <PackageReference Include="DevExpress.ExpressApp.CodeAnalysis" Version="25.2.1-alpha-25302" />
+    <PackageReference Include="DevExpress.ExpressApp.ReportsV2" Version="25.2.1-alpha-25302" />
+    <PackageReference Include="DevExpress.ExpressApp.Validation" Version="25.2.1-alpha-25302" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.*" />

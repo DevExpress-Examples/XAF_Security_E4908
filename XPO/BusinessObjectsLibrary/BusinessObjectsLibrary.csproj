@@ -4,8 +4,8 @@
     <TargetFrameworks>net8.0;net48</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="25.1.4" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="25.1.4" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="25.2.1-alpha-25302" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="25.2.1-alpha-25302" />
   
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
   </ItemGroup>
