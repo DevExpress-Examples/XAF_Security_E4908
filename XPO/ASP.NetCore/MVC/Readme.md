@@ -130,7 +130,7 @@ This example demonstrates how to protect your data with the [XAF Security System
     }
     ```
         
-7. Register HttpContextAccessor in the [Program.cs](Program.cs) to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext?view=netframework-4.8) in controller constructors.
+7. Register HttpContextAccessor in the [Program.cs](Program.cs) to access [HttpContext](https://docs.microsoft.com/en-us/dotnet/api/system.web.httpcontext) in controller constructors.
 
 	```csharp
 	builder.Services.AddHttpContextAccessor();

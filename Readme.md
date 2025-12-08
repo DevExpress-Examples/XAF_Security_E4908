@@ -25,7 +25,6 @@ Please research the information below, because additional prerequisites may appl
 #### DevExpress XPO
  - [JavaScript with DevExtreme + ASP.NET Web API OData App](/XPO/ASP.NetCore/DevExtreme.OData)
  - [WinForms App](/XPO/WinForms)
- - [ASP.NET WebForms App](/XPO/ASP.NET/WebForms)
  - [ASP.NET Core MVC App](/XPO/ASP.NetCore/MVC)
  - [Blazor Server App](/XPO/ASP.NetCore/Blazor.ServerSide)
  - [Console App](/XPO/Console)
@@ -56,7 +55,7 @@ Feel free to submit additional questions in the [Support Center](https://www.dev
 
 - XAF developers who create non-XAF .NET apps and want to reuse existing data models and [Security System](https://docs.devexpress.com/eXpressAppFramework/113366/concepts/security-system/security-system-overview) settings (users, roles and permissions) stored in an XAF application database. Based on experience, XAF customers create custom Web and mobile UI clients with ASP.NET MVC, DevExtreme; backend servers with ASP.NET Web API/OData or Console, Windows Service, WCF apps for various administrative tasks (data modifications, report generation, scheduled workflows).
 
-- Non-XAF developers who create standard line-of-business (LOB) apps with login, logout forms and security related functionality for any .NET UI technologies like WinForms, WPF, ASP.NET (WebForms, MVC 5, MVC Core, Razor Pages) and .NET server technologies like ASP.NET Web API/OData, WCF, etc.
+- Non-XAF developers who create standard line-of-business (LOB) apps with login, logout forms and security related functionality for any .NET UI technologies like WinForms, WPF, ASP.NET (MVC 5, MVC Core, Razor Pages) and .NET server technologies like ASP.NET Web API/OData, WCF, etc.
 
 Typical .NET App Security & Web API Service scenarios include the following:
 

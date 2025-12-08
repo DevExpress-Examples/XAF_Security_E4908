@@ -79,7 +79,7 @@ This example demonstrates how to access data protected by the [Security System](
 
 ## Step 2. Authentication. Implement the Login Form to Validate User Name and Password
 
-[LoginForm](LoginForm.cs) contains two `TextEdit` controls for a user name and a password, and the **Log In** button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if a logon was successful.
+[LoginForm](LoginForm.cs) contains two `TextEdit` controls for a user name and a password, and the **Log In** button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult) if a logon was successful.
 
 ```csharp
     private readonly SecurityStrategyComplex security;
@@ -299,7 +299,7 @@ This example demonstrates how to access data protected by the [Security System](
     
 3. The `AddControl` method creates a control for a specific member. Use the `SecurityStrategy.CanRead` method to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the '*******' placeholder. Otherwise: 
     - Call the `GetControl` method to create an appropriate control depending on the member type. We use the [LookUpEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraEditors.LookUpEdit) control for the associated _Department_ property.
-    - Add a binding to the [Control.DataBindings](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.databindings?view=netframework-4.8) collection.
+    - Add a binding to the [Control.DataBindings](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.databindings) collection.
     - Use the `SecurityStrategy.CanWrite` method to check Write operation availability and thus determine whether the control should be enabled.
         
     ```csharp

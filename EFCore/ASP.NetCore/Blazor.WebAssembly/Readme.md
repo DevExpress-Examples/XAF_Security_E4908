@@ -1054,7 +1054,7 @@ At this point, you can run your Web API service and use Swagger interface to aut
 
 ### Add reporting functionality
 
-The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview?p=netframework) ships as part of the DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml). You can use this module to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. Skip this step if you do not own the DevExpress Universal Subscription.
+The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview) ships as part of the DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml). You can use this module to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. Skip this step if you do not own the DevExpress Universal Subscription.
 
 To create and initialize a report:
 

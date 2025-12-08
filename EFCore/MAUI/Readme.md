@@ -760,7 +760,7 @@ Once logged in, you will see the predefined posts displayed in a list view.
 
 ### Add reporting functionality
 
-The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview?p=netframework) ships as part of the DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml). You can use it to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. You can skip this step if you do not own the DevExpress Universal Subscription.
+The [XAF Reports module](https://docs.devexpress.com/eXpressAppFramework/113591/shape-export-print-data/reports/reports-v2-module-overview) ships as part of the DevExpress [Universal Subscription](https://www.devexpress.com/subscriptions/universal.xml). You can use it to easily integrate [DevExpress Reports](https://www.devexpress.com/subscriptions/reporting/) into your backend Web API service. You can skip this step if you do not own the DevExpress Universal Subscription.
 
 To create and initialize a report:
 

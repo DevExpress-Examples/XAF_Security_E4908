@@ -127,7 +127,7 @@ This example demonstrates how to access data protected by the [Security System](
     }
     ```
     
-4. [LoginForm](LoginForm.cs) contains two TextBox controls for username and password, and the Login button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult?view=netframework-4.8) if logon was successful.
+4. [LoginForm](LoginForm.cs) contains two TextBox controls for username and password, and the Login button that attempts to log the user into the security system and returns [DialogResult.OK](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.form.dialogresult) if logon was successful.
 
     ```csharp
     private void Login_Click(object sender, EventArgs e) {
@@ -291,7 +291,7 @@ This example demonstrates how to access data protected by the [Security System](
 3. The `AddControl` method creates a control for a specific member. Use the SecurityStrategy.CanRead method to check Read operation availability. If not available, create and disable the `ProtectedContentEdit` control which displays the "*******" placeholder. Otherwise: 
         
     - Call the `GetControl` method to create an appropriate control depending of the member type. We use the [ComboBoxEdit](https://docs.devexpress.com/WindowsForms/DevExpress.XtraEditors.ComboBoxEdit) control for the Department associated property.
-    - Add a binding to the [Control.DataBindings](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.databindings?view=netframework-4.8) collection.
+    - Add a binding to the [Control.DataBindings](https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.control.databindings) collection.
     - Use the SecurityStrategy.CanWrite method to check Write operation availability and thus determine whether the control should be enabled.
         
     ```csharp

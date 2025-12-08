@@ -1,7 +1,7 @@
 ﻿Folder Description
 
 The "api/Audit" endpoints are intended to view database history changes (aka Audit Trail). No data changes made via your ORM in Web API endpoints will be unnoticed.
-You can also view this audit log in your RDBMS or XAF's administrative UI for WinForms, Blazor, or ASP.NET WebForms. 
+You can also view this audit log in your RDBMS or XAF's administrative UI for WinForms or Blazor. 
 These additional services/benefits of our Web API Service ship as part of the DevExpress Universal Subscription (https://www.devexpress.com/buy/net/).
 
 YOUR FEEDBACK MATTERS
