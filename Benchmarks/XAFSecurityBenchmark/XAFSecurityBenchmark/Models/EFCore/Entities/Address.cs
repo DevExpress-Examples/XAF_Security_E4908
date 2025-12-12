@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 using DevExpress.Persistent.Base.General;
 using DevExpress.Persistent.BaseImpl.EF;
+using XAFSecurityBenchmark.Models.Base;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
 

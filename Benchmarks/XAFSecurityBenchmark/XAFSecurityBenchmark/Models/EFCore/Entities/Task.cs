@@ -6,6 +6,7 @@ using DevExpress.ExpressApp;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Base.General;
 using DevExpress.Persistent.BaseImpl.EF;
+using XAFSecurityBenchmark.Models.Base;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
 

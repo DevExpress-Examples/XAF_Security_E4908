@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Filtering;
-using DevExpress.Persistent.Base.General;
+using XAFSecurityBenchmark.Models.Base;
+using DevExpress.Persistent.Base;
 
 namespace XAFSecurityBenchmark.Models.EFCore {
 

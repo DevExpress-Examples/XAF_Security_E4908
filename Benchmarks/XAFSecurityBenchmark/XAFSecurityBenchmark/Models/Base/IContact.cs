@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using DevExpress.Persistent.Base.General;
 using XAFSecurityBenchmark.Models.Base.Enums;
+using DevExpress.Persistent.Base;
 
 namespace XAFSecurityBenchmark.Models.Base {
     public interface IContact : IPerson {

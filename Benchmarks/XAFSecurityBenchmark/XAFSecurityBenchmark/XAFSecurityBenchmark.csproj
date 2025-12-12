@@ -20,13 +20,22 @@
     <None Remove="Models\XPO\PermissionPolicy\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Base\AddressImpl.cs" />
+    <Compile Include="Models\Base\IAddress.cs" />
     <Compile Include="Models\Base\IContact.cs" />
+    <Compile Include="Models\Base\ICountry.cs" />
     <Compile Include="Models\Base\ICustomPermissionPolicyUser.cs" />
     <Compile Include="Models\Base\IDemoTask.cs" />
     <Compile Include="Models\Base\IDepartment.cs" />
     <Compile Include="Models\Base\Enums\Priority.cs" />
     <Compile Include="Models\Base\Enums\TitleOfCourtesy.cs" />
+    <Compile Include="Models\Base\IPerson.cs" />
+    <Compile Include="Models\Base\IPhoneNumber.cs" />
     <Compile Include="Models\Base\IPosition.cs" />
+    <Compile Include="Models\Base\ITask.cs" />
+    <Compile Include="Models\Base\PersonImpl.cs" />
+    <Compile Include="Models\Base\PhoneNumberImpl.cs" />
+    <Compile Include="Models\Base\TaskImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
