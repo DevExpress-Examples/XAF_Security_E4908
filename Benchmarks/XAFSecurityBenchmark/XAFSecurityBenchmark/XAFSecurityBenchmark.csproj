@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
@@ -38,24 +38,25 @@
     <Compile Include="Models\Base\TaskImpl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.*" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.*" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.*" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.10.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.10.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.10.0" />
-  
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.*">
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="10.*" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="5.0.0" />
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.*">
       <PrivateAssets>none</PrivateAssets>
       <IncludeAssets>all</IncludeAssets>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="25.2.1-alpha-25302" />
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="25.2.1-alpha-25302" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="25.2.1-alpha-25302" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="25.2.1-alpha-25302" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="25.2.5-pre-26033" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="25.2.5-pre-26033" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="25.2.5-pre-26033" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="25.2.5-pre-26033" />
   </ItemGroup>
 </Project>
