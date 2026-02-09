@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Filtering;
 using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Base.General;
@@ -77,6 +78,7 @@ namespace XAFSecurityBenchmark.PerformanceTests {
         protected abstract ITransactionHelper CreateObjectHelper(IObjectSpace objectSpace);
 
         public override void InitSession() {
+            ServerExpressionEvaluatorBase.Enabled = false; // disable the ServerExpressionEvaluator to avoid the influence of its cache and heuristics on the performance results
             securedObjectSpace = securedObjectSpaceProvider.CreateObjectSpace();
             securedObjectHelper = CreateObjectHelper(securedObjectSpace);
         }
