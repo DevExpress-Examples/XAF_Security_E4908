@@ -36,7 +36,7 @@ builder.Services
         options.UseSecurity(serviceProvider);
     }, ServiceLifetime.Scoped);
 
-builder.Services.AddXafAspNetCoreSecurity(builder.Configuration, options => {
+builder.Services.AddXafSecurity(options => {
     options.RoleType = typeof(PermissionPolicyRole);
     options.UserType = typeof(PermissionPolicyUser);
 }).AddAuthenticationStandard();
