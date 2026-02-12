@@ -65,7 +65,7 @@ Typical .NET App Security & Web API Service scenarios include the following:
 - Download BLOB data stored in databases using service endpoints (aka File Attachments)
 - Obtain localized captions for classes, members, and custom UI elements stored in databases using service endpoints (aka Localization)
 <!-- feedback -->
-## Does this example address your development requirements/objectives?
+## Does This Example Address Your Development Requirements/Objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=XAF_Security_E4908&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=XAF_Security_E4908&~~~was_helpful=no)
 
