@@ -54,9 +54,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="25.2.5-pre-26040" />
-    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="25.2.5-pre-26040" />
-    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="25.2.5-pre-26040" />
-    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="25.2.5-pre-26040" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="26.1.1-alpha-26123" />
+    <PackageReference Include="DevExpress.ExpressApp.EFCore" Version="26.1.1-alpha-26123" />
+    <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="26.1.1-alpha-26123" />
+    <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="26.1.1-alpha-26123" />
   </ItemGroup>
 </Project>
