@@ -6,6 +6,7 @@ using DevExpress.ExpressApp.Security;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using BusinessObjectsLibrary.BusinessObjects;
+using DevExpress.ExpressApp.EFCore;
 
 namespace DatabaseUpdater {
     public class Updater {
@@ -13,10 +14,11 @@ namespace DatabaseUpdater {
         private const string AdministratorRoleName = "Administrators";
         private const string DefaultUserName = "User";
         private const string DefaultUserRoleName = "Users";
-        private IObjectSpace ObjectSpace { get; }
-        public Updater(IObjectSpace objectSpace) { ObjectSpace = objectSpace; }
+        private EFCoreObjectSpace ObjectSpace { get; }
+        public Updater(EFCoreObjectSpace objectSpace) { ObjectSpace = objectSpace; }
 
         public void UpdateDatabase() {
+            ObjectSpace.DbContext.Database.EnsureCreated();
             CreateUser();
             CreateAdmin();
             CreateEmployees();
