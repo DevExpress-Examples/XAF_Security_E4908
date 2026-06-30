@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection {
             var updatingObjectSpaceFactory = scope.ServiceProvider.GetRequiredService<IUpdatingObjectSpaceFactory>();
             using var objectSpace = updatingObjectSpaceFactory
                 .CreateUpdatingObjectSpace(typeof(BusinessObjectsLibrary.BusinessObjects.Employee), true);
-            new Updater(objectSpace).UpdateDatabase();
+            new Updater((EFCoreObjectSpace)objectSpace).UpdateDatabase();
             return app;
         }
     }
