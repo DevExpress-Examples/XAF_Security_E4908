@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-    <PackageReference Include="DevExpress.Maui.CollectionView" Version="24.2.2" />
-    <PackageReference Include="DevExpress.Maui.Editors" Version="24.2.2" />
+    <PackageReference Include="DevExpress.Maui.CollectionView" Version="24.2.3" />
+    <PackageReference Include="DevExpress.Maui.Editors" Version="24.2.3" />
   </ItemGroup>
 </Project>
