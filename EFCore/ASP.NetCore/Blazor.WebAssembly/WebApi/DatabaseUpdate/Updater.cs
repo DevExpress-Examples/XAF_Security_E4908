@@ -75,11 +75,11 @@ public class Updater : ModuleUpdater {
             //sample posts
             var post = ObjectSpace.CreateObject<Post>();
             post.Title = "Hello World";
-            post.Content = "This is a FREE API for everybody";
+            post.PostContent = "This is a FREE API for everybody";
             post.Author=editorUser;
             post = ObjectSpace.CreateObject<Post>();
             post.Title = "Hello Blazor WebAssembly";
-            post.Content = "Please smash the like button to help our videos get discovered";
+            post.PostContent = "Please smash the like button to help our videos get discovered";
             post.Author=editorUser;
         }
 

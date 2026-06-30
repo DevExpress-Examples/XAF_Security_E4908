@@ -7,7 +7,7 @@ namespace WebAPI.BusinessObjects;
 [VisibleInReports]
 public class Post : BaseObject {
     public virtual string Title { get; set; }
-    public virtual string Content { get; set; }
+    public virtual string PostContent { get; set; }
     public virtual ApplicationUser Author { get; set; }
     public override void OnCreated() {
         base.OnCreated();
