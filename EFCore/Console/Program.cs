@@ -46,10 +46,10 @@ Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
 
 static void CreateDemoData(string connectionString, TypesInfo typesInfo) {
-    using(var objectSpaceProvider = new EFCoreObjectSpaceProvider<ApplicationDbContext>(typesInfo, connectionString, 
+    using(var objectSpaceProvider = new EFCoreObjectSpaceProvider<ApplicationDbContext>(typesInfo, connectionString,
         (builder, connectionString) => builder.UseSqlServer(connectionString).UseChangeTrackingProxies()))
     using(var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
-        new Updater(objectSpace).UpdateDatabase();
+        new Updater((EFCoreObjectSpace)objectSpace).UpdateDatabase();
     }
 }
 
