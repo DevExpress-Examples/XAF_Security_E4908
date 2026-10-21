@@ -83,11 +83,13 @@ public class Startup {
 
         services.AddAuthentication()
             .AddJwtBearer(options => {
-                options.TokenValidationParameters = new TokenValidationParameters() {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:Jwt:IssuerSigningKey"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:Jwt:IssuerSigningKey"])),
+                    AuthenticationType = JwtBearerDefaults.AuthenticationScheme
                 };
             });
 

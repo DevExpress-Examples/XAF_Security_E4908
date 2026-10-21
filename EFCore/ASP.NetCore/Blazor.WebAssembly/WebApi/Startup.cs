@@ -55,13 +55,15 @@ public class Startup {
         var authentication = services.AddAuthentication(customBearerSchemeName);
         authentication.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddJwtBearer(customBearerSchemeName, options => {
-                options.TokenValidationParameters = new TokenValidationParameters() {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
                     ValidateIssuerSigningKey = true,
                     //ValidIssuer = Configuration["Authentication:Jwt:Issuer"],
                     //ValidAudience = Configuration["Authentication:Jwt:Audience"],
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:Jwt:IssuerSigningKey"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:Jwt:IssuerSigningKey"])),
+                    AuthenticationType = JwtBearerDefaults.AuthenticationScheme
                 };
             });
         //Configure OAuth2 Identity Providers based on your requirements. For more information, see
@@ -125,7 +127,7 @@ public class Startup {
             .AddControllers()
             .AddOData((options, serviceProvider) => {
                 options
-                    .AddRouteComponents("api/odata", new EdmModelBuilder(serviceProvider).GetEdmModel())
+                    .AddRouteComponents("api/odata", new EdmModelBuilder(serviceProvider).GetEdmModel(), Microsoft.OData.ODataVersion.V401, _routeServices => { _routeServices.ConfigureXafWebApiServices(); })
                     .EnableQueryFeatures(100);
             });
         services.AddCors(options => options.AddPolicy(
