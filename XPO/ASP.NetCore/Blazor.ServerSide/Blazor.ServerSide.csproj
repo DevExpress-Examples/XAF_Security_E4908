@@ -10,7 +10,7 @@
     <PackageReference Include="DevExpress.ExpressApp.Security.Xpo" Version="26.1.5" />
     <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="26.1.5" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="5.1.0" />
-  
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
   </ItemGroup>
   <ItemGroup>
