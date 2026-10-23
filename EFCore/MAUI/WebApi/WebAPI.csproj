@@ -37,7 +37,7 @@
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="4.14.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.9.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
-  
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.*">
       <PrivateAssets>none</PrivateAssets>
       <IncludeAssets>all</IncludeAssets>
