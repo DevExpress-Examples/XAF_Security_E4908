@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection {
             ITypesInfo typesInfo = app.Services.GetRequiredService<ITypesInfo>();
             using (var objectSpaceProvider = new EFCoreObjectSpaceProvider<TContext>(typesInfo, connectionString, databaseProviderHandler))
             using (var objectSpace = objectSpaceProvider.CreateUpdatingObjectSpace(true)) {
-                new Updater(objectSpace).UpdateDatabase();
+                 new Updater((EFCoreObjectSpace)objectSpace).UpdateDatabase();
             }
             return app;
         }
