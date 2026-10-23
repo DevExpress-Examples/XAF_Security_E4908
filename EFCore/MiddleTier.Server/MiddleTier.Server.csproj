@@ -19,6 +19,7 @@
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="26.1.5" />
     <PackageReference Include="DevExpress.RichEdit.Export" Version="26.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.10" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
