@@ -42,7 +42,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="10.*" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+    
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="5.0.0" />
