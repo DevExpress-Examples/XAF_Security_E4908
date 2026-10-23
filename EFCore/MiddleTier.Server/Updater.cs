@@ -1,4 +1,5 @@
 ﻿using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.EFCore;
 using DevExpress.ExpressApp.Updating;
 
 namespace MiddleTier.Server;
@@ -10,7 +11,7 @@ public class Updater : ModuleUpdater {
     }
     public override void UpdateDatabaseAfterUpdateSchema() {
         base.UpdateDatabaseAfterUpdateSchema();
-        var sharedUpdater = new DatabaseUpdater.Updater(ObjectSpace);
+        var sharedUpdater = new DatabaseUpdater.Updater((EFCoreObjectSpace)ObjectSpace);
         sharedUpdater.UpdateDatabase();
     }
 }
