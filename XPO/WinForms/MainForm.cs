@@ -1,9 +1,12 @@
-﻿using DevExpress.ExpressApp;
+﻿using System.ComponentModel;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 
 namespace WindowsFormsApplication {
     public partial class MainForm : DevExpress.XtraBars.Ribbon.RibbonForm {
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SecurityStrategyComplex Security { get; set; }
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IObjectSpaceProvider ObjectSpaceProvider { get; set; }
         public MainForm(SecurityStrategyComplex security, IObjectSpaceProvider objectSpaceProvider) {
             InitializeComponent();
