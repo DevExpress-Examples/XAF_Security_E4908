@@ -14,7 +14,7 @@
     <PackageReference Include="DevExpress.ExpressApp.WebApi" Version="26.1.5" />
     <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="26.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.5.0" />
-  
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
   </ItemGroup>
   <ItemGroup>
