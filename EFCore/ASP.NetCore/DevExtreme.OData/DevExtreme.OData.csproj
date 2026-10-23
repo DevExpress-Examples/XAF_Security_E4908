@@ -13,6 +13,7 @@
     <PackageReference Include="DevExpress.ExpressApp.Security.AspNetCore" Version="26.1.5" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.9.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BusinessObjectsLibrary\BusinessObjectsLibrary.csproj" />
