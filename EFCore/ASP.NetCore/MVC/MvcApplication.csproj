@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.3" />
     <PackageReference Include="DevExtreme.AspNet.Core" Version="24.2.3-build-24326-1309" />
     <PackageReference Include="DevExtreme.AspNet.Data" Version="5.1.0" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
